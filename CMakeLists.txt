@@ -35,5 +35,5 @@ set(LOO_BIN_DIR "${LOO_PROJECT_DIR}/output/bin/${LOO_PLATFORM_NAME}")
 
 add_subdirectory(loo)
 if(LOO_BUILD_PROJECTS)
-    add_subdirectory(projects)
+ #   add_subdirectory(projects)
 endif()
