@@ -31,3 +31,4 @@
 *.out
 *.app
 /build
+/binary/bin/win_x64
