@@ -4,7 +4,7 @@
 #include <list>
 #include <vector>
 
-typedef std::string QByteArray;
+typedef std::string LooByteArray;
 
 struct Keyword
 {
@@ -254,7 +254,7 @@ struct State
             defchar(0), defnext(0), ident(0) {
         memset( next, 0, sizeof(next));
     }
-    QByteArray token;
+    LooByteArray token;
     int next[128];
     int nextindex;
 
