@@ -17,6 +17,8 @@ SET(HDRS
     preprocessor.h 
     token.h 
     utils.h 
+    diriterator.h
+    symbols.h
     )
 SET(SRCS 
     commandlineoption.cpp
@@ -31,7 +33,25 @@ SET(SRCS
     ppkeywords.cpp
     preprocessor.cpp
     token.cpp
+    diriterator.cpp
     )
+
+# set(output_path "${CMAKE_CURRENT_SOURCE_DIR}")
+# MESSAGE("CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
+# add_custom_command(
+#         OUTPUT ${output_path}
+#         COMMAND generate_keywords${LOO_COMPILER_VERSION}
+#                 -o ${output_path} "keywords.cpp"
+#         DEPENDS generate_keywords
+#         COMMENT "Compiling material keywords.cpp to ${output_path}"
+# )
+# add_custom_command(
+#     OUTPUT ${output_path}
+#     COMMAND generate_keywords ${MATC_FLAGS} -p "preprocessor"
+#             -o ${output_path} "keywords.cpp"
+#     DEPENDS generate_keywords
+#     COMMENT "Compiling material keywords.cpp to ${output_path}"
+# )
 
 add_program(${TARGET})
 declare_program(${TARGET})

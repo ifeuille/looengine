@@ -32,3 +32,5 @@
 *.app
 /build
 /binary/bin/win_x64
+/loo/tools/looreflect/util/bin
+/loo/tools/looreflect/util/build

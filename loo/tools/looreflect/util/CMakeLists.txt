@@ -1,0 +1,24 @@
+PROJECT(generate_keywords)
+ 
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+set(TARGET generate_keywords)
+set(SRCS
+generate_keywords.cpp
+)
+#add_executable(generate_keywords generate_keywords.cpp)
+
+# add_program(${TARGET})
+# declare_program(${TARGET})
+# set_property(TARGET ${TARGET} PROPERTY FOLDER "loo/tools")
+
+add_executable(${TARGET} ${HDRS} ${SRCS})
+
+set(OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin")
+SET_TARGET_PROPERTIES(${TARGET} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_PATH}
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG ${OUTPUT_PATH}
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${OUTPUT_PATH}
+    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${OUTPUT_PATH}
+    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${OUTPUT_PATH}
+)
+set_property(TARGET ${TARGET} PROPERTY FOLDER "loo/tools")

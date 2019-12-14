@@ -1,0 +1,6 @@
+#ifndef LOOREFLECT_TOKEN_H
+#define LOOREFLECT_TOKEN_H
+
+
+
+#endif // !LOOREFLECT_TOKEN_H
