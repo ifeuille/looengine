@@ -5,7 +5,7 @@
 #include <vector>
 #include <stack>
 #include <set>
-typedef std::string QByteArray;
+#include "utils.h"
 
 namespace loo
 {

@@ -1,5 +1,6 @@
 #ifndef LOOREFLECT_UTILS_H
 #define LOOREFLECT_UTILS_H
+typedef std::string QByteArray;
 
 namespace loo
 {
@@ -74,6 +75,59 @@ namespace loo
 		if (*data)  //Skip last quote
 			++data;
 		return data;
+	}
+
+
+	template<typename T,typename U>
+	inline int GetIndexOf (const T& t,const U& u )
+	{
+		int pos = -1;
+		auto it = std::find (t.begin (), t.end (), u);
+		if (it != t.end ())
+		{
+			pos = it - t.begin ();
+		}
+		return pos;
+	}
+
+	inline QByteArray QByteArray_left (const QByteArray& that,int len)
+	{
+		if (len > that.size ())
+		{
+			return that;
+		}
+		if (len < 0)
+		{
+			len = 0;
+		}
+		return QByteArray (that.data (), len);
+	}
+
+	inline bool string_startwith (const std::string& str, const char& c)
+	{
+		if (str.size () > 0)
+		{
+			return str[0] == c;
+		}
+		return false;
+	}
+
+	inline bool string_endwith (const std::string& str, const char& c)
+	{
+		if (str.size () > 0)
+		{
+			return (*str.rbegin ()) == c;
+		}
+		return false;
+	}
+
+	inline bool string_endwith (const std::string& s, const std::string& sub) {
+		return s.rfind (sub) == (s.length () - sub.length ()) ? true : false;
+	}
+
+	inline std::string str_left (const std::string& s, std::size_t len)
+	{
+		return s.substr (0, len);
 	}
 }
 

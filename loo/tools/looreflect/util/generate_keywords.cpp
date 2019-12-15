@@ -314,7 +314,7 @@ void newState(std::vector<State> &states, const char *token,  char lexem)
 		states.push_back (token);
         states[0].next[(int)lexem] = next;
     } else {
-        states[next].token = QByteArray(token);
+        states[next].token = LooByteArray (token);
     }
 }
 
@@ -346,7 +346,7 @@ void makeTable(const Keyword keywords[])
     // some floats
     for (c = '0'; c <= '9'; ++c)
         newState(states, pre?"PP_FLOATING_LITERAL":"FLOATING_LITERAL",
-                 (QByteArray (".") + char (c)).data(), pre);
+                 (LooByteArray (".") + char (c)).data(), pre);
 
     // simplify table with default transitions
     int transindex = -1;

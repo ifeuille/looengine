@@ -6,3 +6,11 @@ Corelib/tools
 
 Corelib/serialization
 
+
+
+container
+
+QList vector
+QHash unordered_map
+QVarLengthArray array
+QByteArray string

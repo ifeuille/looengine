@@ -8,8 +8,6 @@ SET(HDRS
     commandlineoption.h
     commandlineparser.h 
     debug.h 
-    dir.h 
-    fileinfo.h 
     generator.h 
     looreflect.h 
     outputrevision.h 
@@ -17,14 +15,12 @@ SET(HDRS
     preprocessor.h 
     token.h 
     utils.h 
-    diriterator.h
     symbols.h
+    stringlist.h
     )
 SET(SRCS 
     commandlineoption.cpp
     commandlineparser.cpp
-    dir.cpp
-    fileinfo.cpp
     generator.cpp
     keywords.cpp
     looreflect.cpp
@@ -33,9 +29,21 @@ SET(SRCS
     ppkeywords.cpp
     preprocessor.cpp
     token.cpp
-    diriterator.cpp
     )
+SET(FILESYSTEM_HDRS
+    ghc/filesystem.hpp
+    ghc/fs_fwd.hpp
+    ghc/fs_impl.hpp
+    ghc/fs_std_fwd.hpp
+    ghc/fs_std_impl.hpp
+    ghc/fs_std.hpp
+    ghc/fs_utils.hpp)
+SET(nlohmann_HDRS
+nlohmann/json.hpp)
 
+source_group("filesystem" FILES ${FILESYSTEM_HDRS})
+source_group("nlohmann" FILES ${nlohmann_HDRS})
+SET(HDRS ${HDRS} ${FILESYSTEM_HDRS} ${nlohmann_HDRS})
 # set(output_path "${CMAKE_CURRENT_SOURCE_DIR}")
 # MESSAGE("CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
 # add_custom_command(
