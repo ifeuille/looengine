@@ -18,6 +18,8 @@ message("Output Binary path = ${LOO_PROJECT_DIR}")
 set(LOO_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 set(LOO_ENGINE_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/loo")
 set(LOO_THIRDPART_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/loo/thirdpart")
+set(LOO_ENGINE_INCLUDE_ROOT_DIR "${LOO_ENGINE_ROOT_DIR}/include")
+set(LOO_ENGINE_PRIVATE_INCLUDE_ROOT_DIR "${LOO_ENGINE_INCLUDE_ROOT_DIR}/LooCore/LooPrivate")
 
 include(${LOO_ROOT_DIR}/buildsys/cmake/Options.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Common.cmake)

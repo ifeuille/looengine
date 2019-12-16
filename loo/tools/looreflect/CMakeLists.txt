@@ -61,6 +61,9 @@ SET(HDRS ${HDRS} ${FILESYSTEM_HDRS} ${nlohmann_HDRS})
 #     COMMENT "Compiling material keywords.cpp to ${output_path}"
 # )
 
+include_directories(${LOO_ENGINE_INCLUDE_ROOT_DIR})
+include_directories(${LOO_ENGINE_PRIVATE_INCLUDE_ROOT_DIR})
+
 add_program(${TARGET})
 declare_program(${TARGET})
 #add_executable(${TARGET} ${HDRS} ${SRCS})

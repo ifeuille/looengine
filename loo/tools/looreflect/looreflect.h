@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <ctype.h>
+#include "nlohmann/json.hpp"
 
 namespace loo
 {
@@ -131,8 +132,8 @@ namespace loo
 
 		struct PluginData {
 			QByteArray iid;
-			std::unordered_map<std::string, QJsonArray> metaArgs;
-			QJsonDocument metaData;
+			std::unordered_map<std::string, nlohmann::json/*QJsonArray*/> metaArgs;
+			nlohmann::json/*QJsonDocument*/ metaData;
 		} pluginData;
 
 		std::vector<FunctionDef> constructorList;
@@ -166,7 +167,7 @@ namespace loo
 		// map from class name to fully qualified name
 		std::unordered_map/*QHash*/<QByteArray, QByteArray> knownQObjectClasses;
 		std::unordered_map/*QHash*/<QByteArray, QByteArray> knownGadgets;
-		std::unordered_map/*QMap*/<std::string, QJsonArray> metaArgs;
+		std::unordered_map/*QMap*/<std::string, nlohmann::json/*QJsonArray*/> metaArgs;
 
 		void parse ();
 		void generate (FILE *out);
