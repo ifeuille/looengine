@@ -18,3 +18,5 @@ include(global/_global.cmake)
 INCLUDE_DIRECTORIES(${LOO_ENGINE_INCLUDE_ROOT_DIR} ${LOO_ENGINE_PRIVATE_INCLUDE_ROOT_DIR})
 add_module()
 declare_module()
+
+set_property(TARGET ${MODULE_NAME} PROPERTY FOLDER "loo/engine")

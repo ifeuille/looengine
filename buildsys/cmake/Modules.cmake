@@ -1,15 +1,11 @@
 
 #must before add_target_link
-MACRO(depdent_module _this_name _module_name)
-    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/Public)
+MACRO(depdent_module _this_name _module_name _include_dir)
+    INCLUDE_DIRECTORIES(${_include_dir})
     add_dependencies(${_this_name} ${_module_name})
     set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${_module_name})
 ENDMACRO(depdent_module)
-MACRO(ref_module _module_name)
-    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/Public)
-    #add_dependencies(${_this_name} ${_module_name})
-    #set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${_module_name})
-ENDMACRO(ref_module)
+
 
 MACRO(add_dep_link_dir)
     IF(NOT LOO_PLATFORM_WINDOWS_STORE AND NOT LOO_PLATFORM_ANDROID AND NOT LOO_PLATFORM_IOS)

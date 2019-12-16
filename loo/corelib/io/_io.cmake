@@ -1,9 +1,9 @@
 set(LOCAL_PUBLIC     
-${MODULE_ROOT_PATH}/kernel/loometaobject_reflect_p.h
+${MODULE_ROOT_PATH}/io/loodebug.h
 )
 
 
-source_group("corelib\\kernel\\header" FILES ${LOCAL_PUBLIC})
+source_group("corelib\\io\\header" FILES ${LOCAL_PUBLIC})
 #source_group("Core\\Private" FILES ${LOCAL_PRIVATE})
 
 
