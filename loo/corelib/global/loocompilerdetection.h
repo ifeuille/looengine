@@ -6,11 +6,23 @@
 #define LOO_CORELIB_LOOCOMPILER_H
 
 //llvm/clang only
+#  define LOO_DECL_CONSTEXPR constexpr
+#  define LOO_DECL_RELAXED_CONSTEXPR constexpr
+#  define LOO_CONSTEXPR constexpr
+#  define LOO_RELAXED_CONSTEXPR constexpr
+
+#  define LOO_ALIGNOF(x)  alignof(x)
+#  define LOO_DECL_ALIGN(n)   alignas(n)
 
 
+
+# define LOO_NULLPTR         nullptr
+
+#if defined(_MSC_VER)
 #ifdef __clang__
 	#define LOO_CC_CLANG ((__clang_major__ * 100) + __clang_minor__)
 #endif
+#    define LOO_DECL_NOTHROW  throw()
 
 #define LOO_FUNC_INFO __FUNCSIG__
 #define LOO_ALIGNOF(type) __alignof(type)
@@ -26,6 +38,10 @@
 #define LOO_DECL_IMPORT __declspec(dllimport)
 #define LOO_MAKE_UNCHECKED_ARRAY_ITERATOR(x) stdext::make_unchecked_array_iterator(x) // Since _MSC_VER >= 1800
 #define LOO_MAKE_CHECKED_ARRAY_ITERATOR(x, N) stdext::make_checked_array_iterator(x, size_t(N)) // Since _MSC_VER >= 1500
+
+
+
+#  elif defined(__clang__)
 
 #    if defined(__apple_build_version__)
 #      /* http://en.wikipedia.org/wiki/Xcode#Toolchain_Versions */
@@ -65,7 +81,7 @@
 #      define __has_extension __has_feature
 #    endif
 #    if defined(__APPLE__)
-     /* Apple/clang specific features */
+/* Apple/clang specific features */
 #      define LOO_DECL_CF_RETURNS_RETAINED __attribute__((cf_returns_retained))
 #      ifdef __OBJC__
 #        define LOO_DECL_NS_RETURNS_AUTORELEASED __attribute__((ns_returns_autoreleased))
@@ -74,8 +90,6 @@
 #    ifdef __EMSCRIPTEN__
 #      define LOO_CC_EMSCRIPTEN
 #    endif
-
-
 
 #  define LOO_FUNC_INFO       __PRETTY_FUNCTION__
 #  define LOO_ALIGNOF(type)   __alignof__(type)
@@ -104,17 +118,6 @@
 #    endif
 #  endif
 
-#  define LOO_DECL_CONSTEXPR constexpr
-#  define LOO_DECL_RELAXED_CONSTEXPR constexpr
-#  define LOO_CONSTEXPR constexpr
-#  define LOO_RELAXED_CONSTEXPR constexpr
-
-#  define LOO_ALIGNOF(x)  alignof(x)
-#  define LOO_DECL_ALIGN(n)   alignas(n)
-
-
-
-# define LOO_NULLPTR         nullptr
 
 
 

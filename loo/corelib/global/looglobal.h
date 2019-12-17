@@ -75,9 +75,22 @@ typedef unsigned long long luint64;
 typedef float lfloat32;
 typedef double lreal;
 typedef long llong;
+typedef char lshort;
 typedef unsigned long lulong;
 typedef unsigned char luchar;
 typedef unsigned short lushort;
+#if defined(LOO_OS_WIN) && !defined(LOO_CC_GNU)
+#  define LOO_INT64_C(c) c ## i64    /* signed 64 bit constant */
+#  define LOO_UINT64_C(c) c ## ui64   /* unsigned 64 bit constant */
+#else
+#ifdef __cplusplus
+#  define LOO_INT64_C(c) static_cast<long long>(c ## LL)     /* signed 64 bit constant */
+#  define LOO_UINT64_C(c) static_cast<unsigned long long>(c ## ULL) /* unsigned 64 bit constant */
+#else
+#  define LOO_INT64_C(c) ((long long)(c ## LL))               /* signed 64 bit constant */
+#  define LOO_UINT64_C(c) ((unsigned long long)(c ## ULL))    /* unsigned 64 bit constant */
+#endif
+#endif
 
 #ifndef LOO_DISABLE_DEPRECATED_BEFORE
 #define LOO_DISABLE_DEPRECATED_BEFORE LOO_VERSION_CHECK(5, 0, 0)
@@ -90,13 +103,13 @@ typedef unsigned short lushort;
 	Use it to specify from which version of Qt a function or class has been deprecated
 
 	Example:
-		#if QT_DEPRECATED_SINCE(5,1)
-			QT_DEPRECATED void deprecatedFunction(); //function deprecated since Qt 5.1
+		#if LOO_DEPRECATED_SINCE(5,1)
+			LOO_DEPRECATED void deprecatedFunction(); //function deprecated since Qt 5.1
 		#endif
 
 */
 #ifdef LOO_DEPRECATED
-#define LOO_DEPRECATED_SINCE(major, minor) (QT_VERSION_CHECK(major, minor, 0) > QT_DISABLE_DEPRECATED_BEFORE)
+#define LOO_DEPRECATED_SINCE(major, minor) (LOO_VERSION_CHECK(major, minor, 0) > LOO_DISABLE_DEPRECATED_BEFORE)
 #else
 #define LOOLOO_DEPRECATED_SINCE(major, minor) 0
 #endif
@@ -104,10 +117,10 @@ typedef unsigned short lushort;
 /*
    The Qt modules' export macros.
    The options are:
-	- defined(QT_STATIC): Qt was built or is being built in static mode
-	- defined(QT_SHARED): Qt was built or is being built in shared/dynamic mode
-   If neither was defined, then QT_SHARED is implied. If Qt was compiled in static
-   mode, QT_STATIC is defined in qconfig.h. In shared mode, QT_STATIC is implied
+	- defined(LOO_STATIC): Qt was built or is being built in static mode
+	- defined(LOO_SHARED): Qt was built or is being built in shared/dynamic mode
+   If neither was defined, then LOO_SHARED is implied. If Qt was compiled in static
+   mode, LOO_STATIC is defined in qconfig.h. In shared mode, LOO_STATIC is implied
    for the bootstrapped tools.
 */
 
@@ -135,14 +148,14 @@ typedef unsigned short lushort;
     Class(Class &&) = delete; \
     Class &operator=(Class &&) = delete;
 
-#define Q_DISABLE_COPY_MOVE(Class) \
+#define LOO_DISABLE_COPY_MOVE(Class) \
     LOO_DISABLE_COPY(Class) \
     LOO_DISABLE_MOVE(Class)
 
 /*
-   No, this is not an evil backdoor. QT_BUILD_INTERNAL just exports more symbols
+   No, this is not an evil backdoor. LOO_BUILD_INTERNAL just exports more symbols
    for Qt's internal unit tests. If you want slower loading times and more
-   symbols that can vanish from version to version, feel free to define QT_BUILD_INTERNAL.
+   symbols that can vanish from version to version, feel free to define LOO_BUILD_INTERNAL.
 */
 #if defined(LOO_BUILD_INTERNAL) && defined(LOO_BUILDING_QT) && defined(LOO_SHARED)
 #    define LOO_AUTOTEST_EXPORT LOO_DECL_EXPORT
@@ -255,14 +268,14 @@ typedef qptrdiff qintptr;
 #endif
 
 #ifdef LOO_ASCII_CAST_WARNINGS
-#  define LOO_ASCII_CAST_WARN Q_DECL_DEPRECATED_X("Use fromUtf8, QStringLiteral, or QLatin1String")
+#  define LOO_ASCII_CAST_WARN LOO_DECL_DEPRECATED_X("Use fromUtf8, QStringLiteral, or QLatin1String")
 #else
 #  define LOO_ASCII_CAST_WARN
 #endif
 
 #if defined(__i386__) || defined(_WIN32)
 #  if defined(LOO_CC_GNU)
-#    define QT_FASTCALL __attribute__((regparm(3)))
+#    define LOO_FASTCALL __attribute__((regparm(3)))
 #  elif defined(LOO_CC_MSVC)
 #    define LOO_FASTCALL __fastcall
 #  else
@@ -348,22 +361,22 @@ LOO_DECL_CONSTEXPR inline const T &lBound (const T &min, const T &val, const T &
       LOO_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(macos, ios, __TVOS_NA, __WATCHOS_NA)
 #  define LOO_MACOS_PLATFORM_SDK_EQUAL_OR_ABOVE(macos) \
       LOO_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(macos, __IPHONE_NA, __TVOS_NA, __WATCHOS_NA)
-#  define QT_IOS_PLATFORM_SDK_EQUAL_OR_ABOVE(ios) \
+#  define LOO_IOS_PLATFORM_SDK_EQUAL_OR_ABOVE(ios) \
       LOO_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_NA, ios, __TVOS_NA, __WATCHOS_NA)
-#  define QT_TVOS_PLATFORM_SDK_EQUAL_OR_ABOVE(tvos) \
+#  define LOO_TVOS_PLATFORM_SDK_EQUAL_OR_ABOVE(tvos) \
       LOO_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_NA, __IPHONE_NA, tvos, __WATCHOS_NA)
-#  define QT_WATCHOS_PLATFORM_SDK_EQUAL_OR_ABOVE(watchos) \
+#  define LOO_WATCHOS_PLATFORM_SDK_EQUAL_OR_ABOVE(watchos) \
       LOO_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_NA, __IPHONE_NA, __TVOS_NA, watchos)
 
-#  define QT_MACOS_IOS_DEPLOYMENT_TARGET_BELOW(macos, ios) \
+#  define LOO_MACOS_IOS_DEPLOYMENT_TARGET_BELOW(macos, ios) \
       LOO_DARWIN_DEPLOYMENT_TARGET_BELOW(macos, ios, __TVOS_NA, __WATCHOS_NA)
-#  define QT_MACOS_DEPLOYMENT_TARGET_BELOW(macos) \
+#  define LOO_MACOS_DEPLOYMENT_TARGET_BELOW(macos) \
       LOO_DARWIN_DEPLOYMENT_TARGET_BELOW(macos, __IPHONE_NA, __TVOS_NA, __WATCHOS_NA)
-#  define QT_IOS_DEPLOYMENT_TARGET_BELOW(ios) \
+#  define LOO_IOS_DEPLOYMENT_TARGET_BELOW(ios) \
       LOO_DARWIN_DEPLOYMENT_TARGET_BELOW(__MAC_NA, ios, __TVOS_NA, __WATCHOS_NA)
-#  define QT_TVOS_DEPLOYMENT_TARGET_BELOW(tvos) \
+#  define LOO_TVOS_DEPLOYMENT_TARGET_BELOW(tvos) \
       LOO_DARWIN_DEPLOYMENT_TARGET_BELOW(__MAC_NA, __IPHONE_NA, tvos, __WATCHOS_NA)
-#  define QT_WATCHOS_DEPLOYMENT_TARGET_BELOW(watchos) \
+#  define LOO_WATCHOS_DEPLOYMENT_TARGET_BELOW(watchos) \
       LOO_DARWIN_DEPLOYMENT_TARGET_BELOW(__MAC_NA, __IPHONE_NA, __TVOS_NA, watchos)
 
 // Compatibility synonyms, do not use
@@ -384,7 +397,7 @@ private:
 		void *pool;
 };
 
-#endif // Q_OS_DARWIN
+#endif // LOO_OS_DARWIN
 
 
 /*
@@ -413,84 +426,84 @@ LOO_CORE_EXPORT std::string loo_error_string (int errorCode = -1);
 
 ////////////////////////////////////////////////////
 
-#if defined(QT_NO_DEBUG) && !defined(QT_PAINT_DEBUG)
-#define QT_NO_PAINT_DEBUG
+#if defined(LOO_NO_DEBUG) && !defined(LOO_PAINT_DEBUG)
+#define LOO_NO_PAINT_DEBUG
 #endif
 
-#ifndef Q_CC_MSVC
-Q_NORETURN
+#ifndef LOO_CC_MSVC
+LOO_NORETURN
 #endif
-Q_CORE_EXPORT void qt_assert_x (const char *where, const char *what, const char *file, int line) Q_DECL_NOTHROW;
+LOO_CORE_EXPORT void loo_assert_x (const char *where, const char *what, const char *file, int line) LOO_DECL_NOTHROW;
 
-#if !defined(Q_ASSERT_X)
-#  if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
-#    define Q_ASSERT_X(cond, where, what) do { } while ((false) && (cond))
+#if !defined(LOO_ASSERT_X)
+#  if defined(LOO_NO_DEBUG) && !defined(LOO_FORCE_ASSERTS)
+#    define LOO_ASSERT_X(cond, where, what) do { } while ((false) && (cond))
 #  else
-#    define Q_ASSERT_X(cond, where, what) ((!(cond)) ? qt_assert_x(where, what,__FILE__,__LINE__) : qt_noop())
+#    define LOO_ASSERT_X(cond, where, what) ((!(cond)) ? loo_assert_x(where, what,__FILE__,__LINE__) : loo_noop())
 #  endif
 #endif
 
 
-#ifdef Q_COMPILER_STATIC_ASSERT
-#define Q_STATIC_ASSERT(Condition) static_assert(bool(Condition), #Condition)
-#define Q_STATIC_ASSERT_X(Condition, Message) static_assert(bool(Condition), Message)
+#ifdef LOO_COMPILER_STATIC_ASSERT
+#define LOO_STATIC_ASSERT(Condition) static_assert(bool(Condition), #Condition)
+#define LOO_STATIC_ASSERT_X(Condition, Message) static_assert(bool(Condition), Message)
 #else
 // Intentionally undefined
-template <bool Test> class QStaticAssertFailure;
-template <> class QStaticAssertFailure<true> {};
+template <bool Test> class LooStaticAssertFailure;
+template <> class LooStaticAssertFailure<true> {};
 
-#define Q_STATIC_ASSERT_PRIVATE_JOIN(A, B) Q_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B)
-#define Q_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B) A ## B
+#define LOO_STATIC_ASSERT_PRIVATE_JOIN(A, B) LOO_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B)
+#define LOO_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B) A ## B
 #ifdef __COUNTER__
-#define Q_STATIC_ASSERT(Condition) \
-    enum {Q_STATIC_ASSERT_PRIVATE_JOIN(q_static_assert_result, __COUNTER__) = sizeof(QStaticAssertFailure<!!(Condition)>)}
+#define LOO_STATIC_ASSERT(Condition) \
+    enum {LOO_STATIC_ASSERT_PRIVATE_JOIN(loo_static_assert_result, __COUNTER__) = sizeof(LooStaticAssertFailure<!!(Condition)>)}
 #else
-#define Q_STATIC_ASSERT(Condition) \
-    enum {Q_STATIC_ASSERT_PRIVATE_JOIN(q_static_assert_result, __LINE__) = sizeof(QStaticAssertFailure<!!(Condition)>)}
+#define LOO_STATIC_ASSERT(Condition) \
+    enum {LOO_STATIC_ASSERT_PRIVATE_JOIN(Loo_static_assert_result, __LINE__) = sizeof(LooStaticAssertFailure<!!(Condition)>)}
 #endif /* __COUNTER__ */
-#define Q_STATIC_ASSERT_X(Condition, Message) Q_STATIC_ASSERT(Condition)
+#define LOO_STATIC_ASSERT_X(Condition, Message) LOO_STATIC_ASSERT(Condition)
 #endif
 
-Q_NORETURN Q_CORE_EXPORT void qt_check_pointer (const char *, int) Q_DECL_NOTHROW;
-Q_CORE_EXPORT void qBadAlloc ();
+LOO_NORETURN LOO_CORE_EXPORT void loo_check_pointer (const char *, int) LOO_DECL_NOTHROW;
+LOO_CORE_EXPORT void looBadAlloc ();
 
-#ifdef QT_NO_EXCEPTIONS
-#  if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
-#    define Q_CHECK_PTR(p) qt_noop()
+#ifdef LOO_NO_EXCEPTIONS
+#  if defined(LOO_NO_DEBUG) && !defined(LOO_FORCE_ASSERTS)
+#    define LOO_CHECK_PTR(p) loo_noop()
 #  else
-#    define Q_CHECK_PTR(p) do {if (!(p)) qt_check_pointer(__FILE__,__LINE__);} while (false)
+#    define LOO_CHECK_PTR(p) do {if (!(p)) loo_check_pointer(__FILE__,__LINE__);} while (false)
 #  endif
 #else
-#  define Q_CHECK_PTR(p) do { if (!(p)) qBadAlloc(); } while (false)
+#  define LOO_CHECK_PTR(p) do { if (!(p)) looBadAlloc(); } while (false)
 #endif
 
 template <typename T>
-inline T *q_check_ptr (T *p) { Q_CHECK_PTR (p); return p; }
+inline T *loo_check_ptr (T *p) { LOO_CHECK_PTR (p); return p; }
 
-typedef void (*QFunctionPointer)();
+typedef void (*LooFunctionPointer)();
 
-#if !defined(Q_UNIMPLEMENTED)
-#  define Q_UNIMPLEMENTED() qWarning("Unimplemented code.")
+#if !defined(LOO_UNIMPLEMENTED)
+#  define LOO_UNIMPLEMENTED() looWarning("Unimplemented code.")
 #endif
 
-Q_REQUIRED_RESULT Q_DECL_CONSTEXPR static inline Q_DECL_UNUSED bool qFuzzyCompare (double p1, double p2)
+LOO_REQUIRED_RESULT LOO_DECL_CONSTEXPR static inline LOO_DECL_UNUSED bool looFuzzyCompare (double p1, double p2)
 {
-	return (qAbs (p1 - p2) * 1000000000000. <= qMin (qAbs (p1), qAbs (p2)));
+	return (lAbs (p1 - p2) * 1000000000000. <= lMin (looAbs (p1), lAbs (p2)));
 }
 
-Q_REQUIRED_RESULT Q_DECL_CONSTEXPR static inline Q_DECL_UNUSED bool qFuzzyCompare (float p1, float p2)
+LOO_REQUIRED_RESULT LOO_DECL_CONSTEXPR static inline LOO_DECL_UNUSED bool looFuzzyCompare (float p1, float p2)
 {
-	return (qAbs (p1 - p2) * 100000.f <= qMin (qAbs (p1), qAbs (p2)));
+	return (lAbs (p1 - p2) * 100000.f <= lMin (lAbs (p1), lAbs (p2)));
 }
 
-Q_REQUIRED_RESULT Q_DECL_CONSTEXPR static inline Q_DECL_UNUSED bool qFuzzyIsNull (double d)
+LOO_REQUIRED_RESULT LOO_DECL_CONSTEXPR static inline LOO_DECL_UNUSED bool looFuzzyIsNull (double d)
 {
-	return qAbs (d) <= 0.000000000001;
+	return lAbs (d) <= 0.000000000001;
 }
 
-Q_REQUIRED_RESULT Q_DECL_CONSTEXPR static inline Q_DECL_UNUSED  bool qFuzzyIsNull (float f)
+LOO_REQUIRED_RESULT LOO_DECL_CONSTEXPR static inline LOO_DECL_UNUSED  bool lFuzzyIsNull (float f)
 {
-	return qAbs (f) <= 0.00001f;
+	return lAbs (f) <= 0.00001f;
 }
 
 /*
@@ -498,15 +511,15 @@ Q_REQUIRED_RESULT Q_DECL_CONSTEXPR static inline Q_DECL_UNUSED  bool qFuzzyIsNul
    check whether the actual value is 0 or close to 0, but whether
    it is binary 0, disregarding sign.
 */
-Q_REQUIRED_RESULT static inline Q_DECL_UNUSED bool qIsNull (double d)
+LOO_REQUIRED_RESULT static inline LOO_DECL_UNUSED bool lIsNull (double d)
 {
 	union U {
 		double d;
-		quint64 u;
+		luint64 u;
 	};
 	U val;
 	val.d = d;
-	return (val.u & Q_UINT64_C (0x7fffffffffffffff)) == 0;
+	return (val.u & LOO_UINT64_C (0x7fffffffffffffff)) == 0;
 }
 
 /*
@@ -514,11 +527,11 @@ Q_REQUIRED_RESULT static inline Q_DECL_UNUSED bool qIsNull (double d)
    check whether the actual value is 0 or close to 0, but whether
    it is binary 0, disregarding sign.
 */
-Q_REQUIRED_RESULT static inline Q_DECL_UNUSED bool qIsNull (float f)
+LOO_REQUIRED_RESULT static inline LOO_DECL_UNUSED bool lIsNull (float f)
 {
 	union U {
 		float f;
-		quint32 u;
+		luint32 u;
 	};
 	U val;
 	val.f = f;
@@ -534,75 +547,75 @@ Q_REQUIRED_RESULT static inline Q_DECL_UNUSED bool qIsNull (float f)
    mandating a real implementation.
 */
 
-#ifdef Q_FULL_TEMPLATE_INSTANTIATION
-#  define Q_DUMMY_COMPARISON_OPERATOR(C) \
+#ifdef LOO_FULL_TEMPLATE_INSTANTIATION
+#  define LOO_DUMMY_COMPARISON_OPERATOR(C) \
     bool operator==(const C&) const { \
-        qWarning(#C"::operator==(const "#C"&) was called"); \
+        looWarning(#C"::operator==(const "#C"&) was called"); \
         return false; \
     }
 #else
 
-#  define Q_DUMMY_COMPARISON_OPERATOR(C)
+#  define LOO_DUMMY_COMPARISON_OPERATOR(C)
 #endif
 
-namespace QtPrivate
+namespace LooPrivate
 {
 	namespace SwapExceptionTester { // insulate users from the "using std::swap" below
 		using std::swap; // import std::swap
 		template <typename T>
 		void checkSwap (T &t)
-			Q_DECL_NOEXCEPT_EXPR (noexcept(swap (t, t)));
+			LOO_DECL_NOEXCEPT_EXPR (noexcept(swap (t, t)));
 		// declared, but not implemented (only to be used in unevaluated contexts (noexcept operator))
 	}
-} // namespace QtPrivate
+} // namespace LooPrivate
 
 template <typename T>
-inline void qSwap (T &value1, T &value2)
-Q_DECL_NOEXCEPT_EXPR (noexcept(QtPrivate::SwapExceptionTester::checkSwap (value1)))
+inline void lSwap (T &value1, T &value2)
+LOO_DECL_NOEXCEPT_EXPR (noexcept(LooPrivate::SwapExceptionTester::checkSwap (value1)))
 {
 	using std::swap;
 	swap (value1, value2);
 }
 
-#if QT_DEPRECATED_SINCE(5, 0)
-Q_CORE_EXPORT QT_DEPRECATED void *qMalloc (size_t size) Q_ALLOC_SIZE (1);
-Q_CORE_EXPORT QT_DEPRECATED void qFree (void *ptr);
-Q_CORE_EXPORT QT_DEPRECATED void *qRealloc (void *ptr, size_t size) Q_ALLOC_SIZE (2);
-Q_CORE_EXPORT QT_DEPRECATED void *qMemCopy (void *dest, const void *src, size_t n);
-Q_CORE_EXPORT QT_DEPRECATED void *qMemSet (void *dest, int c, size_t n);
+#if LOO_DEPRECATED_SINCE(5, 0)
+LOO_CORE_EXPORT LOO_DEPRECATED void *qMalloc (size_t size) LOO_ALLOC_SIZE (1);
+LOO_CORE_EXPORT LOO_DEPRECATED void qFree (void *ptr);
+LOO_CORE_EXPORT LOO_DEPRECATED void *qRealloc (void *ptr, size_t size) LOO_ALLOC_SIZE (2);
+LOO_CORE_EXPORT LOO_DEPRECATED void *qMemCopy (void *dest, const void *src, size_t n);
+LOO_CORE_EXPORT LOO_DEPRECATED void *qMemSet (void *dest, int c, size_t n);
 #endif
-Q_CORE_EXPORT void *qMallocAligned (size_t size, size_t alignment) Q_ALLOC_SIZE (1);
-Q_CORE_EXPORT void *qReallocAligned (void *ptr, size_t size, size_t oldsize, size_t alignment) Q_ALLOC_SIZE (2);
-Q_CORE_EXPORT void qFreeAligned (void *ptr);
+LOO_CORE_EXPORT void *lMallocAligned (size_t size, size_t alignment) LOO_ALLOC_SIZE (1);
+LOO_CORE_EXPORT void *lReallocAligned (void *ptr, size_t size, size_t oldsize, size_t alignment) LOO_ALLOC_SIZE (2);
+LOO_CORE_EXPORT void lFreeAligned (void *ptr);
 
 
 /*
    Avoid some particularly useless warnings from some stupid compilers.
-   To get ALL C++ compiler warnings, define QT_CC_WARNINGS or comment out
-   the line "#define QT_NO_WARNINGS".
+   To get ALL C++ compiler warnings, define LOO_CC_WARNINGS or comment out
+   the line "#define LOO_NO_WARNINGS".
 */
-#if !defined(QT_CC_WARNINGS)
-#  define QT_NO_WARNINGS
+#if !defined(LOO_CC_WARNINGS)
+#  define LOO_NO_WARNINGS
 #endif
-#if defined(QT_NO_WARNINGS)
-#  if defined(Q_CC_MSVC)
-QT_WARNING_DISABLE_MSVC (4251) /* class 'type' needs to have dll-interface to be used by clients of class 'type2' */
-QT_WARNING_DISABLE_MSVC (4244) /* conversion from 'type1' to 'type2', possible loss of data */
-QT_WARNING_DISABLE_MSVC (4275) /* non - DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier' */
-QT_WARNING_DISABLE_MSVC (4514) /* unreferenced inline function has been removed */
-QT_WARNING_DISABLE_MSVC (4800) /* 'type' : forcing value to bool 'true' or 'false' (performance warning) */
-QT_WARNING_DISABLE_MSVC (4097) /* typedef-name 'identifier1' used as synonym for class-name 'identifier2' */
-QT_WARNING_DISABLE_MSVC (4706) /* assignment within conditional expression */
+#if defined(LOO_NO_WARNINGS)
+#  if defined(LOO_CC_MSVC)
+LOO_WARNING_DISABLE_MSVC (4251) /* class 'type' needs to have dll-interface to be used by clients of class 'type2' */
+LOO_WARNING_DISABLE_MSVC (4244) /* conversion from 'type1' to 'type2', possible loss of data */
+LOO_WARNING_DISABLE_MSVC (4275) /* non - DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier' */
+LOO_WARNING_DISABLE_MSVC (4514) /* unreferenced inline function has been removed */
+LOO_WARNING_DISABLE_MSVC (4800) /* 'type' : forcing value to bool 'true' or 'false' (performance warning) */
+LOO_WARNING_DISABLE_MSVC (4097) /* typedef-name 'identifier1' used as synonym for class-name 'identifier2' */
+LOO_WARNING_DISABLE_MSVC (4706) /* assignment within conditional expression */
 #    if _MSC_VER <= 1310 // MSVC 2003
-QT_WARNING_DISABLE_MSVC (4786) /* 'identifier' : identifier was truncated to 'number' characters in the debug information */
+LOO_WARNING_DISABLE_MSVC (4786) /* 'identifier' : identifier was truncated to 'number' characters in the debug information */
 #    endif
-QT_WARNING_DISABLE_MSVC (4355) /* 'this' : used in base member initializer list */
+LOO_WARNING_DISABLE_MSVC (4355) /* 'this' : used in base member initializer list */
 #    if _MSC_VER < 1800 // MSVC 2013
-	QT_WARNING_DISABLE_MSVC (4231) /* nonstandard extension used : 'identifier' before template explicit instantiation */
+	LOO_WARNING_DISABLE_MSVC (4231) /* nonstandard extension used : 'identifier' before template explicit instantiation */
 #    endif
-	QT_WARNING_DISABLE_MSVC (4710) /* function not inlined */
-	QT_WARNING_DISABLE_MSVC (4530) /* C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc */
-#  elif defined(Q_CC_BOR)
+	LOO_WARNING_DISABLE_MSVC (4710) /* function not inlined */
+	LOO_WARNING_DISABLE_MSVC (4530) /* C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc */
+#  elif defined(LOO_CC_BOR)
 #    pragma option -w-inl
 #    pragma option -w-aus
 #    pragma warn -inl
@@ -613,41 +626,38 @@ QT_WARNING_DISABLE_MSVC (4355) /* 'this' : used in base member initializer list 
 #  endif
 #endif
 
-namespace QtPrivate {
-	template <typename T> struct QAddConst { typedef const T Type; };
+namespace LooPrivate {
+	template <typename T> struct LooAddConst { typedef const T Type; };
 }
 
 // this adds const to non-const objects (like std::as_const)
 template <typename T>
-Q_DECL_CONSTEXPR typename QtPrivate::QAddConst<T>::Type &qAsConst (T &t) Q_DECL_NOTHROW { return t; }
-// prevent rvalue arguments:
-template <typename T>
-void qAsConst (const T &&) Q_DECL_EQ_DELETE;
+LOO_DECL_CONSTEXPR typename LooPrivate::LooAddConst<T>::Type &std::as_const (T &t) LOO_DECL_NOTHROW { return t; }
 
-#ifndef QT_NO_FOREACH
+#ifndef LOO_NO_FOREACH
 
-namespace QtPrivate {
+namespace LooPrivate {
 
 	template <typename T>
-	class QForeachContainer {
-		Q_DISABLE_COPY (QForeachContainer)
+	class LooForeachContainer {
+		LOO_DISABLE_COPY (LooForeachContainer)
 	public:
-		QForeachContainer (const T &t) : c (t), i (qAsConst (c).begin ()), e (qAsConst (c).end ()) {}
-		QForeachContainer (T &&t) : c (std::move (t)), i (qAsConst (c).begin ()), e (qAsConst (c).end ()) {}
+		LooForeachContainer (const T &t) : c (t), i (std::as_const (c).begin ()), e (std::as_const (c).end ()) {}
+		LooForeachContainer (T &&t) : c (std::move (t)), i (std::as_const (c).begin ()), e (std::as_const (c).end ()) {}
 
-		QForeachContainer (QForeachContainer &&other)
+		LooForeachContainer (LooForeachContainer &&other)
 			: c (std::move (other.c)),
-			i (qAsConst (c).begin ()),
-			e (qAsConst (c).end ()),
+			i (std::as_const (c).begin ()),
+			e (std::as_const (c).end ()),
 			control (std::move (other.control))
 		{
 		}
 
-		QForeachContainer &operator=(QForeachContainer &&other)
+		LooForeachContainer &operator=(LooForeachContainer &&other)
 		{
 			c = std::move (other.c);
-			i = qAsConst (c).begin ();
-			e = qAsConst (c).end ();
+			i = std::as_const (c).begin ();
+			e = std::as_const (c).end ();
 			control = std::move (other.control);
 			return *this;
 		}
@@ -658,9 +668,9 @@ namespace QtPrivate {
 	};
 
 	template<typename T>
-	QForeachContainer<typename std::decay<T>::type> qMakeForeachContainer (T &&t)
+	LooForeachContainer<typename std::decay<T>::type> lMakeForeachContainer (T &&t)
 	{
-		return QForeachContainer<typename std::decay<T>::type> (std::forward<T> (t));
+		return LooForeachContainer<typename std::decay<T>::type> (std::forward<T> (t));
 	}
 
 }
@@ -673,188 +683,113 @@ namespace QtPrivate {
 //    the outer loop to continue executing
 //  - if there was a break inside the inner loop, it will exit with control still
 //    set to 1; in that case, the outer loop will invert it to 0 and will exit too
-#define Q_FOREACH(variable, container)                                \
-for (auto _container_ = QtPrivate::qMakeForeachContainer(container); \
+#define LOO_FOREACH(variable, container)                                \
+for (auto _container_ = LooPrivate::lMakeForeachContainer(container); \
      _container_.control && _container_.i != _container_.e;         \
      ++_container_.i, _container_.control ^= 1)                     \
     for (variable = *_container_.i; _container_.control; _container_.control = 0)
 
-#endif // QT_NO_FOREACH
+#endif // LOO_NO_FOREACH
 
-#define Q_FOREVER for(;;)
-#ifndef QT_NO_KEYWORDS
-# ifndef QT_NO_FOREACH
+#define LOO_FOREVER for(;;)
+#ifndef LOO_NO_KEYWORDS
+# ifndef LOO_NO_FOREACH
 #  ifndef foreach
-#    define foreach Q_FOREACH
+#    define foreach LOO_FOREACH
 #  endif
-# endif // QT_NO_FOREACH
+# endif // LOO_NO_FOREACH
 #  ifndef forever
-#    define forever Q_FOREVER
+#    define forever LOO_FOREVER
 #  endif
 #endif
 
-template <typename T> static inline T *qGetPtrHelper (T *ptr) { return ptr; }
-template <typename Wrapper> static inline typename Wrapper::pointer qGetPtrHelper (const Wrapper &p) { return p.data (); }
+template <typename T> static inline T *lGetPtrHelper (T *ptr) { return ptr; }
+template <typename Wrapper> static inline typename Wrapper::pointer lGetPtrHelper (const Wrapper &p) { return p.data (); }
 
-#define Q_DECLARE_PRIVATE(Class) \
-    inline Class##Private* d_func() { return reinterpret_cast<Class##Private *>(qGetPtrHelper(d_ptr)); } \
-    inline const Class##Private* d_func() const { return reinterpret_cast<const Class##Private *>(qGetPtrHelper(d_ptr)); } \
+#define LOO_DECLARE_PRIVATE(Class) \
+    inline Class##Private* d_func() { return reinterpret_cast<Class##Private *>(lGetPtrHelper(d_ptr)); } \
+    inline const Class##Private* d_func() const { return reinterpret_cast<const Class##Private *>(lGetPtrHelper(d_ptr)); } \
     friend class Class##Private;
 
-#define Q_DECLARE_PRIVATE_D(Dptr, Class) \
-    inline Class##Private* d_func() { return reinterpret_cast<Class##Private *>(qGetPtrHelper(Dptr)); } \
-    inline const Class##Private* d_func() const { return reinterpret_cast<const Class##Private *>(qGetPtrHelper(Dptr)); } \
+#define LOO_DECLARE_PRIVATE_D(Dptr, Class) \
+    inline Class##Private* d_func() { return reinterpret_cast<Class##Private *>(lGetPtrHelper(Dptr)); } \
+    inline const Class##Private* d_func() const { return reinterpret_cast<const Class##Private *>(lGetPtrHelper(Dptr)); } \
     friend class Class##Private;
 
-#define Q_DECLARE_PUBLIC(Class)                                    \
-    inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
-    inline const Class* q_func() const { return static_cast<const Class *>(q_ptr); } \
+#define LOO_DECLARE_PUBLIC(Class)                                    \
+    inline Class* l_func() { return static_cast<Class *>(q_ptr); } \
+    inline const Class* l_func() const { return static_cast<const Class *>(q_ptr); } \
     friend class Class;
 
-#define Q_D(Class) Class##Private * const d = d_func()
-#define Q_Q(Class) Class * const q = q_func()
+#define LOO_D(Class) Class##Private * const d = d_func()
+#define LOO_Q(Class) Class * const q = l_func()
 
-#define QT_TR_NOOP(x) x
-#define QT_TR_NOOP_UTF8(x) x
-#define QT_TRANSLATE_NOOP(scope, x) x
-#define QT_TRANSLATE_NOOP_UTF8(scope, x) x
-#define QT_TRANSLATE_NOOP3(scope, x, comment) {x, comment}
-#define QT_TRANSLATE_NOOP3_UTF8(scope, x, comment) {x, comment}
+#define LOO_TR_NOOP(x) x
+#define LOO_TR_NOOP_UTF8(x) x
+#define LOO_TRANSLATE_NOOP(scope, x) x
+#define LOO_TRANSLATE_NOOP_UTF8(scope, x) x
+#define LOO_TRANSLATE_NOOP3(scope, x, comment) {x, comment}
+#define LOO_TRANSLATE_NOOP3_UTF8(scope, x, comment) {x, comment}
 
-#ifndef QT_NO_TRANSLATION // ### This should enclose the NOOPs above
+#ifndef LOO_NO_TRANSLATION // ### This should enclose the NOOPs above
 
 // Defined in qcoreapplication.cpp
 // The better name qTrId() is reserved for an upcoming function which would
 // return a much more powerful QStringFormatter instead of a QString.
-Q_CORE_EXPORT QString qtTrId (const char *id, int n = -1);
+LOO_CORE_EXPORT QString looTrId (const char *id, int n = -1);
 
-#define QT_TRID_NOOP(id) id
+#define LOO_TRID_NOOP(id) id
 
-#endif // QT_NO_TRANSLATION
+#endif // LOO_NO_TRANSLATION
 
 /*
    When RTTI is not available, define this macro to force any uses of
    dynamic_cast to cause a compile failure.
 */
 
-#if defined(QT_NO_DYNAMIC_CAST) && !defined(dynamic_cast)
-#  define dynamic_cast QT_PREPEND_NAMESPACE(qt_dynamic_cast_check)
+#if defined(LOO_NO_DYNAMIC_CAST) && !defined(dynamic_cast)
+#  define dynamic_cast LOO_PREPEND_NAMESPACE(loo_dynamic_cast_check)
 
 template<typename T, typename X>
-T qt_dynamic_cast_check (X, T* = 0)
+T loo_dynamic_cast_check (X, T* = 0)
 {
 	return T::dynamic_cast_will_always_fail_because_rtti_is_disabled;
 }
 #endif
 
 
-#ifdef Q_QDOC
+LOO_CORE_EXPORT std::string lgetenv(const char *varName);
+LOO_CORE_EXPORT bool lputenv(const char *varName, const QByteArray& value);
+LOO_CORE_EXPORT bool lunsetenv(const char *varName);
 
-// Just for documentation generation
-template<typename T>
-auto qOverload (T functionPointer);
-template<typename T>
-auto qConstOverload (T memberFunctionPointer);
-template<typename T>
-auto qNonConstOverload (T memberFunctionPointer);
+LOO_CORE_EXPORT bool lEnvironmentVariableIsEmpty (const char *varName) LOO_DECL_NOEXCEPT;
+LOO_CORE_EXPORT bool lEnvironmentVariableIsSet (const char *varName) LOO_DECL_NOEXCEPT;
+LOO_CORE_EXPORT int  lEnvironmentVariableIntValue (const char *varName, bool *ok = LOO_NULLPTR) LOO_DECL_NOEXCEPT;
 
-#elif defined(Q_COMPILER_VARIADIC_TEMPLATES)
-
-template <typename... Args>
-struct QNonConstOverload
-{
-	template <typename R, typename T>
-	Q_DECL_CONSTEXPR auto operator()(R (T::*ptr)(Args...)) const Q_DECL_NOTHROW -> decltype(ptr)
-	{
-		return ptr;
-	}
-
-	template <typename R, typename T>
-	static Q_DECL_CONSTEXPR auto of (R (T::*ptr)(Args...)) Q_DECL_NOTHROW -> decltype(ptr)
-	{
-		return ptr;
-	}
-};
-
-template <typename... Args>
-struct QConstOverload
-{
-	template <typename R, typename T>
-	Q_DECL_CONSTEXPR auto operator()(R (T::*ptr)(Args...) const) const Q_DECL_NOTHROW -> decltype(ptr)
-	{
-		return ptr;
-	}
-
-	template <typename R, typename T>
-	static Q_DECL_CONSTEXPR auto of (R (T::*ptr)(Args...) const) Q_DECL_NOTHROW -> decltype(ptr)
-	{
-		return ptr;
-	}
-};
-
-template <typename... Args>
-struct QOverload : QConstOverload<Args...>, QNonConstOverload<Args...>
-{
-	using QConstOverload<Args...>::of;
-	using QConstOverload<Args...>::operator();
-	using QNonConstOverload<Args...>::of;
-	using QNonConstOverload<Args...>::operator();
-
-	template <typename R>
-	Q_DECL_CONSTEXPR auto operator()(R (*ptr)(Args...)) const Q_DECL_NOTHROW -> decltype(ptr)
-	{
-		return ptr;
-	}
-
-	template <typename R>
-	static Q_DECL_CONSTEXPR auto of (R (*ptr)(Args...)) Q_DECL_NOTHROW -> decltype(ptr)
-	{
-		return ptr;
-	}
-};
-
-#if defined(__cpp_variable_templates) && __cpp_variable_templates >= 201304 // C++14
-template <typename... Args> Q_CONSTEXPR Q_DECL_UNUSED QOverload<Args...> qOverload = {};
-template <typename... Args> Q_CONSTEXPR Q_DECL_UNUSED QConstOverload<Args...> qConstOverload = {};
-template <typename... Args> Q_CONSTEXPR Q_DECL_UNUSED QNonConstOverload<Args...> qNonConstOverload = {};
-#endif
-
-#endif
-
-
-class QByteArray;
-Q_CORE_EXPORT QByteArray qgetenv (const char *varName);
-Q_CORE_EXPORT bool qputenv (const char *varName, const QByteArray& value);
-Q_CORE_EXPORT bool qunsetenv (const char *varName);
-
-Q_CORE_EXPORT bool qEnvironmentVariableIsEmpty (const char *varName) Q_DECL_NOEXCEPT;
-Q_CORE_EXPORT bool qEnvironmentVariableIsSet (const char *varName) Q_DECL_NOEXCEPT;
-Q_CORE_EXPORT int  qEnvironmentVariableIntValue (const char *varName, bool *ok = Q_NULLPTR) Q_DECL_NOEXCEPT;
-
-inline int qIntCast (double f) { return int (f); }
-inline int qIntCast (float f) { return int (f); }
+inline int lIntCast (double f) { return int (f); }
+inline int lIntCast (float f) { return int (f); }
 
 /*
   Reentrant versions of basic rand() functions for random number generation
 */
-Q_CORE_EXPORT void qsrand (uint seed);
-Q_CORE_EXPORT int qrand ();
+LOO_CORE_EXPORT void lsrand (uint seed);
+LOO_CORE_EXPORT int lrand ();
 
-#define QT_MODULE(x)
+#define LOO_MODULE(x)
 
-#if !defined(QT_BOOTSTRAPPED) && defined(QT_REDUCE_RELOCATIONS) && defined(__ELF__) && \
-    (!defined(__PIC__) || (defined(__PIE__) && defined(Q_CC_GNU) && Q_CC_GNU >= 500))
+#if !defined(LOO_BOOTSTRAPPED) && defined(LOO_REDUCE_RELOCATIONS) && defined(__ELF__) && \
+    (!defined(__PIC__) || (defined(__PIE__) && defined(LOO_CC_GNU) && LOO_CC_GNU >= 500))
 #  error "You must build your code with position independent code if Qt was built with -reduce-relocations. "\
          "Compile your code with -fPIC (-fPIE is not enough)."
 #endif
 
-namespace QtPrivate {
+namespace LooPrivate {
 	//like std::enable_if
-	template <bool B, typename T = void> struct QEnableIf;
+	template <bool B, typename T = void> struct LooEnableIf;
 	template <typename T> struct QEnableIf<true, T> { typedef T Type; };
 
 	template <bool B, typename T, typename F> struct QConditional { typedef T Type; };
-	template <typename T, typename F> struct QConditional<false, T, F> { typedef F Type; };
+	template <typename T, typename F> struct LooConditional<false, T, F> { typedef F Type; };
 }
 LOO_NAMESPACE_END
 
