@@ -104,6 +104,14 @@
 #    endif
 #  endif
 
+#  define LOO_DECL_CONSTEXPR constexpr
+#  define LOO_DECL_RELAXED_CONSTEXPR constexpr
+#  define LOO_CONSTEXPR constexpr
+#  define LOO_RELAXED_CONSTEXPR constexpr
+
+#  define LOO_ALIGNOF(x)  alignof(x)
+#  define LOO_DECL_ALIGN(n)   alignas(n)
+
 
 
 # define LOO_NULLPTR         nullptr

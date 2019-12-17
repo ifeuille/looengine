@@ -217,9 +217,9 @@ template<> \
 LOO_DECLARE_TYPEINFO_BODY(TYPE, FLAGS)
 
 	/* Specialize QTypeInfo for QFlags<T> */
-	template<typename T> class QFlags;
+	template<typename T> class LooFlags;
 	template<typename T>
-	LOO_DECLARE_TYPEINFO_BODY (QFlags<T>, LOO_PRIMITIVE_TYPE);
+	LOO_DECLARE_TYPEINFO_BODY (LooFlags<T>, LOO_PRIMITIVE_TYPE);
 
 }
 
