@@ -46,6 +46,14 @@ namespace loo
 		{
 			std::swap (at (i), at (j));
 		}
+		inline void append (const std::string& s)
+		{
+			push_back (s);
+		}
+		inline void prepend (const std::string& s)
+		{
+			insert (begin (), s);
+		}
 	private:
 		inline const int accumulatedSize (int seplen)const;
 
@@ -185,8 +193,8 @@ namespace loo
 		long long result = std::strtoll (nptr, &endptr2, base);
 		if (endptr)
 			*endptr = endptr2;
-		if ((result == 0 || result == MINLONGLONG /*std::numeric_limits<long long>::min ()*/
-			|| result == MAXLONGLONG /*std::numeric_limits<long long>::max ()*/)
+		if ((result == 0 || result == std::numeric_limits<long long>::min ()
+			|| result == std::numeric_limits<long long>::max ())
 			&& (errno || nptr == endptr2)) {
 			*ok = false;
 			return 0;
@@ -212,7 +220,7 @@ namespace loo
 		unsigned long long result = std::strtoull (nptr, &endptr2, base);
 		if (endptr)
 			*endptr = endptr2;
-		if ((result == 0 || result == MAXULONGLONG/*std::numeric_limits<unsigned long long>::max ()*/)
+		if ((result == 0 || result == std::numeric_limits<unsigned long long>::max ())
 			&& (errno || endptr2 == nptr)) {
 			*ok = false;
 			return 0;

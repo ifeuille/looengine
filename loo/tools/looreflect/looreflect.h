@@ -148,10 +148,10 @@ namespace loo
 		bool hasQNamespace = false;
 	};
 
-	class Moc : public Parser
+	class LooReflect : public Parser
 	{
 	public:
-		Moc ()
+		LooReflect ()
 			: noInclude (false), mustIncludeQPluginH (false)
 		{}
 

@@ -35,10 +35,10 @@ static QByteArray normalizeTypeInternal(const char *t, const char *e, bool fixSc
              ) {
             constbuf = QByteArray(t, len);
             if (is_space(t[i-1]))
-                constbuf.remove(i-1, 6);
+                constbuf.erase(i-1, 6);
             else
-                constbuf.remove(i, 5);
-            constbuf.prepend("const ");
+                constbuf.erase(i, 5);
+			constbuf = "const " + constbuf;
             t = constbuf.data();
             e = constbuf.data() + constbuf.length();
             break;
@@ -167,7 +167,7 @@ static QByteArray normalizeTypeInternal(const char *t, const char *e, bool fixSc
                 // treat const as value
             } else if (!star) {
                 // move const to the front (but not if const comes after a *)
-                result.prepend("const ");
+				result = "const " + result;
             } else {
                 // keep const after a *
                 result += "const";

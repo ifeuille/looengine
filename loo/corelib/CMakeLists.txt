@@ -14,6 +14,8 @@ include(kernel/_kernel.cmake)
 include(io/_io.cmake)
 include(global/_global.cmake)
 
+add_definitions(-DLOO_BUILD_CORELIB)
+
 #INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/Public)
 INCLUDE_DIRECTORIES(${LOO_ENGINE_INCLUDE_ROOT_DIR} ${LOO_ENGINE_PRIVATE_INCLUDE_ROOT_DIR})
 add_module()

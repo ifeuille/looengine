@@ -3,6 +3,8 @@ ${MODULE_ROOT_PATH}/global/loocompilerdetection.h
 ${MODULE_ROOT_PATH}/global/looglobal.h
 ${MODULE_ROOT_PATH}/global/loosystemdetection.h
 ${MODULE_ROOT_PATH}/global/looprocessordetection.h
+${MODULE_ROOT_PATH}/global/looflags.h
+${MODULE_ROOT_PATH}/global/lootypeinfo.h
 )
 
 

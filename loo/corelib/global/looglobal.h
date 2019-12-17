@@ -4,6 +4,13 @@
 #include <type_traits>
 #include <cstddef>
 #include <utility>
+#include <map>
+#include <vector>
+#include <list>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <algorithm>
 
 #ifndef __ASSEMBLER__
 #include <assert.h>
@@ -63,6 +70,16 @@ typedef short lint16;              /* 16 bit signed */
 typedef unsigned short luint16;    /* 16 bit unsigned */
 typedef int lint32;                /* 32 bit signed */
 typedef unsigned int luint32;      /* 32 bit unsigned */
+typedef signed long long lint64;
+typedef unsigned long long luint64;
+typedef float lfloat32;
+typedef double lreal;
+typedef long llong;
+typedef unsigned long lulong;
+typedef unsigned char luchar;
+typedef unsigned short lushort;
+
+
 
 #define LOO_DISABLE_COPY(Class) \
     Class(const Class &) = delete;\

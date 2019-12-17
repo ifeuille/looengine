@@ -54,7 +54,7 @@
 #      define LOO_CC_CLANG ((__clang_major__ * 100) + __clang_minor__)
 #    endif
 
-#    if __has_builtin(__builtin_assume)
+#	 if defined(__clang__)
 #      define LOO_ASSUME_IMPL(expr)   __builtin_assume(expr)
 #    else
 #      define LOO_ASSUME_IMPL(expr)  if (expr){} else __builtin_unreachable()
@@ -92,9 +92,11 @@
 #  define LOO_DECL_COLD_FUNCTION __attribute__((cold))
 
 
-#  if __has_feature(attribute_deprecated_with_message)
+#	 if defined(__clang__)
 #    define LOO_DECL_DEPRECATED_X(text) __attribute__ ((__deprecated__(text)))
-#  endif
+#    else
+#	 define LOO_DECL_DEPRECATED_X( MESSAGE) __declspec(deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile."))
+#    endif
 
 #  if defined(__has_warning)
 #    if __has_warning("-Wunused-private-field")
@@ -104,7 +106,7 @@
 
 
 
-
+# define LOO_NULLPTR         nullptr
 
 
 

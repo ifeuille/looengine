@@ -1,7 +1,7 @@
 #ifndef LOOREFLECT_UTILS_H
 #define LOOREFLECT_UTILS_H
 typedef std::string QByteArray;
-
+#define LOO_FALLTHROUGH() (void)0
 namespace loo
 {
 
@@ -128,6 +128,20 @@ namespace loo
 	inline std::string str_left (const std::string& s, std::size_t len)
 	{
 		return s.substr (0, len);
+	}
+
+	template<typename T>
+	inline void vector_chop (T& v, int n)
+	{
+		if (n > 0)
+		{
+			int newSize = v.size () - n;
+			if (newSize < 0)
+			{
+				newSize = 0;
+			}
+			v.resize (newSize);
+		}
 	}
 }
 

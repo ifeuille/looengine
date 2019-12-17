@@ -58,7 +58,7 @@ namespace loo
     F(INLINE) \
     F(EXPLICIT) \
     F(STATIC) \
-    F(CONST) \
+    F(LOO_CONST) \
     F(VOLATILE) \
     F(OPERATOR) \
     F(SIZEOF) \
@@ -107,7 +107,7 @@ namespace loo
     F(UNSIGNED) \
     F(FLOAT) \
     F(DOUBLE) \
-    F(VOID) \
+    F(LOO_VOID) \
     F(CASE) \
     F(DEFAULT) \
     F(IF) \
@@ -136,21 +136,21 @@ namespace loo
     F(LOO_DECLARE_FLAGS_TOKEN) \
     F(LOO_DECLARE_INTERFACE_TOKEN) \
     F(LOO_DECLARE_METATYPE_TOKEN) \
-    F(v_CLASSINFO_TOKEN) \
+    F(LOO_CLASSINFO_TOKEN) \
     F(LOO_INTERFACES_TOKEN) \
     F(LOO_SIGNALS_TOKEN) \
     F(LOO_SLOTS_TOKEN) \
     F(LOO_SIGNAL_TOKEN) \
     F(LOO_SLOT_TOKEN) \
     F(LOO_PRIVATE_SLOT_TOKEN) \
-    F(LOO_MOC_COMPAT_TOKEN) \
+    F(LOO_REFLECT_COMPAT_TOKEN) \
     F(LOO_INVOKABLE_TOKEN) \
     F(LOO_SCRIPTABLE_TOKEN) \
     F(LOO_PRIVATE_PROPERTY_TOKEN) \
     F(LOO_REVISION_TOKEN) \
     F(SPECIAL_TREATMENT_MARK) \
-    F(MOC_INCLUDE_BEGIN) \
-    F(MOC_INCLUDE_END) \
+    F(LOO_INCLUDE_BEGIN) \
+    F(LOO_INCLUDE_END) \
     F(CPP_COMMENT) \
     F(C_COMMENT) \
     F(FLOATING_LITERAL) \
@@ -177,8 +177,8 @@ namespace loo
     F(PP_HASH) \
     F(PP_DEFINED) \
     F(PP_INCOMPLETE) \
-    F(PP_MOC_TRUE) \
-    F(PP_MOC_FALSE)
+    F(PP_LOO_TRUE) \
+    F(PP_LOO_FALSE)
 
 enum Token {
 #define CREATE_ENUM_VALUE(Name) Name,

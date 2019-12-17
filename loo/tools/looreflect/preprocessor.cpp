@@ -4,7 +4,6 @@
 #include <array>
 #include "ghc/fs_utils.hpp"
 
-#define LOO_FALLTHROUGH() (void)0
 
 namespace loo
 {
