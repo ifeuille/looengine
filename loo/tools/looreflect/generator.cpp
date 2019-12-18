@@ -8,7 +8,8 @@
 #include <LooCore/loometaobject.h>
 #include <algorithm>
 
-#include <private/pmetaobject_p.h>
+#include <Private/loometaobject_p.h>
+
 
 namespace loo
 {
@@ -45,8 +46,8 @@ namespace loo
 		return 0;
 	}
 
-	Generator::Generator (ClassDef *classDef, const std::vector<QByteArray> &metaTypes, const std::unordered_map<QByteArray, QByteArray> &knownQObjectClasses, const std::unordered_map<QByteArray, QByteArray> &knownGadgets, FILE *outfile)
-		: out (outfile), cdef (classDef), metaTypes (metaTypes), knownQObjectClasses (knownQObjectClasses)
+	Generator::Generator (ClassDef *classDef, const std::vector<QByteArray> &metaTypes, const std::unordered_map<QByteArray, QByteArray> &knownLooObjectClasses, const std::unordered_map<QByteArray, QByteArray> &knownGadgets, FILE *outfile)
+		: out (outfile), cdef (classDef), metaTypes (metaTypes), knownLooObjectClasses (knownLooObjectClasses)
 		, knownGadgets (knownGadgets)
 	{
 		if (cdef->superclassList.size ())
@@ -114,9 +115,9 @@ namespace loo
 			QByteArray objectPointerType = propertyType;
 			// The objects container stores class names, such as 'QState', 'QLabel' etc,
 			// not 'QState*', 'QLabel*'. The propertyType does contain the '*', so we need
-			// to chop it to find the class type in the known QObjects list.
+			// to chop it to find the class type in the known LooObjects list.
 			container_chop (objectPointerType, 1);
-			if (knownQObjectClasses.find (objectPointerType) != knownQObjectClasses.end ())
+			if (knownLooObjectClasses.find (objectPointerType) != knownLooObjectClasses.end ())
 				return true;
 		}
 		static const std::vector<QByteArray> smartPointers = std::vector<QByteArray> ()
@@ -128,7 +129,7 @@ namespace loo
 		for (const QByteArray &smartPointer : smartPointers) {
 			if (string_startwith (propertyType, smartPointer + "<") && !string_endwith (propertyType, "&"))
 			{
-				return knownQObjectClasses.find (propertyType.substr (smartPointer.size () + 1, propertyType.size () - smartPointer.size () - 1 - 1)) != knownQObjectClasses.end ();
+				return knownLooObjectClasses.find (propertyType.substr (smartPointer.size () + 1, propertyType.size () - smartPointer.size () - 1 - 1)) != knownLooObjectClasses.end ();
 			}		
 		}
 
@@ -167,7 +168,7 @@ namespace loo
 	void Generator::generateCode ()
 	{
 		bool isQt = (cdef->classname == "Loo");
-		bool isQObject = (cdef->classname == "LooObject");
+		bool isLooObject = (cdef->classname == "LooObject");
 		bool isConstructible = !cdef->constructorList.empty ();
 
 		// filter out undeclared enumerators and sets
@@ -313,14 +314,14 @@ namespace loo
 
 		// Terminate stringdata struct
 		fprintf (out, "\"\n};\n");
-		fprintf (out, "#undef QT_MOC_LITERAL\n\n");
+		fprintf (out, "#undef LOO_MOC_LITERAL\n\n");
 
 		//
 		// build the data array
 		//
 
 		int index = MetaObjectPrivateFieldCount;
-		fprintf (out, "static const uint qt_meta_data_%s[] = {\n", qualifiedClassNameIdentifier.data ());
+		fprintf (out, "static const std::uint32_t loo_meta_data_%s[] = {\n", qualifiedClassNameIdentifier.data ());
 		fprintf (out, "\n // content:\n");
 		fprintf (out, "    %4d,       // revision\n", int (7));
 		fprintf (out, "    %4d,       // classname\n", stridx (cdef->qualified));
@@ -358,7 +359,7 @@ namespace loo
 		int flags = 0;
 		if (cdef->hasQGadget) {
 			// Ideally, all the classes could have that flag. But this broke classes generated
-			// by qdbusxml2cpp which generate code that require that we call qt_metacall for properties
+			// by qdbusxml2cpp which generate code that require that we call loo_metacall for properties
 			flags |= PropertyAccessInStaticMetaCall;
 		}
 		fprintf (out, "    %4d,       // flags\n", flags);
@@ -425,78 +426,82 @@ namespace loo
 		fprintf (out, "\n       0        // eod\n};\n\n");
 
 		//
-		// Generate internal qt_static_metacall() function
+		// Generate internal loo_static_metacall() function
 		//
 		const bool hasStaticMetaCall = !isQt &&
-			(cdef->hasQObject || !cdef->methodList.isEmpty ()
-				|| !cdef->propertyList.isEmpty () || !cdef->constructorList.isEmpty ());
+			(cdef->hasLooObject || !cdef->methodList.empty ()
+				|| !cdef->propertyList.empty () || !cdef->constructorList.empty ());
 		if (hasStaticMetaCall)
 			generateStaticMetacall ();
 
 		//
 		// Build extra array
 		//
-		QList<QByteArray> extraList;
-		QHash<QByteArray, QByteArray> knownExtraMetaObject = knownGadgets;
-		knownExtraMetaObject.unite (knownQObjectClasses);
+		std::vector<QByteArray> extraList;
+		std::unordered_map<QByteArray, QByteArray> knownExtraMetaObject = knownGadgets;
+		knownExtraMetaObject.insert(knownLooObjectClasses.begin(), knownLooObjectClasses.end());
 
 		for (int i = 0; i < cdef->propertyList.size(); ++i) {
 			const PropertyDef &p = cdef->propertyList.at (i);
 			if (isBuiltinType (p.type))
 				continue;
 
-			if (p.type.contains ('*') || p.type.contains ('<') || p.type.contains ('>'))
+			if (container_contains(p.type, '*') ||
+				container_contains(p.type, '<') ||
+				container_contains(p.type, '>'))
+			{
 				continue;
+			}
 
-			int s = p.type.lastIndexOf ("::");
+			int s = p.type.find_last_of ("::");
 			if (s <= 0)
 				continue;
 
-			QByteArray unqualifiedScope = p.type.left (s);
+			QByteArray unqualifiedScope = string_left(p.type, s);
 
-			// The scope may be a namespace for example, so it's only safe to include scopes that are known QObjects (QTBUG-2151)
-			QHash<QByteArray, QByteArray>::ConstIterator scopeIt;
+			// The scope may be a namespace for example, so it's only safe to include scopes that are known LooObjects (QTBUG-2151)
+			std::unordered_map<QByteArray, QByteArray>::const_iterator scopeIt;
 
 			QByteArray thisScope = cdef->qualified;
 			do {
-				int s = thisScope.lastIndexOf ("::");
-				thisScope = thisScope.left (s);
-				QByteArray currentScope = thisScope.isEmpty () ? unqualifiedScope : thisScope + "::" + unqualifiedScope;
-				scopeIt = knownExtraMetaObject.constFind (currentScope);
-			} while (!thisScope.isEmpty () && scopeIt == knownExtraMetaObject.constEnd ());
+				int s = thisScope.find_last_of ("::");
+				thisScope = string_left(thisScope, s); 
+				QByteArray currentScope = thisScope.empty () ? unqualifiedScope : thisScope + "::" + unqualifiedScope;
+				scopeIt = knownExtraMetaObject.find (currentScope);
+			} while (!thisScope.empty () && scopeIt == knownExtraMetaObject.end ());
 
-			if (scopeIt == knownExtraMetaObject.constEnd ())
+			if (scopeIt == knownExtraMetaObject.end ())
 				continue;
 
-			const QByteArray &scope = *scopeIt;
+			const QByteArray &scope = scopeIt->second;
 
-			if (scope == "Qt")
+			if (scope == "Loo")
 				continue;
 			if (qualifiedNameEquals (cdef->qualified, scope))
 				continue;
 
-			if (!extraList.contains (scope))
-				extraList += scope;
+			if (!container_contains(extraList, scope))
+				extraList.push_back(scope);
 		}
 
 		// QTBUG-20639 - Accept non-local enums for QML signal/slot parameters.
 		// Look for any scoped enum declarations, and add those to the list
 		// of extra/related metaobjects for this object.
-		for (auto it = cdef->enumDeclarations.keyBegin (),
-			end = cdef->enumDeclarations.keyEnd (); it != end; ++it) {
-			const QByteArray &enumKey = *it;
-			int s = enumKey.lastIndexOf ("::");
+		for (auto it = cdef->enumDeclarations.begin (),
+			end = cdef->enumDeclarations.end (); it != end; ++it) {
+			const QByteArray &enumKey = it->first;
+			int s = enumKey.find_last_of ("::");
 			if (s > 0) {
-				QByteArray scope = enumKey.left (s);
-				if (scope != "Qt" && !qualifiedNameEquals (cdef->qualified, scope) && !extraList.contains (scope))
-					extraList += scope;
+				QByteArray scope = string_left(enumKey, s);
+				if (scope != "Loo" && !qualifiedNameEquals (cdef->qualified, scope) && !container_contains(extraList,scope))
+					extraList.push_back(scope);
 			}
 		}
 
-		if (!extraList.isEmpty ()) {
-			fprintf (out, "static const QMetaObject * const qt_meta_extradata_%s[] = {\n    ", qualifiedClassNameIdentifier.constData ());
+		if (!extraList.empty ()) {
+			fprintf (out, "static const LooMetaObject * const loo_meta_extradata_%s[] = {\n    ", qualifiedClassNameIdentifier.data ());
 			for (int i = 0; i < extraList.size(); ++i) {
-				fprintf (out, "    &%s::staticMetaObject,\n", extraList.at (i).constData ());
+				fprintf (out, "    &%s::staticMetaObject,\n", extraList[i].data ());
 			}
 			fprintf (out, "    nullptr\n};\n\n");
 		}
@@ -505,66 +510,66 @@ namespace loo
 		// Finally create and initialize the static meta object
 		//
 		if (isQt)
-			fprintf (out, "const QMetaObject QObject::staticQtMetaObject = {\n");
+			fprintf (out, "const LooMetaObject LooObject::staticQtMetaObject = {\n");
 		else
-			fprintf (out, "const QMetaObject %s::staticMetaObject = {\n", cdef->qualified.constData ());
+			fprintf (out, "const LooMetaObject %s::staticMetaObject = {\n", cdef->qualified.data ());
 
-		if (isQObject)
+		if (isLooObject)
 			fprintf (out, "    { nullptr, ");
-		else if (cdef->superclassList.size () && (!cdef->hasQGadget || knownGadgets.contains (purestSuperClass)))
-			fprintf (out, "    { &%s::staticMetaObject, ", purestSuperClass.constData ());
+		else if (cdef->superclassList.size () && (!cdef->hasQGadget || knownGadgets.find (purestSuperClass) != knownGadgets.end()))
+			fprintf (out, "    { &%s::staticMetaObject, ", purestSuperClass.data ());
 		else
 			fprintf (out, "    { nullptr, ");
-		fprintf (out, "qt_meta_stringdata_%s.data,\n"
-			"      qt_meta_data_%s, ", qualifiedClassNameIdentifier.constData (),
-			qualifiedClassNameIdentifier.constData ());
+		fprintf (out, "loo_meta_stringdata_%s.data,\n"
+			"      loo_meta_data_%s, ", qualifiedClassNameIdentifier.data (),
+			qualifiedClassNameIdentifier.data ());
 		if (hasStaticMetaCall)
-			fprintf (out, " qt_static_metacall, ");
+			fprintf (out, " loo_static_metacall, ");
 		else
 			fprintf (out, " nullptr, ");
 
-		if (extraList.isEmpty ())
+		if (extraList.empty ())
 			fprintf (out, "nullptr, ");
 		else
-			fprintf (out, "qt_meta_extradata_%s, ", qualifiedClassNameIdentifier.constData ());
+			fprintf (out, "loo_meta_extradata_%s, ", qualifiedClassNameIdentifier.data ());
 		fprintf (out, "nullptr}\n};\n\n");
 
 		if (isQt)
 			return;
 
-		if (!cdef->hasQObject)
+		if (!cdef->hasLooObject)
 			return;
 
-		fprintf (out, "\nconst QMetaObject *%s::metaObject() const\n{\n    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;\n}\n",
-			cdef->qualified.constData ());
+		fprintf (out, "\nconst LooMetaObject *%s::metaObject() const\n{\n    return LooObject::d_ptr->metaObject ? LooObject::d_ptr->dynamicMetaObject() : &staticMetaObject;\n}\n",
+			cdef->qualified.data ());
 
 		//
 		// Generate smart cast function
 		//
-		fprintf (out, "\nvoid *%s::qt_metacast(const char *_clname)\n{\n", cdef->qualified.constData ());
+		fprintf (out, "\nvoid *%s::loo_metacast(const char *_clname)\n{\n", cdef->qualified.data ());
 		fprintf (out, "    if (!_clname) return nullptr;\n");
-		fprintf (out, "    if (!strcmp(_clname, qt_meta_stringdata_%s.stringdata0))\n"
+		fprintf (out, "    if (!strcmp(_clname, loo_meta_stringdata_%s.stringdata0))\n"
 			"        return static_cast<void*>(this);\n",
-			qualifiedClassNameIdentifier.constData ());
+			qualifiedClassNameIdentifier.data ());
 		for (int i = 1; i < cdef->superclassList.size (); ++i) { // for all superclasses but the first one
 			if (cdef->superclassList.at (i).second == FunctionDef::Private)
 				continue;
-			const char *cname = cdef->superclassList.at (i).first.constData ();
+			const char *cname = cdef->superclassList.at (i).first.data ();
 			fprintf (out, "    if (!strcmp(_clname, \"%s\"))\n        return static_cast< %s*>(this);\n",
 				cname, cname);
 		}
 		for (int i = 0; i < cdef->interfaceList.size (); ++i) {
-			const QVector<ClassDef::Interface> &iface = cdef->interfaceList.at (i);
+			const std::vector<ClassDef::Interface> &iface = cdef->interfaceList.at (i);
 			for (int j = 0; j < iface.size (); ++j) {
-				fprintf (out, "    if (!strcmp(_clname, %s))\n        return ", iface.at (j).interfaceId.constData ());
+				fprintf (out, "    if (!strcmp(_clname, %s))\n        return ", iface.at (j).interfaceId.data ());
 				for (int k = j; k >= 0; --k)
-					fprintf (out, "static_cast< %s*>(", iface.at (k).className.constData ());
-				fprintf (out, "this%s;\n", QByteArray (j + 1, ')').constData ());
+					fprintf (out, "static_cast< %s*>(", iface.at (k).className.data ());
+				fprintf (out, "this%s;\n", QByteArray (j + 1, ')').data ());
 			}
 		}
-		if (!purestSuperClass.isEmpty () && !isQObject) {
+		if (!purestSuperClass.empty () && !isLooObject) {
 			QByteArray superClass = purestSuperClass;
-			fprintf (out, "    return %s::qt_metacast(_clname);\n", superClass.constData ());
+			fprintf (out, "    return %s::loo_metacast(_clname);\n", superClass.data ());
 		}
 		else {
 			fprintf (out, "    return nullptr;\n");
@@ -572,7 +577,7 @@ namespace loo
 		fprintf (out, "}\n");
 
 		//
-		// Generate internal qt_metacall()  function
+		// Generate internal loo_metacall()  function
 		//
 		generateMetacall ();
 
@@ -598,5 +603,1073 @@ namespace loo
 		}
 	}
 
+	void Generator::generateClassInfos()
+	{
+		if (cdef->classInfoList.empty())
+			return;
+
+		fprintf(out, "\n // classinfo: key, value\n");
+
+		for (int i = 0; i < cdef->classInfoList.size(); ++i) {
+			const ClassInfoDef &c = cdef->classInfoList.at(i);
+			fprintf(out, "    %4d, %4d,\n", stridx(c.name), stridx(c.value));
+		}
+	}
+
+	void Generator::registerFunctionStrings(const std::vector<FunctionDef>& list)
+	{
+		for (int i = 0; i < list.size(); ++i) {
+			const FunctionDef &f = list.at(i);
+
+			strreg(f.name);
+			if (!isBuiltinType(f.normalizedType))
+				strreg(f.normalizedType);
+			strreg(f.tag);
+
+			int argsCount = f.arguments.size();
+			for (int j = 0; j < argsCount; ++j) {
+				const ArgumentDef &a = f.arguments.at(j);
+				if (!isBuiltinType(a.normalizedType))
+					strreg(a.normalizedType);
+				strreg(a.name);
+			}
+		}
+	}
+
+
+	void Generator::registerByteArrayVector(const std::vector<QByteArray> &list)
+	{
+		for (const QByteArray &ba : list)
+			strreg(ba);
+	}
+
+	void Generator::generateFunctions(const std::vector<FunctionDef>& list, const char *functype, int type, int &paramsIndex)
+	{
+		if (list.empty())
+			return;
+		fprintf(out, "\n // %ss: name, argc, parameters, tag, flags\n", functype);
+
+		for (int i = 0; i < list.size(); ++i) {
+			const FunctionDef &f = list.at(i);
+
+			QByteArray comment;
+			unsigned char flags = type;
+			if (f.access == FunctionDef::Private) {
+				flags |= AccessPrivate;
+				comment.append("Private");
+			}
+			else if (f.access == FunctionDef::Public) {
+				flags |= AccessPublic;
+				comment.append("Public");
+			}
+			else if (f.access == FunctionDef::Protected) {
+				flags |= AccessProtected;
+				comment.append("Protected");
+			}
+			if (f.isCompat) {
+				flags |= MethodCompatibility;
+				comment.append(" | MethodCompatibility");
+			}
+			if (f.wasCloned) {
+				flags |= MethodCloned;
+				comment.append(" | MethodCloned");
+			}
+			if (f.isScriptable) {
+				flags |= MethodScriptable;
+				comment.append(" | isScriptable");
+			}
+			if (f.revision > 0) {
+				flags |= MethodRevisioned;
+				comment.append(" | MethodRevisioned");
+			}
+
+			int argc = f.arguments.size();
+			fprintf(out, "    %4d, %4d, %4d, %4d, 0x%02x /* %s */,\n",
+				stridx(f.name), argc, paramsIndex, stridx(f.tag), flags, comment.data());
+
+			paramsIndex += 1 + argc * 2;
+		}
+	}
+
+
+	void Generator::generateFunctionRevisions(const std::vector<FunctionDef>& list, const char *functype)
+	{
+		if (list.size())
+			fprintf(out, "\n // %ss: revision\n", functype);
+		for (int i = 0; i < list.size(); ++i) {
+			const FunctionDef &f = list.at(i);
+			fprintf(out, "    %4d,\n", f.revision);
+		}
+	}
+
+	void Generator::generateFunctionParameters(const std::vector<FunctionDef>& list, const char *functype)
+	{
+		if (list.empty())
+			return;
+		fprintf(out, "\n // %ss: parameters\n", functype);
+		for (int i = 0; i < list.size(); ++i) {
+			const FunctionDef &f = list.at(i);
+			fprintf(out, "    ");
+
+			// Types
+			int argsCount = f.arguments.size();
+			for (int j = -1; j < argsCount; ++j) {
+				if (j > -1)
+					fputc(' ', out);
+				const QByteArray &typeName = (j < 0) ? f.normalizedType : f.arguments.at(j).normalizedType;
+				generateTypeInfo(typeName, /*allowEmptyName=*/f.isConstructor);
+				fputc(',', out);
+			}
+
+			// Parameter names
+			for (int j = 0; j < argsCount; ++j) {
+				const ArgumentDef &arg = f.arguments.at(j);
+				fprintf(out, " %4d,", stridx(arg.name));
+			}
+
+			fprintf(out, "\n");
+		}
+	}
+
+
+	void Generator::generateTypeInfo(const QByteArray &typeName, bool allowEmptyName)
+	{
+		LOO_UNUSED(allowEmptyName);
+		if (isBuiltinType(typeName)) {
+			int type;
+			const char *valueString;
+			if (typeName == "lreal") {
+				type = LooMetaType::UnknownType;
+				valueString = "LReal";
+			}
+			else {
+				type = nameToBuiltinType(typeName);
+				valueString = metaTypeEnumValueString(type);
+			}
+			if (valueString) {
+				fprintf(out, "LooMetaType::%s", valueString);
+			}
+			else {
+				LOO_ASSERT(type != LooMetaType::UnknownType);
+				fprintf(out, "%4d", type);
+			}
+		}
+		else {
+			LOO_ASSERT(!typeName.empty() || allowEmptyName);
+			fprintf(out, "0x%.8x | %d", IsUnresolvedType, stridx(typeName));
+		}
+	}
+
+	void Generator::registerPropertyStrings()
+	{
+		for (int i = 0; i < cdef->propertyList.size(); ++i) {
+			const PropertyDef &p = cdef->propertyList.at(i);
+			strreg(p.name);
+			if (!isBuiltinType(p.type))
+				strreg(p.type);
+		}
+	}
+
+	void Generator::generateProperties()
+	{
+		//
+		// Create meta data
+		//
+
+		if (cdef->propertyList.size())
+			fprintf(out, "\n // properties: name, type, flags\n");
+		for (int i = 0; i < cdef->propertyList.size(); ++i) {
+			const PropertyDef &p = cdef->propertyList.at(i);
+			std::uint32_t flags = Invalid;
+			if (!isBuiltinType(p.type))
+				flags |= EnumOrFlag;
+			if (!p.member.empty() && !p.constant)
+				flags |= Writable;
+			if (!p.read.empty() || !p.member.empty())
+				flags |= Readable;
+			if (!p.write.empty()) {
+				flags |= Writable;
+				if (p.stdCppSet())
+					flags |= StdCppSet;
+			}
+			if (!p.reset.empty())
+				flags |= Resettable;
+
+			//         if (p.override)
+			//             flags |= Override;
+
+			if (p.designable.empty())
+				flags |= ResolveDesignable;
+			else if (p.designable != "false")
+				flags |= Designable;
+
+			if (p.scriptable.empty())
+				flags |= ResolveScriptable;
+			else if (p.scriptable != "false")
+				flags |= Scriptable;
+
+			if (p.stored.empty())
+				flags |= ResolveStored;
+			else if (p.stored != "false")
+				flags |= Stored;
+
+			if (p.editable.empty())
+				flags |= ResolveEditable;
+			else if (p.editable != "false")
+				flags |= Editable;
+
+			if (p.user.empty())
+				flags |= ResolveUser;
+			else if (p.user != "false")
+				flags |= User;
+
+			if (p.notifyId != -1)
+				flags |= Notify;
+
+			if (p.revision > 0)
+				flags |= Revisioned;
+
+			if (p.constant)
+				flags |= Constant;
+			if (p.final)
+				flags |= Final;
+
+			fprintf(out, "    %4d, ", stridx(p.name));
+			generateTypeInfo(p.type);
+			fprintf(out, ", 0x%.8x,\n", flags);
+		}
+
+		if (cdef->notifyableProperties) {
+			fprintf(out, "\n // properties: notify_signal_id\n");
+			for (int i = 0; i < cdef->propertyList.size(); ++i) {
+				const PropertyDef &p = cdef->propertyList.at(i);
+				if (p.notifyId == -1) {
+					fprintf(out, "    %4d,\n",
+						0);
+				}
+				else if (p.notifyId > -1) {
+					fprintf(out, "    %4d,\n",
+						p.notifyId);
+				}
+				else {
+					const int indexInStrings = GetIndexOf(strings, p.notify);
+					fprintf(out, "    %4d,\n",
+						indexInStrings | IsUnresolvedSignal);
+				}
+			}
+		}
+		if (cdef->revisionedProperties) {
+			fprintf(out, "\n // properties: revision\n");
+			for (int i = 0; i < cdef->propertyList.size(); ++i) {
+				const PropertyDef &p = cdef->propertyList.at(i);
+				fprintf(out, "    %4d,\n", p.revision);
+			}
+		}
+	}
+
+	void Generator::registerEnumStrings()
+	{
+		for (int i = 0; i < cdef->enumList.size(); ++i) {
+			const EnumDef &e = cdef->enumList.at(i);
+			strreg(e.name);
+			if (!e.enumName.isNull())
+				strreg(e.enumName);
+			for (int j = 0; j < e.values.size(); ++j)
+				strreg(e.values.at(j));
+		}
+	}
+
+	void Generator::generateEnums(int index)
+	{
+		if (cdef->enumDeclarations.empty())
+			return;
+
+		fprintf(out, "\n // enums: name, alias, flags, count, data\n");
+		index += 5 * cdef->enumList.size();
+		int i;
+		for (i = 0; i < cdef->enumList.size(); ++i) {
+			const EnumDef &e = cdef->enumList.at(i);
+			int flags = 0;
+			if (cdef->enumDeclarations.value(e.name))
+				flags |= EnumIsFlag;
+			if (e.isEnumClass)
+				flags |= EnumIsScoped;
+			fprintf(out, "    %4d, %4d, 0x%.1x, %4d, %4d,\n",
+				stridx(e.name),
+				e.enumName.isNull() ? stridx(e.name) : stridx(e.enumName),
+				flags,
+				e.values.size(),
+				index);
+			index += e.values.size() * 2;
+		}
+
+		fprintf(out, "\n // enum data: key, value\n");
+		for (i = 0; i < cdef->enumList.size(); ++i) {
+			const EnumDef &e = cdef->enumList.at(i);
+			for (int j = 0; j < e.values.size(); ++j) {
+				const QByteArray &val = e.values.at(j);
+				QByteArray code = cdef->qualified.data();
+				if (e.isEnumClass)
+					code += "::" + (e.enumName.isNull() ? e.name : e.enumName);
+				code += "::" + val;
+				fprintf(out, "    %4d, std::uint32_t(%s),\n",
+					stridx(val), code.data());
+			}
+		}
+	}
+
+	void Generator::generateMetacall()
+	{
+		bool isLooObject = (cdef->classname == "LooObject");
+
+		fprintf(out, "\nint %s::loo_metacall(LooMetaObject::Call _c, int _id, void **_a)\n{\n",
+			cdef->qualified.data());
+
+		if (!purestSuperClass.empty() && !isLooObject) {
+			QByteArray superClass = purestSuperClass;
+			fprintf(out, "    _id = %s::loo_metacall(_c, _id, _a);\n", superClass.data());
+		}
+
+
+		bool needElse = false;
+		std::vector<FunctionDef> methodList;
+		methodList.insert(methodList.end(), cdef->signalList.begin(), cdef->signalList.end());
+		methodList.insert(methodList.end(), cdef->slotList.begin(), cdef->slotList.end());
+		methodList.insert(methodList.end(), cdef->methodList.begin(), cdef->methodList.end());
+
+		// If there are no methods or properties, we will return _id anyway, so
+		// don't emit this comparison -- it is unnecessary, and it makes coverity
+		// unhappy.
+		if (methodList.size() || cdef->propertyList.size()) {
+			fprintf(out, "    if (_id < 0)\n        return _id;\n");
+		}
+
+		fprintf(out, "    ");
+
+		if (methodList.size()) {
+			needElse = true;
+			fprintf(out, "if (_c == LooMetaObject::InvokeMetaMethod) {\n");
+			fprintf(out, "        if (_id < %d)\n", methodList.size());
+			fprintf(out, "            loo_static_metacall(this, _c, _id, _a);\n");
+			fprintf(out, "        _id -= %d;\n    }", methodList.size());
+
+			fprintf(out, " else if (_c == LooMetaObject::RegisterMethodArgumentMetaType) {\n");
+			fprintf(out, "        if (_id < %d)\n", methodList.size());
+
+			if (methodsWithAutomaticTypesHelper(methodList).empty())
+				fprintf(out, "            *reinterpret_cast<int*>(_a[0]) = -1;\n");
+			else
+				fprintf(out, "            loo_static_metacall(this, _c, _id, _a);\n");
+			fprintf(out, "        _id -= %d;\n    }", methodList.size());
+
+		}
+
+		if (cdef->propertyList.size()) {
+			bool needDesignable = false;
+			bool needScriptable = false;
+			bool needStored = false;
+			bool needEditable = false;
+			bool needUser = false;
+			for (int i = 0; i < cdef->propertyList.size(); ++i) {
+				const PropertyDef &p = cdef->propertyList.at(i);
+				needDesignable |= string_endwith(p.designable,')');
+				needScriptable |= string_endwith(p.scriptable,')');
+				needStored |= string_endwith(p.stored, ')');
+				needEditable |= string_endwith(p.editable, ')');
+				needUser |= string_endwith(p.user, ')');
+			}
+
+			fprintf(out, "\n#ifndef LOO_NO_PROPERTIES\n    ");
+			if (needElse)
+				fprintf(out, "else ");
+			fprintf(out,
+				"if (_c == LooMetaObject::ReadProperty || _c == LooMetaObject::WriteProperty\n"
+				"            || _c == LooMetaObject::ResetProperty || _c == LooMetaObject::RegisterPropertyMetaType) {\n"
+				"        loo_static_metacall(this, _c, _id, _a);\n"
+				"        _id -= %d;\n    }", cdef->propertyList.size());
+
+			fprintf(out, " else ");
+			fprintf(out, "if (_c == LooMetaObject::QueryPropertyDesignable) {\n");
+			if (needDesignable) {
+				fprintf(out, "        bool *_b = reinterpret_cast<bool*>(_a[0]);\n");
+				fprintf(out, "        switch (_id) {\n");
+				for (int propindex = 0; propindex < cdef->propertyList.size(); ++propindex) {
+					const PropertyDef &p = cdef->propertyList.at(propindex);
+					if (!string_endwith(p.designable,')'))
+						continue;
+					fprintf(out, "        case %d: *_b = %s; break;\n",
+						propindex, p.designable.data());
+				}
+				fprintf(out, "        default: break;\n");
+				fprintf(out, "        }\n");
+			}
+			fprintf(out,
+				"        _id -= %d;\n"
+				"    }", cdef->propertyList.size());
+
+			fprintf(out, " else ");
+			fprintf(out, "if (_c == LooMetaObject::QueryPropertyScriptable) {\n");
+			if (needScriptable) {
+				fprintf(out, "        bool *_b = reinterpret_cast<bool*>(_a[0]);\n");
+				fprintf(out, "        switch (_id) {\n");
+				for (int propindex = 0; propindex < cdef->propertyList.size(); ++propindex) {
+					const PropertyDef &p = cdef->propertyList.at(propindex);
+					if (!string_endwith(p.scriptable, ')'))
+						continue;
+					fprintf(out, "        case %d: *_b = %s; break;\n",
+						propindex, p.scriptable.data());
+				}
+				fprintf(out, "        default: break;\n");
+				fprintf(out, "        }\n");
+			}
+			fprintf(out,
+				"        _id -= %d;\n"
+				"    }", cdef->propertyList.size());
+
+			fprintf(out, " else ");
+			fprintf(out, "if (_c == LooMetaObject::QueryPropertyStored) {\n");
+			if (needStored) {
+				fprintf(out, "        bool *_b = reinterpret_cast<bool*>(_a[0]);\n");
+				fprintf(out, "        switch (_id) {\n");
+				for (int propindex = 0; propindex < cdef->propertyList.size(); ++propindex) {
+					const PropertyDef &p = cdef->propertyList.at(propindex);
+					if (!string_endwith(p.stored, ')'))
+						continue;
+					fprintf(out, "        case %d: *_b = %s; break;\n",
+						propindex, p.stored.data());
+				}
+				fprintf(out, "        default: break;\n");
+				fprintf(out, "        }\n");
+			}
+			fprintf(out,
+				"        _id -= %d;\n"
+				"    }", cdef->propertyList.size());
+
+			fprintf(out, " else ");
+			fprintf(out, "if (_c == LooMetaObject::QueryPropertyEditable) {\n");
+			if (needEditable) {
+				fprintf(out, "        bool *_b = reinterpret_cast<bool*>(_a[0]);\n");
+				fprintf(out, "        switch (_id) {\n");
+				for (int propindex = 0; propindex < cdef->propertyList.size(); ++propindex) {
+					const PropertyDef &p = cdef->propertyList.at(propindex);
+					if (!string_endwith(p.editable,')'))
+						continue;
+					fprintf(out, "        case %d: *_b = %s; break;\n",
+						propindex, p.editable.data());
+				}
+				fprintf(out, "        default: break;\n");
+				fprintf(out, "        }\n");
+			}
+			fprintf(out,
+				"        _id -= %d;\n"
+				"    }", cdef->propertyList.size());
+
+
+			fprintf(out, " else ");
+			fprintf(out, "if (_c == LooMetaObject::QueryPropertyUser) {\n");
+			if (needUser) {
+				fprintf(out, "        bool *_b = reinterpret_cast<bool*>(_a[0]);\n");
+				fprintf(out, "        switch (_id) {\n");
+				for (int propindex = 0; propindex < cdef->propertyList.size(); ++propindex) {
+					const PropertyDef &p = cdef->propertyList.at(propindex);
+					if (!string_endwith(p.user, ')'))
+						continue;
+					fprintf(out, "        case %d: *_b = %s; break;\n",
+						propindex, p.user.data());
+				}
+				fprintf(out, "        default: break;\n");
+				fprintf(out, "        }\n");
+			}
+			fprintf(out,
+				"        _id -= %d;\n"
+				"    }", cdef->propertyList.size());
+
+			fprintf(out, "\n#endif // LOO_NO_PROPERTIES");
+		}
+		if (methodList.size() || cdef->propertyList.size())
+			fprintf(out, "\n    ");
+		fprintf(out, "return _id;\n}\n");
+	}
+
+
+	std::unordered_map<QByteArray, int> Generator::automaticPropertyMetaTypesHelper()
+	{
+		std::unordered_map<QByteArray, int> automaticPropertyMetaTypes;
+		for (int i = 0; i < cdef->propertyList.size(); ++i) {
+			const QByteArray propertyType = cdef->propertyList.at(i).type;
+			if (registerableMetaType(propertyType) && !isBuiltinType(propertyType))
+				automaticPropertyMetaTypes.insert(std::make_pair(propertyType, i));
+		}
+		return automaticPropertyMetaTypes;
+	}
+
+	std::unordered_map<int, std::multimap<QByteArray, int> > Generator::methodsWithAutomaticTypesHelper(const std::vector<FunctionDef> &methodList)
+	{
+		std::unordered_map<int, std::multimap<QByteArray, int> > methodsWithAutomaticTypes;
+		for (int i = 0; i < methodList.size(); ++i) {
+			const FunctionDef &f = methodList.at(i);
+			for (int j = 0; j < f.arguments.size(); ++j) {
+				const QByteArray argType = f.arguments.at(j).normalizedType;
+				if (registerableMetaType(argType) && !isBuiltinType(argType))
+					methodsWithAutomaticTypes[i].insert(std::make_pair(argType, j));
+			}
+		}
+		return methodsWithAutomaticTypes;
+	}
+
+	void Generator::generateStaticMetacall()
+	{
+		fprintf(out, "void %s::loo_static_metacall(LooObject *_o, LooMetaObject::Call _c, int _id, void **_a)\n{\n",
+			cdef->qualified.data());
+
+		bool needElse = false;
+		bool isUsed_a = false;
+
+		if (!cdef->constructorList.empty()) {
+			fprintf(out, "    if (_c == LooMetaObject::CreateInstance) {\n");
+			fprintf(out, "        switch (_id) {\n");
+			for (int ctorindex = 0; ctorindex < cdef->constructorList.size(); ++ctorindex) {
+				fprintf(out, "        case %d: { %s *_r = new %s(", ctorindex,
+					cdef->classname.data(), cdef->classname.data());
+				const FunctionDef &f = cdef->constructorList.at(ctorindex);
+				int offset = 1;
+
+				int argsCount = f.arguments.size();
+				for (int j = 0; j < argsCount; ++j) {
+					const ArgumentDef &a = f.arguments.at(j);
+					if (j)
+						fprintf(out, ",");
+					fprintf(out, "(*reinterpret_cast< %s>(_a[%d]))", a.typeNameForCast.data(), offset++);
+				}
+				if (f.isPrivateSignal) {
+					if (argsCount > 0)
+						fprintf(out, ", ");
+					fprintf(out, "%s", QByteArray("LooPrivateSignal()").data());
+				}
+				fprintf(out, ");\n");
+				fprintf(out, "            if (_a[0]) *reinterpret_cast<%s**>(_a[0]) = _r; } break;\n",
+					cdef->hasQGadget ? "void" : "LooObject");
+			}
+			fprintf(out, "        default: break;\n");
+			fprintf(out, "        }\n");
+			fprintf(out, "    }");
+			needElse = true;
+			isUsed_a = true;
+		}
+
+		std::vector<FunctionDef> methodList;
+		methodList.insert(methodList.end(), cdef->signalList.begin(), cdef->signalList.end());
+		methodList.insert(methodList.end(), cdef->slotList.begin(), cdef->slotList.end());
+		methodList.insert(methodList.end(), cdef->methodList.begin(), cdef->methodList.end());
+
+		if (!methodList.empty()) {
+			if (needElse)
+				fprintf(out, " else ");
+			else
+				fprintf(out, "    ");
+			fprintf(out, "if (_c == LooMetaObject::InvokeMetaMethod) {\n");
+			if (cdef->hasLooObject) {
+#ifndef LOO_NO_DEBUG
+				fprintf(out, "        LOO_ASSERT(staticMetaObject.cast(_o));\n");
+#endif
+				fprintf(out, "        auto *_t = static_cast<%s *>(_o);\n", cdef->classname.data());
+			}
+			else {
+				fprintf(out, "        auto *_t = reinterpret_cast<%s *>(_o);\n", cdef->classname.data());
+			}
+			fprintf(out, "        LOO_UNUSED(_t)\n");
+			fprintf(out, "        switch (_id) {\n");
+			for (int methodindex = 0; methodindex < methodList.size(); ++methodindex) {
+				const FunctionDef &f = methodList.at(methodindex);
+				LOO_ASSERT(!f.normalizedType.empty());
+				fprintf(out, "        case %d: ", methodindex);
+				if (f.normalizedType != "void")
+					fprintf(out, "{ %s _r = ", noRef(f.normalizedType).data());
+				fprintf(out, "_t->");
+				if (f.inPrivateClass.size())
+					fprintf(out, "%s->", f.inPrivateClass.data());
+				fprintf(out, "%s(", f.name.data());
+				int offset = 1;
+
+				int argsCount = f.arguments.size();
+				for (int j = 0; j < argsCount; ++j) {
+					const ArgumentDef &a = f.arguments.at(j);
+					if (j)
+						fprintf(out, ",");
+					fprintf(out, "(*reinterpret_cast< %s>(_a[%d]))", a.typeNameForCast.data(), offset++);
+					isUsed_a = true;
+				}
+				if (f.isPrivateSignal) {
+					if (argsCount > 0)
+						fprintf(out, ", ");
+					fprintf(out, "%s", "LooPrivateSignal()");
+				}
+				fprintf(out, ");");
+				if (f.normalizedType != "void") {
+					fprintf(out, "\n            if (_a[0]) *reinterpret_cast< %s*>(_a[0]) = std::move(_r); } ",
+						noRef(f.normalizedType).data());
+					isUsed_a = true;
+				}
+				fprintf(out, " break;\n");
+			}
+			fprintf(out, "        default: ;\n");
+			fprintf(out, "        }\n");
+			fprintf(out, "    }");
+			needElse = true;
+
+			std::unordered_map<int, std::multimap<QByteArray, int> > methodsWithAutomaticTypes = methodsWithAutomaticTypesHelper(methodList);
+
+			if (!methodsWithAutomaticTypes.empty()) {
+				fprintf(out, " else if (_c == LooMetaObject::RegisterMethodArgumentMetaType) {\n");
+				fprintf(out, "        switch (_id) {\n");
+				fprintf(out, "        default: *reinterpret_cast<int*>(_a[0]) = -1; break;\n");
+				std::unordered_map<int, std::multimap<QByteArray, int> >::const_iterator it = methodsWithAutomaticTypes.begin();
+				const std::unordered_map<int, std::multimap<QByteArray, int> >::const_iterator end = methodsWithAutomaticTypes.end();
+				for (; it != end; ++it) {
+					fprintf(out, "        case %d:\n", it->first);
+					fprintf(out, "            switch (*reinterpret_cast<int*>(_a[1])) {\n");
+					fprintf(out, "            default: *reinterpret_cast<int*>(_a[0]) = -1; break;\n");
+					auto jt = it->second.begin();// it->begin();
+					const auto jend = it->second.end();// it->end();
+					while (jt != jend) {
+						fprintf(out, "            case %d:\n", jt->second);
+						const QByteArray &lastKey = jt->first;
+						++jt;
+						if (jt == jend || jt->first != lastKey)
+							fprintf(out, "                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< %s >(); break;\n", lastKey.data());
+					}
+					fprintf(out, "            }\n");
+					fprintf(out, "            break;\n");
+				}
+				fprintf(out, "        }\n");
+				fprintf(out, "    }");
+				isUsed_a = true;
+			}
+
+		}
+		if (!cdef->signalList.empty()) {
+			LOO_ASSERT(needElse); // if there is signal, there was method.
+			fprintf(out, " else if (_c == LooMetaObject::IndexOfMethod) {\n");
+			fprintf(out, "        int *result = reinterpret_cast<int *>(_a[0]);\n");
+			bool anythingUsed = false;
+			for (int methodindex = 0; methodindex < cdef->signalList.size(); ++methodindex) {
+				const FunctionDef &f = cdef->signalList.at(methodindex);
+				if (f.wasCloned || !f.inPrivateClass.empty() || f.isStatic)
+					continue;
+				anythingUsed = true;
+				fprintf(out, "        {\n");
+				fprintf(out, "            using _t = %s (%s::*)(", f.type.rawName.data(), cdef->classname.data());
+
+				int argsCount = f.arguments.size();
+				for (int j = 0; j < argsCount; ++j) {
+					const ArgumentDef &a = f.arguments.at(j);
+					if (j)
+						fprintf(out, ", ");
+					fprintf(out, "%s", QByteArray(a.type.name + ' ' + a.rightType).data());
+				}
+				if (f.isPrivateSignal) {
+					if (argsCount > 0)
+						fprintf(out, ", ");
+					fprintf(out, "%s", "LooPrivateSignal");
+				}
+				if (f.isConst)
+					fprintf(out, ") const;\n");
+				else
+					fprintf(out, ");\n");
+				fprintf(out, "            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&%s::%s)) {\n",
+					cdef->classname.data(), f.name.data());
+				fprintf(out, "                *result = %d;\n", methodindex);
+				fprintf(out, "                return;\n");
+				fprintf(out, "            }\n        }\n");
+			}
+			if (!anythingUsed)
+				fprintf(out, "        LOO_UNUSED(result);\n");
+			fprintf(out, "    }");
+			needElse = true;
+		}
+
+		const std::multimap<QByteArray, int> automaticPropertyMetaTypes = automaticPropertyMetaTypesHelper();
+
+		if (!automaticPropertyMetaTypes.empty()) {
+			if (needElse)
+				fprintf(out, " else ");
+			else
+				fprintf(out, "    ");
+			fprintf(out, "if (_c == LooMetaObject::RegisterPropertyMetaType) {\n");
+			fprintf(out, "        switch (_id) {\n");
+			fprintf(out, "        default: *reinterpret_cast<int*>(_a[0]) = -1; break;\n");
+			auto it = automaticPropertyMetaTypes.begin();
+			const auto end = automaticPropertyMetaTypes.end();
+			while (it != end) {
+				fprintf(out, "        case %d:\n", it->second);
+				const QByteArray &lastKey = it->first;
+				++it;
+				if (it == end || it->first != lastKey)
+					fprintf(out, "            *reinterpret_cast<int*>(_a[0]) = lRegisterMetaType< %s >(); break;\n", lastKey.data());
+			}
+			fprintf(out, "        }\n");
+			fprintf(out, "    }\n");
+			isUsed_a = true;
+			needElse = true;
+		}
+
+		if (!cdef->propertyList.empty()) {
+			bool needGet = false;
+			bool needTempVarForGet = false;
+			bool needSet = false;
+			bool needReset = false;
+			for (int i = 0; i < cdef->propertyList.size(); ++i) {
+				const PropertyDef &p = cdef->propertyList.at(i);
+				needGet |= !p.read.empty() || !p.member.empty();
+				if (!p.read.empty() || !p.member.empty())
+					needTempVarForGet |= (p.gspec != PropertyDef::PointerSpec
+						&& p.gspec != PropertyDef::ReferenceSpec);
+
+				needSet |= !p.write.empty() || (!p.member.empty() && !p.constant);
+				needReset |= !p.reset.empty();
+			}
+			fprintf(out, "\n#ifndef LOO_NO_PROPERTIES\n    ");
+
+			if (needElse)
+				fprintf(out, "else ");
+			fprintf(out, "if (_c == LooMetaObject::ReadProperty) {\n");
+			if (needGet) {
+				if (cdef->hasLooObject) {
+#ifndef LOO_NO_DEBUG
+					fprintf(out, "        LOO_ASSERT(staticMetaObject.cast(_o));\n");
+#endif
+					fprintf(out, "        auto *_t = static_cast<%s *>(_o);\n", cdef->classname.data());
+				}
+				else {
+					fprintf(out, "        auto *_t = reinterpret_cast<%s *>(_o);\n", cdef->classname.data());
+				}
+				fprintf(out, "        LOO_UNUSED(_t)\n");
+				if (needTempVarForGet)
+					fprintf(out, "        void *_v = _a[0];\n");
+				fprintf(out, "        switch (_id) {\n");
+				for (int propindex = 0; propindex < cdef->propertyList.size(); ++propindex) {
+					const PropertyDef &p = cdef->propertyList.at(propindex);
+					if (p.read.empty() && p.member.empty())
+						continue;
+					QByteArray prefix = "_t->";
+					if (p.inPrivateClass.size()) {
+						prefix += p.inPrivateClass + "->";
+					}
+					if (p.gspec == PropertyDef::PointerSpec)
+						fprintf(out, "        case %d: _a[0] = const_cast<void*>(reinterpret_cast<const void*>(%s%s())); break;\n",
+							propindex, prefix.data(), p.read.data());
+					else if (p.gspec == PropertyDef::ReferenceSpec)
+						fprintf(out, "        case %d: _a[0] = const_cast<void*>(reinterpret_cast<const void*>(&%s%s())); break;\n",
+							propindex, prefix.data(), p.read.data());
+					else if (cdef->enumDeclarations.find(p.type) != cdef->enumDeclarations.end() &&
+						cdef->enumDeclarations.find(p.type)->second)
+					{
+						fprintf(out, "        case %d: *reinterpret_cast<int*>(_v) = QFlag(%s%s()); break;\n",
+							propindex, prefix.data(), p.read.data());
+					}
+					else if (!p.read.empty())
+						fprintf(out, "        case %d: *reinterpret_cast< %s*>(_v) = %s%s(); break;\n",
+							propindex, p.type.data(), prefix.data(), p.read.data());
+					else
+						fprintf(out, "        case %d: *reinterpret_cast< %s*>(_v) = %s%s; break;\n",
+							propindex, p.type.data(), prefix.data(), p.member.data());
+				}
+				fprintf(out, "        default: break;\n");
+				fprintf(out, "        }\n");
+			}
+
+			fprintf(out, "    }");
+
+			fprintf(out, " else ");
+			fprintf(out, "if (_c == LooMetaObject::WriteProperty) {\n");
+
+			if (needSet) {
+				if (cdef->hasLooObject) {
+#ifndef LOO_NO_DEBUG
+					fprintf(out, "        LOO_ASSERT(staticMetaObject.cast(_o));\n");
+#endif
+					fprintf(out, "        auto *_t = static_cast<%s *>(_o);\n", cdef->classname.data());
+				}
+				else {
+					fprintf(out, "        auto *_t = reinterpret_cast<%s *>(_o);\n", cdef->classname.data());
+				}
+				fprintf(out, "        LOO_UNUSED(_t)\n");
+				fprintf(out, "        void *_v = _a[0];\n");
+				fprintf(out, "        switch (_id) {\n");
+				for (int propindex = 0; propindex < cdef->propertyList.size(); ++propindex) {
+					const PropertyDef &p = cdef->propertyList.at(propindex);
+					if (p.constant)
+						continue;
+					if (p.write.empty() && p.member.empty())
+						continue;
+					QByteArray prefix = "_t->";
+					if (p.inPrivateClass.size()) {
+						prefix += p.inPrivateClass + "->";
+					}
+					if (cdef->enumDeclarations.find(p.type)!= cdef->enumDeclarations.end() &&
+						cdef->enumDeclarations.find(p.type)->second) {
+						fprintf(out, "        case %d: %s%s(QFlag(*reinterpret_cast<int*>(_v))); break;\n",
+							propindex, prefix.data(), p.write.data());
+					}
+					else if (!p.write.empty()) {
+						fprintf(out, "        case %d: %s%s(*reinterpret_cast< %s*>(_v)); break;\n",
+							propindex, prefix.data(), p.write.data(), p.type.data());
+					}
+					else {
+						fprintf(out, "        case %d:\n", propindex);
+						fprintf(out, "            if (%s%s != *reinterpret_cast< %s*>(_v)) {\n",
+							prefix.data(), p.member.data(), p.type.data());
+						fprintf(out, "                %s%s = *reinterpret_cast< %s*>(_v);\n",
+							prefix.data(), p.member.data(), p.type.data());
+						if (!p.notify.empty() && p.notifyId > -1) {
+							const FunctionDef &f = cdef->signalList.at(p.notifyId);
+							if (f.arguments.size() == 0)
+								fprintf(out, "                Q_EMIT _t->%s();\n", p.notify.data());
+							else if (f.arguments.size() == 1 && f.arguments.at(0).normalizedType == p.type)
+								fprintf(out, "                Q_EMIT _t->%s(%s%s);\n",
+									p.notify.data(), prefix.data(), p.member.data());
+						}
+						else if (!p.notify.empty() && p.notifyId < -1) {
+							fprintf(out, "                Q_EMIT _t->%s();\n", p.notify.data());
+						}
+						fprintf(out, "            }\n");
+						fprintf(out, "            break;\n");
+					}
+				}
+				fprintf(out, "        default: break;\n");
+				fprintf(out, "        }\n");
+			}
+
+			fprintf(out, "    }");
+
+			fprintf(out, " else ");
+			fprintf(out, "if (_c == LooMetaObject::ResetProperty) {\n");
+			if (needReset) {
+				if (cdef->hasLooObject) {
+#ifndef LOO_NO_DEBUG
+					fprintf(out, "        LOO_ASSERT(staticMetaObject.cast(_o));\n");
+#endif
+					fprintf(out, "        %s *_t = static_cast<%s *>(_o);\n", cdef->classname.data(), cdef->classname.data());
+				}
+				else {
+					fprintf(out, "        %s *_t = reinterpret_cast<%s *>(_o);\n", cdef->classname.data(), cdef->classname.data());
+				}
+				fprintf(out, "        LOO_UNUSED(_t)\n");
+				fprintf(out, "        switch (_id) {\n");
+				for (int propindex = 0; propindex < cdef->propertyList.size(); ++propindex) {
+					const PropertyDef &p = cdef->propertyList.at(propindex);
+					if (!string_endwith(p.reset,')'))
+						continue;
+					QByteArray prefix = "_t->";
+					if (p.inPrivateClass.size()) {
+						prefix += p.inPrivateClass + "->";
+					}
+					fprintf(out, "        case %d: %s%s; break;\n",
+						propindex, prefix.data(), p.reset.data());
+				}
+				fprintf(out, "        default: break;\n");
+				fprintf(out, "        }\n");
+			}
+			fprintf(out, "    }");
+			fprintf(out, "\n#endif // LOO_NO_PROPERTIES");
+			needElse = true;
+		}
+
+		if (needElse)
+			fprintf(out, "\n");
+
+		if (methodList.empty()) {
+			fprintf(out, "    LOO_UNUSED(_o);\n");
+			if (cdef->constructorList.empty() && automaticPropertyMetaTypes.empty() && methodsWithAutomaticTypesHelper(methodList).empty()) {
+				fprintf(out, "    LOO_UNUSED(_id);\n");
+				fprintf(out, "    LOO_UNUSED(_c);\n");
+			}
+		}
+		if (!isUsed_a)
+			fprintf(out, "    LOO_UNUSED(_a);\n");
+
+		fprintf(out, "}\n\n");
+	}
+
+	void Generator::generateSignal(FunctionDef *def, int index)
+	{
+		if (def->wasCloned || def->isAbstract)
+			return;
+		fprintf(out, "\n// SIGNAL %d\n%s %s::%s(",
+			index, def->type.name.data(), cdef->qualified.data(), def->name.data());
+
+		QByteArray thisPtr = "this";
+		const char *constQualifier = "";
+
+		if (def->isConst) {
+			thisPtr = "const_cast< " + cdef->qualified + " *>(this)";
+			constQualifier = "const";
+		}
+
+		LOO_ASSERT(!def->normalizedType.empty());
+		if (def->arguments.empty() && def->normalizedType == "void" && !def->isPrivateSignal) {
+			fprintf(out, ")%s\n{\n"
+				"    LooMetaObject::activate(%s, &staticMetaObject, %d, nullptr);\n"
+				"}\n", constQualifier, thisPtr.data(), index);
+			return;
+		}
+
+		int offset = 1;
+		for (int j = 0; j < def->arguments.size(); ++j) {
+			const ArgumentDef &a = def->arguments.at(j);
+			if (j)
+				fprintf(out, ", ");
+			fprintf(out, "%s _t%d%s", a.type.name.data(), offset++, a.rightType.data());
+		}
+		if (def->isPrivateSignal) {
+			if (!def->arguments.empty())
+				fprintf(out, ", ");
+			fprintf(out, "LooPrivateSignal _t%d", offset++);
+		}
+
+		fprintf(out, ")%s\n{\n", constQualifier);
+		if (def->type.name.size() && def->normalizedType != "void") {
+			QByteArray returnType = noRef(def->normalizedType);
+			fprintf(out, "    %s _t0{};\n", returnType.data());
+		}
+
+		fprintf(out, "    void *_a[] = { ");
+		if (def->normalizedType == "void") {
+			fprintf(out, "nullptr");
+		}
+		else {
+			if (def->returnTypeIsVolatile)
+				fprintf(out, "const_cast<void*>(reinterpret_cast<const volatile void*>(std::addressof(_t0)))");
+			else
+				fprintf(out, "const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t0)))");
+		}
+		int i;
+		for (i = 1; i < offset; ++i)
+			if (i <= def->arguments.size() && def->arguments.at(i - 1).type.isVolatile)
+				fprintf(out, ", const_cast<void*>(reinterpret_cast<const volatile void*>(std::addressof(_t%d)))", i);
+			else
+				fprintf(out, ", const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t%d)))", i);
+		fprintf(out, " };\n");
+		fprintf(out, "    LooMetaObject::activate(%s, &staticMetaObject, %d, _a);\n", thisPtr.data(), index);
+		if (def->normalizedType != "void")
+			fprintf(out, "    return _t0;\n");
+		fprintf(out, "}\n");
+	}
+
+	/*static CborError jsonValueToCbor(CborEncoder *parent, const QJsonValue &v);
+	static CborError jsonObjectToCbor(CborEncoder *parent, const QJsonObject &o)
+	{
+		auto it = o.constBegin();
+		auto end = o.constEnd();
+		CborEncoder map;
+		cbor_encoder_create_map(parent, &map, o.size());
+
+		for (; it != end; ++it) {
+			QByteArray key = it.key().toUtf8();
+			cbor_encode_text_string(&map, key.data(), key.size());
+			jsonValueToCbor(&map, it.value());
+		}
+		return cbor_encoder_close_container(parent, &map);
+	}
+*/
+/*static CborError jsonArrayToCbor(CborEncoder *parent, const QJsonArray &a)
+{
+	CborEncoder array;
+	cbor_encoder_create_array(parent, &array, a.size());
+	for (const QJsonValue &v : a)
+		jsonValueToCbor(&array, v);
+	return cbor_encoder_close_container(parent, &array);
+}
+
+static CborError jsonValueToCbor(CborEncoder *parent, const QJsonValue &v)
+{
+	switch (v.type()) {
+	case QJsonValue::Null:
+	case QJsonValue::Undefined:
+		return cbor_encode_null(parent);
+	case QJsonValue::Bool:
+		return cbor_encode_boolean(parent, v.toBool());
+	case QJsonValue::Array:
+		return jsonArrayToCbor(parent, v.toArray());
+	case QJsonValue::Object:
+		return jsonObjectToCbor(parent, v.toObject());
+	case QJsonValue::String: {
+		QByteArray s = v.toString().toUtf8();
+		return cbor_encode_text_string(parent, s.data(), s.size());
+	}
+	case QJsonValue::Double: {
+		double d = v.toDouble();
+		if (d == floor(d) && fabs(d) <= (Q_INT64_C(1) << std::numeric_limits<double>::digits))
+			return cbor_encode_int(parent, qint64(d));
+		return cbor_encode_double(parent, d);
+	}
+	}
+	Q_UNREACHABLE();
+	return CborUnknownError;
+}*/
+
+	void Generator::generatePluginMetaData()
+	{
+		if (cdef->pluginData.iid.empty())
+			return;
+
+		fputs("\nLOO_PLUGIN_METADATA_SECTION\n"
+			"static constexpr unsigned char loo_pluginMetaData[] = {\n"
+			"    'Q', 'T', 'M', 'E', 'T', 'A', 'D', 'A', 'T', 'A', ' ', '!',\n"
+			"    // metadata version, Qt version, architectural requirements\n"
+			"    0, LOO_VERSION_MAJOR, LOO_VERSION_MINOR, qPluginArchRequirements(),", out);
+
+
+		//CborDevice dev(out);
+		//CborEncoder enc;
+		//cbor_encoder_init_writer(&enc, CborDevice::callback, &dev);
+
+		//CborEncoder map;
+		//cbor_encoder_create_map(&enc, &map, CborIndefiniteLength);
+
+		//dev.nextItem("\"IID\"");
+		//cbor_encode_int(&map, int(LooPluginMetaDataKeys::IID));
+		//cbor_encode_text_string(&map, cdef->pluginData.iid.data(), cdef->pluginData.iid.size());
+
+		//dev.nextItem("\"className\"");
+		//cbor_encode_int(&map, int(LooPluginMetaDataKeys::ClassName));
+		//cbor_encode_text_string(&map, cdef->classname.data(), cdef->classname.size());
+
+		//QJsonObject o = cdef->pluginData.metaData.object();
+		//if (!o.empty()) {
+		//	dev.nextItem("\"MetaData\"");
+		//	cbor_encode_int(&map, int(LooPluginMetaDataKeys::MetaData));
+		//	jsonObjectToCbor(&map, o);
+		//}
+
+		//// Add -M args from the command line:
+		//for (auto it = cdef->pluginData.metaArgs.cbegin(), end = cdef->pluginData.metaArgs.cend(); it != end; ++it) {
+		//	const nlohmann::json &a = it->second;
+		//	QByteArray key = it->first;
+		//	dev.nextItem(QByteArray("command-line \"" + key + "\"").data());
+		//	cbor_encode_text_string(&map, key.data(), key.size());
+		//	jsonArrayToCbor(&map, a);
+		//}
+
+		//// Close the CBOR map manually
+		//dev.nextItem();
+		//cbor_encoder_close_container(&enc, &map);
+		//fputs("\n};\n", out);
+
+		//// 'Use' all namespaces.
+		//int pos = cdef->qualified.find_last_of("::");
+		//for (; pos != -1; pos = cdef->qualified.find_first_of("::", pos + 2))
+		//	fprintf(out, "using namespace %s;\n", string_left(cdef->qualified,pos).data());
+		//fprintf(out, "LOO_MOC_EXPORT_PLUGIN(%s, %s)\n\n",
+		//	cdef->qualified.data(), cdef->classname.data());
+	}
+
+	LOO_WARNING_DISABLE_GCC("-Wunused-function")
+		LOO_WARNING_DISABLE_CLANG("-Wunused-function")
+		LOO_WARNING_DISABLE_CLANG("-Wundefined-internal")
+		LOO_WARNING_DISABLE_MSVC(4334) // '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+
+#define CBOR_ENCODER_WRITER_CONTROL     1
+#define CBOR_ENCODER_WRITE_FUNCTION     CborDevice::callback
 
 }

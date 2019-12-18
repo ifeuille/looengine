@@ -3,8 +3,8 @@
 #define LOOMETAOBJECT_P_H
 
 
-#ifndef QT_NO_QOBJECT
-#include <private/looobject_p.h> // For QObjectPrivate::Connection
+#ifndef LOO_NO_LOBJECT
+//#include <private/looobject_p.h> // For QObjectPrivate::Connection
 #endif
 
 
@@ -62,7 +62,8 @@ enum MetaObjectFlags {
 
 enum MetaDataFlags {
     IsUnresolvedType = 0x80000000,
-    TypeNameIndexMask = 0x7FFFFFFF
+    TypeNameIndexMask = 0x7FFFFFFF,
+    IsUnresolvedSignal = 0x70000000
 };
 
 enum EnumFlags {

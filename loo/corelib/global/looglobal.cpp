@@ -17,7 +17,7 @@
 //#include <WS2tcpip.h>
 //#endif
 #if defined(LOO_OS_ANDROID) && !defined(LOO_OS_ANDROID_EMBEDDED)
-#include <private/qjni_p.h>
+#include <Private/qjni_p.h>
 #endif
 #include "archdetect.cpp"
 
