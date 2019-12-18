@@ -12,5 +12,5 @@ container
 
 QList vector
 QHash unordered_map
-QVarLengthArray array
+QVarLengthArray vector
 QByteArray string

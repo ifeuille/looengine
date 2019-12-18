@@ -130,7 +130,7 @@ namespace loo
 				bool braces = test (PP_LPAREN);
 				next (PP_IDENTIFIER);
 				Symbol definedOrNotDefined = symbol ();
-				definedOrNotDefined.token = std::find(macros.begin(), macros.end(), definedOrNotDefined)!=macros.end()? PP_MOC_TRUE : PP_MOC_FALSE;
+				definedOrNotDefined.token = std::find(macros.begin(), macros.end(), definedOrNotDefined)!=macros.end()? PP_LOO_TRUE : PP_LOO_FALSE;
 				substituted.push_back( definedOrNotDefined);
 				if (braces)
 					test (PP_RPAREN);
@@ -891,9 +891,9 @@ namespace loo
 			return !unary_expression ();
 		case PP_TILDE:
 			return ~unary_expression ();
-		case PP_MOC_TRUE:
+		case PP_LOO_TRUE:
 			return 1;
-		case PP_MOC_FALSE:
+		case PP_LOO_FALSE:
 			return 0;
 		default:
 			prev ();
@@ -933,8 +933,8 @@ namespace loo
 		return (t == PP_IDENTIFIER
 			|| t == PP_INTEGER_LITERAL
 			|| t == PP_FLOATING_LITERAL
-			|| t == PP_MOC_TRUE
-			|| t == PP_MOC_FALSE
+			|| t == PP_LOO_TRUE
+			|| t == PP_LOO_FALSE
 			|| t == PP_LPAREN);
 	}
 
@@ -1004,11 +1004,11 @@ namespace loo
 		for (int j = 0; j < includepaths.size () && !fi.exists (); ++j) {
 			const Parser::IncludePath &p = includepaths.at (j);
 			if (p.isFrameworkPath) {//for mac
-				int slashPos = GetIndexOf (include, '/');
+				int slashPos = string_indexof (include, '/');
 				//int slashPos = include.indexOf ('/');
 				if (slashPos == -1)
 					continue;
-				fi.assign (fs::combine_path_file (p.path + '/' + QByteArray_left (include, slashPos) + ".framework/Headers/",
+				fi.assign (fs::combine_path_file (p.path + '/' + string_left (include, slashPos) + ".framework/Headers/",
 					include.substr (slashPos + 1)));
 			/*	fi.setFile (QString::fromLocal8Bit (p.path + '/' + include.left (slashPos) + ".framework/Headers/"),
 					QString::fromLocal8Bit (include.mid (slashPos + 1)));*/
@@ -1106,9 +1106,9 @@ namespace loo
 				index = 0;
 
 				// phase 3: preprocess conditions and substitute macros
-				preprocessed.push_back (Symbol (0, MOC_INCLUDE_BEGIN, include));
+				preprocessed.push_back (Symbol (0, LOO_INCLUDE_BEGIN, include));
 				preprocess (include, preprocessed);
-				preprocessed.push_back (Symbol (lineNum, MOC_INCLUDE_END, include));
+				preprocessed.push_back (Symbol (lineNum, LOO_INCLUDE_END, include));
 
 				symbols = saveSymbols;
 				index = saveIndex;
@@ -1211,7 +1211,7 @@ namespace loo
 				if (macros.find ("QT_NO_KEYWORDS") != macros.end())
 					sym.token = IDENTIFIER;
 				else
-					sym.token = (token == SIGNALS ? Q_SIGNALS_TOKEN : Q_SLOTS_TOKEN);
+					sym.token = (token == SIGNALS ? LOO_SIGNALS_TOKEN : LOO_SLOTS_TOKEN);
 				preprocessed.push_back(sym);
 			} continue;
 			default:

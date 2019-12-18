@@ -4,7 +4,7 @@
 #include "utils.h"
 #include "outputrevision.h"
 #include "ghc/fs_std.hpp"
-
+#include "ghc/fs_utils.hpp"
 #include <Private/loometaobject_reflect_p.h>
 #include <algorithm>
 
@@ -109,7 +109,7 @@ namespace loo
 
 			if (!def->superclassList.empty ()
 				&& knownGadgets.find (def->superclassList.begin ()->first) != knownGadgets.end()) {
-				// Q_GADGET subclasses are treated as Q_GADGETs
+				// LOO_GADGET subclasses are treated as LOO_GADGETs
 				knownGadgets.insert (def->classname, def->qualified);
 				knownGadgets.insert (def->qualified, def->qualified);
 			}
@@ -335,8 +335,8 @@ namespace loo
 			next (LPAREN);
 			QByteArray revision = lexemUntil (RPAREN);
 			revision.erase (0, 1);
-			revision.resize (revision.size () - 1);
-			vector_chop (revision, 1);
+			//revision.resize (revision.size () - 1);
+			container_chop (revision, 1);
 			//revision.chop (1);
 			bool ok = false;
 			def->revision = toIntegral_helper<int>(revision.c_str (),&ok,0);
@@ -934,25 +934,27 @@ namespace loo
 		return false;
 	}
 
+	//todo
 	static LooStringList make_candidates ()
 	{
+		//ƒ⁄÷√±‰¡ø
 		LooStringList result;
 		result
-#define STREAM_SMART_POINTER(SMART_POINTER) << #SMART_POINTER
-			QT_FOR_EACH_AUTOMATIC_TEMPLATE_SMART_POINTER (STREAM_SMART_POINTER)
+//#define STREAM_SMART_POINTER(SMART_POINTER) << #SMART_POINTER
+//			LOO_FOR_EACH_AUTOMATIC_TEMPLATE_SMART_POINTER (STREAM_SMART_POINTER)
 #undef STREAM_SMART_POINTER
-#define STREAM_1ARG_TEMPLATE(TEMPLATENAME) << #TEMPLATENAME
-			QT_FOR_EACH_AUTOMATIC_TEMPLATE_1ARG (STREAM_1ARG_TEMPLATE)
+//#define STREAM_1ARG_TEMPLATE(TEMPLATENAME) << #TEMPLATENAME
+//			LOO_FOR_EACH_AUTOMATIC_TEMPLATE_1ARG (STREAM_1ARG_TEMPLATE)
 #undef STREAM_1ARG_TEMPLATE
 			;
 		return result;
 	}
 
-	static QByteArrayList requiredQtContainers (const QVector<ClassDef> &classes)
+	static LooStringList requiredLooContainers (const std::vector<ClassDef> &classes)
 	{
-		static const QByteArrayList candidates = make_candidates ();
+		static const LooStringList candidates = make_candidates ();
 
-		QByteArrayList required;
+		LooStringList required;
 		required.reserve (candidates.size ());
 
 		for (const auto &candidate : candidates) {
@@ -975,76 +977,791 @@ namespace loo
 
 	void LooReflect::generate (FILE * out)
 	{
+		QByteArray fn = filename;
+		int i = filename.length () - 1;
+		while (i > 0 && filename.at (i - 1) != '/' && filename.at (i - 1) != '\\')
+			--i;                                // skip path
+		if (i >= 0)
+			fn = filename.substr (i);
+		fprintf (out, "/****************************************************************************\n"
+			"** Meta object code from reading C++ file '%s'\n**\n", fn.data ());
+		fprintf (out, "** Created by: The Loo Meta Object Compiler version %d \n**\n", mocOutputRevision);
+		fprintf (out, "** WARNING! All changes made in this file will be lost!\n"
+			"*****************************************************************************/\n\n");
+
+
+		if (!noInclude) {
+			if (includePath.size () && (*(includePath.rbegin ())) != ('/'))
+				includePath += '/';
+			for (int i = 0; i < includeFiles.size (); ++i) {
+				QByteArray inc = includeFiles.at (i);
+				if (inc.at (0) != '<' && inc.at (0) != '"') {
+					if (includePath.size () && includePath != "./")
+						inc = (includePath) +inc;
+					inc = '\"' + inc + '\"';
+				}
+				fprintf (out, "#include %s\n", inc.data ());
+			}
+		}
+		if (classList.size () && classList.begin ()->classname == "Qt")
+			fprintf (out, "#include LooCore/lobject.h>\n");
+
+		fprintf (out, "#include <string>\n"); 
+		fprintf (out, "#include <LooCore/lmetatype.h>\n");  // For QMetaType::Type
+		if (mustIncludeQPluginH)
+			fprintf (out, "#include <LooCore/lplugin.h>\n");
+
+		const auto qtContainers = requiredLooContainers (classList);
+		for (const QByteArray &qtContainer : qtContainers)
+			fprintf (out, "#include <QtCore/%s>\n", qtContainer.data ());
+
+
+		fprintf (out, "#if !defined(LOO_REFLECT_OUTPUT_REVISION)\n"
+			"#error \"The header file '%s' doesn't include <LooObject>.\"\n", fn.data ());
+		fprintf (out, "#elif LOO_REFLECT_OUTPUT_REVISION != %d\n", mocOutputRevision);
+		fprintf (out, "#error \"This file was generated using the moc from %s."
+			" It\"\n#error \"cannot be used with the include files from"
+			" this version of Loo.\"\n#error \"(The moc has changed too"
+			" much.)\"\n", "1.0.0");
+		fprintf (out, "#endif\n\n");
+
+		fprintf (out, "LOO_BEGIN_MOC_NAMESPACE\n");
+		fprintf (out, "LOO_WARNING_PUSH\n");
+		fprintf (out, "LOO_WARNING_DISABLE_DEPRECATED\n");
+
+		fputs ("", out);
+		for (i = 0; i < classList.size (); ++i) {
+			Generator generator (&classList[i], metaTypes, knownQObjectClasses, knownGadgets, out);
+			generator.generateCode ();
+		}
+		fputs ("", out);
+
+		fprintf (out, "LOO_WARNING_POP\n");
+		fprintf (out, "LOO_END_MOC_NAMESPACE\n");
 	}
 
 	void LooReflect::parseSlots (ClassDef * def, FunctionDef::Access access)
 	{
+		int defaultRevision = -1;
+		if (test (LOO_REVISION_TOKEN)) {
+			next (LPAREN);
+			QByteArray revision = lexemUntil (RPAREN);
+			revision.erase (0, 1);
+			container_chop (revision, 1);
+			bool ok = false;
+			defaultRevision = toIntegral_helper<int> (revision.data (), &ok, 0);// revision.toInt (&ok);
+			if (!ok || defaultRevision < 0)
+				error ("Invalid revision");
+		}
+
+		next (COLON);
+		while (inClass (def) && hasNext ()) {
+			switch (next ()) {
+			case PUBLIC:
+			case PROTECTED:
+			case PRIVATE:
+			case LOO_SIGNALS_TOKEN:
+			case LOO_SLOTS_TOKEN:
+				prev ();
+				return;
+			case SEMIC:
+				continue;
+			case FRIEND:
+				until (SEMIC);
+				continue;
+			case USING:
+				error ("'using' directive not supported in 'slots' section");
+			default:
+				prev ();
+			}
+
+			FunctionDef funcDef;
+			funcDef.access = access;
+			if (!parseFunction (&funcDef))
+				continue;
+			if (funcDef.revision > 0) {
+				++def->revisionedMethods;
+			}
+			else if (defaultRevision != -1) {
+				funcDef.revision = defaultRevision;
+				++def->revisionedMethods;
+			}
+			def->slotList.push_back(funcDef);
+			while (funcDef.arguments.size () > 0 && funcDef.arguments.rbegin ()->isDefault) {
+				funcDef.wasCloned = true;
+				funcDef.arguments.pop_back ();
+				def->slotList.push_back(funcDef);
+			}
+		}
 	}
 
 	void LooReflect::parseSignals (ClassDef * def)
 	{
+		int defaultRevision = -1;
+		if (test (LOO_REVISION_TOKEN)) {
+			next (LPAREN);
+			QByteArray revision = lexemUntil (RPAREN);
+			revision.erase (0, 1);
+			container_chop (revision, 1);
+			bool ok = false;
+			defaultRevision = toIntegral_helper<int> (revision.data (), &ok, 0);
+			if (!ok || defaultRevision < 0)
+				error ("Invalid revision");
+		}
+
+		next (COLON);
+		while (inClass (def) && hasNext ()) {
+			switch (next ()) {
+			case PUBLIC:
+			case PROTECTED:
+			case PRIVATE:
+			case LOO_SIGNALS_TOKEN:
+			case LOO_SLOTS_TOKEN:
+				prev ();
+				return;
+			case SEMIC:
+				continue;
+			case FRIEND:
+				until (SEMIC);
+				continue;
+			case USING:
+				error ("'using' directive not supported in 'signals' section");
+			default:
+				prev ();
+			}
+			FunctionDef funcDef;
+			funcDef.access = FunctionDef::Public;
+			parseFunction (&funcDef);
+			if (funcDef.isVirtual)
+				warning ("Signals cannot be declared virtual");
+			if (funcDef.inlineCode)
+				error ("Not a signal declaration");
+			if (funcDef.revision > 0) {
+				++def->revisionedMethods;
+			}
+			else if (defaultRevision != -1) {
+				funcDef.revision = defaultRevision;
+				++def->revisionedMethods;
+			}
+			def->signalList.push_back(funcDef);
+			while (funcDef.arguments.size () > 0 && funcDef.arguments.rbegin ()->isDefault) {
+				funcDef.wasCloned = true;
+				funcDef.arguments.pop_back ();
+				def->signalList.push_back (funcDef);
+			}
+		}
+	}
+
+	void LooReflect::createPropertyDef (PropertyDef & propDef)
+	{
+		QByteArray type = parseType ().name;
+		if (type.empty ())
+			error ();
+		propDef.designable = propDef.scriptable = propDef.stored = "true";
+		propDef.user = "false";
+		/*
+		  The LOO_PROPERTY construct cannot contain any commas, since
+		  commas separate macro arguments. We therefore expect users
+		  to type "LooMap" instead of "LooMap<QString, QVariant>". For
+		  coherence, we also expect the same for
+		  LooValueList<QVariant>, the other template class supported by
+		  LooVariant.
+		*/
+		type = normalizeType (type);
+		if (type == "LooMap")
+			type = "LooMap<LooString,LooVariant>";
+		else if (type == "LooValueList")
+			type = "LooValueList<LooVariant>";
+		else if (type == "LongLong")
+			type = "lint64";
+		else if (type == "ULongLong")
+			type = "luint64";
+
+		propDef.type = type;
+
+		next ();
+		propDef.name = lexem ();
+		while (test (IDENTIFIER)) {
+			const QByteArray l = lexem ();
+			if (l[0] == 'C' && l == "CONSTANT") {
+				propDef.constant = true;
+				continue;
+			}
+			else if (l[0] == 'F' && l == "FINAL") {
+				propDef.final = true;
+				continue;
+			}
+
+			QByteArray v, v2;
+			if (test (LPAREN)) {
+				v = lexemUntil (RPAREN);
+				v = v.substr (1, v.length () - 2); // removes the '(' and ')'
+			}
+			else if (test (INTEGER_LITERAL)) {
+				v = lexem ();
+				if (l != "REVISION")
+					error (1);
+			}
+			else {
+				next (IDENTIFIER);
+				v = lexem ();
+				if (test (LPAREN))
+					v2 = lexemUntil (RPAREN);
+				else if (v != "true" && v != "false")
+					v2 = "()";
+			}
+			switch (l[0]) {
+			case 'M':
+				if (l == "MEMBER")
+					propDef.member = v;
+				else
+					error (2);
+				break;
+			case 'R':
+				if (l == "READ")
+					propDef.read = v;
+				else if (l == "RESET")
+					propDef.reset = v + v2;
+				else if (l == "REVISION") {
+					bool ok = false;
+					propDef.revision = toIntegral_helper<int> (v.data (), &ok, 0);
+					if (!ok || propDef.revision < 0)
+						error (1);
+				}
+				else
+					error (2);
+				break;
+			case 'S':
+				if (l == "SCRIPTABLE")
+					propDef.scriptable = v + v2;
+				else if (l == "STORED")
+					propDef.stored = v + v2;
+				else
+					error (2);
+				break;
+			case 'W': if (l != "WRITE") error (2);
+				propDef.write = v;
+				break;
+			case 'D': if (l != "DESIGNABLE") error (2);
+				propDef.designable = v + v2;
+				break;
+			case 'E': if (l != "EDITABLE") error (2);
+				propDef.editable = v + v2;
+				break;
+			case 'N': if (l != "NOTIFY") error (2);
+				propDef.notify = v;
+				break;
+			case 'U': if (l != "USER") error (2);
+				propDef.user = v + v2;
+				break;
+			default:
+				error (2);
+			}
+		}
+		if (propDef.read.empty () && propDef.member.empty ()) {
+			const QByteArray msg = "Property declaration " + propDef.name
+				+ " has no READ accessor function or associated MEMBER variable. The property will be invalid.";
+			warning (msg.data ());
+		}
+		if (propDef.constant && !propDef.write.empty ()) {
+			const QByteArray msg = "Property declaration " + propDef.name
+				+ " is both WRITEable and CONSTANT. CONSTANT will be ignored.";
+			propDef.constant = false;
+			warning (msg.data ());
+		}
+		if (propDef.constant && !propDef.notify.empty ()) {
+			const QByteArray msg = "Property declaration " + propDef.name
+				+ " is both NOTIFYable and CONSTANT. CONSTANT will be ignored.";
+			propDef.constant = false;
+			warning (msg.data ());
+		}
 	}
 
 	void LooReflect::parseProperty (ClassDef * def)
 	{
+		next (LPAREN);
+		PropertyDef propDef;
+		createPropertyDef (propDef);
+		next (RPAREN);
+
+		if (!propDef.notify.empty ())
+			def->notifyableProperties++;
+		if (propDef.revision > 0)
+			++def->revisionedProperties;
+		def->propertyList.push_back(propDef);
+	}
+
+	static QByteArray readFile2String (fs::ifstream& ifs) {
+		fs::ifstream::pos_type fileSize = ifs.tellg ();
+		ifs.seekg (0, std::ios::beg);
+
+		std::vector<char> bytes (fileSize);
+		ifs.read (bytes.data (), fileSize);
+
+		return QByteArray (bytes.data (), fileSize);
 	}
 
 	void LooReflect::parsePluginData (ClassDef * def)
 	{
-	}
+		next (LPAREN);
+		QByteArray metaData;
+		while (test (IDENTIFIER)) {
+			QByteArray l = lexem ();
+			if (l == "IID") {
+				next (STRING_LITERAL);
+				def->pluginData.iid = unquotedLexem ();
+			}
+			else if (l == "FILE") {
+				next (STRING_LITERAL);
+				QByteArray metaDataFile = unquotedLexem ();
+				fs::directory_entry fi (
+					fs::combine_path_file (currentFilenames.top ().data (),
+						metaDataFile.data ())
+				);
+				//QFileInfo fi (QFileInfo (QString::fromLocal8Bit (currentFilenames.top ().constData ())).dir (), QString::fromLocal8Bit (metaDataFile.constData ()));
+				for (int j = 0; j < includes.size () && !fi.exists (); ++j) {
+					const IncludePath &p = includes.at (j);
+					if (p.isFrameworkPath)
+						continue;
+					fi.assign (fs::combine_path_file (p.path.data (),
+						metaDataFile.data ()));					
+					// try again, maybe there's a file later in the include paths with the same name
+					if (fi.is_directory ()) {
+						fi = fs::directory_entry ();
+						continue;
+					}
+				}
+				if (!fi.exists ()) {
+					const QByteArray msg = "Plugin Metadata file " + lexem ()
+						+ " does not exist. Declaration will be ignored";
+					error (msg.data ());
+					return;
+				}
+				fs::ifstream file (fi.path(), std::ios::in);//?
+				if (!file.is_open ())
+				{
+					QByteArray msg = "Plugin Metadata file " + lexem () + " could not be opened: "
+						+ file.exceptions;
+					error (msg.data ());
+					return;
+				}
+				metaData = readFile2String (file);// file.readAll ();
+			}
+		}
 
-	void LooReflect::createPropertyDef (PropertyDef & def)
-	{
-	}
+		if (!metaData.empty ()) {
+			def->pluginData.metaData = nlohmann::json (metaData);// QJsonDocument::fromJson (metaData);
+			if (!def->pluginData.metaData.is_object ()) {
+				const QByteArray msg = "Plugin Metadata file " + lexem ()
+					+ " does not contain a valid JSON object. Declaration will be ignored";
+				warning (msg.data ());
+				def->pluginData.iid = QByteArray ();
+				return;
+			}
+		}
 
-	void LooReflect::parseEnumOrFlag (BaseDef * def, bool isFlag)
-	{
-	}
-
-	void LooReflect::parseFlag (BaseDef * def)
-	{
-	}
-
-	void LooReflect::parseClassInfo (BaseDef * def)
-	{
-	}
-
-	void LooReflect::parseInterfaces (ClassDef * def)
-	{
-	}
-
-	void LooReflect::parseDeclareInterface ()
-	{
-	}
-
-	void LooReflect::parseDeclareMetatype ()
-	{
-	}
-
-	void LooReflect::parseSlotInPrivate (ClassDef * def, FunctionDef::Access access)
-	{
+		mustIncludeQPluginH = true;
+		next (RPAREN);
 	}
 
 	void LooReflect::parsePrivateProperty (ClassDef * def)
 	{
+		next (LPAREN);
+		PropertyDef propDef;
+		next (IDENTIFIER);
+		propDef.inPrivateClass = lexem ();
+		while (test (SCOPE)) {
+			propDef.inPrivateClass += lexem ();
+			next (IDENTIFIER);
+			propDef.inPrivateClass += lexem ();
+		}
+		// also allow void functions
+		if (test (LPAREN)) {
+			next (RPAREN);
+			propDef.inPrivateClass += "()";
+		}
+
+		next (COMMA);
+
+		createPropertyDef (propDef);
+
+		if (!propDef.notify.empty ())
+			def->notifyableProperties++;
+		if (propDef.revision > 0)
+			++def->revisionedProperties;
+
+		def->propertyList.push_back(propDef);
 	}
 
-	QByteArray LooReflect::lexemUntil (Token)
+	void LooReflect::parseEnumOrFlag (BaseDef * def, bool isFlag)
 	{
-		return QByteArray ();
+		next (LPAREN);
+		QByteArray identifier;
+		while (test (IDENTIFIER)) {
+			identifier = lexem ();
+			while (test (SCOPE) && test (IDENTIFIER)) {
+				identifier += "::";
+				identifier += lexem ();
+			}
+			def->enumDeclarations[identifier] = isFlag;
+		}
+		next (RPAREN);
 	}
 
-	bool LooReflect::until (Token)
+	void LooReflect::parseFlag (BaseDef * def)
 	{
+		next (LPAREN);
+		QByteArray flagName, enumName;
+		while (test (IDENTIFIER)) {
+			flagName = lexem ();
+			while (test (SCOPE) && test (IDENTIFIER)) {
+				flagName += "::";
+				flagName += lexem ();
+			}
+		}
+		next (COMMA);
+		while (test (IDENTIFIER)) {
+			enumName = lexem ();
+			while (test (SCOPE) && test (IDENTIFIER)) {
+				enumName += "::";
+				enumName += lexem ();
+			}
+		}
+
+		def->flagAliases.insert (enumName, flagName);
+		next (RPAREN);
+	}
+
+	void LooReflect::parseClassInfo (BaseDef * def)
+	{
+		next (LPAREN);
+		ClassInfoDef infoDef;
+		next (STRING_LITERAL);
+		infoDef.name = symbol ().unquotedLexem ();
+		next (COMMA);
+		if (test (STRING_LITERAL)) {
+			infoDef.value = symbol ().unquotedLexem ();
+		}
+		else {
+			// support Q_CLASSINFO("help", QT_TR_NOOP("blah"))
+			next (IDENTIFIER);
+			next (LPAREN);
+			next (STRING_LITERAL);
+			infoDef.value = symbol ().unquotedLexem ();
+			next (RPAREN);
+		}
+		next (RPAREN);
+		def->classInfoList.push_back(infoDef);
+	}
+
+	void LooReflect::parseInterfaces (ClassDef * def)
+	{
+		next (LPAREN);
+		while (test (IDENTIFIER)) {
+			std::vector<ClassDef::Interface> iface;
+			iface.push_back(ClassDef::Interface (lexem ()));
+			while (test (SCOPE)) {
+				iface.rbegin()->className += lexem ();
+				next (IDENTIFIER);
+				iface.rbegin ()->className += lexem ();
+			}
+			while (test (COLON)) {
+				next (IDENTIFIER);
+				iface.push_back(ClassDef::Interface (lexem ()));
+				while (test (SCOPE)) {
+					iface.rbegin ()->className += lexem ();
+					next (IDENTIFIER);
+					iface.rbegin ()->className += lexem ();
+				}
+			}
+			// resolve from classnames to interface ids
+			for (int i = 0; i < iface.size (); ++i) {
+				const QByteArray iid = interface2IdMap.find (iface.at (i).className)->second;
+				if (iid.empty ())
+					error ("Undefined interface");
+
+				iface[i].interfaceId = iid;
+			}
+			def->interfaceList.push_back(iface);
+		}
+		next (RPAREN);
+	}
+
+	void LooReflect::parseDeclareInterface ()
+	{
+		next (LPAREN);
+		QByteArray itf;
+		next (IDENTIFIER);
+		itf += lexem ();
+		while (test (SCOPE)) {
+			itf += lexem ();
+			next (IDENTIFIER);
+			itf += lexem ();
+		}
+		next (COMMA);
+		QByteArray iid;
+		if (test (STRING_LITERAL)) {
+			iid = lexem ();
+		}
+		else {
+			next (IDENTIFIER);
+			iid = lexem ();
+		}
+		interface2IdMap.insert (itf, iid);
+		next (RPAREN);
+	}
+
+	void LooReflect::parseDeclareMetatype ()
+	{
+		next (LPAREN);
+		QByteArray typeName = lexemUntil (RPAREN);
+		typeName.erase (0, 1);
+		container_chop (typeName, 1);
+		metaTypes.push_back (typeName);
+	}
+
+	void LooReflect::parseSlotInPrivate (ClassDef * def, FunctionDef::Access access)
+	{
+		next (LPAREN);
+		FunctionDef funcDef;
+		next (IDENTIFIER);
+		funcDef.inPrivateClass = lexem ();
+		// also allow void functions
+		if (test (LPAREN)) {
+			next (RPAREN);
+			funcDef.inPrivateClass += "()";
+		}
+		next (COMMA);
+		funcDef.access = access;
+		parseFunction (&funcDef, true);
+		def->slotList.push_back(funcDef);
+		while (funcDef.arguments.size () > 0 && funcDef.arguments.rbegin ()->isDefault) {
+			funcDef.wasCloned = true;
+			funcDef.arguments.pop_back ();
+			def->slotList.push_back(funcDef);
+		}
+		if (funcDef.revision > 0)
+			++def->revisionedMethods;
+	}
+
+	QByteArray LooReflect::lexemUntil (Token target)
+	{
+		int from = index;
+		until (target);
+		QByteArray s;
+		while (from <= index) {
+			QByteArray n = symbols.at (from++ - 1).lexem ();
+			if (s.size () && n.size ()) {
+				char prev = s.at (s.size () - 1);
+				char next = n.at (0);
+				if ((is_ident_char (prev) && is_ident_char (next))
+					|| (prev == '<' && next == ':')
+					|| (prev == '>' && next == '>'))
+					s += ' ';
+			}
+			s += n;
+		}
+		return s;
+	}
+
+	bool LooReflect::until (Token target)
+	{
+		int braceCount = 0;
+		int brackCount = 0;
+		int parenCount = 0;
+		int angleCount = 0;
+		if (index) {
+			switch (symbols.at (index - 1).token) {
+			case LBRACE: ++braceCount; break;
+			case LBRACK: ++brackCount; break;
+			case LPAREN: ++parenCount; break;
+			case LANGLE: ++angleCount; break;
+			default: break;
+			}
+		}
+
+		//when searching commas within the default argument, we should take care of template depth (anglecount)
+		// unfortunatelly, we do not have enough semantic information to know if '<' is the operator< or
+		// the beginning of a template type. so we just use heuristics.
+		int possible = -1;
+
+		while (index < symbols.size ()) {
+			Token t = symbols.at (index++).token;
+			switch (t) {
+			case LBRACE: ++braceCount; break;
+			case RBRACE: --braceCount; break;
+			case LBRACK: ++brackCount; break;
+			case RBRACK: --brackCount; break;
+			case LPAREN: ++parenCount; break;
+			case RPAREN: --parenCount; break;
+			case LANGLE:
+				if (parenCount == 0 && braceCount == 0)
+					++angleCount;
+				break;
+			case RANGLE:
+				if (parenCount == 0 && braceCount == 0)
+					--angleCount;
+				break;
+			case GTGT:
+				if (parenCount == 0 && braceCount == 0) {
+					angleCount -= 2;
+					t = RANGLE;
+				}
+				break;
+			default: break;
+			}
+			if (t == target
+				&& braceCount <= 0
+				&& brackCount <= 0
+				&& parenCount <= 0
+				&& (target != RANGLE || angleCount <= 0)) {
+				if (target != COMMA || angleCount <= 0)
+					return true;
+				possible = index;
+			}
+
+			if (target == COMMA && t == EQ && possible != -1) {
+				index = possible;
+				return true;
+			}
+
+			if (braceCount < 0 || brackCount < 0 || parenCount < 0
+				|| (target == RANGLE && angleCount < 0)) {
+				--index;
+				break;
+			}
+
+			if (braceCount <= 0 && t == SEMIC) {
+				// Abort on semicolon. Allow recovering bad template parsing (QTBUG-31218)
+				break;
+			}
+		}
+
+		if (target == COMMA && angleCount != 0 && possible != -1) {
+			index = possible;
+			return true;
+		}
+
 		return false;
 	}
 
 	void LooReflect::checkSuperClasses (ClassDef * def)
 	{
+		const QByteArray firstSuperclass = def->superclassList[0].first;
+
+		if (knownQObjectClasses.find (firstSuperclass) == knownQObjectClasses.end()) {
+			// enable once we /require/ include paths
+#if 0
+			const QByteArray msg
+				= "Class "
+				+ def->className
+				+ " contains the LOO_OBJECT macro and inherits from "
+				+ def->superclassList[0]
+				+ " but that is not a known LooObject subclass. You may get compilation errors.";
+			warning (msg.constData ());
+#endif
+			return;
+		}
+		for (int i = 1; i < def->superclassList.size (); ++i) {
+			const QByteArray superClass = def->superclassList.at (i).first;
+			if (knownQObjectClasses.find (superClass) != knownQObjectClasses.end()) {
+				const QByteArray msg
+					= "Class "
+					+ def->classname
+					+ " inherits from two LooObject subclasses "
+					+ firstSuperclass
+					+ " and "
+					+ superClass
+					+ ". This is not supported!";
+				warning (msg.data ());
+			}
+
+			if (interface2IdMap.find (superClass)!= interface2IdMap.end()) {
+				bool registeredInterface = false;
+				for (int i = 0; i < def->interfaceList.size (); ++i)
+					if (def->interfaceList.at (i).begin ()->className == superClass) {
+						registeredInterface = true;
+						break;
+					}
+
+				if (!registeredInterface) {
+					const QByteArray msg
+						= "Class "
+						+ def->classname
+						+ " implements the interface "
+						+ superClass
+						+ " but does not list it in LOO_INTERFACES. qobject_cast to "
+						+ superClass
+						+ " will not work!";
+					warning (msg.data ());
+				}
+			}
+		}
 	}
 
 	void LooReflect::checkProperties (ClassDef * cdef)
 	{
+		//
+   // specify get function, for compatibiliy we accept functions
+   // returning pointers, or const char * for QByteArray.
+   //
+		std::set<QByteArray> definedProperties;
+		for (int i = 0; i < cdef->propertyList.size (); ++i) {
+			PropertyDef &p = cdef->propertyList[i];
+			if (p.read.empty () && p.member.empty ())
+				continue;
+			if (definedProperties.find (p.name) != definedProperties.end()) {
+				QByteArray msg = "The property '" + p.name + "' is defined multiple times in class " + cdef->classname + ".";
+				warning (msg.data ());
+			}
+			definedProperties.insert (p.name);
+
+			for (int j = 0; j < cdef->publicList.size (); ++j) {
+				const FunctionDef &f = cdef->publicList.at (j);
+				if (f.name != p.read)
+					continue;
+				if (!f.isConst) // get  functions must be const
+					continue;
+				if (f.arguments.size ()) // and must not take any arguments
+					continue;
+				PropertyDef::Specification spec = PropertyDef::ValueSpec;
+				QByteArray tmp = f.normalizedType;
+				if (p.type == "QByteArray" && tmp == "const char *")
+					tmp = "QByteArray";
+				if (QByteArray_left (tmp,6) == "const ")
+					tmp = tmp.substr (6);
+				if (p.type != tmp && string_endwith (tmp,'*')) {
+					container_chop (tmp, 1);
+					spec = PropertyDef::PointerSpec;
+				}
+				else if (string_endwith(f.type.name ,'&')) { // raw type, not normalized type
+					spec = PropertyDef::ReferenceSpec;
+				}
+				if (p.type != tmp)
+					continue;
+				p.gspec = spec;
+				break;
+			}
+			if (!p.notify.empty ()) {
+				int notifyId = -1;
+				for (int j = 0; j < cdef->signalList.size (); ++j) {
+					const FunctionDef &f = cdef->signalList.at (j);
+					if (f.name != p.notify) {
+						continue;
+					}
+					else {
+						notifyId = j /* Signal indexes start from 0 */;
+						break;
+					}
+				}
+				p.notifyId = notifyId;
+				if (notifyId == -1) {
+					QByteArray msg = "NOTIFY signal '" + p.notify + "' of property '" + p.name
+						+ "' does not exist in class " + cdef->classname + ".";
+					error (msg.data ());
+				}
+			}
+		}
 	}
 
 }

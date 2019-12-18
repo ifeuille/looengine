@@ -22,8 +22,8 @@ namespace loo
 #  endif
 		LOO_DECL_CONSTEXPR inline LooFlag(luint32 ai) LOO_DECL_NOTHROW : i(int(ai)) {}
 		LOO_DECL_CONSTEXPR inline LooFlag(lshort ai) LOO_DECL_NOTHROW : i(int(ai)) {}
-		LOO_DECL_CONSTEXPR inline LooFlag(lshort ai) LOO_DECL_NOTHROW : i(int(uint(ai))) {}
-		LOO_DECL_CONSTEXPR inline operator uint() const LOO_DECL_NOTHROW { return uint(i); }
+		LOO_DECL_CONSTEXPR inline LooFlag(lshort ai) LOO_DECL_NOTHROW : i(int(luint32 (ai))) {}
+		LOO_DECL_CONSTEXPR inline operator luint32() const LOO_DECL_NOTHROW { return luint32(i); }
 #endif
 	};
 	LOO_DECLARE_TYPEINFO (LooFlag, LOO_PRIMITIVE_TYPE);

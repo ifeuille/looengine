@@ -72,6 +72,12 @@ cmake ..\ -T"LLVM" -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D
 
 cmake ..\ -T"LLVM" -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_C_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_LINKER:PATH="D:\environment\clang\LLVM\bin\lld-link.exe"
 
+
+cmake ..\ -T"llvm" -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_C_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_LINKER:PATH="D:\environment\clang\LLVM\bin\lld-link.exe"
+
+cmake ..\  -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_C_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_LINKER:PATH="D:\environment\clang\LLVM\bin\lld-link.exe"
+
+
 D:\environment\clang\LLVM\bin
 
 run

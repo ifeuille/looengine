@@ -11,7 +11,7 @@ namespace loo
 		std::vector<std::uint32_t> meta_data;
 	public:
 		Generator(ClassDef *classDef, const std::vector<QByteArray> &metaTypes, const std::unordered_map<QByteArray, QByteArray> &knownQObjectClasses, const std::unordered_map<QByteArray, QByteArray> &knownGadgets, FILE *outfile = 0);
-		void generateCode();
+		void generateCode();//core
 	private:
 		bool registerableMetaType(const QByteArray &propertyType);
 		void registerClassInfoStrings();

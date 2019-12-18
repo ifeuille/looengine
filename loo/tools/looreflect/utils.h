@@ -90,7 +90,7 @@ namespace loo
 		return pos;
 	}
 
-	inline QByteArray QByteArray_left (const QByteArray& that,int len)
+	inline QByteArray string_left (const QByteArray& that,int len)
 	{
 		if (len > that.size ())
 		{
@@ -101,6 +101,11 @@ namespace loo
 			len = 0;
 		}
 		return QByteArray (that.data (), len);
+	}
+
+	inline int string_indexof (const std::string& str, const std::string& value)
+	{
+		return str.find (value);
 	}
 
 	inline bool string_startwith (const std::string& str, const char& c)
@@ -121,17 +126,34 @@ namespace loo
 		return false;
 	}
 
+	inline std::string string_relace_all (std::string& str, const std::string& old_value, const std::string& new_value)
+	{
+		using std::string;
+		while (true) {
+			string::size_type   pos (0);
+			if ((pos = str.find (old_value)) != string::npos)
+				str.replace (pos, old_value.length (), new_value);
+			else   break;
+		}
+		return   str;
+	}
+	inline std::string string_relace_all (std::string& str, const char& old_value, const char& new_value) {
+		return string_relace_all (str, &old_value, &new_value);
+	}
+
 	inline bool string_endwith (const std::string& s, const std::string& sub) {
 		return s.rfind (sub) == (s.length () - sub.length ()) ? true : false;
 	}
-
+	inline bool string_startwith (const std::string& s, const std::string& sub) {
+		return s.find (sub) == 0 ? true : false;
+	}
 	inline std::string str_left (const std::string& s, std::size_t len)
 	{
 		return s.substr (0, len);
 	}
 
 	template<typename T>
-	inline void vector_chop (T& v, int n)
+	inline void container_chop (T& v, int n)
 	{
 		if (n > 0)
 		{
@@ -142,6 +164,21 @@ namespace loo
 			}
 			v.resize (newSize);
 		}
+	}
+
+	template<typename T>
+	inline bool container_contains (const T& v, const T::value_type& value)
+	{
+		if (std::find (v.begin (), v.end (), value) != v.end())
+		{
+			return true;
+		}
+		return false;
+	}
+	template<typename T>
+	inline T v_clamp (const T& mi, const T& value, const T& ma)
+	{
+		reutrn std::max (min, std::min (value, ma));
 	}
 }
 

@@ -2,10 +2,14 @@ set(LOCAL_PUBLIC
 ${MODULE_ROOT_PATH}/kernel/loometaobject_reflect_p.h
 ${MODULE_ROOT_PATH}/kernel/loometatype.h
 ${MODULE_ROOT_PATH}/kernel/loovariant.h
+${MODULE_ROOT_PATH}/kernel/loometaobject.h
+${MODULE_ROOT_PATH}/kernel/looobjectdefs.h
+${MODULE_ROOT_PATH}/kernel/looobjectdefs_impl.h
 )
 
 set(LOCAL_PRIVATE 
 ${MODULE_ROOT_PATH}/kernel/loometatype.cpp
+${MODULE_ROOT_PATH}/kernel/loometaobject.cpp
 )
 
 

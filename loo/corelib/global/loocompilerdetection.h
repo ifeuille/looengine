@@ -1,9 +1,9 @@
-#ifndef LOO_CORELIB_GLOBAL_GLOBAL_H
-#include <LooCore/looglobal.h>
-#endif
+//#ifndef LOO_CORELIB_GLOBAL_GLOBAL_H
+//#include <LooCore/looglobal.h>
+//#endif
 
-#ifndef LOO_CORELIB_LOOCOMPILER_H
-#define LOO_CORELIB_LOOCOMPILER_H
+#ifndef LOO_CORELIB_LOOCOMPILERDETECTION_H
+#define LOO_CORELIB_LOOCOMPILERDETECTION_H
 
 //llvm/clang only
 #  define LOO_DECL_CONSTEXPR constexpr
@@ -13,8 +13,8 @@
 
 #  define LOO_ALIGNOF(x)  alignof(x)
 #  define LOO_DECL_ALIGN(n)   alignas(n)
-
-
+# define LOO_DECL_NOEXCEPT noexcept
+# define LOO_DECL_NOEXCEPT_EXPR(x) noexcept(x)
 
 # define LOO_NULLPTR         nullptr
 
@@ -39,7 +39,14 @@
 #define LOO_MAKE_UNCHECKED_ARRAY_ITERATOR(x) stdext::make_unchecked_array_iterator(x) // Since _MSC_VER >= 1800
 #define LOO_MAKE_CHECKED_ARRAY_ITERATOR(x, N) stdext::make_checked_array_iterator(x, size_t(N)) // Since _MSC_VER >= 1500
 
-
+#  undef LOO_DO_PRAGMA                           /* not needed */
+#  define LOO_WARNING_PUSH                       __pragma(warning(push))
+#  define LOO_WARNING_POP                        __pragma(warning(pop))
+#  define LOO_WARNING_DISABLE_MSVC(number)       __pragma(warning(disable: number))
+#  define LOO_WARNING_DISABLE_INTEL(number)
+#  define LOO_WARNING_DISABLE_CLANG(text)
+#  define LOO_WARNING_DISABLE_GCC(text)
+#  define LOO_WARNING_DISABLE_DEPRECATED         LOO_WARNING_DISABLE_MSVC(4996)
 
 #  elif defined(__clang__)
 
@@ -118,7 +125,15 @@
 #    endif
 #  endif
 
+#  define LOO_WARNING_PUSH                       LOO_DO_PRAGMA(clang diagnostic push)
+#  define LOO_WARNING_POP                        LOO_DO_PRAGMA(clang diagnostic pop)
+#  define LOO_WARNING_DISABLE_CLANG(text)        LOO_DO_PRAGMA(clang diagnostic ignored text)
+#  define LOO_WARNING_DISABLE_GCC(text)
+#  define LOO_WARNING_DISABLE_INTEL(number)
+#  define LOO_WARNING_DISABLE_MSVC(number)
+#  define LOO_WARNING_DISABLE_DEPRECATED         LOO_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
 
+#endif
 
 
 #endif

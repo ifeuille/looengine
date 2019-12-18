@@ -81,7 +81,7 @@ namespace loo
 #define LOO_FOR_EACH_STATIC_HACKS_TYPE(F)\
     F(LooMetaTypeId2<lreal>::MetaType, -1, lreal)
 
-// F is a tuple: (QMetaType::TypeName, QMetaType::TypeNameID, AliasingType, "RealType")
+// F is a tuple: (LooMetaType::TypeName, LooMetaType::TypeNameID, AliasingType, "RealType")
 #define LOO_FOR_EACH_STATIC_ALIAS_TYPE(F)\
     F(ULong, -1, lulong, "unsigned long") \
     F(UInt, -1, luint32, "unsigned int") \
@@ -131,7 +131,7 @@ namespace loo
     F(QPointer)*/
 
 	class QDataStream;
-	class QMetaTypeInterface;
+	class LooMetaTypeInterface;
 	struct QMetaObject;
 
 	namespace LooPrivate
@@ -401,7 +401,7 @@ namespace loo
 			Destructor destructor,
 			Constructor constructor,
 			int size,
-			QMetaType::TypeFlags flags,
+			LooMetaType::TypeFlags flags,
 			const QMetaObject *metaObject);
 		static bool unregisterType (int type);
 		static int registerNormalizedType (const QT_PREPEND_NAMESPACE (QByteArray) &normalizedTypeName, Deleter deleter,
@@ -409,12 +409,12 @@ namespace loo
 			Destructor destructor,
 			Constructor constructor,
 			int size,
-			QMetaType::TypeFlags flags,
+			LooMetaType::TypeFlags flags,
 			const QMetaObject *metaObject);
 		static int registerNormalizedType (const QT_PREPEND_NAMESPACE (QByteArray) &normalizedTypeName, Destructor destructor,
 			Constructor constructor,
 			int size,
-			QMetaType::TypeFlags flags,
+			LooMetaType::TypeFlags flags,
 			const QMetaObject *metaObject);
 		static int registerTypedef (const char *typeName, int aliasId);
 		static int registerNormalizedTypedef (const QT_PREPEND_NAMESPACE (QByteArray) &normalizedTypeName, int aliasId);
@@ -427,12 +427,7 @@ namespace loo
 		static const QMetaObject *metaObjectForType (int type);
 		static bool isRegistered (int type);
 		static void *create (int type, const void *copy = Q_NULLPTR);
-#if QT_DEPRECATED_SINCE(5, 0)
-		QT_DEPRECATED static void *construct (int type, const void *copy = Q_NULLPTR)
-		{
-			return create (type, copy);
-		}
-#endif
+
 		static void destroy (int type, void *data);
 		static void *construct (int type, void *where, const void *copy);
 		static void destruct (int type, void *where);
@@ -442,8 +437,8 @@ namespace loo
 		static bool load (QDataStream &stream, int type, void *data);
 #endif
 
-		explicit QMetaType (const int type); // ### Qt6: drop const
-		inline ~QMetaType ();
+		explicit LooMetaType (const int type); // ### Qt6: drop const
+		inline ~LooMetaType ();
 
 		inline bool isValid () const;
 		inline bool isRegistered () const;
@@ -460,20 +455,20 @@ namespace loo
 		template<typename T>
 		static bool registerComparators ()
 		{
-			Q_STATIC_ASSERT_X ((!QMetaTypeId2<T>::IsBuiltIn),
-				"QMetaType::registerComparators: The type must be a custom type.");
+			LOO_STATIC_ASSERT_X ((!LooMetaTypeId2<T>::IsBuiltIn),
+				"LooMetaType::registerComparators: The type must be a custom type.");
 
-			const int typeId = qMetaTypeId<T> ();
-			static const QtPrivate::BuiltInComparatorFunction<T> f;
+			const int typeId = lMetaTypeId<T> ();
+			static const LooPrivate::BuiltInComparatorFunction<T> f;
 			return registerComparatorFunction (&f, typeId);
 		}
 		template<typename T>
 		static bool registerEqualsComparator ()
 		{
-			Q_STATIC_ASSERT_X ((!QMetaTypeId2<T>::IsBuiltIn),
-				"QMetaType::registerEqualsComparator: The type must be a custom type.");
+			Q_STATIC_ASSERT_X ((!LooMetaTypeId2<T>::IsBuiltIn),
+				"LooMetaType::registerEqualsComparator: The type must be a custom type.");
 			const int typeId = qMetaTypeId<T> ();
-			static const QtPrivate::BuiltInEqualsComparatorFunction<T> f;
+			static const LooPrivate::BuiltInEqualsComparatorFunction<T> f;
 			return registerComparatorFunction (&f, typeId);
 		}
 
@@ -489,11 +484,11 @@ namespace loo
 		template<typename T>
 		static bool registerDebugStreamOperator ()
 		{
-			Q_STATIC_ASSERT_X ((!QMetaTypeId2<T>::IsBuiltIn),
-				"QMetaType::registerDebugStreamOperator: The type must be a custom type.");
+			Q_STATIC_ASSERT_X ((!LooMetaTypeId2<T>::IsBuiltIn),
+				"LooMetaType::registerDebugStreamOperator: The type must be a custom type.");
 
 			const int typeId = qMetaTypeId<T> ();
-			static const QtPrivate::BuiltInDebugStreamFunction<T> f;
+			static const LooPrivate::BuiltInDebugStreamFunction<T> f;
 			return registerDebugStreamOperatorFunction (&f, typeId);
 		}
 		template<typename T>
@@ -508,7 +503,7 @@ namespace loo
 		template<typename From, typename To>
 		static bool registerConverter ()
 		{
-			return registerConverter<From, To> (QtPrivate::convertImplicit<From, To>);
+			return registerConverter<From, To> (LooPrivate::convertImplicit<From, To>);
 		}
 
 #ifdef Q_QDOC
@@ -523,12 +518,12 @@ namespace loo
 		template<typename From, typename To>
 		static bool registerConverter (To (From::*function)() const)
 		{
-			Q_STATIC_ASSERT_X ((!QMetaTypeId2<To>::IsBuiltIn || !QMetaTypeId2<From>::IsBuiltIn),
-				"QMetaType::registerConverter: At least one of the types must be a custom type.");
+			Q_STATIC_ASSERT_X ((!LooMetaTypeId2<To>::IsBuiltIn || !LooMetaTypeId2<From>::IsBuiltIn),
+				"LooMetaType::registerConverter: At least one of the types must be a custom type.");
 
 			const int fromTypeId = qMetaTypeId<From> ();
 			const int toTypeId = qMetaTypeId<To> ();
-			static const QtPrivate::ConverterMemberFunction<From, To> f (function);
+			static const LooPrivate::ConverterMemberFunction<From, To> f (function);
 			return registerConverterFunction (&f, fromTypeId, toTypeId);
 		}
 
@@ -536,12 +531,12 @@ namespace loo
 		template<typename From, typename To>
 		static bool registerConverter (To (From::*function)(bool*) const)
 		{
-			Q_STATIC_ASSERT_X ((!QMetaTypeId2<To>::IsBuiltIn || !QMetaTypeId2<From>::IsBuiltIn),
-				"QMetaType::registerConverter: At least one of the types must be a custom type.");
+			Q_STATIC_ASSERT_X ((!LooMetaTypeId2<To>::IsBuiltIn || !LooMetaTypeId2<From>::IsBuiltIn),
+				"LooMetaType::registerConverter: At least one of the types must be a custom type.");
 
 			const int fromTypeId = qMetaTypeId<From> ();
 			const int toTypeId = qMetaTypeId<To> ();
-			static const QtPrivate::ConverterMemberFunctionOk<From, To> f (function);
+			static const LooPrivate::ConverterMemberFunctionOk<From, To> f (function);
 			return registerConverterFunction (&f, fromTypeId, toTypeId);
 		}
 
@@ -549,12 +544,12 @@ namespace loo
 		template<typename From, typename To, typename UnaryFunction>
 		static bool registerConverter (UnaryFunction function)
 		{
-			Q_STATIC_ASSERT_X ((!QMetaTypeId2<To>::IsBuiltIn || !QMetaTypeId2<From>::IsBuiltIn),
-				"QMetaType::registerConverter: At least one of the types must be a custom type.");
+			Q_STATIC_ASSERT_X ((!LooMetaTypeId2<To>::IsBuiltIn || !LooMetaTypeId2<From>::IsBuiltIn),
+				"LooMetaType::registerConverter: At least one of the types must be a custom type.");
 
 			const int fromTypeId = qMetaTypeId<From> ();
 			const int toTypeId = qMetaTypeId<To> ();
-			static const QtPrivate::ConverterFunctor<From, To, UnaryFunction> f (function);
+			static const LooPrivate::ConverterFunctor<From, To, UnaryFunction> f (function);
 			return registerConverterFunction (&f, fromTypeId, toTypeId);
 		}
 #endif
@@ -573,53 +568,50 @@ namespace loo
 		static bool hasRegisteredConverterFunction (int fromTypeId, int toTypeId);
 
 	private:
-		static QMetaType typeInfo (const int type);
-		inline QMetaType (const ExtensionFlag extensionFlags, const QMetaTypeInterface *info,
+		static LooMetaType typeInfo (const int type);
+		inline LooMetaType (const ExtensionFlag extensionFlags, const LooMetaTypeInterface *info,
 			Creator creator,
 			Deleter deleter,
 			SaveOperator saveOp,
 			LoadOperator loadOp,
 			Constructor constructor,
 			Destructor destructor,
-			uint sizeOf,
-			uint theTypeFlags,
+			luint32 sizeOf,
+			luint32 theTypeFlags,
 			int typeId,
 			const QMetaObject *metaObject);
-		QMetaType (const QMetaType &other);
-		QMetaType &operator =(const QMetaType &);
+		LooMetaType (const LooMetaType &other);
+		LooMetaType &operator =(const LooMetaType &);
 		inline bool isExtended (const ExtensionFlag flag) const { return m_extensionFlags & flag; }
 
 		// Methods used for future binary compatible extensions
-		void ctor (const QMetaTypeInterface *info);
+		void ctor (const LooMetaTypeInterface *info);
 		void dtor ();
-		uint sizeExtended () const;
-		QMetaType::TypeFlags flagsExtended () const;
+		luint32 sizeExtended () const;
+		LooMetaType::TypeFlags flagsExtended () const;
 		const QMetaObject *metaObjectExtended () const;
 		void *createExtended (const void *copy = Q_NULLPTR) const;
 		void destroyExtended (void *data) const;
 		void *constructExtended (void *where, const void *copy = Q_NULLPTR) const;
 		void destructExtended (void *data) const;
 
-		static bool registerComparatorFunction (const QtPrivate::AbstractComparatorFunction *f, int type);
-#ifndef QT_NO_DEBUG_STREAM
-		static bool registerDebugStreamOperatorFunction (const QtPrivate::AbstractDebugStreamFunction *f, int type);
-#endif
+		static bool registerComparatorFunction (const LooPrivate::AbstractComparatorFunction *f, int type);
 
 		// ### Qt6: FIXME: Remove the special Q_CC_MSVC handling, it was introduced to maintain BC.
 #if !defined(Q_NO_TEMPLATE_FRIENDS) && !defined(Q_CC_MSVC)
 #ifndef Q_QDOC
-		template<typename, bool> friend struct QtPrivate::ValueTypeIsMetaType;
-		template<typename, typename> friend struct QtPrivate::ConverterMemberFunction;
-		template<typename, typename> friend struct QtPrivate::ConverterMemberFunctionOk;
-		template<typename, typename, typename> friend struct QtPrivate::ConverterFunctor;
-		template<typename, bool> friend struct QtPrivate::AssociativeValueTypeIsMetaType;
-		template<typename, bool> friend struct QtPrivate::IsMetaTypePair;
-		template<typename, typename> friend struct QtPrivate::MetaTypeSmartPointerHelper;
+		template<typename, bool> friend struct LooPrivate::ValueTypeIsMetaType;
+		template<typename, typename> friend struct LooPrivate::ConverterMemberFunction;
+		template<typename, typename> friend struct LooPrivate::ConverterMemberFunctionOk;
+		template<typename, typename, typename> friend struct LooPrivate::ConverterFunctor;
+		template<typename, bool> friend struct LooPrivate::AssociativeValueTypeIsMetaType;
+		template<typename, bool> friend struct LooPrivate::IsMetaTypePair;
+		template<typename, typename> friend struct LooPrivate::MetaTypeSmartPointerHelper;
 #endif
 #else
 	public:
 #endif
-		static bool registerConverterFunction (const QtPrivate::AbstractConverterFunction *f, int from, int to);
+		static bool registerConverterFunction (const LooPrivate::AbstractConverterFunction *f, int from, int to);
 		static void unregisterConverterFunction (int from, int to);
 	private:
 
@@ -630,9 +622,9 @@ namespace loo
 		Constructor m_constructor;
 		Destructor m_destructor;
 		void *m_extension; // space reserved for future use
-		uint m_size;
-		uint m_typeFlags;
-		uint m_extensionFlags;
+		luint32 m_size;
+		luint32 m_typeFlags;
+		luint32 m_extensionFlags;
 		int m_typeId;
 		const QMetaObject *m_metaObject;
 	};

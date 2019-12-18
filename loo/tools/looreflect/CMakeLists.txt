@@ -41,6 +41,8 @@ SET(FILESYSTEM_HDRS
 SET(nlohmann_HDRS
 nlohmann/json.hpp)
 
+add_definitions(-DLOO_REFLECT_RUN)
+
 source_group("filesystem" FILES ${FILESYSTEM_HDRS})
 source_group("nlohmann" FILES ${nlohmann_HDRS})
 SET(HDRS ${HDRS} ${FILESYSTEM_HDRS} ${nlohmann_HDRS})
