@@ -17,6 +17,7 @@ SET(HDRS
     utils.h 
     symbols.h
     stringlist.h
+    looarguments.h
     )
 SET(SRCS 
     commandlineoption.cpp

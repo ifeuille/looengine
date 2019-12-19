@@ -588,7 +588,7 @@ namespace loo
 								}
 								break;
 							case LOO_NAMESPACE_TOKEN:
-								def.hasQNamespace = true;
+								def.hasLooNamespace = true;
 								break;
 							case LOO_ENUMS_TOKEN:
 							case LOO_ENUM_NS_TOKEN:
@@ -628,7 +628,7 @@ namespace loo
 						}
 						namespaceList.push_back(def);
 						index = rewind;
-						if (!def.hasQNamespace && (!def.classInfoList.empty () || !def.enumDeclarations.empty ()))
+						if (!def.hasLooNamespace && (!def.classInfoList.empty () || !def.enumDeclarations.empty ()))
 							error ("Namespace declaration lacks LOO_NAMESPACE macro.");
 					}
 				}
@@ -675,23 +675,23 @@ namespace loo
 				while (inClass (&def) && hasNext ()) {
 					switch (next ()) {
 					case LOO_OBJECT_TOKEN:
-						def.hasQObject = true;
+						def.hasLooObject = true;
 						break;
 					case LOO_GADGET_TOKEN:
-						def.hasQGadget = true;
+						def.hasLooGadget = true;
 						break;
 					default: break;
 					}
 				}
 
-				if (!def.hasQObject && !def.hasQGadget)
+				if (!def.hasLooObject && !def.hasLooGadget)
 					continue;
 
 				for (int i = namespaceList.size () - 1; i >= 0; --i)
 					if (inNamespace (&namespaceList.at (i)))
 						def.qualified=namespaceList.at (i).classname + "::"+ def.qualified;
 
-				std::unordered_map<QByteArray, QByteArray> &classHash = def.hasQObject ? knownQObjectClasses : knownGadgets;
+				std::unordered_map<QByteArray, QByteArray> &classHash = def.hasLooObject ? knownQObjectClasses : knownGadgets;
 				classHash.insert (def.classname, def.qualified);
 				classHash.insert (def.qualified, def.qualified);
 
@@ -748,14 +748,14 @@ namespace loo
 						}
 						break;
 					case LOO_OBJECT_TOKEN:
-						def.hasQObject = true;
+						def.hasLooObject = true;
 						if (templateClass)
 							error ("Template classes not supported by LOO_OBJECT");
 						if (def.classname != "loo" && def.classname != "LooObject" && def.superclassList.empty ())
 							error ("Class contains LOO_OBJECT macro but does not inherit from LooObject");
 						break;
 					case LOO_GADGET_TOKEN:
-						def.hasQGadget = true;
+						def.hasLooGadget = true;
 						if (templateClass)
 							error ("Template classes not supported by LOO_GADGET");
 						break;
@@ -863,12 +863,12 @@ namespace loo
 
 				next (RBRACE);
 
-				if (!def.hasQObject && !def.hasQGadget && def.signalList.empty () && def.slotList.empty ()
+				if (!def.hasLooObject && !def.hasLooGadget && def.signalList.empty () && def.slotList.empty ()
 					&& def.propertyList.empty () && def.enumDeclarations.empty ())
 					continue; // no meta object code required
 
 
-				if (!def.hasQObject && !def.hasQGadget)
+				if (!def.hasLooObject && !def.hasLooGadget)
 					error ("Class declaration lacks LOO_OBJECT macro.");
 
 				// Add meta tags to the plugin meta data:
@@ -879,18 +879,18 @@ namespace loo
 				checkProperties (&def);
 
 				classList.push_back(def);
-				std::unordered_map<QByteArray, QByteArray> &classHash = def.hasQObject ? knownQObjectClasses : knownGadgets;
+				std::unordered_map<QByteArray, QByteArray> &classHash = def.hasLooObject ? knownQObjectClasses : knownGadgets;
 				classHash.insert (def.classname, def.qualified);
 				classHash.insert (def.qualified, def.qualified);
 			}
 		}
 		for (const auto &n : std::as_const (namespaceList)) {
-			if (!n.hasQNamespace)
+			if (!n.hasLooNamespace)
 				continue;
 			ClassDef def;
 			static_cast<BaseDef &>(def) = static_cast<BaseDef>(n);
 			def.qualified += def.classname;
-			def.hasQGadget = true;
+			def.hasLooGadget = true;
 			auto it = std::find_if (classList.begin (), classList.end (), [&def](const ClassDef &val) {
 				return def.classname == val.classname && def.qualified == val.qualified;
 			});

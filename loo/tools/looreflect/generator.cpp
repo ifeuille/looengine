@@ -46,9 +46,16 @@ namespace loo
 		return 0;
 	}
 
-	Generator::Generator (ClassDef *classDef, const std::vector<QByteArray> &metaTypes, const std::unordered_map<QByteArray, QByteArray> &knownLooObjectClasses, const std::unordered_map<QByteArray, QByteArray> &knownGadgets, FILE *outfile)
-		: out (outfile), cdef (classDef), metaTypes (metaTypes), knownLooObjectClasses (knownLooObjectClasses)
-		, knownGadgets (knownGadgets)
+	Generator::Generator (
+		ClassDef *classDef, 
+		const std::vector<QByteArray> &metaTypes, 
+		const std::unordered_map<QByteArray, QByteArray> &knownLooObjectClasses, 
+		const std::unordered_map<QByteArray, QByteArray> &knownGadgets, FILE *outfile)
+		: out (outfile), 
+		cdef (classDef), 
+		metaTypes (metaTypes), 
+		knownLooObjectClasses (knownLooObjectClasses), 
+		knownGadgets (knownGadgets)
 	{
 		if (cdef->superclassList.size ())
 			purestSuperClass = cdef->superclassList.begin ()->first;
@@ -357,7 +364,7 @@ namespace loo
 			isConstructible ? index : 0);
 
 		int flags = 0;
-		if (cdef->hasQGadget) {
+		if (cdef->hasLooGadget) {
 			// Ideally, all the classes could have that flag. But this broke classes generated
 			// by qdbusxml2cpp which generate code that require that we call loo_metacall for properties
 			flags |= PropertyAccessInStaticMetaCall;
@@ -516,7 +523,7 @@ namespace loo
 
 		if (isLooObject)
 			fprintf (out, "    { nullptr, ");
-		else if (cdef->superclassList.size () && (!cdef->hasQGadget || knownGadgets.find (purestSuperClass) != knownGadgets.end()))
+		else if (cdef->superclassList.size () && (!cdef->hasLooGadget || knownGadgets.find (purestSuperClass) != knownGadgets.end()))
 			fprintf (out, "    { &%s::staticMetaObject, ", purestSuperClass.data ());
 		else
 			fprintf (out, "    { nullptr, ");
@@ -872,8 +879,6 @@ namespace loo
 		for (int i = 0; i < cdef->enumList.size(); ++i) {
 			const EnumDef &e = cdef->enumList.at(i);
 			strreg(e.name);
-			if (!e.enumName.isNull())
-				strreg(e.enumName);
 			for (int j = 0; j < e.values.size(); ++j)
 				strreg(e.values.at(j));
 		}
@@ -890,13 +895,13 @@ namespace loo
 		for (i = 0; i < cdef->enumList.size(); ++i) {
 			const EnumDef &e = cdef->enumList.at(i);
 			int flags = 0;
-			if (cdef->enumDeclarations.value(e.name))
+			if (cdef->enumDeclarations[e.name])
 				flags |= EnumIsFlag;
 			if (e.isEnumClass)
 				flags |= EnumIsScoped;
 			fprintf(out, "    %4d, %4d, 0x%.1x, %4d, %4d,\n",
 				stridx(e.name),
-				e.enumName.isNull() ? stridx(e.name) : stridx(e.enumName),
+				cdef->enumDeclarations[e.name] ? 1 : 0,
 				flags,
 				e.values.size(),
 				index);
@@ -910,7 +915,7 @@ namespace loo
 				const QByteArray &val = e.values.at(j);
 				QByteArray code = cdef->qualified.data();
 				if (e.isEnumClass)
-					code += "::" + (e.enumName.isNull() ? e.name : e.enumName);
+					code += "::" + e.name;
 				code += "::" + val;
 				fprintf(out, "    %4d, std::uint32_t(%s),\n",
 					stridx(val), code.data());
@@ -1092,9 +1097,9 @@ namespace loo
 	}
 
 
-	std::unordered_map<QByteArray, int> Generator::automaticPropertyMetaTypesHelper()
+	std::multimap<QByteArray, int> Generator::automaticPropertyMetaTypesHelper()
 	{
-		std::unordered_map<QByteArray, int> automaticPropertyMetaTypes;
+		std::multimap<QByteArray, int> automaticPropertyMetaTypes;
 		for (int i = 0; i < cdef->propertyList.size(); ++i) {
 			const QByteArray propertyType = cdef->propertyList.at(i).type;
 			if (registerableMetaType(propertyType) && !isBuiltinType(propertyType))
@@ -1148,7 +1153,7 @@ namespace loo
 				}
 				fprintf(out, ");\n");
 				fprintf(out, "            if (_a[0]) *reinterpret_cast<%s**>(_a[0]) = _r; } break;\n",
-					cdef->hasQGadget ? "void" : "LooObject");
+					cdef->hasLooGadget ? "void" : "LooObject");
 			}
 			fprintf(out, "        default: break;\n");
 			fprintf(out, "        }\n");

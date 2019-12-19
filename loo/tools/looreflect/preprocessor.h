@@ -34,7 +34,7 @@ namespace loo
 		Macros macros;
 		QByteArray resolveInclude (const QByteArray &filename, const QByteArray &relativeTo);
 		//core
-		Symbols preprocessed (const QByteArray &filename, fs::ifstream& device);
+		Symbols preprocessed (const QByteArray &filename, std::istream& device);
 
 		void parseDefineArguments (Macro *m);
 

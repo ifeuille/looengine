@@ -38,7 +38,7 @@ namespace loo
 		std::vector<QByteArray> strings;
 		QByteArray purestSuperClass;
 		std::vector<QByteArray> metaTypes;
-		std::unordered_map<QByteArray, QByteArray> knownQObjectClasses;
+		std::unordered_map<QByteArray, QByteArray> knownLooObjectClasses;
 		std::unordered_map/*QHash*/<QByteArray, QByteArray> knownGadgets;
 	};
 }

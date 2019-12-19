@@ -956,7 +956,7 @@ namespace loo
 	}
 	*/
 
-	static QByteArray readFile2String (fs::ifstream& ifs) {
+	static QByteArray readFile2String (std::istream& ifs) {
 		fs::ifstream::pos_type fileSize = ifs.tellg ();
 		ifs.seekg (0, std::ios::beg);
 
@@ -1223,7 +1223,7 @@ namespace loo
 		currentFilenames.pop ();
 	}
 
-	Symbols Preprocessor::preprocessed (const QByteArray & filename, fs::ifstream & device)
+	Symbols Preprocessor::preprocessed (const QByteArray & filename, std::istream & device)
 	{
 		QByteArray input = readFile2String (device);
 

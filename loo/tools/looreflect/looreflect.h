@@ -127,8 +127,8 @@ namespace loo
 		};
 		std::vector<std::vector<Interface> >interfaceList;
 
-		bool hasQObject = false;
-		bool hasQGadget = false;
+		bool hasLooObject = false;
+		bool hasLooGadget = false;
 
 		struct PluginData {
 			QByteArray iid;
@@ -145,7 +145,7 @@ namespace loo
 
 	};
 	struct NamespaceDef : BaseDef {
-		bool hasQNamespace = false;
+		bool hasLooNamespace = false;
 	};
 
 	class LooReflect : public Parser
@@ -222,8 +222,8 @@ namespace loo
 		if (string_endwith (type, '&'))
 		{
 			if (string_endwith (type, "&&"))
-				return str_left (type, type.length () - 2 );
-			return str_left (type, type.length () - 1);
+				return string_left (type, type.length () - 2 );
+			return string_left (type, type.length () - 1);
 		}
 		return type;
 	}
