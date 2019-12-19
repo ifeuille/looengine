@@ -27,9 +27,6 @@ namespace loo
 		inline LooStringList& operator<<(const LooStringList& l) {
 			*this += l; return *this;
 		}
-		inline LooStringList& operator<<(const LooStringList& l) {
-			*this += l; return *this;
-		}
 		inline LooStringList& operator+=(const LooStringList& l) {
 			insert (end(), l.begin (), l.end ());
 			return *this;

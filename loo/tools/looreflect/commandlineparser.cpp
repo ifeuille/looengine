@@ -39,10 +39,10 @@ namespace loo
 		std::vector<LooCommandLineOption> commandLineOptionList;
 
 		//! Hash mapping option names to their offsets in commandLineOptionList and optionArgumentList.
-		NameHash_t nameHash;
+		NameHash_t nameHash;//option的值列表的索引ID,索引optionValuesHash
 
 		//! Option values found (only for options with a value)
-		std::unordered_map<int, LooStringList> optionValuesHash;
+		std::unordered_map<int, LooStringList> optionValuesHash;//option的值的列表
 
 		//! Names of options found on the command line.
 		LooStringList optionNames;
@@ -560,11 +560,15 @@ namespace loo
 	bool LooCommandLineParserPrivate::parseOptionValue (const std::string &optionName, const std::string &argument,
 		LooStringList::const_iterator *argumentIterator, LooStringList::const_iterator argsEnd)
 	{
+		//一个option通过nameHash获得其值的索引,再在optionValuesHash获得其值的列表,一个option可能有多个值
 		const char assignChar = ('=');
+		//获取option的偏移信息，指在
 		const NameHash_t::const_iterator nameHashIt = nameHash.find (optionName);
 		if (nameHashIt != nameHash.end ()) {
+			//找到=后的值
 			const int assignPos = argument.find_first_of (assignChar);
 			const NameHash_t::mapped_type optionOffset = nameHashIt->second;
+			//如果历史option列表里没有这个option
 			const bool withValue = !commandLineOptionList.at (optionOffset).valueName ().empty ();
 			if (withValue) {
 				if (assignPos == -1) {
@@ -576,6 +580,7 @@ namespace loo
 					optionValuesHash[optionOffset].append (*(*argumentIterator));
 				}
 				else {
+					//记录option的值
 					optionValuesHash[optionOffset].append (argument.substr (assignPos + 1));
 				}
 			}
@@ -630,10 +635,12 @@ namespace loo
 			if (forcePositional) {
 				positionalArgumentList.append (argument);
 			}
-			else if (string_startwith (argument,doubleDashString)) {
+			else if (string_startwith (argument,doubleDashString)) {//--开头的option
 				if (argument.length () > 2) {
+					//--开头的是optin,格式为--option=v
 					std::string optionName = string_section(argument.substr (2),assignChar, 0, 0);
 					if (registerFoundOption (optionName)) {
+						//获取该option的值
 						if (!parseOptionValue (optionName, argument, &argumentIterator, args.end ()))
 							error = true;
 					}
@@ -641,16 +648,16 @@ namespace loo
 						error = true;
 					}
 				}
-				else {
+				else {//如果单独--,则强制非option
 					forcePositional = true;
 				}
 			}
-			else if (string_startwith (argument,dashChar)) {
+			else if (string_startwith (argument,dashChar)) {//-开头的
 				if (argument.size () == 1) { // single dash ("stdin")
 					positionalArgumentList.append (argument);
 					continue;
 				}
-				switch (singleDashWordOptionMode) {
+				switch (singleDashWordOptionMode) {//main里设置为ParseAsLongOptions
 				case LooCommandLineParser::ParseAsCompactedShortOptions:
 				{
 					std::string optionName;

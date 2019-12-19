@@ -13,6 +13,8 @@
 #include "looarguments.h"
 
 #include <codecvt>
+
+//获取环境变量
 QByteArray qgetenv (const char *varName)
 {
 	//QMutexLocker locker (&environmentMutex);
@@ -146,10 +148,11 @@ namespace loo
 		allArguments.reserve (arguments.size ());
 		for (const std::string &argument : arguments) {
 			// "@file" doesn't start with a '-' so we can't use LooCommandLineParser for it
+			//如果以@开头,就是文件
 			if(string_startwith(argument,'@')){
 			//if (argument.startsWith ('@')) {
 				std::string optionsFile = argument;
-				optionsFile.erase (0, 1);
+				optionsFile.erase (0, 1);//去掉@
 				if (optionsFile.empty ()) {
 					error ("The @ option requires an input file");
 					return LooStringList ();
@@ -160,6 +163,7 @@ namespace loo
 					error ("Cannot open options file specified with @");
 					return LooStringList ();
 				}
+				//读取文件配置行
 				while (!f.eof ()) {
 					std::string line;
 					std::getline (f, line);
@@ -204,53 +208,62 @@ namespace loo
 		parser.setApplicationDescription ("Loo Meta Object Compiler version 1.0.0 (Loo 1.0.0)");
 		parser.addHelpOption ();
 		parser.addVersionOption ();
-		parser.setSingleDashWordOptionMode (LooCommandLineParser::ParseAsLongOptions);
+		parser.setSingleDashWordOptionMode (LooCommandLineParser::ParseAsLongOptions);//设置了-开头参数的解析
 
+		//-o 输出文件
 		LooCommandLineOption outputOption ("o");
 		outputOption.setDescription (("Write output to file rather than stdout."));
 		outputOption.setValueName (("file"));
 		outputOption.setFlags (LooCommandLineOption::ShortOptionStyle);
 		parser.addOption (outputOption);
 
+		//-I 输入
 		LooCommandLineOption includePathOption (("I"));
 		includePathOption.setDescription (("Add dir to the include path for header files."));
 		includePathOption.setValueName (("dir"));
 		includePathOption.setFlags (LooCommandLineOption::ShortOptionStyle);
 		parser.addOption (includePathOption);
 
+		//-F mac framework
 		LooCommandLineOption macFrameworkOption (("F"));
 		macFrameworkOption.setDescription (("Add Mac framework to the include path for header files."));
 		macFrameworkOption.setValueName (("framework"));
 		macFrameworkOption.setFlags (LooCommandLineOption::ShortOptionStyle);
 		parser.addOption (macFrameworkOption);
 
+		//-E preprocess only
 		LooCommandLineOption preprocessOption ( ("E"));
 		preprocessOption.setDescription ( ("Preprocess only; do not generate meta object code."));
 		parser.addOption (preprocessOption);
 
+		//-D 定义
 		LooCommandLineOption defineOption ( ("D"));
 		defineOption.setDescription (("Define macro, with optional definition."));
 		defineOption.setValueName (("macro[=def]"));
 		defineOption.setFlags (LooCommandLineOption::ShortOptionStyle);
 		parser.addOption (defineOption);
 
+		//-D 不定义
 		LooCommandLineOption undefineOption ( ("U"));
 		undefineOption.setDescription (("Undefine macro."));
 		undefineOption.setValueName (("macro"));
 		undefineOption.setFlags (LooCommandLineOption::ShortOptionStyle);
 		parser.addOption (undefineOption);
 
+		//-M 插件数据
 		LooCommandLineOption metadataOption (("M"));
 		metadataOption.setDescription (("Add key/value pair to plugin meta data"));
 		metadataOption.setValueName (("key=value"));
 		metadataOption.setFlags (LooCommandLineOption::ShortOptionStyle);
 		parser.addOption (metadataOption);
 
+		//
 		LooCommandLineOption compilerFlavorOption (("compiler-flavor"));
 		compilerFlavorOption.setDescription (("Set the compiler flavor: either \"msvc\" or \"unix\"."));
 		compilerFlavorOption.setValueName (("flavor"));
 		parser.addOption (compilerFlavorOption);
 
+		//i
 		LooCommandLineOption noIncludeOption ( ("i"));
 		noIncludeOption.setDescription ( ("Do not generate an #include statement."));
 		parser.addOption (noIncludeOption);
@@ -301,10 +314,12 @@ namespace loo
 		parser.addPositionalArgument ( ("[@option-file]"),
 			 ("Read additional options from option-file."));
 
+		//根据参数简介索引文件读取完整配置信息
 		const LooStringList arguments = argumentsFromCommandLineAndFile (g_LooArguments.arguments ());
 		if (arguments.empty ())
 			return 1;
 
+		//分析输入的命令参数,解析得到配置参数
 		parser.process (arguments);
 
 		const LooStringList files = parser.positionalArguments ();

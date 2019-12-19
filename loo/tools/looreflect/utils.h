@@ -2,6 +2,7 @@
 #define LOOREFLECT_UTILS_H
 typedef std::string QByteArray;
 #define LOO_FALLTHROUGH() (void)0
+#include <iostream>
 
 namespace loo
 {

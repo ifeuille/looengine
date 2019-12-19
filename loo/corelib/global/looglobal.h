@@ -736,7 +736,7 @@ for (auto _container_ = LooPrivate::lMakeForeachContainer(container); \
 	// Defined in qcoreapplication.cpp
 	// The better name qTrId() is reserved for an upcoming function which would
 	// return a much more powerful QStringFormatter instead of a QString.
-	LOO_CORE_EXPORT QString looTrId (const char *id, int n = -1);
+	LOO_CORE_EXPORT std::string looTrId (const char *id, int n = -1);
 
 #define LOO_TRID_NOOP(id) id
 
