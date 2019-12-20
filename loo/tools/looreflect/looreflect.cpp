@@ -110,8 +110,8 @@ namespace loo
 			if (!def->superclassList.empty ()
 				&& knownGadgets.find (def->superclassList.begin ()->first) != knownGadgets.end()) {
 				// LOO_GADGET subclasses are treated as LOO_GADGETs
-				knownGadgets.insert (def->classname, def->qualified);
-				knownGadgets.insert (def->qualified, def->qualified);
+				knownGadgets.insert (std::make_pair(def->classname, def->qualified));
+				knownGadgets.insert (std::make_pair(def->qualified, def->qualified));
 			}
 		}
 		if (!test (LBRACE))
@@ -169,22 +169,22 @@ namespace loo
 					break;
 				}
 				LOO_FALLTHROUGH ();
-			case CHAR:
-			case SHORT:
-			case INT:
-			case LONG:
+			case LCHAR:
+			case LOOSHORT:
+			case LINT:
+			case LOOLONG:
 				type.name += lexem ();
 				// preserve '[unsigned] long long', 'short int', 'long int', 'long double'
-				if (test (LONG) || test (INT) || test (DOUBLE)) {
+				if (test (LOOLONG) || test (LINT) || test (LDOUBLE)) {
 					type.name += ' ';
 					prev ();
 					continue;
 				}
 				break;
-			case FLOAT:
-			case DOUBLE:
+			case LFLOAT:
+			case LDOUBLE:
 			case LOO_VOID:
-			case BOOL:
+			case LBOOL:
 				type.name += lexem ();
 				isVoid |= (lookup (0) == LOO_VOID);
 				break;
@@ -519,12 +519,14 @@ namespace loo
 		return true;
 	}
 
+	//根据token
 	void LooReflect::parse ()
 	{
 		std::vector<NamespaceDef> namespaceList;
 		bool templateClass = false;
 		while (hasNext ()) {
 			Token t = next ();
+			//token解析判断报错
 			switch (t) {
 			case NAMESPACE: {
 				int rewind = index;
@@ -595,14 +597,14 @@ namespace loo
 								parseEnumOrFlag (&def, false);
 								break;
 							case LOO_ENUM_TOKEN:
-								error ("Q_ENUM can't be used in a Q_NAMESPACE, use Q_ENUM_NS instead");
+								error ("LOO_ENUM can't be used in a LOO_NAMESPACE, use LOO_ENUM_NS instead");
 								break;
 							case LOO_FLAGS_TOKEN:
 							case LOO_FLAG_NS_TOKEN:
 								parseEnumOrFlag (&def, true);
 								break;
 							case LOO_FLAG_TOKEN:
-								error ("Q_FLAG can't be used in a Q_NAMESPACE, use Q_FLAG_NS instead");
+								error ("LOO_FLAG can't be used in a LOO_NAMESPACE, use LOO_FLAG_NS instead");
 								break;
 							case LOO_DECLARE_FLAGS_TOKEN:
 								parseFlag (&def);
@@ -692,20 +694,22 @@ namespace loo
 						def.qualified=namespaceList.at (i).classname + "::"+ def.qualified;
 
 				std::unordered_map<QByteArray, QByteArray> &classHash = def.hasLooObject ? knownQObjectClasses : knownGadgets;
-				classHash.insert (def.classname, def.qualified);
-				classHash.insert (def.qualified, def.qualified);
+				classHash.insert (std::make_pair(def.classname, def.qualified));
+				classHash.insert (std::make_pair(def.qualified, def.qualified));
 
 				continue; }
 			default: break;
 			}
 			if ((t != CLASS && t != STRUCT) || currentFilenames.size () > 1)
 				continue;
+			//类或结构
 			ClassDef def;
 			if (parseClassHead (&def)) {
 				FunctionDef::Access access = FunctionDef::Private;
 				for (int i = namespaceList.size () - 1; i >= 0; --i)
 					if (inNamespace (&namespaceList.at (i)))
-						def.qualified = namespaceList.at (i).classname + "::" + def.qualified;
+						def.qualified = namespaceList.at (i).classname + "::" + def.qualified;//获得全名？
+				//signals 访问检查,类
 				while (inClass (&def) && hasNext ()) {
 					switch ((t = next ())) {
 					case PRIVATE:
@@ -880,10 +884,11 @@ namespace loo
 
 				classList.push_back(def);
 				std::unordered_map<QByteArray, QByteArray> &classHash = def.hasLooObject ? knownQObjectClasses : knownGadgets;
-				classHash.insert (def.classname, def.qualified);
-				classHash.insert (def.qualified, def.qualified);
+				classHash.insert (std::make_pair(def.classname, def.qualified));
+				classHash.insert (std::make_pair(def.qualified, def.qualified));
 			}
 		}
+		//命名空间
 		for (const auto &n : std::as_const (namespaceList)) {
 			if (!n.hasLooNamespace)
 				continue;
@@ -904,8 +909,8 @@ namespace loo
 				//it->flagAliases.unite (def.flagAliases);
 			}
 			else {
-				knownGadgets.insert (def.classname, def.qualified);
-				knownGadgets.insert (def.qualified, def.qualified);
+				knownGadgets.insert (std::make_pair(def.classname, def.qualified));
+				knownGadgets.insert (std::make_pair(def.qualified, def.qualified));
 				classList.push_back(def);
 			}
 		}
@@ -915,10 +920,14 @@ namespace loo
 	static bool any_type_contains (const std::vector<PropertyDef> &properties, const QByteArray &pattern)
 	{
 		for (const auto &p : properties) {
-			if (std::find (p.type.begin (), p.type.end (), pattern) != p.type.end())
+			if (string_indexof (p.type, pattern) >= 0)
 			{
 				return true;
 			}
+			//if (std::find (p.type.begin (), p.type.end (), pattern) != p.type.end())
+			//{
+			//	return true;
+			//}
 		}
 		return false;
 	}
@@ -927,8 +936,12 @@ namespace loo
 	{
 		for (const auto &f : functions) {
 			for (const auto &arg : f.arguments) {
-				if(std::find(arg.normalizedType.begin(), arg.normalizedType.end(), pattern) != arg.normalizedType.end())
+				if (arg.normalizedType.find_first_of (pattern) >= 0)
+				{
 					return true;
+				}
+	/*			if(std::find(arg.normalizedType.begin(), arg.normalizedType.end(), pattern) != arg.normalizedType.end())
+					return true;*/
 			}
 		}
 		return false;
@@ -1341,7 +1354,7 @@ namespace loo
 				if (!file.is_open ())
 				{
 					QByteArray msg = "Plugin Metadata file " + lexem () + " could not be opened: "
-						+ file.exceptions;
+						+ std::to_string(file.exceptions ());
 					error (msg.data ());
 					return;
 				}
@@ -1428,7 +1441,7 @@ namespace loo
 			}
 		}
 
-		def->flagAliases.insert (enumName, flagName);
+		def->flagAliases.insert (std::make_pair(enumName, flagName));
 		next (RPAREN);
 	}
 
@@ -1507,7 +1520,7 @@ namespace loo
 			next (IDENTIFIER);
 			iid = lexem ();
 		}
-		interface2IdMap.insert (itf, iid);
+		interface2IdMap.insert (std::make_pair(itf, iid));
 		next (RPAREN);
 	}
 
@@ -1728,7 +1741,7 @@ namespace loo
 				QByteArray tmp = f.normalizedType;
 				if (p.type == "QByteArray" && tmp == "const char *")
 					tmp = "QByteArray";
-				if (QByteArray_left (tmp,6) == "const ")
+				if (string_left (tmp,6) == "const ")
 					tmp = tmp.substr (6);
 				if (p.type != tmp && string_endwith (tmp,'*')) {
 					container_chop (tmp, 1);

@@ -77,7 +77,7 @@ MACRO(declare_module)
 	#debug MeshMLLib${LOO_OUTPUT_SUFFIX}_d optimized MeshMLLib${LOO_OUTPUT_SUFFIX}
     )
     IF(LOO_PLATFORM_WINDOWS)
-        ADD_POST_BUILD(${MODULE_NAME} "")
+        #ADD_POST_BUILD(${MODULE_NAME} "")
         INSTALL(TARGETS ${MODULE_NAME}
             RUNTIME DESTINATION ${LOO_BIN_DIR}
             LIBRARY DESTINATION ${LOO_BIN_DIR}
@@ -132,7 +132,7 @@ MACRO(declare_module_static)
 	#debug MeshMLLib${LOO_OUTPUT_SUFFIX}_d optimized MeshMLLib${LOO_OUTPUT_SUFFIX}
     )
     IF(LOO_PLATFORM_WINDOWS)
-        ADD_POST_BUILD(${MODULE_NAME} "")
+        #ADD_POST_BUILD(${MODULE_NAME} "")
         INSTALL(TARGETS ${MODULE_NAME}
             RUNTIME DESTINATION ${LOO_BIN_DIR}
             LIBRARY DESTINATION ${LOO_BIN_DIR}

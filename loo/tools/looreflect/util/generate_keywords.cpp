@@ -95,7 +95,7 @@ static const Keyword keywords[] = {
     { "reinterpret_cast", "REINTERPRET_CAST" },
     { "const_cast", "CONST_CAST" },
     { "typeid", "TYPEID" },
-    { "this", "THIS" },
+    { "this", "LOOTHIS" },
     { "template", "TEMPLATE" },
     { "throw", "THROW" },
     { "try", "TRY" },
@@ -126,7 +126,7 @@ static const Keyword keywords[] = {
     { "operator", "OPERATOR" },
     { "sizeof", "SIZEOF" },
     { "new", "NEW" },
-    { "delete", "DELETE" },
+    { "delete", "LOODELETE" },
     { "+", "PLUS" },
     { "-", "MINUS" },
     { "*", "STAR" },
@@ -165,16 +165,16 @@ static const Keyword keywords[] = {
     { ",", "COMMA" },
     { "->*", "ARROW_STAR" },
     { "->", "ARROW" },
-    { "char", "CHAR" },
-    { "wchar", "WCHAR" },
-    { "bool", "BOOL" },
-    { "short", "SHORT" },
-    { "int", "INT" },
-    { "long", "LONG" },
+    { "char", "LCHAR" },
+    { "wchar", "LOOWCHAR" },
+    { "bool", "LBOOL" },
+    { "short", "LOOSHORT" },
+    { "int", "LINT" },
+    { "long", "LOOLONG" },
     { "signed", "SIGNED" },
     { "unsigned", "UNSIGNED" },
-    { "float", "FLOAT" },
-    { "double", "DOUBLE" },
+    { "float", "LFLOAT" },
+    { "double", "LDOUBLE" },
     { "void", "LOO_VOID" },
     { "case", "CASE" },
     { "default", "DEFAULT" },
@@ -435,6 +435,8 @@ int main(int argc, char **)
 {
     printf("// auto generated\n"
            "// DO NOT EDIT.\n\n");
+    printf("#include \"token.h\"\n");
+    printf("using namespace loo;\n");
     if ( argc > 1 )
         makeTable(pp_keywords);
     else

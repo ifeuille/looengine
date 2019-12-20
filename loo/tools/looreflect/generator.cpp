@@ -1,24 +1,124 @@
 #include "generator.h"
 #include "outputrevision.h"
 #include "utils.h"
-#include <LooCore/loometatype.h>
+//#include <LooCore/loometatype.h>
 
 #include "nlohmann/json.hpp"
 #include <stdio.h>
-#include <LooCore/loometaobject.h>
+//#include <LooCore/loometaobject.h>
 #include <algorithm>
 
 #include <Private/loometaobject_p.h>
 
+namespace loo
+{
+#define LOO_DEFINE_METATYPE_ID(TypeName, Id, Name) \
+    TypeName = Id,
+
+#define LOO_FOR_EACH_STATIC_PRIMITIVE_TYPE(F)\
+    F(Void, 43, void) \
+    F(Bool, 1, bool) \
+    F(Int, 2, int) \
+    F(UInt, 3, luint32) \
+    F(LongLong, 4, lint64) \
+    F(ULongLong, 5, luint64) \
+    F(Double, 6, double) \
+    F(Long, 32, long) \
+    F(Short, 33, short) \
+    F(Char, 34, char) \
+    F(ULong, 35, lulong) \
+    F(UShort, 36, lushort) \
+    F(UChar, 37, luchar) \
+    F(Float, 38, float) \
+    F(SChar, 40, signed char) \
+    F(Nullptr, 51, std::nullptr_t) 
+
+#define LOO_FOR_EACH_STATIC_TYPE(F)\
+    LOO_FOR_EACH_STATIC_PRIMITIVE_TYPE(F)
+
+#define LOO_FOR_EACH_STATIC_ALIAS_TYPE(F)\
+    F(ULong, -1, lulong, "unsigned long") \
+    F(UInt, -1, luint32, "unsigned int") \
+    F(UShort, -1, lushort, "unsigned short") \
+    F(UChar, -1, luchar, "unsigned char") \
+    F(LongLong, -1, lint32, "long long") \
+    F(ULongLong, -1, luint32, "unsigned long long") \
+    F(SChar, -1, signed char, "qint8") \
+    F(UChar, -1, luchar, "quint8") \
+    F(Short, -1, short, "qint16") \
+    F(UShort, -1, lushort, "quint16") \
+    F(Int, -1, int, "qint32") \
+    F(UInt, -1, luint32, "quint32") \
+    F(LongLong, -1, lint32, "qint64") \
+    F(ULongLong, -1, luint32, "quint64")
+
+#define LOO_ADD_STATIC_METATYPE(MetaTypeName, MetaTypeId, RealName) \
+    { #RealName, sizeof(#RealName) - 1, MetaTypeId },
+#define LOO_ADD_STATIC_METATYPE_ALIASES_ITER(MetaTypeName, MetaTypeId, AliasingName, RealNameStr) \
+    { RealNameStr, sizeof(RealNameStr) - 1, LooMetaType::MetaTypeName },
+
+	
+	struct LooMetaType {
+		enum Type {
+			// these are merged with LooVariant
+			LOO_FOR_EACH_STATIC_TYPE (LOO_DEFINE_METATYPE_ID)
+
+			FirstCoreType = Bool,
+			LastCoreType = Nullptr,
+
+			QReal = sizeof (double) == sizeof (double) ? Double : Float,
+
+			UnknownType = 0,
+			User = 1024
+		};
+
+		static int type (const char *typeName);
+	};
+
+	static const struct { const char * typeName; int typeNameLength; int type; } types[] = {
+		LOO_FOR_EACH_STATIC_TYPE (LOO_ADD_STATIC_METATYPE)
+		LOO_FOR_EACH_STATIC_ALIAS_TYPE (LOO_ADD_STATIC_METATYPE_ALIASES_ITER)
+		//LOO_FOR_EACH_STATIC_HACKS_TYPE (LOO_ADD_STATIC_METATYPE_HACKS_ITER)
+		{
+		0, 0, LooMetaType::UnknownType
+		}
+	};
+	static inline int qMetaTypeStaticType (const char *typeName, int length)
+	{
+		int i = 0;
+		while (types[i].typeName && ((length != types[i].typeNameLength)
+			|| memcmp (typeName, types[i].typeName, length))) {
+			++i;
+		}
+		return types[i].type;
+	}
+
+	int LooMetaType::type (const char *typeName)
+	{
+		return qMetaTypeStaticType (typeName, strlen (typeName));
+	}
+
+
+
+	//enum MetaObjectFlags {
+	//	DynamicMetaObject = 0x01,
+	//	RequiresVariantMetaObject = 0x02,
+	//	PropertyAccessInStaticMetaCall = 0x04 // since Qt 5.5, property code is in the static metacall
+	//};
+
+	//enum { MetaObjectPrivateFieldCount = 64 / sizeof (int) };
+
+}
 
 namespace loo
 {
+
 	std::uint32_t nameToBuiltinType (const std::string &name)
 	{
 		if (name.empty ())
 			return 0;
 
-		std::uint32_t tp = LooMetaType::type (name.data ());
+		std::uint32_t tp = qMetaTypeStaticType (name.data (), name.length ());//LooMetaType::type (name.data ());//获取内置类型的ID非内置类型应该是运行是注册的
 		return tp < std::uint32_t (LooMetaType::User) ? tp : std::uint32_t (LooMetaType::UnknownType);
 	}
 
@@ -97,7 +197,7 @@ namespace loo
 	int Generator::stridx (const QByteArray &s)
 	{
 		int i = GetIndexOf (strings, s);
-		LOO_ASSERT_X (i != -1, LOO_FUNC_INFO, "We forgot to register some strings");
+		assert (i != -1&& "We forgot to register some strings");
 		return i;
 	}
 
@@ -128,9 +228,10 @@ namespace loo
 				return true;
 		}
 		static const std::vector<QByteArray> smartPointers = std::vector<QByteArray> ()
-#define STREAM_SMART_POINTER(SMART_POINTER) << #SMART_POINTER
-			LOO_FOR_EACH_AUTOMATIC_TEMPLATE_SMART_POINTER (STREAM_SMART_POINTER)
-#undef STREAM_SMART_POINTER
+			//只能指针
+//#define STREAM_SMART_POINTER(SMART_POINTER) << #SMART_POINTER
+//			LOO_FOR_EACH_AUTOMATIC_TEMPLATE_SMART_POINTER (STREAM_SMART_POINTER)
+//#undef STREAM_SMART_POINTER
 			;
 
 		for (const QByteArray &smartPointer : smartPointers) {
@@ -139,11 +240,11 @@ namespace loo
 				return knownLooObjectClasses.find (propertyType.substr (smartPointer.size () + 1, propertyType.size () - smartPointer.size () - 1 - 1)) != knownLooObjectClasses.end ();
 			}		
 		}
-
+		//模板
 		static const std::vector<QByteArray> oneArgTemplates = std::vector<QByteArray> ()
-#define STREAM_1ARG_TEMPLATE(TEMPLATENAME) << #TEMPLATENAME
-			LOO_FOR_EACH_AUTOMATIC_TEMPLATE_1ARG (STREAM_1ARG_TEMPLATE)
-#undef STREAM_1ARG_TEMPLATE
+//#define STREAM_1ARG_TEMPLATE(TEMPLATENAME) << #TEMPLATENAME
+//			LOO_FOR_EACH_AUTOMATIC_TEMPLATE_1ARG (STREAM_1ARG_TEMPLATE)
+//#undef STREAM_1ARG_TEMPLATE
 			;
 		for (const QByteArray &oneArgTemplateType : oneArgTemplates) {
 			if (string_startwith (propertyType, oneArgTemplateType + "<") && string_endwith (propertyType, ">")){
@@ -757,12 +858,12 @@ namespace loo
 				fprintf(out, "LooMetaType::%s", valueString);
 			}
 			else {
-				LOO_ASSERT(type != LooMetaType::UnknownType);
+				assert(type != LooMetaType::UnknownType);
 				fprintf(out, "%4d", type);
 			}
 		}
 		else {
-			LOO_ASSERT(!typeName.empty() || allowEmptyName);
+			assert (!typeName.empty() || allowEmptyName);
 			fprintf(out, "0x%.8x | %d", IsUnresolvedType, stridx(typeName));
 		}
 	}
@@ -1186,7 +1287,7 @@ namespace loo
 			fprintf(out, "        switch (_id) {\n");
 			for (int methodindex = 0; methodindex < methodList.size(); ++methodindex) {
 				const FunctionDef &f = methodList.at(methodindex);
-				LOO_ASSERT(!f.normalizedType.empty());
+				assert (!f.normalizedType.empty());
 				fprintf(out, "        case %d: ", methodindex);
 				if (f.normalizedType != "void")
 					fprintf(out, "{ %s _r = ", noRef(f.normalizedType).data());
@@ -1253,7 +1354,7 @@ namespace loo
 
 		}
 		if (!cdef->signalList.empty()) {
-			LOO_ASSERT(needElse); // if there is signal, there was method.
+			assert (needElse); // if there is signal, there was method.
 			fprintf(out, " else if (_c == LooMetaObject::IndexOfMethod) {\n");
 			fprintf(out, "        int *result = reinterpret_cast<int *>(_a[0]);\n");
 			bool anythingUsed = false;
@@ -1511,7 +1612,7 @@ namespace loo
 			constQualifier = "const";
 		}
 
-		LOO_ASSERT(!def->normalizedType.empty());
+		assert (!def->normalizedType.empty());
 		if (def->arguments.empty() && def->normalizedType == "void" && !def->isPrivateSignal) {
 			fprintf(out, ")%s\n{\n"
 				"    LooMetaObject::activate(%s, &staticMetaObject, %d, nullptr);\n"
@@ -1669,10 +1770,10 @@ static CborError jsonValueToCbor(CborEncoder *parent, const QJsonValue &v)
 		//	cdef->qualified.data(), cdef->classname.data());
 	}
 
-	LOO_WARNING_DISABLE_GCC("-Wunused-function")
+	/*LOO_WARNING_DISABLE_GCC("-Wunused-function")
 		LOO_WARNING_DISABLE_CLANG("-Wunused-function")
-		LOO_WARNING_DISABLE_CLANG("-Wundefined-internal")
-		LOO_WARNING_DISABLE_MSVC(4334) // '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+		LOO_WARNING_DISABLE_CLANG("-Wundefined-internal")*/
+		//LOO_WARNING_DISABLE_MSVC(4334) // '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
 
 #define CBOR_ENCODER_WRITER_CONTROL     1
 #define CBOR_ENCODER_WRITE_FUNCTION     CborDevice::callback

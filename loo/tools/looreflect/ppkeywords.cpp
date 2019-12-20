@@ -1,6 +1,8 @@
 // auto generated
 // DO NOT EDIT.
 
+#include "token.h"
+using namespace loo;
 static const short pp_keyword_trans[][128] = {
     {0,0,0,0,0,0,0,0,0,98,12,0,0,0,0,0,
      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

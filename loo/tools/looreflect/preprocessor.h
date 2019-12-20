@@ -28,10 +28,10 @@ namespace loo
 	public:
 		Preprocessor () {}
 		static bool preprocessOnly;
-		std::list<QByteArray> frameworks;
-		std::set<QByteArray> preprocessedIncludes;
+		std::list<QByteArray> frameworks;//macµÄframework
+		std::set<QByteArray> preprocessedIncludes;//Ô¤ÏÈinclude
 		std::unordered_map<QByteArray, QByteArray> nonlocalIncludePathResolutionCache;
-		Macros macros;
+		Macros macros;//ºê
 		QByteArray resolveInclude (const QByteArray &filename, const QByteArray &relativeTo);
 		//core
 		Symbols preprocessed (const QByteArray &filename, std::istream& device);

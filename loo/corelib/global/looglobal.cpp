@@ -120,12 +120,12 @@ void loo_assert_x (const char *where, const char *what, const char *file, int li
 
 	\sa qputenv(), qEnvironmentVariableIsSet(), qEnvironmentVariableIsEmpty()
 */
-QByteArray lgetenv (const char *varName)
+std::string lgetenv (const char *varName)
 {
 	//QMutexLocker locker (&environmentMutex);
 #if defined(_MSC_VER) && _MSC_VER >= 1400
 	size_t requiredSize = 0;
-	QByteArray buffer;
+	std::string buffer;
 	getenv_s (&requiredSize, 0, 0, varName);
 	if (requiredSize == 0)
 		return buffer;
@@ -220,7 +220,7 @@ bool lEnvironmentVariableIsSet (const char *varName) LOO_DECL_NOEXCEPT
 #endif
 }
 
-bool lputenv (const char *varName, const QByteArray& value)
+bool lputenv (const char *varName, const std::string& value)
 {
 	//QMutexLocker locker (&environmentMutex);
 #if defined(_MSC_VER) && _MSC_VER >= 1400
@@ -263,10 +263,10 @@ bool lunsetenv (const char *varName)
 #endif
 }
 
-const char* loo_error_string (int errorCode)LOO_CORE_EXPORT
-{
-	const char* str = "";
-	return str;
-}
+//const char* loo_error_string (int errorCode)LOO_CORE_EXPORT
+//{
+//	const char* str = "";
+//	return str;
+//}
 
 }

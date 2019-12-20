@@ -3,12 +3,12 @@
 #include "stringlist.h"
 #include <array>
 #include "ghc/fs_utils.hpp"
-
+#include "ppkeywords.cpp"
+#include "keywords.cpp"
 
 namespace loo
 {
-#include "ppkeywords.cpp"
-#include "keywords.cpp"
+
 // transform \r\n into \n
 // \r into \n (os9 style)
 // backslash-newlines into newlines
@@ -130,7 +130,8 @@ namespace loo
 				bool braces = test (PP_LPAREN);
 				next (PP_IDENTIFIER);
 				Symbol definedOrNotDefined = symbol ();
-				definedOrNotDefined.token = std::find(macros.begin(), macros.end(), definedOrNotDefined)!=macros.end()? PP_LOO_TRUE : PP_LOO_FALSE;
+				//?SubArray ? Symbol 重载了()来获取				
+				definedOrNotDefined.token = (macros.find (definedOrNotDefined.GetSubArray ()) != macros.end ())? PP_LOO_TRUE : PP_LOO_FALSE;
 				substituted.push_back( definedOrNotDefined);
 				if (braces)
 					test (PP_RPAREN);
@@ -151,11 +152,11 @@ namespace loo
 		Symbol s = symbols.symbol ();
 
 		// not a macro
-		if (s.token != PP_IDENTIFIER || that->macros.find (s) == that->macros.end() || symbols.dontReplaceSymbol (s.lexem ())) {
+		if (s.token != PP_IDENTIFIER || that->macros.find (s.GetSubArray()) == that->macros.end() || symbols.dontReplaceSymbol (s.lexem ())) {
 			return Symbols ();
 		}
 
-		const Macro &macro = that->macros[s];
+		const Macro &macro = that->macros[s.GetSubArray()];
 		*macroName = s.lexem ();
 
 		Symbols expansion;
@@ -1046,7 +1047,7 @@ namespace loo
 		auto it = nonlocalIncludePathResolutionCache.find (include);
 		if (it == nonlocalIncludePathResolutionCache.end ())
 		{
-			nonlocalIncludePathResolutionCache.insert (include, searchIncludePaths (includes, include));
+			nonlocalIncludePathResolutionCache.insert (std::make_pair(include, searchIncludePaths (includes, include)));
 			it = nonlocalIncludePathResolutionCache.find (include);
 		}
 		return it->second;

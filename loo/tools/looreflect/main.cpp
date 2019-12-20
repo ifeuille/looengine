@@ -1,3 +1,4 @@
+#include <iostream>
 #include "preprocessor.h"
 #include "looreflect.h"
 #include "outputrevision.h"
@@ -13,6 +14,7 @@
 #include "looarguments.h"
 
 #include <codecvt>
+
 
 //获取环境变量
 QByteArray qgetenv (const char *varName)
@@ -210,6 +212,8 @@ namespace loo
 		parser.addVersionOption ();
 		parser.setSingleDashWordOptionMode (LooCommandLineParser::ParseAsLongOptions);//设置了-开头参数的解析
 
+		//option匹配器
+
 		//-o 输出文件
 		LooCommandLineOption outputOption ("o");
 		outputOption.setDescription (("Write output to file rather than stdout."));
@@ -319,9 +323,10 @@ namespace loo
 		if (arguments.empty ())
 			return 1;
 
-		//分析输入的命令参数,解析得到配置参数
+		//分析输入的命令参数,解析得到配置参数，缓存到nameHash和optionValuesHash，非配置参数缓存到positionalArgumentList
 		parser.process (arguments);
 
+		//positionalArgumentList看来是文件路径且只能有一个
 		const LooStringList files = parser.positionalArguments ();
 		if (files.size () > 1) {
 			error (( std::string("Too many input files specified: '") + files.join ( ("' '")) +  ('\'')).c_str());
@@ -331,9 +336,10 @@ namespace loo
 			filename = *files.begin ();
 		}
 
-		const bool ignoreConflictingOptions = parser.isSet (ignoreConflictsOption);
-		output = parser.value (outputOption);
-		pp.preprocessOnly = parser.isSet (preprocessOption);
+		//配置参数解析
+		const bool ignoreConflictingOptions = parser.isSet (ignoreConflictsOption);//是否配置忽略options
+		output = parser.value (outputOption);//输出
+		pp.preprocessOnly = parser.isSet (preprocessOption);//是否只preprocess
 		if (parser.isSet (noIncludeOption)) {
 			moc.noInclude = true;
 			autoInclude = false;
@@ -348,6 +354,7 @@ namespace loo
 					defaultInclude = false;
 				}
 			}
+			//预先包含的目录
 			const auto prependIncludes = parser.values (prependIncludeOption);
 			for (const std::string &include : prependIncludes)
 				moc.includeFiles.insert (moc.includeFiles .begin(),(include));
@@ -359,6 +366,7 @@ namespace loo
 		for (const std::string &path : includePaths)
 			pp.includes.push_back(Preprocessor::IncludePath ((path)));
 		std::string compilerFlavor = parser.value (compilerFlavorOption);
+		//获得环境变量include
 		if (compilerFlavor.empty () || compilerFlavor ==  ("unix")) {
 			// traditional Unix compilers use both CPATH and CPLUS_INCLUDE_PATH
 			// $CPATH feeds to #include <...> and #include "...", whereas
@@ -381,7 +389,7 @@ namespace loo
 				("'; valid values are: msvc, unix.")).c_str());
 			parser.showHelp (1);
 		}
-
+		//mac的framework
 		const auto macFrameworks = parser.values (macFrameworkOption);
 		for (const std::string &path : macFrameworks) {
 			// minimalistic framework support for the mac
@@ -389,6 +397,7 @@ namespace loo
 			p.isFrameworkPath = true;
 			pp.includes.push_back( p);
 		}
+		//定义的宏
 		const auto defines = parser.values (defineOption);
 		for (const std::string &arg : defines) {
 			QByteArray name = arg;
@@ -426,7 +435,7 @@ namespace loo
 			int spos = filename.find_last_of (fs::path::preferred_separator);
 			int ppos = filename.find_last_of (('.'));
 			// spos >= -1 && ppos > spos => ppos >= 0
-			moc.noInclude = (ppos > spos && std::tolower(filename[ppos + 1]) != ('h'));
+			moc.noInclude = (ppos > spos && std::tolower(filename[ppos + 1]) != ('h'));//不是头文件
 		}
 		if (defaultInclude) {
 			if (moc.includePath.empty ()) {
@@ -454,7 +463,7 @@ namespace loo
 			in = &infile;
 			moc.filename = filename;
 		}
-
+		//插件的
 		const auto metadata = parser.values (metadataOption);
 		for (const std::string &md : metadata) {
 			int split = md.find_first_of ( ('='));
@@ -480,6 +489,7 @@ namespace loo
 		moc.includes = pp.includes;
 
 		// 1. preprocess
+		//每个include文件
 		const auto includeFiles = parser.values (includeOption);
 		for (const std::string &includeName : includeFiles) {
 			QByteArray rawName = pp.resolveInclude ( (includeName), moc.filename);
@@ -491,6 +501,7 @@ namespace loo
 			else {
 				fs::ifstream f ( (rawName));
 				if (f.is_open()) {
+					//解析文件获得symbols
 					moc.symbols.push_back(Symbol (0, LOO_INCLUDE_BEGIN, rawName));
 					auto l = pp.preprocessed (rawName, f);
 					moc.symbols.insert (moc.symbols.end(),l.begin(),l.end());
@@ -500,7 +511,7 @@ namespace loo
 					fprintf (stderr, "Warning: Cannot open %s included by moc file %s: %d\n",
 						rawName.data (),
 						moc.filename.empty () ? "<standard input>" : moc.filename.data (),
-						f.exceptions);
+						f.exceptions());
 				}
 			}
 		}
@@ -509,7 +520,7 @@ namespace loo
 
 		if (!pp.preprocessOnly) {
 			// 2. parse
-			moc.parse ();
+			moc.parse ();//获得meta
 		}
 
 		// 3. and output meta object code
@@ -538,7 +549,7 @@ namespace loo
 			if (moc.classList.empty ())
 				moc.note ("No relevant classes found. No output generated.");
 			else
-				moc.generate (out);
+				moc.generate (out);//输出
 		}
 
 		if (output.size ())

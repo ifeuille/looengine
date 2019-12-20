@@ -185,14 +185,14 @@ namespace loo
 	inline long long qstrtoll (const char * nptr, const char **endptr, int base, bool *ok)
 	{
 		*ok = true;
-		errno = 0;
+		//errno = 0;
 		char *endptr2 = 0;
 		long long result = std::strtoll (nptr, &endptr2, base);
 		if (endptr)
 			*endptr = endptr2;
-		if ((result == 0 || result == std::numeric_limits<long long>::min ()
-			|| result == std::numeric_limits<long long>::max ())
-			&& (errno || nptr == endptr2)) {
+		if ((result == 0 || result == (std::numeric_limits<long long>::min)()
+			|| result == (std::numeric_limits<long long>::max)())
+			&& (/*errno ||*/ nptr == endptr2)) {
 			*ok = false;
 			return 0;
 		}
@@ -212,13 +212,13 @@ namespace loo
 		}
 
 		*ok = true;
-		errno = 0;
+		//errno = 0;
 		char *endptr2 = 0;
 		unsigned long long result = std::strtoull (nptr, &endptr2, base);
 		if (endptr)
 			*endptr = endptr2;
-		if ((result == 0 || result == std::numeric_limits<unsigned long long>::max ())
-			&& (errno || endptr2 == nptr)) {
+		if ((result == 0 || result == (std::numeric_limits<unsigned long long>::max)())
+			&& (/*errno ||*/ endptr2 == nptr)) {
 			*ok = false;
 			return 0;
 		}

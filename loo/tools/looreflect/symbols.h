@@ -1,11 +1,12 @@
 #ifndef LOOREFLECT_SYMBOLS_H
 #define LOOREFLECT_SYMBOLS_H
 #include "token.h"
-#include <string>
-#include <vector>
 #include <stack>
+#include <vector>
 #include <set>
+#include <string>
 #include "utils.h"
+#include "token.h"
 
 namespace loo
 {
@@ -25,14 +26,12 @@ namespace loo
 					return false;
 			return true;
 		}
-	};
+		//std::size_t operator()(const SubArray &key)
+		//{
+		//	return qHash (key.array.substr (key.from, key.len));
+		//}
 
-	inline std::uint32_t qHash (const SubArray &key)
-	{
-		//std::string substr = key.array.substr (key.from, key.len);
-		return qHash (key.array.substr (key.from, key.len));
-		//return qHash (QLatin1String (key.array.data () + key.from, key.len));
-	}
+	};
 
 	struct Symbol
 	{
@@ -49,7 +48,7 @@ namespace loo
 		Token token;
 		inline QByteArray lexem () const { return lex.substr (from, len); }
 		inline QByteArray unquotedLexem () const { return lex.substr (from + 1, len - 2); }
-		inline operator SubArray() const { return SubArray (lex, from, len); }
+		inline /*operator*/ SubArray GetSubArray() const { return SubArray (lex, from, len); }
 		bool operator==(const Symbol& o) const
 		{
 			return SubArray (lex, from, len) == SubArray (o.lex, o.from, o.len);
@@ -131,6 +130,23 @@ namespace loo
 		return set;
 	}
 
+}
+
+namespace std {
+	template<>
+	struct hash<loo::SubArray>
+	{
+		size_t operator()(const loo::SubArray& rhs) const {
+			return hash<std::string>()(rhs.array.substr (rhs.from, rhs.len));//loo::qHash (rhs);
+		}
+	};
+
+	template<>
+	struct equal_to < loo::SubArray > {
+		bool operator()(const loo::SubArray& lhs, const loo::SubArray& rhs) const {
+			return hash<loo::SubArray>() (lhs) == hash<loo::SubArray> () (rhs);
+		}
+	};
 }
 
 #endif // !LOOREFLECT_SYMBOLS_H

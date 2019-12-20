@@ -32,7 +32,7 @@ namespace loo
     F(REINTERPRET_CAST) \
     F(CONST_CAST) \
     F(TYPEID) \
-    F(THIS) \
+    F(LOOTHIS) \
     F(TEMPLATE) \
     F(THROW) \
     F(TRY) \
@@ -63,7 +63,7 @@ namespace loo
     F(OPERATOR) \
     F(SIZEOF) \
     F(NEW) \
-    F(DELETE) \
+    F(LOODELETE) \
     F(PLUS) \
     F(MINUS) \
     F(STAR) \
@@ -97,16 +97,16 @@ namespace loo
     F(COMMA) \
     F(ARROW_STAR) \
     F(ARROW) \
-    F(CHAR) \
-    F(WCHAR) \
-    F(BOOL) \
-    F(SHORT) \
-    F(INT) \
-    F(LONG) \
+    F(LCHAR) \
+    F(LOOWCHAR) \
+    F(LBOOL) \
+    F(LOOSHORT) \
+    F(LINT) \
+    F(LOOLONG) \
     F(SIGNED) \
     F(UNSIGNED) \
-    F(FLOAT) \
-    F(DOUBLE) \
+    F(LFLOAT) \
+    F(LDOUBLE) \
     F(LOO_VOID) \
     F(CASE) \
     F(DEFAULT) \

@@ -3,7 +3,8 @@
 typedef std::string QByteArray;
 #define LOO_FALLTHROUGH() (void)0
 #include <iostream>
-
+#include <assert.h>
+#define LOO_UNUSED(x) (void)(x)
 namespace loo
 {
 	inline void lWarning (const std::string& msg)
@@ -222,7 +223,7 @@ namespace loo
 	template<typename T>
 	inline T v_clamp (const T& mi, const T& value, const T& ma)
 	{
-		reutrn std::max (min, std::min (value, ma));
+		return std::max (mi, std::min (value, ma));
 	}
 
 
@@ -283,7 +284,7 @@ namespace loo
 		return ret;
 	}
 
-	std::string ws2s (const std::wstring& ws)
+	inline std::string ws2s (const std::wstring& ws)
 	{
 		std::string curLocale = setlocale (LC_ALL, NULL);        // curLocale = "C";
 		//setlocale (LC_ALL, "chs");
@@ -298,7 +299,7 @@ namespace loo
 		return result;
 	}
 
-	std::wstring s2ws (const std::string& s)
+	inline std::wstring s2ws (const std::string& s)
 	{
 		//setlocale (LC_ALL, "chs");
 		const char* _Source = s.c_str ();

@@ -78,7 +78,7 @@ namespace loo
 
 	// if QTypeInfo<T>::isRelocatable exists, use it
 	template <typename T>
-	struct LooTypeInfoQuery<T, typename std::enable_if<LooTypeInfo<T>::isRelocatable || true>::type> : public QLooTypeInfo<T>
+	struct LooTypeInfoQuery<T, typename std::enable_if<LooTypeInfo<T>::isRelocatable || true>::type> : public LooTypeInfo<T>
 	{};
 
 	/*!
@@ -221,7 +221,7 @@ LOO_DECLARE_TYPEINFO_BODY(TYPE, FLAGS)
 	template<typename T>
 	LOO_DECLARE_TYPEINFO_BODY (LooFlags<T>, LOO_PRIMITIVE_TYPE);
 
-}
+
 
 /*
    Specialize a shared type with:
@@ -275,5 +275,5 @@ LOO_DECLARE_TYPEINFO (char32_t, LOO_PRIMITIVE_TYPE);
 LOO_DECLARE_TYPEINFO (wchar_t, LOO_PRIMITIVE_TYPE);
 
 
-
+}
 #endif
