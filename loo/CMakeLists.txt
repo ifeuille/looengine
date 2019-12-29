@@ -1,4 +1,7 @@
 
-add_subdirectory(corelib)
-add_subdirectory(include)
-add_subdirectory(tools)
+add_subdirectory(runtime)
+add_subdirectory(projects)
+add_subdirectory(thirdpart)
+if(LOO_BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
