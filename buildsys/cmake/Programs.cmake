@@ -1,11 +1,12 @@
 
 
+
 MACRO(add_program EXE_NAME)
-    include_directories(${INCLUDE})
+    include_directories(${LOO_RUNTIME_ROOT_DIR}/${EXE_NAME}/include)
     if(LOO_PLATFORM_ANDROID)
-        add_library(${EXE_NAME} SHARED  ${SRCS} ${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c)
+        add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE} ${LOO_THIRDPART_ROOT_DIR}/android/android_native_app_glue/android_native_app_glue.c)
     else()
-        add_executable(${EXE_NAME} ${HDRS} ${SRCS})
+        add_executable(${EXE_NAME} ${SOURCE_PUBLIC} ${SOURCE_PRIVATE})
     endif()
 ENDMACRO(add_program)
 
@@ -67,8 +68,7 @@ MACRO(declare_program EXE_NAME)
     ENDIF()
 
     IF(NOT LOO_PLATFORM_WINDOWS_STORE AND NOT LOO_PLATFORM_ANDROID AND NOT LOO_PLATFORM_IOS)
-        #ADD_POST_BUILD(${EXE_NAME} "")
-
+        ADD_POST_BUILD(${EXE_NAME} "")
         INSTALL(TARGETS ${EXE_NAME}
             RUNTIME DESTINATION ${LOO_BIN_DIR}
             LIBRARY DESTINATION ${LOO_BIN_DIR}

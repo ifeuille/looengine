@@ -1,7 +1,7 @@
 
 #must before add_target_link
-MACRO(depdent_module _this_name _module_name _include_dir)
-    INCLUDE_DIRECTORIES(${_include_dir})
+MACRO(depdent_module _this_name _module_name)
+    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/include)
     add_dependencies(${_this_name} ${_module_name})
     set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${_module_name})
 ENDMACRO(depdent_module)
@@ -9,7 +9,7 @@ ENDMACRO(depdent_module)
 
 MACRO(add_dep_link_dir)
     IF(NOT LOO_PLATFORM_WINDOWS_STORE AND NOT LOO_PLATFORM_ANDROID AND NOT LOO_PLATFORM_IOS)
-    #IF(LOO_PLATFORM_DARWIN OR LOO_PLATFORM_LINUX)
+    IF(LOO_PLATFORM_DARWIN OR LOO_PLATFORM_LINUX)
         LINK_DIRECTORIES(${LOO_BIN_DIR})
     ELSE()
         LINK_DIRECTORIES(${LOO_OUTPUT_DIR})
@@ -22,7 +22,7 @@ ENDMACRO(add_dep_link_dir)
 #SOURCE_PRIVATE
 #set(MODULE_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 MACRO(add_module)
-    #INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/Public)
+    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/include)
     add_library(${MODULE_NAME} ${LOO_PREFERRED_LIB_TYPE}
     ${SOURCE_PRIVATE} ${SOURCE_PUBLIC}
     )
@@ -42,9 +42,9 @@ MACRO(declare_module)
     #)
     set_target_properties(${MODULE_NAME} PROPERTIES VERSION ${MODULE_ERSION} SOVERSION ${MODULE_SOVERSION})
     set_target_properties(${MODULE_NAME} PROPERTIES 
-    PROJECT_LABEL ${MODULE_NAME}
-    DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
-    OUTPUT_NAME ${MODULE_NAME}${LOO_OUTPUT_SUFFIX}
+        PROJECT_LABEL ${MODULE_NAME}
+        DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
+        OUTPUT_NAME ${MODULE_NAME}${LOO_OUTPUT_SUFFIX}
     )
     set_target_properties(${MODULE_NAME} PROPERTIES 
         ARCHIVE_OUTPUT_DIRECTORY ${LOO_OUTPUT_DIR}
@@ -77,7 +77,7 @@ MACRO(declare_module)
 	#debug MeshMLLib${LOO_OUTPUT_SUFFIX}_d optimized MeshMLLib${LOO_OUTPUT_SUFFIX}
     )
     IF(LOO_PLATFORM_WINDOWS)
-        #ADD_POST_BUILD(${MODULE_NAME} "")
+        ADD_POST_BUILD(${MODULE_NAME} "")
         INSTALL(TARGETS ${MODULE_NAME}
             RUNTIME DESTINATION ${LOO_BIN_DIR}
             LIBRARY DESTINATION ${LOO_BIN_DIR}
@@ -85,8 +85,8 @@ MACRO(declare_module)
         )
     ENDIF()
 
-    #SET_TARGET_PROPERTIES(${MODULE_NAME} PROPERTIES FOLDER "${FOLDER_PATH}")
-    #ADD_DEPENDENCIES(AllInEngine ${MODULE_NAME})
+    SET_TARGET_PROPERTIES(${MODULE_NAME} PROPERTIES FOLDER "${FOLDER_PATH}")
+    ADD_DEPENDENCIES(AllInEngine ${MODULE_NAME})
 ENDMACRO(declare_module)
 
 # 不知道其他平台能不能这样，这是为了解决模板与dll的问题
@@ -132,7 +132,7 @@ MACRO(declare_module_static)
 	#debug MeshMLLib${LOO_OUTPUT_SUFFIX}_d optimized MeshMLLib${LOO_OUTPUT_SUFFIX}
     )
     IF(LOO_PLATFORM_WINDOWS)
-        #ADD_POST_BUILD(${MODULE_NAME} "")
+        ADD_POST_BUILD(${MODULE_NAME} "")
         INSTALL(TARGETS ${MODULE_NAME}
             RUNTIME DESTINATION ${LOO_BIN_DIR}
             LIBRARY DESTINATION ${LOO_BIN_DIR}
