@@ -1,3 +1,4 @@
 add_subdirectory(global)
 add_subdirectory(looreflect)
 add_subdirectory(modulemanager)
+add_subdirectory(plog)
