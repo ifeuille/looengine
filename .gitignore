@@ -35,3 +35,5 @@
 /loo/tools/looreflect/util/bin
 /loo/tools/looreflect/util/build
 /binary/lib/win_x64
+/loo/thirdpart/Build
+/binary/libs/win_x64

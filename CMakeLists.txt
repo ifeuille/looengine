@@ -28,7 +28,7 @@ include(${LOO_ROOT_DIR}/buildsys/cmake/Programs.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Modules.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Dependence.cmake)
 
-set(LOO_OUTPUT_DIR "${LOO_PROJECT_DIR}/binary/lib/${LOO_PLATFORM_NAME}")
+set(LOO_OUTPUT_DIR "${LOO_PROJECT_DIR}/binary/libs/${LOO_PLATFORM_NAME}")
 set(LOO_BIN_DIR "${LOO_PROJECT_DIR}/binary/bin/${LOO_PLATFORM_NAME}")
 
 message(STATUS "This is LOO_OUTPUT_DIR dir " ${LOO_OUTPUT_DIR})
