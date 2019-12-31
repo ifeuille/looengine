@@ -9,6 +9,8 @@ ${MODULE_ROOT_PATH}/include/global/compiler.h
 set(LOCAL_PUBLIC_EXTSTD
 ${MODULE_ROOT_PATH}/include/global/extstd/filesystem.h
 ${MODULE_ROOT_PATH}/include/global/extstd/fs_std.h
+${MODULE_ROOT_PATH}/include/global/extstd/noncopyable.h
+${MODULE_ROOT_PATH}/include/global/extstd/string_view.h
 )
 
 set(LOCAL_PRIVATE
