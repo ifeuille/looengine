@@ -1,9 +1,8 @@
-#include "HAL/Core.Config.h"
-#ifdef LE_PLATFORM_WINDOWS_DESKTOP
-
-#include "Math/Core.Math.h"
-#include "Core.Util.h"
-#include "Application/Core.Window.h"
+#include "global/global.h"
+#ifdef LOO_PLATFORM_WINDOWS_DESKTOP
+#include "global/utlis.h"
+#include "core/application/window.h"
+#include "global/math/math.h"
 
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
 #include <VersionHelpers.h>
@@ -17,7 +16,7 @@
 
 
 
-namespace le
+namespace loo
 {
 	namespace core
 	{
@@ -37,8 +36,8 @@ namespace le
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
 		BOOL Window::EnumMonProc ( HMONITOR mon, HDC dc_mon, RECT* rc_mon, LPARAM lparam )
 		{
-			LE_UNUSED ( dc_mon );
-			LE_UNUSED ( rc_mon );
+			LOO_UNUSED ( dc_mon );
+			LOO_UNUSED ( rc_mon );
 
 			HMODULE shcore = ::LoadLibraryEx ( TEXT ( "SHCore.dll" ), nullptr, 0 );
 			if (shcore)

@@ -16,3 +16,6 @@ MACRO(add_dep_7z)
     #link_directories(${LEngine_DEPDENCY_ROOT_DIR}/7z/lib/win_x64)
 ENDMACRO(add_dep_7z)
 
+MACRO(add_dep_glm)
+    include_directories(${LOO_THIRDPART_ROOT_DIR}/glm)
+ENDMACRO(add_dep_glm)

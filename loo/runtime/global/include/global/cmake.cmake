@@ -24,6 +24,7 @@ ${MODULE_ROOT_PATH}/include/global/extstd/status_value.h
 ${MODULE_ROOT_PATH}/include/global/extstd/type.h
 ${MODULE_ROOT_PATH}/include/global/extstd/value_ptr.h
 ${MODULE_ROOT_PATH}/include/global/extstd/variant.h
+${MODULE_ROOT_PATH}/include/global/extstd/signal.h
 )
 set(LOCAL_PUBLIC_EXTSTD_ATOMIC_QUEUE
 ${MODULE_ROOT_PATH}/include/global/extstd/atomic_queue/atomic_queue_mutex.h
@@ -47,6 +48,11 @@ ${MODULE_ROOT_PATH}/include/global/container/customizedstreambuf.h
 
 set(LOCAL_PUBLIC_MATH
 ${MODULE_ROOT_PATH}/include/global/math/hash.h
+${MODULE_ROOT_PATH}/include/global/math/math.h
+${MODULE_ROOT_PATH}/include/global/math/color.h
+${MODULE_ROOT_PATH}/include/global/math/mathcore.h
+${MODULE_ROOT_PATH}/include/global/math/random.h
+${MODULE_ROOT_PATH}/include/global/math/rect.h
 )
 
 set(LOCAL_PRIVATE
@@ -57,6 +63,10 @@ ${MODULE_ROOT_PATH}/source/global/utlis.cpp
 set(LOCAL_PRIVATE_CONTAINER
 ${MODULE_ROOT_PATH}/source/global/container/customizedstreambuf.cpp
 )
+set(LOCAL_PRIVATE_MATH
+${MODULE_ROOT_PATH}/source/global/math/color.cpp
+${MODULE_ROOT_PATH}/source/global/math/random.cpp
+)
 
 source_group("global\\include\\global" FILES ${LOCAL_PUBLIC})
 source_group("global\\include\\global\\extstd" FILES ${LOCAL_PUBLIC_EXTSTD})
@@ -66,6 +76,7 @@ source_group("global\\include\\global\\container" FILES ${LOCAL_PUBLIC_CONTAINER
 source_group("global\\include\\global\\math" FILES ${LOCAL_PUBLIC_MATH})
 source_group("global\\source\\global" FILES ${LOCAL_PRIVATE})
 source_group("global\\source\\global\\container" FILES ${LOCAL_PRIVATE_CONTAINER})
+source_group("global\\source\\global\\math" FILES ${LOCAL_PRIVATE_MATH})
 
 
 set(SOURCE_PUBLIC ${SOURCE_PUBLIC} 
@@ -82,5 +93,5 @@ set(SOURCE_PRIVATE
 ${SOURCE_PRIVATE} 
 ${LOCAL_PRIVATE} 
 ${LOCAL_PRIVATE_CONTAINER}
-
+${LOCAL_PRIVATE_MATH}
 )

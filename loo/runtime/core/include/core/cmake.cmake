@@ -6,6 +6,7 @@ ${MODULE_ROOT_PATH}/include/core/dllexporter.h
 
 set(LOCAL_PRIVATE
    ${MODULE_ROOT_PATH}/source/core/context.cpp
+   ${MODULE_ROOT_PATH}/source/core/declreflect.h
 )
 
 
