@@ -13,5 +13,5 @@ set(FOLDER_PATH Engine/Modules)
 include(${CMAKE_CURRENT_SOURCE_DIR}/include/global/cmake.cmake)
 ADD_DEFINITIONS(-DLOOGLOBAL_DLL_EXPORT)
 
-add_module()
-declare_module()
+add_static_module()
+declare_module_static()

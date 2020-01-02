@@ -6,9 +6,17 @@ MACRO(depdent_module _this_name _module_name)
     set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${_module_name})
 ENDMACRO(depdent_module)
 
+MACRO(dep_module_static  _module_name)
+    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/include)
+    #add_dependencies(${MODULE_NAME} ${_module_name})
+    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
+    debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${KLAYGE_OUTPUT_SUFFIX}
+)
+
+ENDMACRO(dep_module_static)
 
 MACRO(add_dep_link_dir)
-    IF(NOT LOO_PLATFORM_WINDOWS_STORE AND NOT LOO_PLATFORM_ANDROID AND NOT LOO_PLATFORM_IOS)
+    #IF(NOT LOO_PLATFORM_WINDOWS_STORE AND NOT LOO_PLATFORM_ANDROID AND NOT LOO_PLATFORM_IOS)
     IF(LOO_PLATFORM_DARWIN OR LOO_PLATFORM_LINUX)
         LINK_DIRECTORIES(${LOO_BIN_DIR})
     ELSE()
@@ -29,7 +37,7 @@ MACRO(add_module)
 ENDMACRO(add_module)
 
 MACRO(add_static_module)
-    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/Public)
+    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/include)
     add_library(${MODULE_NAME} STATIC
     ${SOURCE_PRIVATE} ${SOURCE_PUBLIC}
     )

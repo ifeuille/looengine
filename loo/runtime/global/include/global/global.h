@@ -6,6 +6,9 @@
 #include "global/Compiler.h"
 #include "global/platform.h"
 #include "global/architecture.h"
+#include <assert.h>
+#include <string>
+#include <memory>
 
 #define LOO_UNUSED(x) (void)(x)
 namespace loo
@@ -75,6 +78,11 @@ namespace std
 #error "Unknown CPU endian."
 #endif
 
+
+#define DLL_SUFFIX LOO_OUTPUT_SUFFIX "." DLL_EXT_NAME
+
+
+#define ASSERT_MSG(con,msg) assert((con)&&msg)
 
 
 #endif

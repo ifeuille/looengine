@@ -121,25 +121,25 @@ struct in_place_index_tag {};
 struct in_place_t {};
 
 template< class T >
-inline in_place_t in_place( detail::in_place_type_tag<T> = detail::in_place_type_tag<T>() )
+inline in_place_t in_place(nonstd::detail::in_place_type_tag<T> = nonstd::detail::in_place_type_tag<T>() )
 {
     return in_place_t();
 }
 
 template< std::size_t K >
-inline in_place_t in_place( detail::in_place_index_tag<K> = detail::in_place_index_tag<K>() )
+inline in_place_t in_place(nonstd::detail::in_place_index_tag<K> = nonstd::detail::in_place_index_tag<K>() )
 {
     return in_place_t();
 }
 
 template< class T >
-inline in_place_t in_place_type( detail::in_place_type_tag<T> = detail::in_place_type_tag<T>() )
+inline in_place_t in_place_type(nonstd::detail::in_place_type_tag<T> = nonstd::detail::in_place_type_tag<T>() )
 {
     return in_place_t();
 }
 
 template< std::size_t K >
-inline in_place_t in_place_index( detail::in_place_index_tag<K> = detail::in_place_index_tag<K>() )
+inline in_place_t in_place_index(nonstd::detail::in_place_index_tag<K> = nonstd::detail::in_place_index_tag<K>() )
 {
     return in_place_t();
 }
