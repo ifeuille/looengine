@@ -191,7 +191,7 @@ namespace loo
 #endif
 
 #if defined(LOO_PLATFORM_WINDOWS_DESKTOP) || defined(LOO_PLATFORM_LINUX) || defined(LOO_PLATFORM_DARWIN)
-			this->AddPath ("..");
+			this->AddPath ("../../../resources");
 			//this->AddPath ( "../../media/RenderFX" );
 			//this->AddPath ( "../../media/Models" );
 			//this->AddPath ( "../../media/Textures/2D" );
