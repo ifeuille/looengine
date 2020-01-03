@@ -8,6 +8,7 @@ ${MODULE_ROOT_PATH}/include/global/compiler.h
 ${MODULE_ROOT_PATH}/include/global/thread.h
 ${MODULE_ROOT_PATH}/include/global/utlis.h
 ${MODULE_ROOT_PATH}/include/global/mutex.h
+${MODULE_ROOT_PATH}/include/global/time.h
 )
 set(LOCAL_PUBLIC_EXTSTD
 ${MODULE_ROOT_PATH}/include/global/extstd/filesystem.h
@@ -60,6 +61,7 @@ ${MODULE_ROOT_PATH}/include/global/math/rect.h
 set(LOCAL_PRIVATE
 ${MODULE_ROOT_PATH}/source/global/thread.cpp
 ${MODULE_ROOT_PATH}/source/global/utlis.cpp
+${MODULE_ROOT_PATH}/source/global/time.cpp
 )
 
 set(LOCAL_PRIVATE_CONTAINER

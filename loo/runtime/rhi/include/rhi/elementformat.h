@@ -1,5 +1,5 @@
-#ifndef LE_RHI_ELEMENTFORMAT_H
-#define LE_RHI_ELEMENTFORMAT_H
+#ifndef LOO_RHI_ELEMENTFORMAT_H
+#define LOO_RHI_ELEMENTFORMAT_H
 
 /*
 关于render pipeline,command buffer等的设计
@@ -24,38 +24,38 @@ command buffer主要按照vulkan和cocos的实现效果。
 #include <cstdint>
 //#include <iostream>
 
-#define LE_LOD_CLAMP_NONE                 1000.0f
-#define LE_REMAINING_MIP_LEVELS           (~0U)
-#define LE_REMAINING_ARRAY_LAYERS         (~0U)
-#define LE_WHOLE_SIZE                     (~0ULL)
-#define LE_ATTACHMENT_UNUSED              (~0U)
-#define LE_TRUE                           1
-#define LE_FALSE                          0
-#define LE_QUEUE_FAMILY_IGNORED           (~0U)
-#define LE_SUBPASS_EXTERNAL               (~0U)
-#define LE_MAX_PHYSICAL_DEVICE_NAME_SIZE  256
-#define LE_UUID_SIZE                      16
-#define LE_MAX_MEMORY_TYPES               32
-#define LE_MAX_MEMORY_HEAPS               16
-#define LE_MAX_EXTENSION_NAME_SIZE        256
-#define LE_MAX_DESCRIPTION_SIZE           256
+#define LOO_LOD_CLAMP_NONE                 1000.0f
+#define LOO_REMAINING_MIP_LEVELS           (~0U)
+#define LOO_REMAINING_ARRAY_LAYERS         (~0U)
+#define LOO_WHOLOO_SIZE                     (~0ULL)
+#define LOO_ATTACHMENT_UNUSED              (~0U)
+#define LOO_TRUE                           1
+#define LOO_FALSE                          0
+#define LOO_QUEUE_FAMILY_IGNORED           (~0U)
+#define LOO_SUBPASS_EXTERNAL               (~0U)
+#define LOO_MAX_PHYSICAL_DEVICE_NAME_SIZE  256
+#define LOO_UUID_SIZE                      16
+#define LOO_MAX_MEMORY_TYPES               32
+#define LOO_MAX_MEMORY_HEAPS               16
+#define LOO_MAX_EXTENSION_NAME_SIZE        256
+#define LOO_MAX_DESCRIPTION_SIZE           256
 
 
 
-namespace le
+namespace loo
 {
 	namespace rhi
 	{
-		typedef uint32_t LEFlags;
-		typedef uint32_t LEBool32;
-		typedef uint64_t LEDeviceSize;
-		typedef uint32_t LESampleMask;
+		typedef uint32_t LOOFlags;
+		typedef uint32_t LOOBool32;
+		typedef uint64_t LOODeviceSize;
+		typedef uint32_t LOOSampleMask;
 		//enum 定义
 	  //#if(1)
 		/**
 		*#图片类型
 		**/
-		enum class LEImageType
+		enum class LOOImageType
 		{
 			e1D = 0,
 			e2D = 1,
@@ -66,7 +66,7 @@ namespace le
 		/**
 		*图片采样
 		**/
-		enum class LEImageTiling {
+		enum class LOOImageTiling {
 			eOptimal = 0,
 			eLinear = 1,
 			//eDrmFormatModifierEXT = 2
@@ -74,13 +74,13 @@ namespace le
 
 
 		//image
-		enum class LESharingMode {
-			LE_SHARING_MODE_EXCLUSIVE = 0,
-			LE_SHARING_MODE_CONCURRENT = 1,
+		enum class LOOSharingMode {
+			LOO_SHARING_MODE_EXCLUSIVE = 0,
+			LOO_SHARING_MODE_CONCURRENT = 1,
 		} ;
 
 		//
-		enum class LEImageLayout {
+		enum class LOOImageLayout {
 			eUndefined = 0,
 			eGeneral = 1,
 			eColorAttachmentOptimal = 2,
@@ -99,7 +99,7 @@ namespace le
 		} ;
 
 		//颜色调制
-		enum class LEImageViewType {
+		enum class LOOImageViewType {
 			e1D = 0,
 			e2D = 1,
 			e3D = 2,
@@ -109,7 +109,7 @@ namespace le
 			eCubeArray = 6,
 		} ;
 
-		enum class LEComponentSwizzle {
+		enum class LOOComponentSwizzle {
 			eIdentity = 0,
 			eZero = 1,
 			eOne = 2,
@@ -119,13 +119,13 @@ namespace le
 			eA = 6,
 		};
 
-		enum class LEVertexInputRate {
+		enum class LOOVertexInputRate {
 			eVertex = 0,
 			eInstance = 1,
 		} ;
 
 		//图元类型
-		enum class LEPrimitiveTopology {
+		enum class LOOPrimitiveTopology {
 			ePointList = 0,
 			eLineList = 1,
 			eLineStrip = 2,
@@ -139,7 +139,7 @@ namespace le
 			ePatchList = 10,
 		} ;
 
-		enum class LEPolygonMode {
+		enum class LOOPolygonMode {
 			eFill = 0,
 			eLine = 1,
 			ePoint = 2,
@@ -147,13 +147,13 @@ namespace le
 		} ;
 
 		//front face
-		enum class LEFrontFace {
+		enum class LOOFrontFace {
 			eCounterClockwise = 0,
 			eClockwise = 1,
 		} ;
 
 		//比较
-		enum class LECompareOp {
+		enum class LOOCompareOp {
 			eNever = 0,
 			eLess = 1,
 			eEqual = 2,
@@ -165,7 +165,7 @@ namespace le
 		} ;
 
 		//stencil 操作
-		enum class LEStencilOp {
+		enum class LOOStencilOp {
 			eKeep = 0,
 			eZero = 1,
 			eReplace = 2,
@@ -177,7 +177,7 @@ namespace le
 		} ;
 
 		//逻辑操作，片元着色器之后的步骤可能用到
-		enum class LELogicOp {
+		enum class LOOLogicOp {
 			eClear = 0,
 			eAnd = 1,
 			eAndReverse = 2,
@@ -197,7 +197,7 @@ namespace le
 		} ;
 
 		//混合因子
-		enum class LEBlendFactor {
+		enum class LOOBlendFactor {
 			eZero = 0,
 			eOne = 1,
 			eSrcColor = 2,
@@ -220,7 +220,7 @@ namespace le
 		} ;
 
 		//混合操作
-		enum class LEBlendOp {
+		enum class LOOBlendOp {
 			eAdd = 0,
 			eSubtract = 1,
 			eReverseSubtract = 2,
@@ -275,39 +275,39 @@ namespace le
 		} ;
 
 		//dynamic 选项
-		enum class LEDynamicState {
-			LE_DYNAMIC_STATE_VIEWPORT = 0,
-			LE_DYNAMIC_STATE_SCISSOR = 1,
-			LE_DYNAMIC_STATE_LINE_WIDTH = 2,
-			LE_DYNAMIC_STATE_DEPTH_BIAS = 3,
-			LE_DYNAMIC_STATE_BLEND_CONSTANTS = 4,
-			LE_DYNAMIC_STATE_DEPTH_BOUNDS = 5,
-			LE_DYNAMIC_STATE_STENCIL_COMPARE_MASK = 6,
-			LE_DYNAMIC_STATE_STENCIL_WRITE_MASK = 7,
-			LE_DYNAMIC_STATE_STENCIL_REFERENCE = 8,
-			LE_DYNAMIC_STATE_VIEWPORT_W_SCALING_NV = 1000087000,
-			LE_DYNAMIC_STATE_DISCARD_RECTANGLE_EXT = 1000099000,
-			LE_DYNAMIC_STATE_SAMPLE_LOCATIONS_EXT = 1000143000,
-			LE_DYNAMIC_STATE_BEGIN_RANGE = LE_DYNAMIC_STATE_VIEWPORT,
-			LE_DYNAMIC_STATE_END_RANGE = LE_DYNAMIC_STATE_STENCIL_REFERENCE,
-			LE_DYNAMIC_STATE_RANGE_SIZE = (LE_DYNAMIC_STATE_STENCIL_REFERENCE - LE_DYNAMIC_STATE_VIEWPORT + 1),
-			LE_DYNAMIC_STATE_MAX_ENUM = 0x7FFFFFFF
+		enum class LOODynamicState {
+			LOO_DYNAMIC_STATE_VIEWPORT = 0,
+			LOO_DYNAMIC_STATE_SCISSOR = 1,
+			LOO_DYNAMIC_STATE_LINE_WIDTH = 2,
+			LOO_DYNAMIC_STATE_DEPTH_BIAS = 3,
+			LOO_DYNAMIC_STATE_BLEND_CONSTANTS = 4,
+			LOO_DYNAMIC_STATE_DEPTH_BOUNDS = 5,
+			LOO_DYNAMIC_STATE_STENCIL_COMPARE_MASK = 6,
+			LOO_DYNAMIC_STATE_STENCIL_WRITE_MASK = 7,
+			LOO_DYNAMIC_STATE_STENCIL_REFERENCE = 8,
+			LOO_DYNAMIC_STATE_VIEWPORT_W_SCALING_NV = 1000087000,
+			LOO_DYNAMIC_STATE_DISCARD_RECTANGLOO_EXT = 1000099000,
+			LOO_DYNAMIC_STATE_SAMPLOO_LOCATIONS_EXT = 1000143000,
+			LOO_DYNAMIC_STATE_BEGIN_RANGE = LOO_DYNAMIC_STATE_VIEWPORT,
+			LOO_DYNAMIC_STATE_END_RANGE = LOO_DYNAMIC_STATE_STENCIL_REFERENCE,
+			LOO_DYNAMIC_STATE_RANGE_SIZE = (LOO_DYNAMIC_STATE_STENCIL_REFERENCE - LOO_DYNAMIC_STATE_VIEWPORT + 1),
+			LOO_DYNAMIC_STATE_MAX_ENUM = 0x7FFFFFFF
 		} ;
 
-		enum class LEFilter {
+		enum class LOOFilter {
 			eNearest = 0,
 			eLinear = 1,
 			eCubicIMG = 1000015000,
 		} ;
 
 		//mipmap插值方式
-		enum class LESamplerMipmapMode {
+		enum class LOOSamplerMipmapMode {
 			eNearest = 0,
 			eLinear = 1,
 		} ;
 
 		//采样方式
-		enum class LESamplerAddressMode {
+		enum class LOOSamplerAddressMode {
 			eRepeat = 0,
 			eMirroredRepeat = 1,
 			eClampToEdge = 2,
@@ -316,7 +316,7 @@ namespace le
 		} ;
 
 
-		enum class LEBorderColor {
+		enum class LOOBorderColor {
 			eFloatTransparentBlack = 0,
 			eIntTransparentBlack = 1,
 			eFloatOpaqueBlack = 2,
@@ -326,37 +326,37 @@ namespace le
 		} ;
 
 
-		enum class LEAttachmentLoadOp {
+		enum class LOOAttachmentLoadOp {
 			eLoad = 0,
 			eClear = 1,
 			eDontCare = 2,
 		} ;
 
 
-		enum class LEAttachmentStoreOp {
+		enum class LOOAttachmentStoreOp {
 			eStore = 0,
 			eDontCare = 1,
 		} ;
 
 
-		enum class LEPipelineBindPoint {
+		enum class LOOPipelineBindPoint {
 			eGraphics = 0,
 			eCompute = 1,
 			eRaytracingNVX = 2,
 		} ;
 
-		enum class LECommandBufferLevel {
+		enum class LOOCommandBufferLevel {
 			ePrimary = 0,
 			eSecondary = 1,
 		} ;
 
 
-		enum class LEIndexType {
+		enum class LOOIndexType {
 			eUint16 = 0,
 			eUint32 = 1,
 		} ;
 
-		enum class LESubpassContents {
+		enum class LOOSubpassContents {
 			eInline = 0,
 			eSecondaryCommandBuffers = 1,
 		} ;
@@ -365,7 +365,7 @@ namespace le
 		//#endif
 
 
-		enum class LESampleCountFlagBits {
+		enum class LOOSampleCountFlagBits {
 			e1 = 0x00000001,
 			e2 = 0x00000002,
 			e3 = 0x00000004,
@@ -375,7 +375,7 @@ namespace le
 			e7 = 0x00000040,
 			e8 = 0x7FFFFFFF
 		} ;
-		typedef LEFlags LESampleCountFlags;
+		typedef LOOFlags LOOSampleCountFlags;
 
 
 
@@ -384,7 +384,7 @@ namespace le
 
 		
 
-		enum class LEImageAspectFlagBits {
+		enum class LOOImageAspectFlagBits {
 			eColor = 0x00000001,
 			eDepth = 0x00000002,
 			eStencil = 0x00000004,
@@ -400,57 +400,57 @@ namespace le
 			eMemoryPlane2EXT = VK_IMAGE_ASPECT_MEMORY_PLANE_2_BIT_EXT,
 			eMemoryPlane3EXT = VK_IMAGE_ASPECT_MEMORY_PLANE_3_BIT_EXT*/
 		} ;
-		typedef LEFlags LEImageAspectFlags;
+		typedef LOOFlags LOOImageAspectFlags;
 
 
-		enum class LECullModeFlagBits {
+		enum class LOOCullModeFlagBits {
 			eNone = 0,
 			eFront = 0x00000001,
 			eBack = 0x00000002,
 			eFrontAndBack = 0x00000003,
 		} ;
-		typedef LEFlags LECullModeFlags;
-		typedef LEFlags LEPipelineMultisampleStateCreateFlags;
-		typedef LEFlags LEPipelineDepthStencilStateCreateFlags;
-		typedef LEFlags LEPipelineColorBlendStateCreateFlags;
+		typedef LOOFlags LOOCullModeFlags;
+		typedef LOOFlags LOOPipelineMultisampleStateCreateFlags;
+		typedef LOOFlags LOOPipelineDepthStencilStateCreateFlags;
+		typedef LOOFlags LOOPipelineColorBlendStateCreateFlags;
 
-		enum class LEColorComponentFlagBits {
+		enum class LOOColorComponentFlagBits {
 			eR = 0x00000001,
 			eG = 0x00000002,
 			eB = 0x00000004,
 			eA = 0x00000008,
 		} ;
-		typedef LEFlags LEColorComponentFlags;
-		typedef LEFlags LEPipelineDynamicStateCreateFlags;
-		typedef LEFlags LEPipelineLayoutCreateFlags;
-		typedef LEFlags LEShaderStageFlags;
-		typedef LEFlags LESamplerCreateFlags;
+		typedef LOOFlags LOOColorComponentFlags;
+		typedef LOOFlags LOOPipelineDynamicStateCreateFlags;
+		typedef LOOFlags LOOPipelineLayoutCreateFlags;
+		typedef LOOFlags LOOShaderStageFlags;
+		typedef LOOFlags LOOSamplerCreateFlags;
 
 
 
-		enum class LECommandBufferUsageFlagBits {
+		enum class LOOCommandBufferUsageFlagBits {
 			eOneTimeSubmit = 0x00000001,
 			eRenderPassContinue = 0x00000002,
 			eSimultaneousUse = 0x00000004,
 		} ;
-		typedef LEFlags LECommandBufferUsageFlags;
+		typedef LOOFlags LOOCommandBufferUsageFlags;
 
-		enum class LEQueryControlFlagBits {
+		enum class LOOQueryControlFlagBits {
 			ePrecise = 0x00000001,
 		} ;
-		typedef LEFlags LEQueryControlFlags;
+		typedef LOOFlags LOOQueryControlFlags;
 
-		enum class LECommandBufferResetFlagBits {
+		enum class LOOCommandBufferResetFlagBits {
 			eReleaseResources = 0x00000001,
 		} ;
-		typedef LEFlags LECommandBufferResetFlags;
+		typedef LOOFlags LOOCommandBufferResetFlags;
 
-		enum class LEStencilFaceFlagBits {
+		enum class LOOStencilFaceFlagBits {
 			eFront = 0x00000001,
 			eBack = 0x00000002,
 			eVkStencilFrontAndBack = 0x00000003,
 		} ;
-		typedef LEFlags LEStencilFaceFlags;
+		typedef LOOFlags LOOStencilFaceFlags;
 
 
 
@@ -461,7 +461,7 @@ namespace le
 
 		  //struct定义
 		//#if(1)
-		  //typedef struct LEApplicationInfo {
+		  //typedef struct LOOApplicationInfo {
 		  //  ////LEStructureType    sType;
 		  //  const void*        pNext;
 		  //  const char*        pApplicationName;
@@ -469,92 +469,92 @@ namespace le
 		  //  const char*        pEngineName;
 		  //  uint32_t           engineVersion;
 		  //  uint32_t           apiVersion;
-		  //} LEApplicationInfo;
+		  //} LOOApplicationInfo;
 
-		  //typedef struct LEInstanceCreateInfo {
+		  //typedef struct LOOInstanceCreateInfo {
 		  // // //LEStructureType             sType;
 		  //  const void*                 pNext;
 		  //  //LEInstanceCreateFlags       flags;
-		  //  const LEApplicationInfo*    pApplicationInfo;
+		  //  const LOOApplicationInfo*    pApplicationInfo;
 		  //  uint32_t                    enabledLayerCount;
 		  //  const char* const*          ppEnabledLayerNames;
 		  //  uint32_t                    enabledExtensionCount;
 		  //  const char* const*          ppEnabledExtensionNames;
-		  //} LEInstanceCreateInfo;
+		  //} LOOInstanceCreateInfo;
 
-		typedef struct LEPhysicalDeviceFeatures {
-			LEBool32    robustBufferAccess;
-			LEBool32    fullDrawIndexUint32;
-			LEBool32    imageCubeArray;
-			LEBool32    independentBlend;
-			LEBool32    geometryShader;
-			LEBool32    tessellationShader;
-			LEBool32    sampleRateShading;
-			LEBool32    dualSrcBlend;
-			LEBool32    logicOp;
-			LEBool32    multiDrawIndirect;
-			LEBool32    drawIndirectFirstInstance;
-			LEBool32    depthClamp;
-			LEBool32    depthBiasClamp;
-			LEBool32    fillModeNonSolid;
-			LEBool32    depthBounds;
-			LEBool32    wideLines;
-			LEBool32    largePoints;
-			LEBool32    alphaToOne;
-			LEBool32    multiViewport;
-			LEBool32    samplerAnisotropy;
-			LEBool32    textureCompressionETC2;
-			LEBool32    textureCompressionASTC_LDR;
-			LEBool32    textureCompressionBC;
-			LEBool32    occlusionQueryPrecise;
-			LEBool32    pipelineStatisticsQuery;
-			LEBool32    vertexPipelineStoresAndAtomics;
-			LEBool32    fragmentStoresAndAtomics;
-			LEBool32    shaderTessellationAndGeometryPointSize;
-			LEBool32    shaderImageGatherExtended;
-			LEBool32    shaderStorageImageExtendedFormats;
-			LEBool32    shaderStorageImageMultisample;
-			LEBool32    shaderStorageImageReadWithoutFormat;
-			LEBool32    shaderStorageImageWriteWithoutFormat;
-			LEBool32    shaderUniformBufferArrayDynamicIndexing;
-			LEBool32    shaderSampledImageArrayDynamicIndexing;
-			LEBool32    shaderStorageBufferArrayDynamicIndexing;
-			LEBool32    shaderStorageImageArrayDynamicIndexing;
-			LEBool32    shaderClipDistance;
-			LEBool32    shaderCullDistance;
-			LEBool32    shaderFloat64;
-			LEBool32    shaderInt64;
-			LEBool32    shaderInt16;
-			LEBool32    shaderResourceResidency;
-			LEBool32    shaderResourceMinLod;
-			LEBool32    sparseBinding;
-			LEBool32    sparseResidencyBuffer;
-			LEBool32    sparseResidencyImage2D;
-			LEBool32    sparseResidencyImage3D;
-			LEBool32    sparseResidency2Samples;
-			LEBool32    sparseResidency4Samples;
-			LEBool32    sparseResidency8Samples;
-			LEBool32    sparseResidency16Samples;
-			LEBool32    sparseResidencyAliased;
-			LEBool32    variableMultisampleRate;
-			LEBool32    inheritedQueries;
-		} LEPhysicalDeviceFeatures;
+		typedef struct LOOPhysicalDeviceFeatures {
+			LOOBool32    robustBufferAccess;
+			LOOBool32    fullDrawIndexUint32;
+			LOOBool32    imageCubeArray;
+			LOOBool32    independentBlend;
+			LOOBool32    geometryShader;
+			LOOBool32    tessellationShader;
+			LOOBool32    sampleRateShading;
+			LOOBool32    dualSrcBlend;
+			LOOBool32    logicOp;
+			LOOBool32    multiDrawIndirect;
+			LOOBool32    drawIndirectFirstInstance;
+			LOOBool32    depthClamp;
+			LOOBool32    depthBiasClamp;
+			LOOBool32    fillModeNonSolid;
+			LOOBool32    depthBounds;
+			LOOBool32    wideLines;
+			LOOBool32    largePoints;
+			LOOBool32    alphaToOne;
+			LOOBool32    multiViewport;
+			LOOBool32    samplerAnisotropy;
+			LOOBool32    textureCompressionETC2;
+			LOOBool32    textureCompressionASTC_LDR;
+			LOOBool32    textureCompressionBC;
+			LOOBool32    occlusionQueryPrecise;
+			LOOBool32    pipelineStatisticsQuery;
+			LOOBool32    vertexPipelineStoresAndAtomics;
+			LOOBool32    fragmentStoresAndAtomics;
+			LOOBool32    shaderTessellationAndGeometryPointSize;
+			LOOBool32    shaderImageGatherExtended;
+			LOOBool32    shaderStorageImageExtendedFormats;
+			LOOBool32    shaderStorageImageMultisample;
+			LOOBool32    shaderStorageImageReadWithoutFormat;
+			LOOBool32    shaderStorageImageWriteWithoutFormat;
+			LOOBool32    shaderUniformBufferArrayDynamicIndexing;
+			LOOBool32    shaderSampledImageArrayDynamicIndexing;
+			LOOBool32    shaderStorageBufferArrayDynamicIndexing;
+			LOOBool32    shaderStorageImageArrayDynamicIndexing;
+			LOOBool32    shaderClipDistance;
+			LOOBool32    shaderCullDistance;
+			LOOBool32    shaderFloat64;
+			LOOBool32    shaderInt64;
+			LOOBool32    shaderInt16;
+			LOOBool32    shaderResourceResidency;
+			LOOBool32    shaderResourceMinLod;
+			LOOBool32    sparseBinding;
+			LOOBool32    sparseResidencyBuffer;
+			LOOBool32    sparseResidencyImage2D;
+			LOOBool32    sparseResidencyImage3D;
+			LOOBool32    sparseResidency2Samples;
+			LOOBool32    sparseResidency4Samples;
+			LOOBool32    sparseResidency8Samples;
+			LOOBool32    sparseResidency16Samples;
+			LOOBool32    sparseResidencyAliased;
+			LOOBool32    variableMultisampleRate;
+			LOOBool32    inheritedQueries;
+		} LOOPhysicalDeviceFeatures;
 
 
-		//typedef struct LEFormatProperties {
-		//  LEFormatFeatureFlags    linearTilingFeatures;
-		//  LEFormatFeatureFlags    optimalTilingFeatures;
-		//  LEFormatFeatureFlags    bufferFeatures;
-		//} LEFormatProperties;
+		//typedef struct LOOFormatProperties {
+		//  LOOFormatFeatureFlags    linearTilingFeatures;
+		//  LOOFormatFeatureFlags    optimalTilingFeatures;
+		//  LOOFormatFeatureFlags    bufferFeatures;
+		//} LOOFormatProperties;
 
-		typedef struct LEExtent3D {
+		typedef struct LOOExtent3D {
 			uint32_t    width;
 			uint32_t    height;
 			uint32_t    depth;
-		} LEExtent3D;
+		} LOOExtent3D;
 
 
-		typedef struct LEPhysicalDeviceLimits {
+		typedef struct LOOPhysicalDeviceLimits {
 			uint32_t              maxImageDimension1D;
 			uint32_t              maxImageDimension2D;
 			uint32_t              maxImageDimension3D;
@@ -566,8 +566,8 @@ namespace le
 			uint32_t              maxPushConstantsSize;
 			uint32_t              maxMemoryAllocationCount;
 			uint32_t              maxSamplerAllocationCount;
-			LEDeviceSize          bufferImageGranularity;
-			LEDeviceSize          sparseAddressSpaceSize;
+			LOODeviceSize          bufferImageGranularity;
+			LOODeviceSize          sparseAddressSpaceSize;
 			uint32_t              maxBoundDescriptorSets;
 			uint32_t              maxPerStageDescriptorSamplers;
 			uint32_t              maxPerStageDescriptorUniformBuffers;
@@ -622,9 +622,9 @@ namespace le
 			float                 viewportBoundsRange[2];
 			uint32_t              viewportSubPixelBits;
 			size_t                minMemoryMapAlignment;
-			LEDeviceSize          minTexelBufferOffsetAlignment;
-			LEDeviceSize          minUniformBufferOffsetAlignment;
-			LEDeviceSize          minStorageBufferOffsetAlignment;
+			LOODeviceSize          minTexelBufferOffsetAlignment;
+			LOODeviceSize          minUniformBufferOffsetAlignment;
+			LOODeviceSize          minStorageBufferOffsetAlignment;
 			int32_t               minTexelOffset;
 			uint32_t              maxTexelOffset;
 			int32_t               minTexelGatherOffset;
@@ -635,18 +635,18 @@ namespace le
 			uint32_t              maxFramebufferWidth;
 			uint32_t              maxFramebufferHeight;
 			uint32_t              maxFramebufferLayers;
-			LESampleCountFlags    framebufferColorSampleCounts;
-			LESampleCountFlags    framebufferDepthSampleCounts;
-			LESampleCountFlags    framebufferStencilSampleCounts;
-			LESampleCountFlags    framebufferNoAttachmentsSampleCounts;
+			LOOSampleCountFlags    framebufferColorSampleCounts;
+			LOOSampleCountFlags    framebufferDepthSampleCounts;
+			LOOSampleCountFlags    framebufferStencilSampleCounts;
+			LOOSampleCountFlags    framebufferNoAttachmentsSampleCounts;
 			uint32_t              maxColorAttachments;
-			LESampleCountFlags    sampledImageColorSampleCounts;
-			LESampleCountFlags    sampledImageIntegerSampleCounts;
-			LESampleCountFlags    sampledImageDepthSampleCounts;
-			LESampleCountFlags    sampledImageStencilSampleCounts;
-			LESampleCountFlags    storageImageSampleCounts;
+			LOOSampleCountFlags    sampledImageColorSampleCounts;
+			LOOSampleCountFlags    sampledImageIntegerSampleCounts;
+			LOOSampleCountFlags    sampledImageDepthSampleCounts;
+			LOOSampleCountFlags    sampledImageStencilSampleCounts;
+			LOOSampleCountFlags    storageImageSampleCounts;
 			uint32_t              maxSampleMaskWords;
-			LEBool32              timestampComputeAndGraphics;
+			LOOBool32              timestampComputeAndGraphics;
 			float                 timestampPeriod;
 			uint32_t              maxClipDistances;
 			uint32_t              maxCullDistances;
@@ -656,86 +656,86 @@ namespace le
 			float                 lineWidthRange[2];
 			float                 pointSizeGranularity;
 			float                 lineWidthGranularity;
-			LEBool32              strictLines;
-			LEBool32              standardSampleLocations;
-			LEDeviceSize          optimalBufferCopyOffsetAlignment;
-			LEDeviceSize          optimalBufferCopyRowPitchAlignment;
-			LEDeviceSize          nonCoherentAtomSize;
-		} LEPhysicalDeviceLimits;
+			LOOBool32              strictLines;
+			LOOBool32              standardSampleLocations;
+			LOODeviceSize          optimalBufferCopyOffsetAlignment;
+			LOODeviceSize          optimalBufferCopyRowPitchAlignment;
+			LOODeviceSize          nonCoherentAtomSize;
+		} LOOPhysicalDeviceLimits;
 
-		typedef struct LEPhysicalDeviceSparseProperties {
-			LEBool32    residencyStandard2DBlockShape;
-			LEBool32    residencyStandard2DMultisampleBlockShape;
-			LEBool32    residencyStandard3DBlockShape;
-			LEBool32    residencyAlignedMipSize;
-			LEBool32    residencyNonResidentStrict;
-		} LEPhysicalDeviceSparseProperties;
+		typedef struct LOOPhysicalDeviceSparseProperties {
+			LOOBool32    residencyStandard2DBlockShape;
+			LOOBool32    residencyStandard2DMultisampleBlockShape;
+			LOOBool32    residencyStandard3DBlockShape;
+			LOOBool32    residencyAlignedMipSize;
+			LOOBool32    residencyNonResidentStrict;
+		} LOOPhysicalDeviceSparseProperties;
 
 
-		typedef struct LEQueueFamilyProperties {
+		typedef struct LOOQueueFamilyProperties {
 			///LEQueueFlags    queueFlags;
 			uint32_t        queueCount;
 			uint32_t        timestampValidBits;
-			LEExtent3D      minImageTransferGranularity;
-		} LEQueueFamilyProperties;
+			LOOExtent3D      minImageTransferGranularity;
+		} LOOQueueFamilyProperties;
 
 
-		typedef LEFlags LEDeviceQueueCreateFlags;
+		typedef LOOFlags LOODeviceQueueCreateFlags;
 
 		//typedef void (LEAPI_PTR *PFN_vkVoidFunction)(void);
-		typedef struct LEDeviceQueueCreateInfo {
+		typedef struct LOODeviceQueueCreateInfo {
 			//LEStructureType             sType;
 			const void*                 pNext;
-			LEDeviceQueueCreateFlags    flags;
+			LOODeviceQueueCreateFlags    flags;
 			uint32_t                    queueFamilyIndex;
 			uint32_t                    queueCount;
 			const float*                pQueuePriorities;
-		} LEDeviceQueueCreateInfo;
+		} LOODeviceQueueCreateInfo;
 			
 
-		typedef union LEClearColorValue {
+		typedef union LOOClearColorValue {
 			float       float32[4];
 			int32_t     int32[4];
 			uint32_t    uint32[4];
-		} LEClearColorValue;
+		} LOOClearColorValue;
 
-		typedef struct LEClearDepthStencilValue {
+		typedef struct LOOClearDepthStencilValue {
 			float       depth;
 			uint32_t    stencil;
-		} LEClearDepthStencilValue;
+		} LOOClearDepthStencilValue;
 
-		typedef union LEClearValue {
-			LEClearColorValue           color;
-			LEClearDepthStencilValue    depthStencil;
-		} LEClearValue;
+		typedef union LOOClearValue {
+			LOOClearColorValue           color;
+			LOOClearDepthStencilValue    depthStencil;
+		} LOOClearValue;
 
-		typedef struct LEClearAttachment {
-			LEImageAspectFlags    aspectMask;
+		typedef struct LOOClearAttachment {
+			LOOImageAspectFlags    aspectMask;
 			uint32_t              colorAttachment;
-			LEClearValue          clearValue;
-		} LEClearAttachment;
+			LOOClearValue          clearValue;
+		} LOOClearAttachment;
 
 			   
-		typedef struct LEDispatchIndirectCommand {
+		typedef struct LOODispatchIndirectCommand {
 			uint32_t    x;
 			uint32_t    y;
 			uint32_t    z;
-		} LEDispatchIndirectCommand;
+		} LOODispatchIndirectCommand;
 
-		typedef struct LEDrawIndexedIndirectCommand {
+		typedef struct LOODrawIndexedIndirectCommand {
 			uint32_t    indexCount;
 			uint32_t    instanceCount;
 			uint32_t    firstIndex;
 			int32_t     vertexOffset;
 			uint32_t    firstInstance;
-		} LEDrawIndexedIndirectCommand;
+		} LOODrawIndexedIndirectCommand;
 
-		typedef struct LEDrawIndirectCommand {
+		typedef struct LOODrawIndirectCommand {
 			uint32_t    vertexCount;
 			uint32_t    instanceCount;
 			uint32_t    firstVertex;
 			uint32_t    firstInstance;
-		} LEDrawIndirectCommand;
+		} LOODrawIndirectCommand;
 
 
 
@@ -815,7 +815,7 @@ namespace le
 	}
 }
 
-namespace le
+namespace loo
 {
 	namespace rhi
 	{
@@ -1228,4 +1228,4 @@ namespace le
 #endif
 }
 
-#endif //LE_RHI_ELEMENTFORMAT_H
+#endif //LOO_RHI_ELEMENTFORMAT_H

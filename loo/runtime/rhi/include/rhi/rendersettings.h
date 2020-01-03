@@ -1,9 +1,9 @@
 #ifndef LE_RHI_RENDERSETTINGS_H
 #define LE_RHI_RENDERSETTINGS_H
-#include "Core.Types.h"
-#include "RHI/ElementFormat.h"
+#include "global/global.h"
+#include "rhi/elementformat.h"
 
-namespace le
+namespace loo
 {
 	namespace rhi
 	{
