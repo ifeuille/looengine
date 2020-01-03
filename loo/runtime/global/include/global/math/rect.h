@@ -30,8 +30,8 @@ namespace loo
 			extend_type extend;
 		};
 
-		typedef rect<f32, f32, glm::qualifier::defaultp> f32rect;
-		typedef rect<f64, f64, glm::qualifier::defaultp> f64rect;
+		typedef rect<loo::float32, loo::float32, glm::qualifier::defaultp> f32rect;
+		typedef rect<loo::float64, loo::float64, glm::qualifier::defaultp> f64rect;
 		typedef rect<int8, int8, glm::qualifier::defaultp> i8rect;
 		typedef rect<int16, int16, glm::qualifier::defaultp> i16rect;
 		typedef rect<int32, int32, glm::qualifier::defaultp> i32rect;

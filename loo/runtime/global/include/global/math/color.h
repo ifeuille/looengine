@@ -1,14 +1,9 @@
 #ifndef LE_CORE_COLOR_H
 #define LE_CORE_COLOR_H
-#include "Core.DllExport.h"
-#include "HAL/Core.Config.h"
-#include "Core.Declare.h"
-#include "Core.Types.h"
-#include <boost/operators.hpp>
-
-#include "Math/Core.Math.h"
-#include "Template/Core.ExternalString.h"
-#include "HAL/CXX2a/endian.h"
+#include "global/global.h"
+#include "global/extstd/operators.h"
+#include "global/math/math.h"
+#include "global/template/externalstring.h"
 
 namespace loo
 {
@@ -38,23 +33,23 @@ namespace loo
 			/** Static lookup table used for FColor -> FLinearColor conversion. sRGB */
 			static float sRGBToLinearTable[256];
 
-			LE_FORCEINLINE FLinearColor ( ) {}
-			LE_FORCEINLINE explicit FLinearColor ( EForceInit )
+			LOO_FORCEINLINE FLinearColor ( ) {}
+			LOO_FORCEINLINE explicit FLinearColor ( EForceInit )
 				: R ( 0 ), G ( 0 ), B ( 0 ), A ( 0 )
 			{}
-			LE_FORCEINLINE FLinearColor ( float InR, float InG, float InB, float InA = 1.0f ) : R ( InR ), G ( InG ), B ( InB ), A ( InA ) {}
+			LOO_FORCEINLINE FLinearColor ( float InR, float InG, float InB, float InA = 1.0f ) : R ( InR ), G ( InG ), B ( InB ), A ( InA ) {}
 
 			/**
 			 * Converts an FColor which is assumed to be in sRGB space, into linear color space.
 			 * @param Color The sRGB color that needs to be converted into linear space.
 			 */
-			CORE_EXPORT FLinearColor ( const FColor& Color );
+			FLinearColor ( const FColor& Color );
 
-			CORE_EXPORT FLinearColor ( const vec3& Vector );
+			FLinearColor ( const vec3& Vector );
 
-			CORE_EXPORT explicit FLinearColor ( const vec4& Vector );
+			explicit FLinearColor ( const vec4& Vector );
 
-			//CORE_EXPORT explicit FLinearColor ( const FFloat16Color& C );
+			//explicit FLinearColor ( const FFloat16Color& C );
 
 			// Serializer.
 
@@ -70,33 +65,33 @@ namespace loo
 			}
 
 			// Conversions.
-			CORE_EXPORT FColor ToRGBE ( ) const;
+			FColor ToRGBE ( ) const;
 
 			/**
 			 * Converts an FColor coming from an observed sRGB output, into a linear color.
 			 * @param Color The sRGB color that needs to be converted into linear space.
 			 */
-			CORE_EXPORT static FLinearColor FromSRGBColor ( const FColor& Color );
+			static FLinearColor FromSRGBColor ( const FColor& Color );
 
 			/**
 			 * Converts an FColor coming from an observed Pow(1/2.2) output, into a linear color.
 			 * @param Color The Pow(1/2.2) color that needs to be converted into linear space.
 			 */
-			CORE_EXPORT static FLinearColor FromPow22Color ( const FColor& Color );
+			static FLinearColor FromPow22Color ( const FColor& Color );
 
 			// Operators.
 
-			LE_FORCEINLINE float& Component ( int32 Index )
+			LOO_FORCEINLINE float& Component ( int32 Index )
 			{
 				return (&R)[Index];
 			}
 
-			LE_FORCEINLINE const float& Component ( int32 Index ) const
+			LOO_FORCEINLINE const float& Component ( int32 Index ) const
 			{
 				return (&R)[Index];
 			}
 
-			LE_FORCEINLINE FLinearColor operator+( const FLinearColor& ColorB ) const
+			LOO_FORCEINLINE FLinearColor operator+( const FLinearColor& ColorB ) const
 			{
 				return FLinearColor (
 					this->R + ColorB.R,
@@ -105,7 +100,7 @@ namespace loo
 					this->A + ColorB.A
 				);
 			}
-			LE_FORCEINLINE FLinearColor& operator+=( const FLinearColor& ColorB )
+			LOO_FORCEINLINE FLinearColor& operator+=( const FLinearColor& ColorB )
 			{
 				R += ColorB.R;
 				G += ColorB.G;
@@ -114,7 +109,7 @@ namespace loo
 				return *this;
 			}
 
-			LE_FORCEINLINE FLinearColor operator-( const FLinearColor& ColorB ) const
+			LOO_FORCEINLINE FLinearColor operator-( const FLinearColor& ColorB ) const
 			{
 				return FLinearColor (
 					this->R - ColorB.R,
@@ -123,7 +118,7 @@ namespace loo
 					this->A - ColorB.A
 				);
 			}
-			LE_FORCEINLINE FLinearColor& operator-=( const FLinearColor& ColorB )
+			LOO_FORCEINLINE FLinearColor& operator-=( const FLinearColor& ColorB )
 			{
 				R -= ColorB.R;
 				G -= ColorB.G;
@@ -132,7 +127,7 @@ namespace loo
 				return *this;
 			}
 
-			LE_FORCEINLINE FLinearColor operator*( const FLinearColor& ColorB ) const
+			LOO_FORCEINLINE FLinearColor operator*( const FLinearColor& ColorB ) const
 			{
 				return FLinearColor (
 					this->R * ColorB.R,
@@ -141,7 +136,7 @@ namespace loo
 					this->A * ColorB.A
 				);
 			}
-			LE_FORCEINLINE FLinearColor& operator*=( const FLinearColor& ColorB )
+			LOO_FORCEINLINE FLinearColor& operator*=( const FLinearColor& ColorB )
 			{
 				R *= ColorB.R;
 				G *= ColorB.G;
@@ -150,7 +145,7 @@ namespace loo
 				return *this;
 			}
 
-			LE_FORCEINLINE FLinearColor operator*( float Scalar ) const
+			LOO_FORCEINLINE FLinearColor operator*( float Scalar ) const
 			{
 				return FLinearColor (
 					this->R * Scalar,
@@ -160,7 +155,7 @@ namespace loo
 				);
 			}
 
-			LE_FORCEINLINE FLinearColor& operator*=( float Scalar )
+			LOO_FORCEINLINE FLinearColor& operator*=( float Scalar )
 			{
 				R *= Scalar;
 				G *= Scalar;
@@ -169,7 +164,7 @@ namespace loo
 				return *this;
 			}
 
-			LE_FORCEINLINE FLinearColor operator/( const FLinearColor& ColorB ) const
+			LOO_FORCEINLINE FLinearColor operator/( const FLinearColor& ColorB ) const
 			{
 				return FLinearColor (
 					this->R / ColorB.R,
@@ -178,7 +173,7 @@ namespace loo
 					this->A / ColorB.A
 				);
 			}
-			LE_FORCEINLINE FLinearColor& operator/=( const FLinearColor& ColorB )
+			LOO_FORCEINLINE FLinearColor& operator/=( const FLinearColor& ColorB )
 			{
 				R /= ColorB.R;
 				G /= ColorB.G;
@@ -187,7 +182,7 @@ namespace loo
 				return *this;
 			}
 
-			LE_FORCEINLINE FLinearColor operator/( float Scalar ) const
+			LOO_FORCEINLINE FLinearColor operator/( float Scalar ) const
 			{
 				const float	InvScalar = 1.0f / Scalar;
 				return FLinearColor (
@@ -197,7 +192,7 @@ namespace loo
 					this->A * InvScalar
 				);
 			}
-			LE_FORCEINLINE FLinearColor& operator/=( float Scalar )
+			LOO_FORCEINLINE FLinearColor& operator/=( float Scalar )
 			{
 				const float	InvScalar = 1.0f / Scalar;
 				R *= InvScalar;
@@ -208,7 +203,7 @@ namespace loo
 			}
 
 			// clamped in 0..1 range
-			LE_FORCEINLINE FLinearColor GetClamped ( float InMin = 0.0f, float InMax = 1.0f ) const
+			LOO_FORCEINLINE FLinearColor GetClamped ( float InMin = 0.0f, float InMax = 1.0f ) const
 			{
 				FLinearColor Ret;
 
@@ -221,25 +216,25 @@ namespace loo
 			}
 
 			/** Comparison operators */
-			LE_FORCEINLINE bool operator==( const FLinearColor& ColorB ) const
+			LOO_FORCEINLINE bool operator==( const FLinearColor& ColorB ) const
 			{
 				return this->R == ColorB.R && this->G == ColorB.G && this->B == ColorB.B && this->A == ColorB.A;
 			}
-			LE_FORCEINLINE bool operator!=( const FLinearColor& Other ) const
+			LOO_FORCEINLINE bool operator!=( const FLinearColor& Other ) const
 			{
 				return this->R != Other.R || this->G != Other.G || this->B != Other.B || this->A != Other.A;
 			}
 
 			// Error-tolerant comparison.
-			LE_FORCEINLINE bool Equals ( const FLinearColor& ColorB, float Tolerance = KINDA_SMALL_NUMBER ) const
+			LOO_FORCEINLINE bool Equals ( const FLinearColor& ColorB, float Tolerance = KINDA_SMALL_NUMBER ) const
 			{
-				return le::core::equal ( this->R, ColorB.R, Tolerance )&&
-					le::core::equal ( this->G, ColorB.G, Tolerance )&&
-					le::core::equal ( this->B, ColorB.B, Tolerance )&&
-					le::core::equal ( this->A, ColorB.A, Tolerance );
+				return loo::math::equal ( this->R, ColorB.R, Tolerance )&&
+					loo::math::equal ( this->G, ColorB.G, Tolerance )&&
+					loo::math::equal ( this->B, ColorB.B, Tolerance )&&
+					loo::math::equal ( this->A, ColorB.A, Tolerance );
 			}
 
-			CORE_EXPORT FLinearColor CopyWithNewOpacity ( float NewOpacicty ) const
+			FLinearColor CopyWithNewOpacity ( float NewOpacicty ) const
 			{
 				FLinearColor NewCopy = *this;
 				NewCopy.A = NewOpacicty;
@@ -249,24 +244,24 @@ namespace loo
 			/**
 			 * Converts byte hue-saturation-brightness to floating point red-green-blue.
 			 */
-			static CORE_EXPORT FLinearColor FGetHSV ( uint8 H, uint8 S, uint8 V );
+			static FLinearColor FGetHSV ( uint8 H, uint8 S, uint8 V );
 
 			/**
 			* Makes a random but quite nice color.
 			*/
-			static CORE_EXPORT FLinearColor MakeRandomColor ( );
+			static FLinearColor MakeRandomColor ( );
 
 			/**
 			* Converts temperature in Kelvins of a black body radiator to RGB chromaticity.
 			*/
-			static CORE_EXPORT FLinearColor MakeFromColorTemperature ( float Temp );
+			static FLinearColor MakeFromColorTemperature ( float Temp );
 
 			/**
 			 * Euclidean distance between two points.
 			 */
 			static inline float Dist ( const FLinearColor &V1, const FLinearColor &V2 )
 			{
-				return le::core::sqrt( le::core::square ( V2.R - V1.R ) + le::core::square ( V2.G - V1.G ) + le::core::square ( V2.B - V1.B ) + le::core::square ( V2.A - V1.A ) );
+				return loo::math::sqrt( loo::math::square ( V2.R - V1.R ) + loo::math::square ( V2.G - V1.G ) + loo::math::square ( V2.B - V1.B ) + loo::math::square ( V2.A - V1.A ) );
 			}
 
 			/**
@@ -277,13 +272,13 @@ namespace loo
 			 * @param	OutPoints		Receives the output samples.
 			 * @return					Path length.
 			 */
-			static CORE_EXPORT float EvaluateBezier ( const FLinearColor* ControlPoints, int32 NumPoints, std::vector<FLinearColor>& OutPoints );
+			static float EvaluateBezier ( const FLinearColor* ControlPoints, int32 NumPoints, std::vector<FLinearColor>& OutPoints );
 
 			/** Converts a linear space RGB color to an HSV color */
-			CORE_EXPORT FLinearColor LinearRGBToHSV ( ) const;
+			FLinearColor LinearRGBToHSV ( ) const;
 
 			/** Converts an HSV color to a linear space RGB color */
-			CORE_EXPORT FLinearColor HSVToLinearRGB ( ) const;
+			FLinearColor HSVToLinearRGB ( ) const;
 
 			/**
 			 * Linearly interpolates between two colors by the specified progress amount.  The interpolation is performed in HSV color space
@@ -295,16 +290,16 @@ namespace loo
 			 * @param	Progress	Scalar interpolation amount (usually between 0.0 and 1.0 inclusive)
 			 * @return	The interpolated color in linear RGB space along with the interpolated alpha value
 			 */
-			static CORE_EXPORT FLinearColor LerpUsingHSV ( const FLinearColor& From, const FLinearColor& To, const float Progress );
+			static FLinearColor LerpUsingHSV ( const FLinearColor& From, const FLinearColor& To, const float Progress );
 
 			/** Quantizes the linear color and returns the result as a FColor.  This bypasses the SRGB conversion. */
-			CORE_EXPORT FColor Quantize ( ) const;
+			FColor Quantize ( ) const;
 
 			/** Quantizes the linear color with rounding and returns the result as a FColor.  This bypasses the SRGB conversion. */
-			CORE_EXPORT FColor QuantizeRound ( ) const;
+			FColor QuantizeRound ( ) const;
 
 			/** Quantizes the linear color and returns the result as a FColor with optional sRGB conversion and quality as goal. */
-			CORE_EXPORT FColor ToFColor ( const bool bSRGB ) const;
+			FColor ToFColor ( const bool bSRGB ) const;
 
 			/**
 			 * Returns a desaturated color, with 0 meaning no desaturation and 1 == full desaturation
@@ -312,7 +307,7 @@ namespace loo
 			 * @param	Desaturation	Desaturation factor in range [0..1]
 			 * @return	Desaturated color
 			 */
-			CORE_EXPORT FLinearColor Desaturate ( float Desaturation ) const;
+			FLinearColor Desaturate ( float Desaturation ) const;
 
 			/** Computes the perceptually weighted luminance value of a color. */
 			inline float ComputeLuminance ( ) const
@@ -325,15 +320,15 @@ namespace loo
 			 *
 			 * @return The maximum color channel value
 			 */
-			LE_FORCEINLINE float GetMax ( ) const
+			LOO_FORCEINLINE float GetMax ( ) const
 			{
-				return le::core::max( le::core::max( le::core::max( R, G ), B ), A );
+				return loo::math::max( loo::math::max( loo::math::max( R, G ), B ), A );
 			}
 
 			/** useful to detect if a light contribution needs to be rendered */
 			bool IsAlmostBlack ( ) const
 			{
-				return le::core::square ( R ) < DELTA && le::core::square ( G ) < DELTA && le::core::square ( B ) < DELTA;
+				return loo::math::square ( R ) < DELTA && loo::math::square ( G ) < DELTA && loo::math::square ( B ) < DELTA;
 			}
 
 			/**
@@ -341,12 +336,12 @@ namespace loo
 			 *
 			 * @return The minimum color channel value
 			 */
-			LE_FORCEINLINE float GetMin ( ) const
+			LOO_FORCEINLINE float GetMin ( ) const
 			{
-				return le::core::min ( le::core::min ( le::core::min ( R, G ), B ), A );
+				return loo::math::min ( loo::math::min ( loo::math::min ( R, G ), B ), A );
 			}
 
-			LE_FORCEINLINE float GetLuminance ( ) const
+			LOO_FORCEINLINE float GetLuminance ( ) const
 			{
 				return R * 0.3f + G * 0.59f + B * 0.11f;
 			}
@@ -354,7 +349,7 @@ namespace loo
 			std::string ToString ( ) const
 			{
 				
-				return le::core::Printf ( "(R=%f,G=%f,B=%f,A=%f)" , R, G, B, A );
+				return loo::global::Printf ( "(R=%f,G=%f,B=%f,A=%f)" , R, G, B, A );
 			}
 
 			/**
@@ -379,17 +374,17 @@ namespace loo
 			//}
 
 			// Common colors.	
-			static CORE_EXPORT const FLinearColor White;
-			static CORE_EXPORT const FLinearColor Gray;
-			static CORE_EXPORT const FLinearColor Black;
-			static CORE_EXPORT const FLinearColor Transparent;
-			static CORE_EXPORT const FLinearColor Red;
-			static CORE_EXPORT const FLinearColor Green;
-			static CORE_EXPORT const FLinearColor Blue;
-			static CORE_EXPORT const FLinearColor Yellow;
+			static const FLinearColor White;
+			static const FLinearColor Gray;
+			static const FLinearColor Black;
+			static const FLinearColor Transparent;
+			static const FLinearColor Red;
+			static const FLinearColor Green;
+			static const FLinearColor Blue;
+			static const FLinearColor Yellow;
 		};
 
-		LE_FORCEINLINE FLinearColor operator*( float Scalar, const FLinearColor& Color )
+		LOO_FORCEINLINE FLinearColor operator*( float Scalar, const FLinearColor& Color )
 		{
 			return Color.operator*( Scalar );
 		}
@@ -424,13 +419,13 @@ namespace loo
 			const uint32& DWColor ( void ) const { return *((uint32*)this); }
 
 			// Constructors.
-			LE_FORCEINLINE FColor ( ) {}
-			LE_FORCEINLINE explicit FColor ( EForceInit )
+			LOO_FORCEINLINE FColor ( ) {}
+			LOO_FORCEINLINE explicit FColor ( EForceInit )
 			{
 				// put these into the body for proper ordering with INTEL vs non-INTEL_BYTE_ORDER
 				R = G = B = A = 0;
 			}
-			LE_FORCEINLINE FColor ( uint8 InR, uint8 InG, uint8 InB, uint8 InA = 255 )
+			LOO_FORCEINLINE FColor ( uint8 InR, uint8 InG, uint8 InB, uint8 InA = 255 )
 			{
 				// put these into the body for proper ordering with INTEL vs non-INTEL_BYTE_ORDER
 				R = InR;
@@ -440,7 +435,7 @@ namespace loo
 
 			}
 
-			LE_FORCEINLINE explicit FColor ( uint32 InColor )
+			LOO_FORCEINLINE explicit FColor ( uint32 InColor )
 			{
 				DWColor ( ) = InColor;
 			}
@@ -458,25 +453,25 @@ namespace loo
 			}
 
 			// Operators.
-			LE_FORCEINLINE bool operator==( const FColor &C ) const
+			LOO_FORCEINLINE bool operator==( const FColor &C ) const
 			{
 				return DWColor ( ) == C.DWColor ( );
 			}
 
-			LE_FORCEINLINE bool operator!=( const FColor& C ) const
+			LOO_FORCEINLINE bool operator!=( const FColor& C ) const
 			{
 				return DWColor ( ) != C.DWColor ( );
 			}
 
-			LE_FORCEINLINE void operator+=( const FColor& C )
+			LOO_FORCEINLINE void operator+=( const FColor& C )
 			{
-				R = (uint8)le::core::min ( (int32)R + (int32)C.R, 255 );
-				G = (uint8)le::core::min ( (int32)G + (int32)C.G, 255 );
-				B = (uint8)le::core::min ( (int32)B + (int32)C.B, 255 );
-				A = (uint8)le::core::min ( (int32)A + (int32)C.A, 255 );
+				R = (uint8)loo::math::min ( (int32)R + (int32)C.R, 255 );
+				G = (uint8)loo::math::min ( (int32)G + (int32)C.G, 255 );
+				B = (uint8)loo::math::min ( (int32)B + (int32)C.B, 255 );
+				A = (uint8)loo::math::min ( (int32)A + (int32)C.A, 255 );
 			}
 
-			CORE_EXPORT FLinearColor FromRGBE ( ) const;
+			FLinearColor FromRGBE ( ) const;
 
 			/**
 			 * Creates a color value from the given hexadecimal string.
@@ -487,22 +482,22 @@ namespace loo
 			 * @return The corresponding color value.
 			 * @see ToHex
 			 */
-			//static CORE_EXPORT FColor FromHex ( const std::string& HexString );
+			//static FColor FromHex ( const std::string& HexString );
 
 			/**
 			 * Makes a random but quite nice color.
 			 */
-			static CORE_EXPORT FColor MakeRandomColor ( );
+			static FColor MakeRandomColor ( );
 
 			/**
 			 * Makes a color red->green with the passed in scalar (e.g. 0 is red, 1 is green)
 			 */
-			static CORE_EXPORT FColor MakeRedToGreenColorFromScalar ( float Scalar );
+			static FColor MakeRedToGreenColorFromScalar ( float Scalar );
 
 			/**
 			* Converts temperature in Kelvins of a black body radiator to RGB chromaticity.
 			*/
-			static CORE_EXPORT FColor MakeFromColorTemperature ( float Temp );
+			static FColor MakeFromColorTemperature ( float Temp );
 
 			/**
 			 *	@return a new FColor based of this color with the new alpha value.
@@ -518,7 +513,7 @@ namespace loo
 			 *
 			 * @return The linear color representation.
 			 */
-			LE_FORCEINLINE FLinearColor ReinterpretAsLinear ( ) const
+			LOO_FORCEINLINE FLinearColor ReinterpretAsLinear ( ) const
 			{
 				return FLinearColor ( R / 255.f, G / 255.f, B / 255.f, A / 255.f );
 			}
@@ -531,9 +526,9 @@ namespace loo
 			 * @return Hexadecimal string.
 			 * @see FromHex, ToString
 			 */
-			LE_FORCEINLINE std::string ToHex ( ) const
+			LOO_FORCEINLINE std::string ToHex ( ) const
 			{
-				return le::core::Printf ( ( "%02X%02X%02X%02X" ), R, G, B, A );
+				return loo::global::Printf ( ( "%02X%02X%02X%02X" ), R, G, B, A );
 			}
 
 			/**
@@ -542,9 +537,9 @@ namespace loo
 			 * @return The string representation.
 			 * @see ToHex
 			 */
-			LE_FORCEINLINE std::string ToString ( ) const
+			LOO_FORCEINLINE std::string ToString ( ) const
 			{
-				return le::core::Printf (  ( "(R=%i,G=%i,B=%i,A=%i)" ), R, G, B, A );
+				return loo::global::Printf (  ( "(R=%i,G=%i,B=%i,A=%i)" ), R, G, B, A );
 			}
 
 			/**
@@ -571,7 +566,7 @@ namespace loo
 			/**
 			 * Gets the color in a packed uint32 format packed in the order ARGB.
 			 */
-			LE_FORCEINLINE uint32 ToPackedARGB ( ) const
+			LOO_FORCEINLINE uint32 ToPackedARGB ( ) const
 			{
 				return (A << 24) | (R << 16) | (G << 8) | (B << 0);
 			}
@@ -579,7 +574,7 @@ namespace loo
 			/**
 			 * Gets the color in a packed uint32 format packed in the order ABGR.
 			 */
-			LE_FORCEINLINE uint32 ToPackedABGR ( ) const
+			LOO_FORCEINLINE uint32 ToPackedABGR ( ) const
 			{
 				return (A << 24) | (B << 16) | (G << 8) | (R << 0);
 			}
@@ -587,7 +582,7 @@ namespace loo
 			/**
 			 * Gets the color in a packed uint32 format packed in the order RGBA.
 			 */
-			LE_FORCEINLINE uint32 ToPackedRGBA ( ) const
+			LOO_FORCEINLINE uint32 ToPackedRGBA ( ) const
 			{
 				return (R << 24) | (G << 16) | (B << 8) | (A << 0);
 			}
@@ -595,26 +590,26 @@ namespace loo
 			/**
 			 * Gets the color in a packed uint32 format packed in the order BGRA.
 			 */
-			LE_FORCEINLINE uint32 ToPackedBGRA ( ) const
+			LOO_FORCEINLINE uint32 ToPackedBGRA ( ) const
 			{
 				return (B << 24) | (G << 16) | (R << 8) | (A << 0);
 			}
 
 			/** Some pre-inited colors, useful for debug code */
-			static CORE_EXPORT const FColor White;
-			static CORE_EXPORT const FColor Black;
-			static CORE_EXPORT const FColor Transparent;
-			static CORE_EXPORT const FColor Red;
-			static CORE_EXPORT const FColor Green;
-			static CORE_EXPORT const FColor Blue;
-			static CORE_EXPORT const FColor Yellow;
-			static CORE_EXPORT const FColor Cyan;
-			static CORE_EXPORT const FColor Magenta;
-			static CORE_EXPORT const FColor Orange;
-			static CORE_EXPORT const FColor Purple;
-			static CORE_EXPORT const FColor Turquoise;
-			static CORE_EXPORT const FColor Silver;
-			static CORE_EXPORT const FColor Emerald;
+			static const FColor White;
+			static const FColor Black;
+			static const FColor Transparent;
+			static const FColor Red;
+			static const FColor Green;
+			static const FColor Blue;
+			static const FColor Yellow;
+			static const FColor Cyan;
+			static const FColor Magenta;
+			static const FColor Orange;
+			static const FColor Purple;
+			static const FColor Turquoise;
+			static const FColor Silver;
+			static const FColor Emerald;
 
 		private:
 			/**
@@ -627,13 +622,13 @@ namespace loo
 			explicit FColor ( const FLinearColor& LinearColor );
 		};
 
-		LE_FORCEINLINE uint32 GetTypeHash ( const FColor& Color )
+		LOO_FORCEINLINE uint32 GetTypeHash ( const FColor& Color )
 		{
 			return Color.DWColor ( );
 		}
 
 
-		//LE_FORCEINLINE uint32 GetTypeHash ( const FLinearColor& LinearColor )
+		//LOO_FORCEINLINE uint32 GetTypeHash ( const FLinearColor& LinearColor )
 		//{
 		//	// Note: this assumes there's no padding in FLinearColor that could contain uncompared data.
 		//	return FCrc::MemCrc_DEPRECATED ( &LinearColor, sizeof ( FLinearColor ) );
@@ -641,7 +636,7 @@ namespace loo
 
 
 		/** Computes a brightness and a fixed point color from a floating point color. */
-		extern CORE_EXPORT void ComputeAndFixedColorAndIntensity ( const FLinearColor& InLinearColor, FColor& OutColor, float& OutIntensity );
+		extern void ComputeAndFixedColorAndIntensity ( const FLinearColor& InLinearColor, FColor& OutColor, float& OutIntensity );
 
 		struct FDXTColor565
 		{
@@ -700,7 +695,7 @@ namespace loo
 
 
 
-		// RGBA，用4个浮点数表示r, g, b, a
+		// RGBA，float4:r, g, b, a
 		///////////////////////////////////////////////////////////////////////////////
 		//template <typename T>
 		//class Color_T final : boost::addable<Color_T<T>,
@@ -738,7 +733,7 @@ namespace loo
 		//	}
 		//	explicit Color_T ( uint32_t dw ) noexcept;
 
-		//	// 取颜色
+		//	// 
 		//	iterator begin ( ) noexcept
 		//	{
 		//		return col_.begin ( );
@@ -802,7 +797,7 @@ namespace loo
 		//	uint32_t ARGB ( ) const noexcept;
 		//	uint32_t ABGR ( ) const noexcept;
 
-		//	// 赋值操作符
+		//	// 
 		//	Color_T& operator+=( Color_T<T> const & rhs ) noexcept;
 		//	Color_T& operator-=( Color_T<T> const & rhs ) noexcept;
 		//	Color_T& operator*=( T rhs ) noexcept;
@@ -812,7 +807,7 @@ namespace loo
 		//	Color_T& operator=( Color_T const & rhs ) noexcept;
 		//	Color_T& operator=( Color_T&& rhs ) noexcept;
 
-		//	// 一元操作符
+		//	// 
 		//	Color_T const operator+( ) const noexcept;
 		//	Color_T const operator-( ) const noexcept;
 

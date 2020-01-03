@@ -24,5 +24,6 @@ add_dep_glm()
 add_module()
 depdent_module(core modulemanager)
 depdent_module(core filemanager)
+depdent_module(core rhi)
 
 declare_module()

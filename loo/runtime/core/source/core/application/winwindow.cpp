@@ -69,7 +69,7 @@ namespace loo
 			this->DetectsDpi ( );
 			this->KeepScreenOn ( );
 
-			Convert ( wname, name );
+			loo::global::Convert ( wname, name );
 
 			if (native_wnd != nullptr)
 			{
@@ -138,7 +138,7 @@ namespace loo
 		{
 			if (keep_screen_on)
 			{
-#if defined(LE_PLATFORM_WINDOWS_DESKTOP)
+#if defined(LOO_PLATFORM_WINDOWS_DESKTOP)
 				::SetThreadExecutionState ( ES_CONTINUOUS );
 #endif
 			}
@@ -229,7 +229,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerDown ( )(*this, vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
+				this->OnPointerDown ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
 			}
 			break;
 
@@ -237,7 +237,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerUp ( )(*this, vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
+				this->OnPointerUp ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
 			}
 			break;
 
@@ -245,7 +245,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerUpdate ( )(*this, vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
+				this->OnPointerUpdate ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
 					IS_POINTER_INCONTACT_WPARAM ( wParam ));
 			}
 			break;
@@ -254,7 +254,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerWheel ( )(*this, vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
+				this->OnPointerWheel ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
 					GET_WHEEL_DELTA_WPARAM ( wParam ));
 			}
 			break;
@@ -326,7 +326,7 @@ namespace loo
 
 			typedef NTSTATUS ( WINAPI *RtlGetVersionFunc )(OSVERSIONINFOEXW* pVersionInformation);
 			HMODULE ntdll = ::GetModuleHandleW ( L"ntdll.dll" );
-			LE_ASSUME ( ntdll != nullptr );
+			LOO_ASSUME ( ntdll != nullptr );
 			RtlGetVersionFunc DynamicRtlGetVersion = reinterpret_cast<RtlGetVersionFunc>(::GetProcAddress ( ntdll, "RtlGetVersion" ));
 			if (DynamicRtlGetVersion)
 			{
@@ -348,7 +348,7 @@ namespace loo
 		{
 			if (keep_screen_on)
 			{
-#if defined(LE_PLATFORM_WINDOWS_DESKTOP)
+#if defined(LOO_PLATFORM_WINDOWS_DESKTOP)
 				::SetThreadExecutionState ( ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED );
 #endif
 			}

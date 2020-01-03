@@ -9,8 +9,32 @@
 #include <assert.h>
 #include <string>
 #include <memory>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
 
 #define LOO_UNUSED(x) (void)(x)
+
+namespace loo
+{
+	template<typename T32BITS, typename T64BITS, int PointerSize>
+	struct SelectIntPointerType
+	{
+		// nothing here are is it an error if the partial specializations fail
+	};
+
+	template<typename T32BITS, typename T64BITS>
+	struct SelectIntPointerType<T32BITS, T64BITS, 8>
+	{
+		typedef T64BITS TIntPointer; // select the 64 bit type
+	};
+
+	template<typename T32BITS, typename T64BITS>
+	struct SelectIntPointerType<T32BITS, T64BITS, 4>
+	{
+		typedef T32BITS TIntPointer; // select the 32 bit type
+	};
+}
 namespace loo
 {
 	typedef signed char int8;       
@@ -30,6 +54,12 @@ namespace loo
 	typedef uint8 char8;
 	typedef uint16 char16;
 	typedef uint32 char32;
+
+	typedef SelectIntPointerType<uint32, uint64, sizeof (void*)>::TIntPointer UPTRINT;	// unsigned int the same size as a pointer
+	typedef SelectIntPointerType<int32, int64, sizeof (void*)>::TIntPointer PTRINT;		// signed int the same size as a pointer
+	typedef UPTRINT SIZE_T;																// unsigned int the same size as a pointer
+	typedef PTRINT SSIZE_T;																// signed int the same size as a pointer
+
 }
 
 #ifdef LOO_DEBUG
@@ -84,5 +114,12 @@ namespace std
 
 #define ASSERT_MSG(con,msg) assert((con)&&msg)
 
+#ifdef LOO_COMPILER_MSVC
+#define LOO_RESTRICT __restrict
+#define LOO_ASSUME(x) (__assume(x))
+#else
+#define LOO_RESTRICT
+#define LOO_ASSUME(x) (assert(x))
+#endif
 
 #endif

@@ -1,9 +1,9 @@
-#include "Math/Core.Random.h"
-#include "HAL/Core.Mutex.h"
+#include "global/math/random.h"
+#include "global/mutex.h"
 
-namespace le
+namespace loo
 {
-	namespace core
+	namespace math
 	{
 		std::mutex singleton_mutex_fast1;
 		std::mutex singleton_mutex_fast2;
@@ -13,14 +13,14 @@ namespace le
 
 #define MAX_RAND_UINT32 4294967296;
 
-namespace le
+namespace loo
 {
-	namespace core
+	namespace math
 	{
 		//fast,but not stable
 		unsigned long  Random::Xorshf96 ( )
 		{
-			le::core::MutextUniqueLock lock ( singleton_mutex_fast1 );
+			loo::global::MutextUniqueLock lock ( singleton_mutex_fast1 );
 			static unsigned long x96_x = 123456789, x96_y = 362436069, x96_z = 521288629;
 			//period 2^96-1
 			unsigned long t;
@@ -39,7 +39,7 @@ namespace le
 		//T= 2^128-1
 		unsigned int  Random::Xorshift128 ( )
 		{		
-			le::core::MutextUniqueLock lock ( singleton_mutex_fast2 );
+			loo::global::MutextUniqueLock lock ( singleton_mutex_fast2 );
 			static unsigned int x128_x = 123456789, x128_y = 362436069, x128_z = 521288629, x128_w = 932288624;
 			//static Random* m_RanderInstance;
 
@@ -50,7 +50,7 @@ namespace le
 		
 		unsigned int Random::RandStable ( )
 		{
-			le::core::MutextUniqueLock lock ( singleton_mutex_stable );
+			loo::global::MutextUniqueLock lock ( singleton_mutex_stable );
 			static bool inited = false;
 			static std::random_device rd;
 			static std::mt19937 mt;

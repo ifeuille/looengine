@@ -7,6 +7,7 @@ ${MODULE_ROOT_PATH}/include/global/architecture.h
 ${MODULE_ROOT_PATH}/include/global/compiler.h
 ${MODULE_ROOT_PATH}/include/global/thread.h
 ${MODULE_ROOT_PATH}/include/global/utlis.h
+${MODULE_ROOT_PATH}/include/global/mutex.h
 )
 set(LOCAL_PUBLIC_EXTSTD
 ${MODULE_ROOT_PATH}/include/global/extstd/filesystem.h
@@ -25,6 +26,7 @@ ${MODULE_ROOT_PATH}/include/global/extstd/type.h
 ${MODULE_ROOT_PATH}/include/global/extstd/value_ptr.h
 ${MODULE_ROOT_PATH}/include/global/extstd/variant.h
 ${MODULE_ROOT_PATH}/include/global/extstd/signal.h
+${MODULE_ROOT_PATH}/include/global/extstd/operators.h
 )
 set(LOCAL_PUBLIC_EXTSTD_ATOMIC_QUEUE
 ${MODULE_ROOT_PATH}/include/global/extstd/atomic_queue/atomic_queue_mutex.h
@@ -95,3 +97,4 @@ ${LOCAL_PRIVATE}
 ${LOCAL_PRIVATE_CONTAINER}
 ${LOCAL_PRIVATE_MATH}
 )
+include(${MODULE_ROOT_PATH}/include/global/template/cmake.cmake)

@@ -1,15 +1,13 @@
 #ifndef LE_CORE_RANDOM_H
 #define LE_CORE_RANDOM_H
-#include "Core.DllExport.h"
-#include "Core.Types.h"
-#include "Math/Core.Math.h"
+#include "global/math/math.h"
 #include <cmath>
 #include <random>
 
 
-namespace le
+namespace loo
 {
-	namespace core
+	namespace math
 	{
 
 		//random 
@@ -22,13 +20,13 @@ namespace le
 
 
 		///** Returns a random integer between 0 and RAND_MAX, inclusive */
-		//static LE_FORCEINLINE int32 Rand ( ) { return rand ( ); }
+		//static LOO_FORCEINLINE int32 Rand ( ) { return rand ( ); }
 
 		///** Seeds global random number functions Rand() and FRand() */
-		//static LE_FORCEINLINE void RandInit ( int32 Seed ) { srand ( Seed ); }
+		//static LOO_FORCEINLINE void RandInit ( int32 Seed ) { srand ( Seed ); }
 
 		///** Returns a random float between 0 and 1, inclusive. */
-		//static LE_FORCEINLINE float FRand ( ) { return Rand ( ) / (float)RAND_MAX; }
+		//static LOO_FORCEINLINE float FRand ( ) { return Rand ( ) / (float)RAND_MAX; }
 
 		enum EnumRanderType
 		{
@@ -36,7 +34,7 @@ namespace le
 			ERT_STABLE = 1,
 		};
 
-		class CORE_EXPORT Random
+		class Random
 		{
 		private:
 
@@ -46,11 +44,11 @@ namespace le
 			static unsigned int Xorshift128 ( );
 		public:
 			/** Seeds global random number functions Rand() and FRand() */
-			static LE_FORCEINLINE  void RandInit ( int32 Seed ) { srand ( Seed ); }
+			static LOO_FORCEINLINE  void RandInit ( int32 Seed ) { srand ( Seed ); }
 			/** Returns a random integer between 0 and RAND_MAX, inclusive */
-			static LE_FORCEINLINE int32 Rand ( ) { return rand ( ); }
+			static LOO_FORCEINLINE int32 Rand ( ) { return rand ( ); }
 			/** Returns a random float between 0 and 1, inclusive. */
-			static LE_FORCEINLINE float FRand ( ) { return Rand ( ) / (float)RAND_MAX; }
+			static LOO_FORCEINLINE float FRand ( ) { return Rand ( ) / (float)RAND_MAX; }
 
 			static unsigned int RandStable ( );
 

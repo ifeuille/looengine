@@ -1,11 +1,10 @@
 
-#include "Math/Core.Color.h"
+#include "global/math/color.h"
+#include "global/math/random.h"
 
-#include "Math/Core.Random.h"
-
-namespace le
+namespace loo
 {
-	namespace core
+	namespace math
 	{
 
 		// Common colors.
@@ -106,9 +105,9 @@ namespace le
 				int32	Exponent;
 				const float Scale = frexp ( Primary, &Exponent ) / Primary * 255.f;
 
-				Color.R = static_cast<uint8>(clamp ( le::core::TruncToInt ( R * Scale ), 0, 255 ));
-				Color.G = static_cast<uint8>(clamp ( le::core::TruncToInt ( G * Scale ), 0, 255 ));
-				Color.B = static_cast<uint8>(clamp ( le::core::TruncToInt ( B * Scale ), 0, 255 ));
+				Color.R = static_cast<uint8>(clamp ( loo::math::TruncToInt ( R * Scale ), 0, 255 ));
+				Color.G = static_cast<uint8>(clamp ( loo::math::TruncToInt ( G * Scale ), 0, 255 ));
+				Color.B = static_cast<uint8>(clamp ( loo::math::TruncToInt ( B * Scale ), 0, 255 ));
 				Color.A = static_cast<uint8>(clamp ( Exponent, -128, 127 ) + 128);
 			}
 
@@ -126,17 +125,17 @@ namespace le
 
 			if (bSRGB)
 			{
-				FloatR = FloatR <= 0.0031308f ? FloatR * 12.92f : le::core::pow ( FloatR, 1.0f / 2.4f ) * 1.055f - 0.055f;
-				FloatG = FloatG <= 0.0031308f ? FloatG * 12.92f : le::core::pow ( FloatG, 1.0f / 2.4f ) * 1.055f - 0.055f;
-				FloatB = FloatB <= 0.0031308f ? FloatB * 12.92f : le::core::pow ( FloatB, 1.0f / 2.4f ) * 1.055f - 0.055f;
+				FloatR = FloatR <= 0.0031308f ? FloatR * 12.92f : loo::math::pow ( FloatR, 1.0f / 2.4f ) * 1.055f - 0.055f;
+				FloatG = FloatG <= 0.0031308f ? FloatG * 12.92f : loo::math::pow ( FloatG, 1.0f / 2.4f ) * 1.055f - 0.055f;
+				FloatB = FloatB <= 0.0031308f ? FloatB * 12.92f : loo::math::pow ( FloatB, 1.0f / 2.4f ) * 1.055f - 0.055f;
 			}
 
 			FColor ret;
 
-			ret.A = static_cast<uint8>(le::core::FloorToInt ( FloatA * 255.999f ));
-			ret.R = static_cast<uint8>(le::core::FloorToInt ( FloatR * 255.999f ));
-			ret.G = static_cast<uint8>(le::core::FloorToInt ( FloatG * 255.999f ));
-			ret.B = static_cast<uint8>(le::core::FloorToInt ( FloatB * 255.999f ));
+			ret.A = static_cast<uint8>(loo::math::FloorToInt ( FloatA * 255.999f ));
+			ret.R = static_cast<uint8>(loo::math::FloorToInt ( FloatR * 255.999f ));
+			ret.G = static_cast<uint8>(loo::math::FloorToInt ( FloatG * 255.999f ));
+			ret.B = static_cast<uint8>(loo::math::FloorToInt ( FloatB * 255.999f ));
 
 			return ret;
 		}
@@ -145,20 +144,20 @@ namespace le
 		FColor FLinearColor::Quantize ( ) const
 		{
 			return FColor (
-				(uint8)clamp<int32> ( le::core::TruncToInt ( R*255.f ), 0, 255 ),
-				(uint8)clamp<int32> ( le::core::TruncToInt ( G*255.f ), 0, 255 ),
-				(uint8)clamp<int32> ( le::core::TruncToInt ( B*255.f ), 0, 255 ),
-				(uint8)clamp<int32> ( le::core::TruncToInt ( A*255.f ), 0, 255 )
+				(uint8)clamp<int32> ( loo::math::TruncToInt ( R*255.f ), 0, 255 ),
+				(uint8)clamp<int32> ( loo::math::TruncToInt ( G*255.f ), 0, 255 ),
+				(uint8)clamp<int32> ( loo::math::TruncToInt ( B*255.f ), 0, 255 ),
+				(uint8)clamp<int32> ( loo::math::TruncToInt ( A*255.f ), 0, 255 )
 			);
 		}
 
 		FColor FLinearColor::QuantizeRound ( ) const
 		{
 			return FColor (
-				(uint8)clamp<int32> ( le::core::RoundToInt ( R*255.f ), 0, 255 ),
-				(uint8)clamp<int32> ( le::core::RoundToInt ( G*255.f ), 0, 255 ),
-				(uint8)clamp<int32> ( le::core::RoundToInt ( B*255.f ), 0, 255 ),
-				(uint8)clamp<int32> ( le::core::RoundToInt ( A*255.f ), 0, 255 )
+				(uint8)clamp<int32> ( loo::math::RoundToInt ( R*255.f ), 0, 255 ),
+				(uint8)clamp<int32> ( loo::math::RoundToInt ( G*255.f ), 0, 255 ),
+				(uint8)clamp<int32> ( loo::math::RoundToInt ( B*255.f ), 0, 255 ),
+				(uint8)clamp<int32> ( loo::math::RoundToInt ( A*255.f ), 0, 255 )
 			);
 		}
 
@@ -171,7 +170,7 @@ namespace le
 		FLinearColor FLinearColor::Desaturate ( float Desaturation ) const
 		{
 			float Lum = ComputeLuminance ( );
-			return le::core::lerp ( *this, FLinearColor ( Lum, Lum, Lum, 0 ), Desaturation );
+			return loo::math::lerp ( *this, FLinearColor ( Lum, Lum, Lum, 0 ), Desaturation );
 		}
 
 		/*FColor FColor::FromHex ( const std::string& HexString )
@@ -232,7 +231,7 @@ namespace le
 		FLinearColor FLinearColor::FGetHSV ( uint8 H, uint8 S, uint8 V )
 		{
 			float Brightness = V * 1.4f / 255.f;
-			Brightness *= 0.7f / (0.01f + le::core::sqrt ( Brightness ));
+			Brightness *= 0.7f / (0.01f + loo::math::sqrt ( Brightness ));
 			Brightness = clamp ( Brightness, 0.f, 1.f );
 			const vec3 Hue = (H < 86) ? vec3 ( (85 - H) / 85.f, (H - 0) / 85.f, 0 ) : (H < 171) ? vec3 ( 0, (170 - H) / 85.f, (H - 85) / 85.f ) : vec3 ( (H - 170) / 85.f, 0, (255 - H) / 84.f );
 			const vec3 ColorVector = (Hue + S / 255.f * (vec3 ( 1, 1, 1 ) - Hue)) * Brightness;
@@ -243,12 +242,12 @@ namespace le
 		/** Converts a linear space RGB color to an HSV color */
 		FLinearColor FLinearColor::LinearRGBToHSV ( ) const
 		{
-			const float RGBMin = le::core::min3 ( R, G, B );
-			const float RGBMax = le::core::max3 ( R, G, B );
+			const float RGBMin = loo::math::min3 ( R, G, B );
+			const float RGBMax = loo::math::max3 ( R, G, B );
 			const float RGBRange = RGBMax - RGBMin;
 
 			const float Hue = (RGBMax == RGBMin ? 0.0f :
-				RGBMax == R ? le::core::fmodf ( (((G - B) / RGBRange) * 60.0f) + 360.0f, 360.0f ) :
+				RGBMax == R ? loo::math::fmodf ( (((G - B) / RGBRange) * 60.0f) + 360.0f, 360.0f ) :
 				RGBMax == G ? (((B - R) / RGBRange) * 60.0f) + 120.0f :
 				RGBMax == B ? (((R - G) / RGBRange) * 60.0f) + 240.0f :
 				0.0f);
@@ -306,7 +305,7 @@ namespace le
 			float ToHue = ToHSV.R;
 
 			// Take the shortest path to the new hue
-			if (le::core::abs ( FromHue - ToHue ) > 180.0f)
+			if (loo::math::abs ( FromHue - ToHue ) > 180.0f)
 			{
 				if (ToHue > FromHue)
 				{
@@ -318,19 +317,19 @@ namespace le
 				}
 			}
 
-			float NewHue = le::core::lerp ( FromHue, ToHue, Progress );
+			float NewHue = loo::math::lerp ( FromHue, ToHue, Progress );
 
-			NewHue = le::core::fmodf ( NewHue, 360.0f );
+			NewHue = loo::math::fmodf ( NewHue, 360.0f );
 			if (NewHue < 0.0f)
 			{
 				NewHue += 360.0f;
 			}
 
-			const float NewSaturation = le::core::lerp ( FromHSV.G, ToHSV.G, Progress );
-			const float NewValue = le::core::lerp ( FromHSV.B, ToHSV.B, Progress );
+			const float NewSaturation = loo::math::lerp ( FromHSV.G, ToHSV.G, Progress );
+			const float NewValue = loo::math::lerp ( FromHSV.B, ToHSV.B, Progress );
 			FLinearColor Interpolated = FLinearColor ( NewHue, NewSaturation, NewValue ).HSVToLinearRGB ( );
 
-			const float NewAlpha = le::core::lerp ( From.A, To.A, Progress );
+			const float NewAlpha = loo::math::lerp ( From.A, To.A, Progress );
 			Interpolated.A = NewAlpha;
 
 			return Interpolated;
@@ -342,7 +341,7 @@ namespace le
 		*/
 		FLinearColor FLinearColor::MakeRandomColor ( )
 		{
-			const uint8 Hue = (uint8)(le::core::Random::FRand()*255.f);
+			const uint8 Hue = (uint8)(loo::math::Random::FRand()*255.f);
 			return FLinearColor::FGetHSV ( Hue, 0, 255 );
 		}
 
@@ -384,8 +383,8 @@ namespace le
 		{
 			float RedSclr = clamp<float> ( (1.0f - Scalar) / 0.5f, 0.f, 1.f );
 			float GreenSclr = clamp<float> ( (Scalar / 0.5f), 0.f, 1.f );
-			uint8 R = static_cast<uint8>(le::core::TruncToInt ( 255 * RedSclr ));
-			uint8 G = static_cast<uint8>(le::core::TruncToInt ( 255 * GreenSclr ));
+			uint8 R = static_cast<uint8>(loo::math::TruncToInt ( 255 * RedSclr ));
+			uint8 G = static_cast<uint8>(loo::math::TruncToInt ( 255 * GreenSclr ));
 			uint8 B = 0;
 			return FColor ( R, G, B );
 		}
@@ -401,7 +400,7 @@ namespace le
 		/**
 		 * Pow table for fast FColor -> FLinearColor conversion.
 		 *
-		 * le::core::Pow( i / 255.f, 2.2f )
+		 * loo::math::Pow( i / 255.f, 2.2f )
 		 */
 		float FLinearColor::Pow22OneOver255Table[256] =
 		{

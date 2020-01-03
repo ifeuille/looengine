@@ -31,6 +31,7 @@ OBJC_CLASS(NSView);
 #endif
 #include "global/utlis.h"
 #include "RHI/RenderSettings.h"
+#include "global/math/math.h"
 
 #include <cstring>
 #include <iostream>
@@ -178,10 +179,10 @@ namespace loo
 			typedef sigslot::signal<void(Window const & wnd, uint32 buttons)> JoystickButtonsEvent;
 #endif
 #endif
-			typedef sigslot::signal<void(Window const & wnd, vec2 const & pt, uint32 id)> PointerDownEvent;
-			typedef sigslot::signal<void(Window const & wnd, vec2 const & pt, uint32 id)> PointerUpEvent;
-			typedef sigslot::signal<void(Window const & wnd, vec2 const & pt, uint32 id, bool down)> PointerUpdateEvent;
-			typedef sigslot::signal<void(Window const & wnd, vec2 const & pt, uint32 id, int32 wheel_delta)> PointerWheelEvent;
+			typedef sigslot::signal<void(Window const & wnd, loo::math::vec2 const & pt, uint32 id)> PointerDownEvent;
+			typedef sigslot::signal<void(Window const & wnd, loo::math::vec2 const & pt, uint32 id)> PointerUpEvent;
+			typedef sigslot::signal<void(Window const & wnd, loo::math::vec2 const & pt, uint32 id, bool down)> PointerUpdateEvent;
+			typedef sigslot::signal<void(Window const & wnd, loo::math::vec2 const & pt, uint32 id, int32 wheel_delta)> PointerWheelEvent;
 
 			typedef sigslot::signal<void(Window const & wnd)> CloseEvent;
 
