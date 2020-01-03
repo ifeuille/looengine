@@ -2,13 +2,13 @@
 #define LOO_CORE_WINDOW_H
 #include "core/dllexporter.h"
 #include "global/global.h"
-
+#include "global/extstd/signal.h"
 #if defined(LOO_COMPILER_CLANGC2)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter" // Ignore unused parameter 'sp'
 #pragma clang diagnostic ignored "-Wunused-variable" // Ignore unused variable (mpl_assertion_in_line_xxx) in boost
 #endif
-#include "global/extstd/signal.h"
+
 #if defined(LOO_COMPILER_CLANGC2)
 #pragma clang diagnostic pop
 #endif
@@ -158,33 +158,33 @@ namespace loo
 			}
 		public:
 			// some events
-			typedef sigslot::signal<void(Window const & wnd, bool active)> ActiveEvent;
-			typedef sigslot::signal<void(Window const & wnd)> PaintEvent;
-			typedef sigslot::signal<void(Window const & wnd)> EnterSizeMoveEvent;
-			typedef sigslot::signal<void(Window const & wnd)> ExitSizeMoveEvent;
-			typedef sigslot::signal<void(Window const & wnd, bool active)> SizeEvent;
-			typedef sigslot::signal<void(Window const & wnd)> SetCursorEvent;
-			typedef sigslot::signal<void(Window const & wnd, wchar_t ch)> CharEvent;
+			typedef sigslot::signal<Window const &, bool > ActiveEvent;
+			typedef sigslot::signal<Window const &> PaintEvent;
+			typedef sigslot::signal<Window const &> EnterSizeMoveEvent;
+			typedef sigslot::signal<Window const &> ExitSizeMoveEvent;
+			typedef sigslot::signal< Window const &, bool> SizeEvent;
+			typedef sigslot::signal<Window const &> SetCursorEvent;
+			typedef sigslot::signal< Window const &, wchar_t> CharEvent;
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
-			typedef sigslot::signal<void(Window const & wnd, HRAWINPUT ri)> RawInputEvent;
+			typedef sigslot::signal< Window const &, HRAWINPUT> RawInputEvent;
 #elif defined(LOO_PLATFORM_WINDOWS_STORE) || defined(LOO_PLATFORM_ANDROID)
-			typedef sigslot::signal<void(Window const & wnd, uint32 key)> KeyDownEvent;
-			typedef sigslot::signal<void(Window const & wnd, uint32 key)> KeyUpEvent;
+			typedef sigslot::signal< Window const &, uint32> KeyDownEvent;
+			typedef sigslot::signal< Window const &, uint32> KeyUpEvent;
 #if defined LOO_PLATFORM_ANDROID
-			typedef sigslot::signal<void(Window const & wnd, vec2 const & pt, uint32_t buttons)> MouseDownEvent;
-			typedef sigslot::signal<void(Window const & wnd, vec2 const & pt, uint32_t buttons)> MouseUpEvent;
-			typedef sigslot::signal<void(Window const & wnd, vec2 const & pt)> MouseMoveEvent;
-			typedef sigslot::signal<void(Window const & wnd, vec2 const & pt, int32_t wheel_delta)> MouseWheelEvent;
-			typedef sigslot::signal<void(Window const & wnd, int32 axis, int32_t value)> JoystickAxisEvent;
-			typedef sigslot::signal<void(Window const & wnd, uint32 buttons)> JoystickButtonsEvent;
+			typedef sigslot::signal< Window const &, vec2 const &, uint32_t> MouseDownEvent;
+			typedef sigslot::signal< Window const &, vec2 const &, uint32_t> MouseUpEvent;
+			typedef sigslot::signal<Window const &, vec2 const &> MouseMoveEvent;
+			typedef sigslot::signal<Window const &, vec2 const &, int32_t> MouseWheelEvent;
+			typedef sigslot::signal<Window const &, int32, int32_t> JoystickAxisEvent;
+			typedef sigslot::signal<Window const &, uint32> JoystickButtonsEvent;
 #endif
 #endif
-			typedef sigslot::signal<void(Window const & wnd, loo::math::vec2 const & pt, uint32 id)> PointerDownEvent;
-			typedef sigslot::signal<void(Window const & wnd, loo::math::vec2 const & pt, uint32 id)> PointerUpEvent;
-			typedef sigslot::signal<void(Window const & wnd, loo::math::vec2 const & pt, uint32 id, bool down)> PointerUpdateEvent;
-			typedef sigslot::signal<void(Window const & wnd, loo::math::vec2 const & pt, uint32 id, int32 wheel_delta)> PointerWheelEvent;
+			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32> PointerDownEvent;
+			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32> PointerUpEvent;
+			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32, bool> PointerUpdateEvent;
+			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32, int32> PointerWheelEvent;
 
-			typedef sigslot::signal<void(Window const & wnd)> CloseEvent;
+			typedef sigslot::signal<Window const &> CloseEvent;
 
 		private:
 			void UpdateDpiScale(float scale);

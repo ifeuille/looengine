@@ -1,13 +1,13 @@
-#include "Application/Core.Application.h"
-#include "Core.Context.h"
+#include "core/application/application.h"
+#include "core/context.h"
 
-le::core::Application::Application(const std::string & name)
+loo::core::Application::Application(const std::string & name)
 	:Application(name, nullptr)
 {
 
 }
 
-le::core::Application::Application(const std::string & name, void * native_wnd)
+loo::core::Application::Application(const std::string & name, void * native_wnd)
 	: name(name), total_num_frames(0),
 	fps(0), accumulate_time(0), num_frames(0),
 	app_time(0), frame_time(0)
@@ -15,7 +15,7 @@ le::core::Application::Application(const std::string & name, void * native_wnd)
 	Context::Get().SetApplication(*this);
 	ContextConfig cfg = Context::Get().Config();
 	main_wnd = this->MakeWindow(name, cfg.graphic_settings, native_wnd);
-#ifndef LE_PLATFORM_WINDOWS_STORE
+#ifndef LOO_PLATFORM_WINDOWS_STORE
 	cfg.graphic_settings.left = main_wnd->Left();
 	cfg.graphic_settings.top = main_wnd->Top();
 	cfg.graphic_settings.width = main_wnd->Width();
@@ -24,12 +24,12 @@ le::core::Application::Application(const std::string & name, void * native_wnd)
 #endif
 }
 
-le::core::Application::~Application()
+loo::core::Application::~Application()
 {
 	this->Destroy();
 }
 
-void le::core::Application::Create()
+void loo::core::Application::Create()
 {
 	ContextConfig cfg = Context::Get().Config();
 	//TODO
@@ -37,9 +37,9 @@ void le::core::Application::Create()
 	cfg.shaderlib_name = "ShaderLib";
 	Context::Get().Config(cfg);
 
-	Context::Get().GetShaderLibManager();
+	//Context::Get().GetShaderLibManager();
 
-	Context::Get().GetVideoDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
+	//Context::Get().GetVideoDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
 
 
 
@@ -48,70 +48,70 @@ void le::core::Application::Create()
 	this->OnResize(cfg.graphic_settings.width, cfg.graphic_settings.height);
 }
 
-void le::core::Application::Destroy()
+void loo::core::Application::Destroy()
 {
 	this->OnDestroy();
-	if (Context::Get().VideoDeviceValid())
-	{
-		//Context::Get ( ).RenderFactoryInstance ( ).RenderEngineInstance ( ).DestroyRenderWindow ( );
-	}
+	//if (Context::Get().VideoDeviceValid())
+	//{
+	//	//Context::Get ( ).RenderFactoryInstance ( ).RenderEngineInstance ( ).DestroyRenderWindow ( );
+	//}
 
 	main_wnd.reset();
 
 	//Context::Destroy ( );
 }
 
-void le::core::Application::Suspend()
+void loo::core::Application::Suspend()
 {
 	this->OnSuspend();
 }
 
-void le::core::Application::Resume()
+void loo::core::Application::Resume()
 {
 	this->OnResume();
 }
 
-void le::core::Application::Refresh()
+void loo::core::Application::Refresh()
 {
 	//Context::Instance().RenderFactoryInstance().RenderEngineInstance().Refresh();
 }
 
-le::core::WindowPtr le::core::Application::MakeWindow(std::string const & aname, rhi::RenderSettings const & settings)
+loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, rhi::RenderSettings const & settings)
 {
-	return MakeSharedPtr<Window>(aname, settings, nullptr);
+	return loo::global::MakeSharedPtr<Window>(aname, settings, nullptr);
 }
 
-le::core::WindowPtr le::core::Application::MakeWindow(std::string const & aname, rhi::RenderSettings const & settings, void * native_wnd)
+loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, rhi::RenderSettings const & settings, void * native_wnd)
 {
-	return MakeSharedPtr<Window>(aname, settings, native_wnd);
+	return loo::global::MakeSharedPtr<Window>(aname, settings, native_wnd);
 }
 
-uint32_t le::core::Application::TotalNumFrames() const
+uint32_t loo::core::Application::TotalNumFrames() const
 {
 	return total_num_frames;
 }
 
-float le::core::Application::FPS() const
+float loo::core::Application::FPS() const
 {
 	return fps;
 }
 
-float le::core::Application::AppTime() const
+float loo::core::Application::AppTime() const
 {
 	return app_time;
 }
 
-float le::core::Application::FrameTime() const
+float loo::core::Application::FrameTime() const
 {
 	return frame_time;
 }
 
-void le::core::Application::Run()
+void loo::core::Application::Run()
 {
 
 	//RenderEngine& re = Context::Instance ( ).RenderFactoryInstance ( ).RenderEngineInstance ( );
 
-#if defined LE_PLATFORM_WINDOWS_DESKTOP
+#if defined LOO_PLATFORM_WINDOWS_DESKTOP
 	bool gotMsg;
 	MSG  msg;
 
@@ -140,7 +140,7 @@ void le::core::Application::Run()
 			//re.Refresh ( );
 		}
 	}
-#elif defined LE_PLATFORM_WINDOWS_STORE
+#elif defined LOO_PLATFORM_WINDOWS_STORE
 	ComPtr<ICoreWindowStatic> core_win_stat;
 	TIFHR(GetActivationFactory(HStringReference(RuntimeClass_Windows_UI_Core_CoreWindow).Get(),
 		&core_win_stat));
@@ -163,7 +163,7 @@ void le::core::Application::Run()
 			dispatcher->ProcessEvents(CoreProcessEventsOption::CoreProcessEventsOption_ProcessOneAndAllPending);
 		}
 	}
-#elif defined LE_PLATFORM_ANDROID
+#elif defined LOO_PLATFORM_ANDROID
 	while (!main_wnd_->Closed())
 	{
 		// Read all pending events.
@@ -192,7 +192,7 @@ void le::core::Application::Run()
 
 		re.Refresh();
 	}
-#elif defined LE_PLATFORM_IOS
+#elif defined LOO_PLATFORM_IOS
 	while (!main_wnd_->Closed())
 	{
 		Window::PumpEvents();
@@ -203,10 +203,10 @@ void le::core::Application::Run()
 	this->OnDestroy();
 }
 
-void le::core::Application::Quit()
+void loo::core::Application::Quit()
 {
-#ifdef LE_PLATFORM_WINDOWS
-#ifdef LE_PLATFORM_WINDOWS_DESKTOP
+#ifdef LOO_PLATFORM_WINDOWS
+#ifdef LOO_PLATFORM_WINDOWS_DESKTOP
 	::PostQuitMessage(0);
 #endif
 #else
@@ -214,14 +214,14 @@ void le::core::Application::Quit()
 #endif
 }
 
-void le::core::Application::OnResize(uint32_t width, uint32_t height)
+void loo::core::Application::OnResize(uint32_t width, uint32_t height)
 {
-	LE_UNUSED(width);
-	LE_UNUSED(height);
+	LOO_UNUSED(width);
+	LOO_UNUSED(height);
 	//this->Proj(this->ActiveCamera().NearPlane(), this->ActiveCamera().FarPlane());
 }
 
-uint32_t le::core::Application::Update(uint32_t pass)
+uint32_t loo::core::Application::Update(uint32_t pass)
 {
 	if (0 == pass)
 	{
@@ -234,7 +234,7 @@ uint32_t le::core::Application::Update(uint32_t pass)
 	return this->DoUpdate(pass);
 }
 
-void le::core::Application::UpdateStats()
+void loo::core::Application::UpdateStats()
 {
 	++total_num_frames;
 

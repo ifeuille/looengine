@@ -1,8 +1,10 @@
 #ifndef LOO_CORE_APPLICATION_H
 #define LOO_CORE_APPLICATION_H
+#include "core/dllexporter.h"
 #include "global/global.h"
 #include "global/extstd/noncopyable.h"
 #include "global/time.h"
+#include "core/application/window.h"
 
 namespace loo
 {

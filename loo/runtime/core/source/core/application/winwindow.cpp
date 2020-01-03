@@ -13,7 +13,7 @@
 #ifndef GET_KEYSTATE_WPARAM
 #define GET_KEYSTATE_WPARAM(wParam) (LOWORD(wParam))
 #endif
-
+#include "global/extstd/signal.h"
 
 
 namespace loo
@@ -157,6 +157,8 @@ namespace loo
 
 		LRESULT Window::MsgProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 		{
+		/*	sigslot::signal<void (loo::core::Window const & )> s;
+			s(*this);*/
 			switch (uMsg)
 			{
 			case WM_ACTIVATE:
