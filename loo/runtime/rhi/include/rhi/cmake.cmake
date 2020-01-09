@@ -3,6 +3,11 @@ set(LOCAL_PUBLIC
 ${MODULE_ROOT_PATH}/include/rhi/rendersettings.h 
 ${MODULE_ROOT_PATH}/include/rhi/dllexporter.h 
 ${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
+${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
+${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
+${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
+${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
+${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
 )
 
 set(LOCAL_PRIVATE
