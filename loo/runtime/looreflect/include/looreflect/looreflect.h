@@ -31,6 +31,13 @@
 #endif
 
 namespace looreflect{
+	/*
+	LOOPROPERTY:
+	serialized
+	tagname
+	width
+	cstring
+	*/
 	//macros
 #ifdef __LOOREFLECT__
 	#define LOOCLASS(...) class __attribute__((annotate("loo-class;" #__VA_ARGS__)))
