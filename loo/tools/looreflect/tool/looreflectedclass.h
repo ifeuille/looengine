@@ -13,8 +13,7 @@ public:
   /* ===--------------------------------------------------=== */
   /* Public API                                               */
   /* ===--------------------------------------------------=== */
-  void Generate(ASTContext *ctx, raw_ostream &os);
-
+  void Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_private);
   void AddField(FieldDecl const *field) { m_fields.push_back(field); }
 
   void AddFunction(FunctionDecl const *function) {

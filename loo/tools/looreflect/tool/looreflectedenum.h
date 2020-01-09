@@ -11,8 +11,7 @@ public:
   ReflectedEnum(EnumDecl const *rec) : m_record(rec) {}
 
 
-  void Generate(ASTContext *ctx, raw_ostream &os);
-
+  void Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_private);
   void AddConstantDecl(EnumConstantDecl const *consDecl) {
     m_constnatDecls.push_back(consDecl);
   }

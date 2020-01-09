@@ -26,7 +26,7 @@ void GenerateGlobalRegisterEnum(SmallString<N> &str, raw_ostream &os) {
   os << s.c_str() << " s_" << s.c_str() << ";\n";
   os << "#endif\n";
 }
-void ReflectedEnum::Generate(ASTContext *ctx, raw_ostream &os) {
+void ReflectedEnum::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_private) {
   if (m_constnatDecls.size() == 0) {
     return;
   }
@@ -116,11 +116,16 @@ void ReflectedEnum::Generate(ASTContext *ctx, raw_ostream &os) {
      << "return LooGetEnum<" << type << ">();\n"
      << "}\n";
 
-  GenerateGlobalRegisterEnum(type, os);
 
   os << "} /* namespace detail */\n";
   os << "} /* namespace looreflect */\n\n";
 
+    // private
+  os_private << "namespace looreflect\n{\n\n";
+  os_private << "namespace detail\n{\n\n";
+  GenerateGlobalRegisterEnum(type, os_private);
+  os_private << "} /* namespace detail */\n";
+  os_private << "} /* namespace looreflect */\n\n";
 }
 
 /* ========================================================================= */

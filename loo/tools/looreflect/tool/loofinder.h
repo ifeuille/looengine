@@ -60,10 +60,15 @@ public:
     raw_fd_ostream os(m_fileName, ec, sys::fs::F_None);
     printf("%s", m_fileName.c_str());
     assert(!ec && "error opening file");
+
+    raw_fd_ostream os_private(m_fileNamePrivate, ec, sys::fs::F_None);
+    printf("%s", m_fileNamePrivate.c_str());
+    assert(!ec && "error opening file");
+
     for (auto &ref : m_classes)
-      ref.Generate(m_context, os);
+      ref.Generate(m_context, os, os_private);
     for (auto &ref : m_enumes)
-      ref.Generate(m_context, os);
+      ref.Generate(m_context, os, os_private);
   }
 
 protected:
@@ -71,6 +76,9 @@ protected:
     m_fileName = m_sourceman->getFilename(record->getLocation());
     m_fileName.erase(m_fileName.end() - 2, m_fileName.end());
     m_fileName.append(".loogen.h");
+    m_fileNamePrivate = m_sourceman->getFilename(record->getLocation());
+    m_fileNamePrivate.erase(m_fileNamePrivate.end() - 2,m_fileNamePrivate.end());
+	m_fileNamePrivate.append(".loogenprivate.h");
     m_classes.emplace_back(ReflectedClass(record));
   }
 
@@ -85,6 +93,10 @@ protected:
     m_fileName.erase(m_fileName.end() - 2, m_fileName.end());
     m_fileName.append(".loogen.h");
     m_enumes.push_back(em);
+
+	m_fileNamePrivate = m_sourceman->getFilename(em->getLocation());
+    m_fileNamePrivate.erase(m_fileNamePrivate.end() - 2,m_fileNamePrivate.end());
+	m_fileNamePrivate.append(".loogenprivate.h");
   }
 
   void FoundConstantEnum(EnumConstantDecl const *em) {
@@ -97,6 +109,7 @@ protected:
   std::vector<ReflectedClass> m_classes;
   std::vector<ReflectedEnum> m_enumes;
   std::string m_fileName;
+  std::string m_fileNamePrivate;
   SmallString<64> str;
 };
 

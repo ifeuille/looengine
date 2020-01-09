@@ -27,7 +27,7 @@ void GenerateGlobalRegisterClass(SmallString<N>& str, raw_ostream &os)
   os << "#endif\n";
 }
 
-void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os) {
+void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_private) {
   SmallString<256> str;
   SmallString<256> type;
   bool nobase = true;
@@ -180,7 +180,6 @@ void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os) {
      << "return LooGetClass<" << type << ">();\n"
      << "}\n";
   
-  GenerateGlobalRegisterClass(type, os);
 
   os << "} /* namespace detail */\n";
   os << "} /* namespace looreflect */\n\n";
@@ -188,6 +187,13 @@ void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os) {
   os << "// utils functions for class instance\n";
   os << "const looreflect::LooType *" << type << "::GetType() const { ";
   os << "return looreflect::LooGetClass<" << type<<">();}\n\n";
+
+  //private
+	os_private << "namespace looreflect\n{\n\n";
+	os_private << "namespace detail\n{\n\n";
+	GenerateGlobalRegisterClass(type, os_private);
+	os_private << "} /* namespace detail */\n";
+	os_private << "} /* namespace looreflect */\n\n";
 }
 
     /* ========================================================================= */
