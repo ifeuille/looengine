@@ -12,7 +12,7 @@
 #define LOO_COMPILER_CLANG
 #define LOO_COMPILER_NAME clang
 
-#define CLANG_VERSION KFL_JOIN(__clang_major__, __clang_minor__)
+#define CLANG_VERSION LOO_JOIN(__clang_major__, __clang_minor__)
 
 #if __cplusplus > 201402L
 #define LOO_CXX17_CORE_STATIC_ASSERT_V2_SUPPORT

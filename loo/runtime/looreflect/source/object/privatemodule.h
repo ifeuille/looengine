@@ -1,0 +1,6 @@
+#ifndef LOOREFLECT_PRIVATEMODULE_H
+#define LOOREFLECT_PRIVATEMODULE_H
+#include "looreflect/dllexport.h"
+#define MODULE_NAME MODULENAME_LOOREFLECT
+
+#endif
