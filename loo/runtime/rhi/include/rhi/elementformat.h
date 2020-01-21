@@ -55,7 +55,7 @@ namespace loo
 		/**
 		*#图片类型
 		**/
-		enum class LOOImageType
+		enum class EImageType
 		{
 			e1D = 0,
 			e2D = 1,
@@ -66,7 +66,7 @@ namespace loo
 		/**
 		*图片采样
 		**/
-		enum class LOOImageTiling {
+		enum class EImageTiling {
 			eOptimal = 0,
 			eLinear = 1,
 			//eDrmFormatModifierEXT = 2
@@ -74,13 +74,13 @@ namespace loo
 
 
 		//image
-		enum class LOOSharingMode {
+		enum class ESharingMode {
 			LOO_SHARING_MODE_EXCLUSIVE = 0,
 			LOO_SHARING_MODE_CONCURRENT = 1,
 		} ;
 
 		//
-		enum class LOOImageLayout {
+		enum class EImageLayout {
 			eUndefined = 0,
 			eGeneral = 1,
 			eColorAttachmentOptimal = 2,
@@ -99,7 +99,7 @@ namespace loo
 		} ;
 
 		//颜色调制
-		enum class LOOImageViewType {
+		enum class EImageViewType {
 			e1D = 0,
 			e2D = 1,
 			e3D = 2,
@@ -109,7 +109,7 @@ namespace loo
 			eCubeArray = 6,
 		} ;
 
-		enum class LOOComponentSwizzle {
+		enum class EComponentSwizzle {
 			eIdentity = 0,
 			eZero = 1,
 			eOne = 2,
@@ -119,13 +119,13 @@ namespace loo
 			eA = 6,
 		};
 
-		enum class LOOVertexInputRate {
+		enum class EVertexInputRate {
 			eVertex = 0,
 			eInstance = 1,
 		} ;
 
 		//图元类型
-		enum class LOOPrimitiveTopology {
+		enum class EPrimitiveTopology {
 			ePointList = 0,
 			eLineList = 1,
 			eLineStrip = 2,
@@ -139,7 +139,7 @@ namespace loo
 			ePatchList = 10,
 		} ;
 
-		enum class LOOPolygonMode {
+		enum class EPolygonMode {
 			eFill = 0,
 			eLine = 1,
 			ePoint = 2,
@@ -147,13 +147,13 @@ namespace loo
 		} ;
 
 		//front face
-		enum class LOOFrontFace {
+		enum class EFrontFace {
 			eCounterClockwise = 0,
 			eClockwise = 1,
 		} ;
 
 		//比较
-		enum class LOOCompareOp {
+		enum class ECompareOp {
 			eNever = 0,
 			eLess = 1,
 			eEqual = 2,
@@ -165,7 +165,7 @@ namespace loo
 		} ;
 
 		//stencil 操作
-		enum class LOOStencilOp {
+		enum class EStencilOp {
 			eKeep = 0,
 			eZero = 1,
 			eReplace = 2,
@@ -177,7 +177,7 @@ namespace loo
 		} ;
 
 		//逻辑操作，片元着色器之后的步骤可能用到
-		enum class LOOLogicOp {
+		enum class ELogicOp {
 			eClear = 0,
 			eAnd = 1,
 			eAndReverse = 2,
@@ -197,7 +197,7 @@ namespace loo
 		} ;
 
 		//混合因子
-		enum class LOOBlendFactor {
+		enum class EBlendFactor {
 			eZero = 0,
 			eOne = 1,
 			eSrcColor = 2,
@@ -220,7 +220,7 @@ namespace loo
 		} ;
 
 		//混合操作
-		enum class LOOBlendOp {
+		enum class EBlendOp {
 			eAdd = 0,
 			eSubtract = 1,
 			eReverseSubtract = 2,
@@ -275,7 +275,7 @@ namespace loo
 		} ;
 
 		//dynamic 选项
-		enum class LOODynamicState {
+		enum class EDynamicState {
 			LOO_DYNAMIC_STATE_VIEWPORT = 0,
 			LOO_DYNAMIC_STATE_SCISSOR = 1,
 			LOO_DYNAMIC_STATE_LINE_WIDTH = 2,
@@ -294,20 +294,20 @@ namespace loo
 			LOO_DYNAMIC_STATE_MAX_ENUM = 0x7FFFFFFF
 		} ;
 
-		enum class LOOFilter {
+		enum class EFilter {
 			eNearest = 0,
 			eLinear = 1,
 			eCubicIMG = 1000015000,
 		} ;
 
 		//mipmap插值方式
-		enum class LOOSamplerMipmapMode {
+		enum class ESamplerMipmapMode {
 			eNearest = 0,
 			eLinear = 1,
 		} ;
 
 		//采样方式
-		enum class LOOSamplerAddressMode {
+		enum class ESamplerAddressMode {
 			eRepeat = 0,
 			eMirroredRepeat = 1,
 			eClampToEdge = 2,
@@ -316,7 +316,7 @@ namespace loo
 		} ;
 
 
-		enum class LOOBorderColor {
+		enum class EBorderColor {
 			eFloatTransparentBlack = 0,
 			eIntTransparentBlack = 1,
 			eFloatOpaqueBlack = 2,
@@ -326,37 +326,37 @@ namespace loo
 		} ;
 
 
-		enum class LOOAttachmentLoadOp {
+		enum class EAttachmentLoadOp {
 			eLoad = 0,
 			eClear = 1,
 			eDontCare = 2,
 		} ;
 
 
-		enum class LOOAttachmentStoreOp {
+		enum class EAttachmentStoreOp {
 			eStore = 0,
 			eDontCare = 1,
 		} ;
 
 
-		enum class LOOPipelineBindPoint {
+		enum class EPipelineBindPoint {
 			eGraphics = 0,
 			eCompute = 1,
 			eRaytracingNVX = 2,
 		} ;
 
-		enum class LOOCommandBufferLevel {
+		enum class ECommandBufferLevel {
 			ePrimary = 0,
 			eSecondary = 1,
 		} ;
 
 
-		enum class LOOIndexType {
+		enum class EIndexType {
 			eUint16 = 0,
 			eUint32 = 1,
 		} ;
 
-		enum class LOOSubpassContents {
+		enum class ESubpassContents {
 			eInline = 0,
 			eSecondaryCommandBuffers = 1,
 		} ;
@@ -365,7 +365,7 @@ namespace loo
 		//#endif
 
 
-		enum class LOOSampleCountFlagBits {
+		enum class ESampleCountFlagBits {
 			e1 = 0x00000001,
 			e2 = 0x00000002,
 			e3 = 0x00000004,
@@ -384,7 +384,7 @@ namespace loo
 
 		
 
-		enum class LOOImageAspectFlagBits {
+		enum class EImageAspectFlagBits {
 			eColor = 0x00000001,
 			eDepth = 0x00000002,
 			eStencil = 0x00000004,
@@ -403,7 +403,7 @@ namespace loo
 		typedef LOOFlags LOOImageAspectFlags;
 
 
-		enum class LOOCullModeFlagBits {
+		enum class ECullModeFlagBits {
 			eNone = 0,
 			eFront = 0x00000001,
 			eBack = 0x00000002,
@@ -414,7 +414,7 @@ namespace loo
 		typedef LOOFlags LOOPipelineDepthStencilStateCreateFlags;
 		typedef LOOFlags LOOPipelineColorBlendStateCreateFlags;
 
-		enum class LOOColorComponentFlagBits {
+		enum class EColorComponentFlagBits {
 			eR = 0x00000001,
 			eG = 0x00000002,
 			eB = 0x00000004,
@@ -428,24 +428,24 @@ namespace loo
 
 
 
-		enum class LOOCommandBufferUsageFlagBits {
+		enum class ECommandBufferUsageFlagBits {
 			eOneTimeSubmit = 0x00000001,
 			eRenderPassContinue = 0x00000002,
 			eSimultaneousUse = 0x00000004,
 		} ;
 		typedef LOOFlags LOOCommandBufferUsageFlags;
 
-		enum class LOOQueryControlFlagBits {
+		enum class EQueryControlFlagBits {
 			ePrecise = 0x00000001,
 		} ;
 		typedef LOOFlags LOOQueryControlFlags;
 
-		enum class LOOCommandBufferResetFlagBits {
+		enum class ECommandBufferResetFlagBits {
 			eReleaseResources = 0x00000001,
 		} ;
 		typedef LOOFlags LOOCommandBufferResetFlags;
 
-		enum class LOOStencilFaceFlagBits {
+		enum class EStencilFaceFlagBits {
 			eFront = 0x00000001,
 			eBack = 0x00000002,
 			eVkStencilFrontAndBack = 0x00000003,
@@ -813,6 +813,116 @@ namespace loo
 
 
 	}
+
+	namespace rhi
+	{
+
+		enum EVertexElementType
+		{
+			VET_None,
+			VET_Float1,
+			VET_Float2,
+			VET_Float3,
+			VET_Float4,
+			VET_PackedNormal,	// FPackedNormal
+			VET_UByte4,
+			VET_UByte4N,
+			VET_Color,
+			VET_Short2,
+			VET_Short4,
+			VET_Short2N,		// 16 bit word normalized to (value/32767.0,value/32767.0,0,0,1)
+			VET_Half2,			// 16 bit float using 1 bit sign, 5 bit exponent, 10 bit mantissa 
+			VET_Half4,
+			VET_Short4N,		// 4 X 16 bit word, normalized 
+			VET_UShort2,
+			VET_UShort4,
+			VET_UShort2N,		// 16 bit word normalized to (value/65535.0,value/65535.0,0,0,1)
+			VET_UShort4N,		// 4 X 16 bit word unsigned, normalized 
+			VET_URGB10A2N,		// 10 bit r, g, b and 2 bit a normalized to (value/1023.0f, value/1023.0f, value/1023.0f, value/3.0f)
+			VET_MAX,
+
+			VET_NumBits = 5,
+		};
+
+		enum ECubeFace
+		{
+			CubeFace_PosX = 0,
+			CubeFace_NegX,
+			CubeFace_PosY,
+			CubeFace_NegY,
+			CubeFace_PosZ,
+			CubeFace_NegZ,
+			CubeFace_MAX
+		};
+
+		/** The base type of a value in a uniform buffer. */
+		enum EUniformBufferBaseType
+		{
+			UBMT_INVALID,
+			UBMT_BOOL,
+			UBMT_INT32,
+			UBMT_UINT32,
+			UBMT_FLOAT32,
+			UBMT_STRUCT,
+			UBMT_SRV,
+			UBMT_UAV,
+			UBMT_SAMPLER,
+			UBMT_TEXTURE,
+
+			EUniformBufferBaseType_Num,
+			EUniformBufferBaseType_NumBits = 4,
+		};
+
+		/** An enumeration of the different RHI reference types. */
+		enum ERHIResourceType
+		{
+			RRT_None,
+
+			RRT_SamplerState,
+			RRT_RasterizerState,
+			RRT_DepthStencilState,
+			RRT_BlendState,
+			RRT_VertexDeclaration,
+			RRT_VertexShader,
+			RRT_HullShader,
+			RRT_DomainShader,
+			RRT_PixelShader,
+			RRT_GeometryShader,
+			RRT_ComputeShader,
+			RRT_BoundShaderState,
+			RRT_UniformBuffer,
+			RRT_IndexBuffer,
+			RRT_VertexBuffer,
+			RRT_StructuredBuffer,
+			RRT_Texture,
+			RRT_Texture2D,
+			RRT_Texture2DArray,
+			RRT_Texture3D,
+			RRT_TextureCube,
+			RRT_TextureReference,
+			RRT_RenderQuery,
+			RRT_Viewport,
+			RRT_UnorderedAccessView,
+			RRT_ShaderResourceView,
+
+			RRT_Num
+		};
+
+		enum EShaderFrequency
+		{
+			SF_Vertex = 0,
+			SF_Hull = 1,
+			SF_Domain = 2,
+			SF_Pixel = 3,
+			SF_Geometry = 4,
+			SF_Compute = 5,
+
+			SF_NumFrequencies = 6,
+
+			SF_NumBits = 3,
+		};
+	}
+
 }
 
 namespace loo

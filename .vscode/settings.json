@@ -37,6 +37,12 @@
         "xstddef": "cpp",
         "xstring": "cpp",
         "xtr1common": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "xhash": "cpp",
+        "locale": "cpp",
+        "optional": "cpp",
+        "thread": "cpp",
+        "variant": "cpp",
+        "vector": "cpp"
     }
 }

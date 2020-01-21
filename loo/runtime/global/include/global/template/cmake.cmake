@@ -9,6 +9,7 @@ ${MODULE_ROOT_PATH}/include/global/template/isvalidvariadicfunctionarg.h
 ${MODULE_ROOT_PATH}/include/global/template/refcounting.h
 ${MODULE_ROOT_PATH}/include/global/template/typehash.h
 ${MODULE_ROOT_PATH}/include/global/template/flags.h
+${MODULE_ROOT_PATH}/include/global/template/hash.h
 )
 
 

@@ -102,4 +102,5 @@
 //#undef LOO_COMPILOO_WITH_METAL
 //#endif
 
+
 #endif//CORE_PLATFORM_H

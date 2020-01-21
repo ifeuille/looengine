@@ -18,6 +18,7 @@ ADD_DEFINITIONS(-DCORE_DLL_EXPORT)
 
 add_dep_link_dir()
 dep_module_static(global)
+dep_module_static(ifvk)
 #add_dep_7z()
 add_dep_glm()
 
@@ -25,5 +26,6 @@ add_module()
 depdent_module(core modulemanager)
 depdent_module(core filemanager)
 depdent_module(core rhi)
+depdent_module(core vulkanrhi)
 
 declare_module()

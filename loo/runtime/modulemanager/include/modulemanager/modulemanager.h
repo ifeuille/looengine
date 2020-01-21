@@ -32,7 +32,7 @@ namespace loo
 		IModuleInterface* GetModuleExist (const std::string name);
 		IModuleInterface* LoadModule (const std::string name);
 
-		void FreeModule(const std::string name);
+		void FreeModuleByName(const std::string name);
 	private:
 		std::unordered_map<std::string, FModuleInfo> Modules;
 		std::shared_mutex ModulesMutex;

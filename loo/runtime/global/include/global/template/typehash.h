@@ -131,13 +131,13 @@ namespace loo
 			return GetTypeHash ((__underlying_type (EnumType))E);
 		}
 
-		namespace UE4TypeHash_Private
+		namespace TypeHash_Private
 		{
 			template <loo::uint32 ArgToCombine, loo::uint32 ArgCount>
 			struct TGetTupleHashHelper
 			{
 				template <typename TupleType>
-				FORCEINLINE static uint32 Do (uint32 Hash, const TupleType& Tuple)
+				inline static uint32 Do (uint32 Hash, const TupleType& Tuple)
 				{
 					return TGetTupleHashHelper<ArgToCombine + 1, ArgCount>::Do (HashCombine (Hash, GetTypeHash (Tuple.template Get<ArgToCombine> ())), Tuple);
 				}
@@ -157,7 +157,7 @@ namespace loo
 		template <typename... Types>
 		LOO_FORCEINLINE loo::uint32 GetTypeHash (const std::tuple<Types...>& Tuple)
 		{
-			return UE4TypeHash_Private::TGetTupleHashHelper<1u, sizeof...(Types)>::Do (GetTypeHash (Tuple.template Get<0> ()), Tuple);
+			return TypeHash_Private::TGetTupleHashHelper<1u, sizeof...(Types)>::Do (GetTypeHash (Tuple.template Get<0> ()), Tuple);
 		}
 
 		LOO_FORCEINLINE loo::uint32 GetTypeHash (const std::tuple<>& Tuple)

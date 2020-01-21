@@ -21,7 +21,7 @@
 #elif defined(__BORLANDC__)
 #   define PLOG_GET_FUNC()      __FUNC__
 #else
-#   define PLOG_GET_FUNC()      __PRETTY_FUNCTION__
+#   define PLOG_GET_FUNC()      __FUNC__
 #endif
 
 #ifdef PLOG_CAPTURE_FILE

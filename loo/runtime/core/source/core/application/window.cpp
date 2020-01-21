@@ -3,7 +3,6 @@
 #include "global/global.h"
 #include "global/mutex.h"
 
-
 namespace loo
 {
 	namespace core

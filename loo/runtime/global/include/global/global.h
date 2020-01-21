@@ -6,12 +6,23 @@
 #include "global/Compiler.h"
 #include "global/platform.h"
 #include "global/architecture.h"
+#include "global/utils/win32/stdtypes.h"
 #include <assert.h>
 #include <string>
 #include <memory>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
+#include <array>
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
+#include <initializer_list>
+#include <string>
+#include <system_error>
+#include <tuple>
+#include <type_traits>
 
 #define LOO_UNUSED(x) (void)(x)
 
@@ -121,5 +132,6 @@ namespace std
 #define LOO_RESTRICT
 #define LOO_ASSUME(x) (assert(x))
 #endif
+
 
 #endif

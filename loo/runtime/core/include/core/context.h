@@ -9,7 +9,7 @@
 #include "core/application/application.h"
 
 #include "rhi/rendersettings.h"
-//#include "RHI/VideoDevice.h"
+#include "rhi/graphicdevice.h"
 //#include "ShaderLib/ShaderLibManager.h"
 #include "RHI/RenderSettings.h"
 //#include "Application/Core.Window.h"
@@ -61,16 +61,16 @@ namespace loo
 				return *application;
 			}
 
-			/*bool VideoDeviceValid ()const
+			bool VideoDeviceValid ()const
 			{
-				return videoDevice.get () != nullptr;
-			}*/
+				return graphicDevice.get () != nullptr;
+			}
 
-		/*	rhi::VideoDevice& GetVideoDevice ();
-			shaderlib::ShaderLibManager& GetShaderLibManager ();*/
+			rhi::GraphicDevice& GetGraphicDevice ();
+			//shaderlib::ShaderLibManager& GetShaderLibManager ();
 
-			/*void LoadVideoDevice (const std::string& vd_name);
-			void LoadShaderLibManager (const std::string& shaderlib_name);*/
+			void LoadGraphicDevice (const std::string& vd_name);
+			//void LoadShaderLibManager (const std::string& shaderlib_name);
 
 		protected:
 			void DestroyAll ();
@@ -79,8 +79,8 @@ namespace loo
 			Application* application;
 			static std::unique_ptr<Context> contextInstance;
 			std::unique_ptr<loo::global::thread_pool> threadPoolInstance;
-		/*	std::unique_ptr<rhi::VideoDevice> videoDevice;
-			std::unique_ptr<loo::shaderlib::ShaderLibManager> shaderLibManager;*/
+			std::unique_ptr<rhi::GraphicDevice> graphicDevice;
+			//std::unique_ptr<loo::shaderlib::ShaderLibManager> shaderLibManager;
 
 			ContextConfig contextConfig;
 #ifdef LOO_PLATFORM_ANDROID

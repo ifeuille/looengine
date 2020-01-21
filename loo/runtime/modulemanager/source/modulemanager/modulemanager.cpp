@@ -92,7 +92,7 @@ loo::IModuleInterface * loo::FModuleManager::LoadModule (const std::string name)
 	return moduleinfo.ModuleInterface;
 }
 
-void loo::FModuleManager::FreeModule (const std::string name)
+void loo::FModuleManager::FreeModuleByName (const std::string name)
 {
 	std::unordered_map<std::string, FModuleInfo>::iterator it = Modules.find (name);
 	if (it != Modules.end ())

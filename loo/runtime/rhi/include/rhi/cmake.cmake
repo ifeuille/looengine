@@ -2,16 +2,21 @@
 set(LOCAL_PUBLIC
 ${MODULE_ROOT_PATH}/include/rhi/rendersettings.h 
 ${MODULE_ROOT_PATH}/include/rhi/dllexporter.h 
-${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
-${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
-${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
-${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
-${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
-${MODULE_ROOT_PATH}/include/rhi/elementformat.h 
+${MODULE_ROOT_PATH}/include/rhi/commandbuffer.h 
+${MODULE_ROOT_PATH}/include/rhi/featuresconfig.h 
+${MODULE_ROOT_PATH}/include/rhi/graphicdevice.h 
+${MODULE_ROOT_PATH}/include/rhi/resources.h
+${MODULE_ROOT_PATH}/include/rhi/rhi.h
+${MODULE_ROOT_PATH}/include/rhi/elementformat.h
+${MODULE_ROOT_PATH}/include/rhi/descriptions.h
+${MODULE_ROOT_PATH}/include/rhi/createinfo.h
+${MODULE_ROOT_PATH}/include/rhi/renderutils.h
 )
 
 set(LOCAL_PRIVATE
 ${MODULE_ROOT_PATH}/source/rhi/empty.cpp
+${MODULE_ROOT_PATH}/source/rhi/graphicdevice.cpp
+${MODULE_ROOT_PATH}/source/rhi/renderutils.cpp
 )
 
 

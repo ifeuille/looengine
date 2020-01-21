@@ -19,6 +19,17 @@ ADD_DEFINITIONS(-DVULKANRHI_DLL_EXPORT)
 add_dep_link_dir()
 
 dep_module_static(global)
+dep_module_static(ifvk)
+add_dep_glm()
+find_package(Vulkan)
+if (Vulkan_FOUND)
+	set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${Vulkan_LIBRARIES})
+	include_directories(${Vulkan_INCLUDE_DIRS})
+	link_directories(${Vulkan_LIBRARY_DIRS})
+else()
+	message("Error : Not found vulkan !!")
+endif()
+
 
 add_module()
 depdent_module(core modulemanager)

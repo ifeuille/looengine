@@ -41,6 +41,7 @@
 //major-minor
 #define LOO_VERSION_1_0 1
 #define LOO_API_VERSION_1_0 LOO_MAKE_VERSION(1,0,0);
+#define LOO_VERSION_STRING "1.0.0"
 
 
 

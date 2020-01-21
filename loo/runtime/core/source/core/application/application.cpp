@@ -33,13 +33,13 @@ void loo::core::Application::Create()
 {
 	ContextConfig cfg = Context::Get().Config();
 	//TODO
-	cfg.video_device_name = "VulkanRHI";
-	cfg.shaderlib_name = "ShaderLib";
+	cfg.video_device_name = "vulkanrhi";
+	cfg.shaderlib_name = "shaderlib";
 	Context::Get().Config(cfg);
 
 	//Context::Get().GetShaderLibManager();
 
-	//Context::Get().GetVideoDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
+	Context::Get().GetGraphicDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
 
 
 
@@ -51,14 +51,14 @@ void loo::core::Application::Create()
 void loo::core::Application::Destroy()
 {
 	this->OnDestroy();
-	//if (Context::Get().VideoDeviceValid())
-	//{
-	//	//Context::Get ( ).RenderFactoryInstance ( ).RenderEngineInstance ( ).DestroyRenderWindow ( );
-	//}
+	if (Context::Get().VideoDeviceValid())
+	{
+		//Context::Get ( ).RenderFactoryInstance ( ).RenderEngineInstance ( ).DestroyRenderWindow ( );
+	}
 
 	main_wnd.reset();
 
-	//Context::Destroy ( );
+	Context::Destroy ( );
 }
 
 void loo::core::Application::Suspend()

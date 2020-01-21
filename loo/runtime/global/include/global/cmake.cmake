@@ -100,3 +100,4 @@ ${LOCAL_PRIVATE_CONTAINER}
 ${LOCAL_PRIVATE_MATH}
 )
 include(${MODULE_ROOT_PATH}/include/global/template/cmake.cmake)
+include(${MODULE_ROOT_PATH}/include/global/utils/cmake.cmake)

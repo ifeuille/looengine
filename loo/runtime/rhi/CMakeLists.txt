@@ -19,7 +19,10 @@ ADD_DEFINITIONS(-DRHI_DLL_EXPORT)
 add_dep_link_dir()
 
 dep_module_static(global)
+add_dep_glm()
 
 add_module()
+depdent_module(rhi modulemanager)
+depdent_module(rhi filemanager)
 
 declare_module()

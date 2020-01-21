@@ -174,6 +174,7 @@
 #define UNLIKELY(x)			__builtin_expect(!!(x), 0)
 
 #elif defined(_MSC_VER)
+
 #define LOO_COMPILER_MSVC
 #define LOO_COMPILER_NAME vc
 
@@ -285,7 +286,70 @@ enum ENoInit { NoInit };
 
 #define LOO_ASSERT(x,msg) assert(x&&msg);
 
+// ssize_t is a POSIX type.
+#if defined(WIN32)
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
 
+
+//for non-lang
+#ifndef __has_attribute
+#define __has_attribute(x) 0
+#endif
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+#ifndef __has_builtin
+#define __has_builtin(x) 0
+#endif
+#if __has_attribute(visibility)
+#    define UTILS_PUBLIC  __attribute__((visibility("default")))
+#else
+#    define UTILS_PUBLIC  
+#endif
+#if __has_attribute(packed)
+#   define UTILS_PACKED __attribute__((packed))
+#else
+#   define UTILS_PACKED
+#endif
+#if __has_attribute(visibility)
+#    ifndef TNT_DEV
+#        define UTILS_PRIVATE __attribute__((visibility("hidden")))
+#    else
+#        define UTILS_PRIVATE
+#    endif
+#else
+#    define UTILS_PRIVATE
+#endif
+#if __has_attribute(always_inline)
+#define UTILS_ALWAYS_INLINE __attribute__((always_inline))
+#else
+#define UTILS_ALWAYS_INLINE
+#endif
+
+#if __has_attribute(pure)
+#define UTILS_PURE __attribute__((pure))
+#else
+#define UTILS_PURE
+#endif
+
+#if __has_attribute(noinline)
+#define UTILS_NOINLINE __attribute__((noinline))
+#else
+#define UTILS_NOINLINE
+#endif
+
+
+
+
+#if defined (__GNUC__)
+#  define __FUNC__     ((const char*) (__FUNC__))
+#elif defined (__STDC_VERSION__) && __STDC_VERSION__ >= 19901L
+#  define __FUNC__     ((const char*) (__func__))
+#else
+#  define __FUNC__     ((const char*) (__FUNCTION__))
+#endif
 
 #endif 
 //LOO_COMPILER_HPP
