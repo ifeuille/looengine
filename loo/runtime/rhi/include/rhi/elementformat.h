@@ -39,7 +39,7 @@ command buffer主要按照vulkan和cocos的实现效果。
 #define LOO_MAX_MEMORY_HEAPS               16
 #define LOO_MAX_EXTENSION_NAME_SIZE        256
 #define LOO_MAX_DESCRIPTION_SIZE           256
-
+#define LOO_UUID_SIZE                      16
 
 
 namespace loo
@@ -453,7 +453,13 @@ namespace loo
 		typedef LOOFlags LOOStencilFaceFlags;
 
 
-
+		typedef enum LooPhysicalDeviceType {
+			OTHER = 0,
+			INTEGRATED_GPU = 1,
+			DISCRETE_GPU = 2,
+			VIRTUAL_GPU = 3,
+			CPU = 4
+		} LooPhysicalDeviceType;
 
 
 		//#endif

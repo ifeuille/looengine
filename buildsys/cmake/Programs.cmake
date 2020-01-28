@@ -2,7 +2,6 @@
 
 
 MACRO(add_program EXE_NAME)
-    include_directories(${LOO_RUNTIME_ROOT_DIR}/${EXE_NAME}/include)
     if(LOO_PLATFORM_ANDROID)
         add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE} ${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c)
     else()

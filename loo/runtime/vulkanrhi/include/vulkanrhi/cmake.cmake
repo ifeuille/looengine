@@ -2,6 +2,9 @@
 set(LOCAL_PUBLIC
 ${MODULE_ROOT_PATH}/include/vulkanrhi/dllexporter.h 
 ${MODULE_ROOT_PATH}/include/vulkanrhi/vulkangraphicdevice.h 
+${MODULE_ROOT_PATH}/include/vulkanrhi/vulkanviewport.h 
+${MODULE_ROOT_PATH}/include/vulkanrhi/vulkanmemory.h 
+${MODULE_ROOT_PATH}/include/vulkanrhi/vulkanresource.h 
 )
 
 set(LOCAL_PRIVATE
@@ -20,6 +23,15 @@ ${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanqueue.h
 ${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanqueue.cpp
 ${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanglobal.cpp
 ${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanlayer.cpp
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanswapchain.h
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanswapchain.cpp
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanfence.h
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanfence.cpp
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkansemaphore.h
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkansemaphore.cpp
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanviewport.cpp
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanmemory.cpp
+${MODULE_ROOT_PATH}/source/vulkanrhi/vulkanresource.cpp
 )
 
 set(LOCAL_PRIVATE_INSTANCE

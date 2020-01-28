@@ -7,6 +7,7 @@ ${MODULE_ROOT_PATH}/include/global/utils/log.h
 ${MODULE_ROOT_PATH}/include/global/utils/panic.h
 ${MODULE_ROOT_PATH}/include/global/utils/callstack.h
 ${MODULE_ROOT_PATH}/include/global/utils/cstring.h
+${MODULE_ROOT_PATH}/include/global/utils/threadsafecounter.h
 )
 
 set(LOCAL_PUBLIC_WIN32

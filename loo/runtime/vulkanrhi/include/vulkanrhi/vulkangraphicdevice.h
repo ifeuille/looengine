@@ -3,6 +3,8 @@
 #include "vulkanrhi/dllexporter.h"
 #include "global/global.h"
 #include "rhi/graphicdevice.h"
+#include "global/template/refcounting.h"
+#include "rhi/rhi.h"
 
 namespace loo
 {
@@ -10,6 +12,8 @@ namespace loo
 	{
 		struct VulkanContext;
 		class VulkanDevice;
+		class VulkanSwapchain;
+		class VulkanViewPort;
 		class VULKANRHI_EXPORT VulkanGraphicDevice : public GraphicDevice
 		{
 		public:
@@ -21,12 +25,19 @@ namespace loo
 			virtual void Shutdown () override;
 			virtual const char* GetName () { return "vulkan"; }
 
-			void InitInstance ();
+			static void RecreateSwapChain (void* NewNativeWindow);
 
 		private:
 			VulkanContext* vulkanContext;
 			VulkanDevice* vulkanDevice;
 			std::vector< VulkanDevice*> devices;
+
+			std::vector<VulkanViewPort*> Viewports;
+			loo::global::TRefCountPtr<VulkanViewPort> DrawingViewport;
+
+
+			friend class VulkanViewPort;
+
 		};
 	}
 }

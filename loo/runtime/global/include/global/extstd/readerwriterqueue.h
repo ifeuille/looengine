@@ -512,6 +512,15 @@ public:
 		return result;
 	}
 
+	//pop all
+	inline void pop_all (std::vector<T*>& Out)
+	{
+		T v;
+		while (try_dequeue (v))
+		{
+			Out.push_back (v);
+		}
+	}
 
 private:
 	enum AllocationMode { CanAlloc, CannotAlloc };

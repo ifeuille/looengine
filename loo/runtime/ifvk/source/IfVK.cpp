@@ -2118,7 +2118,7 @@ utils::io::ostream& operator<<(utils::io::ostream& out, const VkDriverIdKHR& val
         case VK_DRIVER_ID_IMAGINATION_PROPRIETARY_KHR: out << "VK_DRIVER_ID_IMAGINATION_PROPRIETARY_KHR"; break;
         case VK_DRIVER_ID_QUALCOMM_PROPRIETARY_KHR: out << "VK_DRIVER_ID_QUALCOMM_PROPRIETARY_KHR"; break;
         case VK_DRIVER_ID_ARM_PROPRIETARY_KHR: out << "VK_DRIVER_ID_ARM_PROPRIETARY_KHR"; break;
-        case VK_DRIVER_ID_GOOGLE_PASTEL_KHR: out << "VK_DRIVER_ID_GOOGLE_PASTEL_KHR"; break;
+        //case VK_DRIVER_ID_GOOGLE_PASTEL_KHR: out << "VK_DRIVER_ID_GOOGLE_PASTEL_KHR"; break;
         case VK_DRIVER_ID_GGP_PROPRIETARY_KHR: out << "VK_DRIVER_ID_GGP_PROPRIETARY_KHR"; break;
         default: out << "UNKNOWN"; break;
     }

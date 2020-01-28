@@ -91,6 +91,10 @@ namespace loo
 				return FormatProperties;
 			}
 
+			inline VkPhysicalDeviceSparseProperties GetSparseProperties ()const {
+				return GpuSparseProperties;
+			}
+
 		private:
 			void MapFormatSupport (EPixelFormat UEFormat, VkFormat VulkanFormat);
 			void MapFormatSupport (EPixelFormat UEFormat, VkFormat VulkanFormat, int32 BlockBytes);
@@ -99,6 +103,8 @@ namespace loo
 		private:
 			VkPhysicalDevice Gpu;
 			VkPhysicalDeviceProperties GpuProps;
+			VkPhysicalDeviceSparseProperties GpuSparseProperties;
+
 #if VULKAN_ENABLE_DESKTOP_HMD_SUPPORT
 			VkPhysicalDeviceIDPropertiesKHR GpuIdProps;
 #endif

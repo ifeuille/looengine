@@ -102,5 +102,8 @@
 //#undef LOO_COMPILOO_WITH_METAL
 //#endif
 
+// Prefetch
+#define PLATFORM_CACHE_LINE_SIZE	128
+
 
 #endif//CORE_PLATFORM_H

@@ -14,9 +14,10 @@ ${MODULE_ROOT_PATH}/include/rhi/renderutils.h
 )
 
 set(LOCAL_PRIVATE
-${MODULE_ROOT_PATH}/source/rhi/empty.cpp
+${MODULE_ROOT_PATH}/source/rhi/rhi.cpp
 ${MODULE_ROOT_PATH}/source/rhi/graphicdevice.cpp
 ${MODULE_ROOT_PATH}/source/rhi/renderutils.cpp
+${MODULE_ROOT_PATH}/source/rhi/resources.cpp
 )
 
 

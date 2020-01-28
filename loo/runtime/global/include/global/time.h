@@ -22,6 +22,8 @@ namespace loo
 
 			double current_time() const;
 
+			uint64 getTimeInNanoseconds ()const;
+
 		private:
 			double start_time_;
 		};

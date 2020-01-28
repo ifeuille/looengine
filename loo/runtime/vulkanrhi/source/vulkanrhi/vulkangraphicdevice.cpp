@@ -7,6 +7,8 @@
 #include "ifvk/IfVK.h"
 #include "global/utils/panic.h"
 #include "vulkanrhi/vulkandevice.h"
+#include "global/template/externalstring.h"
+#include "rhi/resources.h"
 
 using namespace utils;
 
@@ -199,10 +201,28 @@ void loo::rhi::VulkanGraphicDevice::Init ()
 	}
 
 	//features check..
+	VkPhysicalDeviceFeatures physicalFeatures = vulkanDevice->GetFeatures ();
+	VkPhysicalDeviceLimits physicalLimits = vulkanDevice->GetLimits ();
+	VkPhysicalDeviceProperties physicalProperties = vulkanDevice->GetDeviceProperties ();
 
 
+	static_assert (sizeof (VkPhysicalDeviceFeatures) == sizeof (LOOPhysicalDeviceFeatures), "LOOPhysicalDeviceFeatures not map VkPhysicalDeviceFeatures");
+	static_assert (sizeof (VkPhysicalDeviceLimits) == sizeof (LOOPhysicalDeviceLimits), "LOOPhysicalDeviceLimits not map VkPhysicalDeviceLimits");
+	//static_assert (sizeof (VkPhysicalDeviceSparseProperties) == sizeof (LOOPhysicalDeviceSparseProperties), "LOOPhysicalDeviceSparseProperties not map VkPhysicalDeviceSparseProperties");
 
+	GPhysicalDeviceProperties.physicalDeviceTpye = (LooPhysicalDeviceType)physicalProperties.deviceType;
+	GPhysicalDeviceProperties.vendorID = physicalProperties.vendorID;
+	GPhysicalDeviceProperties.deviceName = physicalProperties.deviceName;
+	GPhysicalDeviceProperties.deviceID = physicalProperties.deviceID;
+	GPhysicalDeviceProperties.driverVersion = loo::global::Printf ("%d.%d.%d", VK_VERSION_MAJOR (physicalProperties.driverVersion), VK_VERSION_MINOR (physicalProperties.driverVersion), VK_VERSION_PATCH (physicalProperties.driverVersion));
+	GPhysicalDeviceProperties.driverInternalVersion = loo::global::Printf ("%d.%d.%d", VK_VERSION_MAJOR (physicalProperties.apiVersion), VK_VERSION_MINOR (physicalProperties.apiVersion), VK_VERSION_PATCH (physicalProperties.apiVersion));
+	static_assert (LOO_UUID_SIZE == VK_UUID_SIZE,"LOO_UUID_SIZE != VK_UUID_SIZE");
+	memcpy (GPhysicalDeviceProperties.pipelineCacheUUID, physicalProperties.pipelineCacheUUID,sizeof(physicalProperties.pipelineCacheUUID));
 
+	memcpy (&GPhysicalDeviceProperties.physicalDeviceFeatures, &physicalFeatures, sizeof (physicalFeatures));
+	memcpy (&GPhysicalDeviceProperties.physicalDeviceLimits, &physicalLimits, sizeof (physicalLimits));
+
+	GIsRHIInitialized = true;
 }
 
 void loo::rhi::VulkanGraphicDevice::Suspend ()
@@ -215,10 +235,27 @@ void loo::rhi::VulkanGraphicDevice::Resume ()
 
 void loo::rhi::VulkanGraphicDevice::Shutdown ()
 {
+
+	RHIResource::FlushPendingDeletes ();
 }
 
-void loo::rhi::VulkanGraphicDevice::InitInstance ()
+void loo::rhi::VulkanGraphicDevice::RecreateSwapChain (void * NewNativeWindow)
 {
+	//if (NewNativeWindow)
+	//{
+	//	//FlushRenderingCommands ();
+	//	FVulkanDynamicRHI* RHI = (FVulkanDynamicRHI*)GDynamicRHI;
+	//	TArray<FVulkanViewport*> Viewports = RHI->Viewports;
+	//	ENQUEUE_RENDER_COMMAND (VulkanRecreateSwapChain)(
+	//		[Viewports, NewNativeWindow](FRHICommandListImmediate& RHICmdList)
+	//	{
+	//		for (auto& Viewport : Viewports)
+	//		{
+	//			Viewport->RecreateSwapchain (NewNativeWindow);
+	//		}
+	//	});
+	//	//FlushRenderingCommands ();
+	//}
 }
 
 
