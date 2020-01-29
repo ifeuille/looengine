@@ -9,10 +9,10 @@ namespace loo
 		class Fence;
 		class VulkanQueue;
 
-		class VulkanSwapchain
+		class VulkanSwapChain
 		{
 		public:
-			VulkanSwapchain (VkInstance InInstance, VulkanDevice& InDevice, void* WindowHandle, EPixelFormat& Informat, uint32 Width, uint32 Height,
+			VulkanSwapChain (VkInstance InInstance, VulkanDevice& InDevice, void* WindowHandle, EPixelFormat& Informat, uint32 Width, uint32 Height,
 				uint32* InOutDesiredNumBackBuffers, std::vector<VkImage>& OutImage);
 			void Desroy ();
 			// Has to be negative as we use this also on other callbacks as the acquired image index

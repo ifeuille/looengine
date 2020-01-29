@@ -2,6 +2,7 @@
 #define LOO_RHI_RESOURCES_H
 #include "rhi/dllexporter.h"
 #include "global/global.h"
+#include "global/template/refcounting.h"
 #include "elementformat.h"
 #include "global/utils/threadsafecounter.h"
 #include "global/extstd/readerwriterqueue.h"
@@ -128,21 +129,88 @@ namespace loo
 		};
 
 
-		class RHI_EXPORT RHIPresent
+		class RHI_EXPORT RHICustomPresent : public RHIResource
 		{
 		public:
+			explicit RHICustomPresent (RHIViewport* InViewport) :viewPort (InViewport) {}
+			virtual ~RHICustomPresent () {};
+			// Called when viewport is resized.
+			virtual void OnBackBufferResize () = 0;
 
+			// Called from render thread to see if a native present will be requested for this frame.
+			// @return	true if native Present will be requested for this frame; false otherwise.  Must
+			// match value subsequently returned by Present for this frame.
+			virtual bool NeedsNativePresent () = 0;
+
+			// Called from RHI thread to perform custom present.
+			// @param InOutSyncInterval - in out param, indicates if vsync is on (>0) or off (==0).
+			// @return	true if native Present should be also be performed; false otherwise. If it returns
+			// true, then InOutSyncInterval could be modified to switch between VSync/NoVSync for the normal 
+			// Present.  Must match value previously returned by NeedsNormalPresent for this frame.
+			virtual bool Present (int32& InOutSyncInterval) = 0;
+
+			// Called from RHI thread after native Present has been called
+			virtual void PostPresent () {};
+
+			// Called when rendering thread is acquired
+			virtual void OnAcquireThreadOwnership () {}
+			// Called when rendering thread is released
+			virtual void OnReleaseThreadOwnership () {}
 		private:
 			RHIViewport* viewPort;
 		};
 		
-		class RHI_EXPORT RHIViewport:public RHIPresent
+		class RHI_EXPORT RHIViewport : public RHIResource
 		{
 		public:
+			/**
+			 * Returns access to the platform-specific native resource pointer.  This is designed to be used to provide plugins with access
+			 * to the underlying resource and should be used very carefully or not at all.
+			 *
+			 * @return	The pointer to the native resource or NULL if it not initialized or not supported for this resource type for some reason
+			 */
+			virtual void* GetNativeSwapChain () const { return nullptr; }
+			/**
+			 * Returns access to the platform-specific native resource pointer to a backbuffer texture.  This is designed to be used to provide plugins with access
+			 * to the underlying resource and should be used very carefully or not at all.
+			 *
+			 * @return	The pointer to the native resource or NULL if it not initialized or not supported for this resource type for some reason
+			 */
+			virtual void* GetNativeBackBufferTexture () const { return nullptr; }
+			/**
+			 * Returns access to the platform-specific native resource pointer to a backbuffer rendertarget. This is designed to be used to provide plugins with access
+			 * to the underlying resource and should be used very carefully or not at all.
+			 *
+			 * @return	The pointer to the native resource or NULL if it not initialized or not supported for this resource type for some reason
+			 */
+			virtual void* GetNativeBackBufferRT () const { return nullptr; }
 
-		private:
+			/**
+			 * Returns access to the platform-specific native window. This is designed to be used to provide plugins with access
+			 * to the underlying resource and should be used very carefully or not at all.
+			 *
+			 * @return	The pointer to the native resource or NULL if it not initialized or not supported for this resource type for some reason.
+			 * AddParam could represent any additional platform-specific data (could be null).
+			 */
+			virtual void* GetNativeWindow (void** AddParam = nullptr) const { return nullptr; }
+
+			/**
+			 * Sets custom Present handler on the viewport
+			 */
+			virtual void SetCustomPresent (class RHICustomPresent*) {}
+
+			/**
+			 * Returns currently set custom present handler.
+			 */
+			virtual class RHICustomPresent* GetCustomPresent () const { return nullptr; }
 
 		};
+
+
+		typedef RHIViewport* RHIViewportParamRef;
+		typedef loo::global::TRefCountPtr<RHIViewport> RHIViewportRef;
+
+		typedef loo::global::TRefCountPtr<RHICustomPresent> CustomPresentRHIRef;
 
 	}
 }

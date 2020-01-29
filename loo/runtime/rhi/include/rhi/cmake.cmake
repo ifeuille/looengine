@@ -11,6 +11,7 @@ ${MODULE_ROOT_PATH}/include/rhi/elementformat.h
 ${MODULE_ROOT_PATH}/include/rhi/descriptions.h
 ${MODULE_ROOT_PATH}/include/rhi/createinfo.h
 ${MODULE_ROOT_PATH}/include/rhi/renderutils.h
+${MODULE_ROOT_PATH}/include/rhi/commandpool.h
 )
 
 set(LOCAL_PRIVATE
@@ -18,6 +19,9 @@ ${MODULE_ROOT_PATH}/source/rhi/rhi.cpp
 ${MODULE_ROOT_PATH}/source/rhi/graphicdevice.cpp
 ${MODULE_ROOT_PATH}/source/rhi/renderutils.cpp
 ${MODULE_ROOT_PATH}/source/rhi/resources.cpp
+${MODULE_ROOT_PATH}/source/rhi/commandbuffer.cpp
+${MODULE_ROOT_PATH}/source/rhi/commandpool.cpp
+
 )
 
 
