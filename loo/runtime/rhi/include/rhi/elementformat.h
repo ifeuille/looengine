@@ -79,6 +79,45 @@ namespace loo
 			LOO_SHARING_MODE_CONCURRENT = 1,
 		} ;
 
+
+		typedef enum LOOResult {
+			LOO_SUCCESS = 0,
+			LOO_NOT_READY = 1,
+			LOO_TIMEOUT = 2,
+			LOO_EVENT_SET = 3,
+			LOO_EVENT_RESET = 4,
+			LOO_INCOMPLETE = 5,
+			LOO_ERROR_OUT_OF_HOST_MEMORY = -1,
+			LOO_ERROR_OUT_OF_DEVICE_MEMORY = -2,
+			LOO_ERROR_INITIALIZATION_FAILED = -3,
+			LOO_ERROR_DEVICE_LOST = -4,
+			LOO_ERROR_MEMORY_MAP_FAILED = -5,
+			LOO_ERROR_LAYER_NOT_PRESENT = -6,
+			LOO_ERROR_EXTENSION_NOT_PRESENT = -7,
+			LOO_ERROR_FEATURE_NOT_PRESENT = -8,
+			LOO_ERROR_INCOMPATIBLE_DRIVER = -9,
+			LOO_ERROR_TOO_MANY_OBJECTS = -10,
+			LOO_ERROR_FORMAT_NOT_SUPPORTED = -11,
+			LOO_ERROR_FRAGMENTED_POOL = -12,
+			LOO_ERROR_OUT_OF_POOL_MEMORY = -1000069000,
+			LOO_ERROR_INVALID_EXTERNAL_HANDLE = -1000072003,
+			LOO_ERROR_SURFACE_LOST_KHR = -1000000000,
+			LOO_ERROR_NATIVE_WINDOW_IN_USE_KHR = -1000000001,
+			LOO_SUBOPTIMAL_KHR = 1000001003,
+			LOO_ERROR_OUT_OF_DATE_KHR = -1000001004,
+			LOO_ERROR_INCOMPATIBLE_DISPLAY_KHR = -1000003001,
+			LOO_ERROR_VALIDATION_FAILED_EXT = -1000011001,
+			LOO_ERROR_INVALID_SHADER_NV = -1000012000,
+			LOO_ERROR_INVALID_DRM_FORMAT_MODIFIER_PLANE_LAYOUT_EXT = -1000158000,
+			LOO_ERROR_FRAGMENTATION_EXT = -1000161000,
+			LOO_ERROR_NOT_PERMITTED_EXT = -1000174001,
+			LOO_ERROR_INVALID_DEVICE_ADDRESS_EXT = -1000244000,
+			LOO_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT = -1000255000,
+			LOO_ERROR_OUT_OF_POOL_MEMORY_KHR = LOO_ERROR_OUT_OF_POOL_MEMORY,
+			LOO_ERROR_INVALID_EXTERNAL_HANDLE_KHR = LOO_ERROR_INVALID_EXTERNAL_HANDLE,
+			VK_RESULT_MAX_ENUM = 0x7FFFFFFF
+		} LOOResult;
+
 		//
 		enum class EImageLayout {
 			eUndefined = 0,
@@ -453,6 +492,13 @@ namespace loo
 		typedef LOOFlags LOOStencilFaceFlags;
 
 
+		typedef LOOFlags LOOInstanceCreateFlags;
+
+		//#endif
+
+
+		  //struct定义
+		//#if(1)
 		typedef enum LooPhysicalDeviceType {
 			OTHER = 0,
 			INTEGRATED_GPU = 1,
@@ -461,32 +507,25 @@ namespace loo
 			CPU = 4
 		} LooPhysicalDeviceType;
 
+		typedef struct LOOPhysicalDeviceSparseProperties {
+			LOOBool32    residencyStandard2DBlockShape;
+			LOOBool32    residencyStandard2DMultisampleBlockShape;
+			LOOBool32    residencyStandard3DBlockShape;
+			LOOBool32    residencyAlignedMipSize;
+			LOOBool32    residencyNonResidentStrict;
+		} LOOPhysicalDeviceSparseProperties;
 
-		//#endif
-
-
-		  //struct定义
-		//#if(1)
-		  //typedef struct LOOApplicationInfo {
-		  //  ////LEStructureType    sType;
-		  //  const void*        pNext;
-		  //  const char*        pApplicationName;
-		  //  uint32_t           applicationVersion;
-		  //  const char*        pEngineName;
-		  //  uint32_t           engineVersion;
-		  //  uint32_t           apiVersion;
-		  //} LOOApplicationInfo;
-
-		  //typedef struct LOOInstanceCreateInfo {
-		  // // //LEStructureType             sType;
-		  //  const void*                 pNext;
-		  //  //LEInstanceCreateFlags       flags;
-		  //  const LOOApplicationInfo*    pApplicationInfo;
-		  //  uint32_t                    enabledLayerCount;
-		  //  const char* const*          ppEnabledLayerNames;
-		  //  uint32_t                    enabledExtensionCount;
-		  //  const char* const*          ppEnabledExtensionNames;
-		  //} LOOInstanceCreateInfo;
+		typedef struct LOOPhysicalDeviceProperties {
+			uint32_t                            apiVersion;
+			uint32_t                            driverVersion;
+			uint32_t                            vendorID;
+			uint32_t                            deviceID;
+			LooPhysicalDeviceType                deviceType;
+			char                                deviceName[LOO_MAX_PHYSICAL_DEVICE_NAME_SIZE];
+			uint8_t                             pipelineCacheUUID[LOO_UUID_SIZE];
+			LOOPhysicalDeviceLimits              limits;
+			LOOPhysicalDeviceSparseProperties    sparseProperties;
+		} LOOPhysicalDeviceProperties;
 
 		typedef struct LOOPhysicalDeviceFeatures {
 			LOOBool32    robustBufferAccess;
@@ -697,7 +736,18 @@ namespace loo
 			uint32_t                    queueCount;
 			const float*                pQueuePriorities;
 		} LOODeviceQueueCreateInfo;
-			
+		
+		typedef LOOFlags LOODeviceCreateFlags;
+		typedef struct LOODeviceCreateInfo {
+			LOODeviceCreateFlags                flags;
+			uint32_t                           queueCreateInfoCount;
+			const LOODeviceQueueCreateInfo*     pQueueCreateInfos;
+			uint32_t                           enabledLayerCount;
+			const char* const*                 ppEnabledLayerNames;
+			uint32_t                           enabledExtensionCount;
+			const char* const*                 ppEnabledExtensionNames;
+			const LOOPhysicalDeviceFeatures*    pEnabledFeatures;
+		} LOODeviceCreateInfo;
 
 		typedef union LOOClearColorValue {
 			float       float32[4];

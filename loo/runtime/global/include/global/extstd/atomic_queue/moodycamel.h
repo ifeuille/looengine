@@ -2,7 +2,7 @@
 #ifndef MOODYCAMEL_H_INCLUDED
 #define MOODYCAMEL_H_INCLUDED
 
-#include <concurrentqueue/concurrentqueue.h>
+#include <global/extstd/concurrentqueue/concurrentqueue.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

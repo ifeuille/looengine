@@ -237,7 +237,73 @@ namespace looreflect {
 		return ins ? ins->GetType() : nullptr;
     }
 
+	template <typename T> inline std::string enum_to_string (T value) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		auto constant = type->enum_constant_by_value (value);
+		assert (constant);
+		return constant->name ();
+	}
+	template <typename T>
+	inline std::string enummask_to_string (uint32_t value) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		std::string nameMask;
+		for (T t = T::_begin; t < T::_end; t = T (uint32_t (t) << 1)) {
+			if (value & t == 0)
+				continue;
+			auto constant = type->enum_constant_by_value (value);
+			assert (constant);
+			if (t != T::_begin) {
+				nameMask.append ("|");
+			}
+			nameMask.append (constant->name ());
+		}
+		return nameMask;
+	}
 
+	template <typename T>
+	inline std::string enummask_to_string (uint64_t value) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		std::string nameMask;
+		for (T t = T::_begin; t < T::_end; t = T (uint64_t (t) << 1)) {
+			if (value & t == 0)
+				continue;
+			auto constant = type->enum_constant_by_value (value);
+			assert (constant);
+			if (t != T::_begin) {
+				nameMask.append ("|");
+			}
+			nameMask.append (constant->name ());
+		}
+		return nameMask;
+	}
+	template <typename T> inline T to_enum (const char *enumValueStr) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		auto constant = type->enum_constant_by_name (enumValueStr);
+		assert (constant);
+		return static_cast<T>(constant->value ());
+	}
+	template <typename T, typename U> inline U to_enummask (const std::string& enumValuesStr) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		U mask = 0;
+		std::vector<std::pair<const char *, const char *>> token_list;
+		strtk::split ("|", enumValuesStr, std::back_inserter (token_list));//cannot convert const char* to const std::string
+		std::string s;
+		for (auto it = token_list.begin (); it != token_list.end (); ++it)
+		{
+			s.assign (it->first, it->second);
+			auto constant = type->enum_constant_by_name (s.c_str ());
+			if (constant)
+			{
+				mask |= U (constant->value ());
+			}
+		}
+		return mask;
+	}
 } // namespace looreflect
 #define GET_REAL_TYPE(type)                                                    \
   (type->is_class()                                                            \

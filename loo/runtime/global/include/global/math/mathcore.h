@@ -1,9 +1,13 @@
 #ifndef LE_CORE_MATHCORE_H
 #define LE_CORE_MATHCORE_H
 #include "global/global.h"
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include <glm/common.hpp>
+#include <glm/gtx/compatibility.hpp>
 
+#include "global/extstd/typetraits.h"
 namespace loo
 {
 	namespace math
@@ -113,6 +117,9 @@ namespace loo
 		typedef glm::f64vec3 f64vec3;
 		typedef glm::f64vec4 f64vec4;
 
+		typedef glm::bool3 bvec3;
+		typedef glm::bool4 bvec4;
+
 		using glm::clamp;
 		using glm::min;
 		using glm::max;
@@ -196,6 +203,17 @@ namespace loo
 		{
 			return static_cast<int>(ceilf(A));
 		}
+		template <typename T>
+		ND_ LOO_FORCEINLINE constexpr auto  RoundToInt (const T& x)
+		{
+			STATIC_ASSERT (IsFloatPoint<T>);
+
+			if constexpr (sizeof (T) >= sizeof (int64_t))
+				return int64_t (std::round (x));
+
+			if constexpr (sizeof (T) >= sizeof (int32_t))
+				return int32_t (std::round (x));
+		}
 		template< class T, class U >
 		static LOO_FORCEINLINE T lerp(const T& A, const T& B, const U& Alpha)
 		{
@@ -222,6 +240,195 @@ namespace loo
 
 		//用于对基于glm::vec的结构体生成对应的模板特化
 
+
+		template <typename T>
+		inline constexpr std::enable_if_t< std::is_scalar<T>::value, bool >  Equals (const T &lhs, const T &rhs, const T &err = std::numeric_limits<T>::epsilon () * T (2))
+		{
+			if (IsUnsignedInteger<T>)
+			{
+				return lhs < rhs ? ((rhs - lhs) <= err) : ((lhs - rhs) <= err);
+			}
+			else
+				return std::abs (lhs - rhs) <= err;
+		}
+		/*
+	=================================================
+		helpers
+	=================================================
+	*/
+	namespace _hidden_
+	{
+		template <typename T1, typename T2, typename Result>
+		using EnableForInt = EnableIf< IsSignedInteger<T1> and IsSignedInteger<T2>, Result >;
+
+		template <typename T1, typename T2, typename Result>
+		using EnableForUInt = EnableIf< IsUnsignedInteger<T1> and IsUnsignedInteger<T2>, Result >;
+
+	}	// 
+
+	/*
+	=================================================
+		AdditionIsSafe
+	=================================================
+	*/
+		template <typename T1, typename T2>
+		ND_ LOO_FORCEINLINE constexpr _hidden_::EnableForInt<T1, T2, bool>  AdditionIsSafe (const T1 a, const T2 b)
+		{
+			STATIC_ASSERT (IsScalar<T1> and IsScalar<T2>);
+
+			using T = decltype(a + b);
+
+			const T	x = T (a);
+			const T	y = T (b);
+			const T	min = std::numeric_limits<T>::min ();
+			const T	max = std::numeric_limits<T>::max ();
+
+			bool	overflow = ((y > 0) & (x > max - y)) |
+				((y < 0) & (x < min - y));
+			return not overflow;
+		}
+
+		/*
+		=================================================
+			AdditionIsSafe
+		=================================================
+		*/
+		template <typename T1, typename T2>
+		ND_ LOO_FORCEINLINE constexpr _hidden_::EnableForUInt<T1, T2, bool>  AdditionIsSafe (const T1 a, const T2 b)
+		{
+			STATIC_ASSERT (IsScalar<T1> and IsScalar<T2>);
+
+			using T = decltype(a + b);
+
+			const T	x = T (a);
+			const T	y = T (b);
+
+			return (x + y) >= (x | y);
+		}
+
+		/*
+		=================================================
+			AlignToSmaller
+		=================================================
+		*/
+		template <typename T0, typename T1>
+		ND_ LOO_FORCEINLINE constexpr auto  AlignToSmaller (const T0 &value, const T1 &align)
+		{
+			ASSERT (align > 0);
+			return (value / align) * align;
+		}
+
+		/*
+		=================================================
+			AlignToLarger
+		=================================================
+		*/
+		template <typename T0, typename T1>
+		ND_ LOO_FORCEINLINE constexpr auto  AlignToLarger (const T0 &value, const T1 &align)
+		{
+			ASSERT (align > 0);
+			return ((value + align - 1) / align) * align;
+		}
+
+		/*
+		=================================================
+			IsIntersects
+		----
+			1D intersection check
+		=================================================
+		*/
+		template <typename T>
+		ND_ LOO_FORCEINLINE constexpr bool  IsIntersects (const T& begin1, const T& end1,
+			const T& begin2, const T& end2)
+		{
+			return (end1 > begin2) & (begin1 < end2);
+		}
+
+		/*
+		=================================================
+			GetIntersection
+		=================================================
+		*/
+		template <typename T>
+		ND_ LOO_FORCEINLINE constexpr bool  GetIntersection (const T& begin1, const T& end1,
+			const T& begin2, const T& end2,
+			OUT T& outBegin, OUT T& outEnd)
+		{
+			outBegin = std::max (begin1, begin2);
+			outEnd = std::min (end1, end2);
+			return outBegin < outEnd;
+		}
+
+		/*
+=================================================
+	SafeDiv
+=================================================
+*/
+		template <typename T1, typename T2, typename T3>
+		ND_ LOO_FORCEINLINE constexpr auto  SafeDiv (const T1& lhs, const T2& rhs, const T3& defVal)
+		{
+			STATIC_ASSERT (IsScalarOrEnum<T1> and IsScalarOrEnum<T2> and IsScalarOrEnum<T3>);
+
+			using T = decltype(lhs + rhs + defVal);
+
+			return not Equals (rhs, T (0)) ? (T (lhs) / T (rhs)) : T (defVal);
+		}
+
+		template <typename T1, typename T2>
+		ND_ LOO_FORCEINLINE constexpr auto  SafeDiv (const T1& lhs, const T2& rhs)
+		{
+			return SafeDiv (lhs, rhs, T1 (0));
+		}
+
+		/*
+		=================================================
+			Ln / Log / Log2 / Log10
+		=================================================
+		*/
+		template <typename T>
+		ND_ LOO_FORCEINLINE EnableIf<IsFloatPoint<T>, T>  Ln (const T& x)
+		{
+			return std::log (x);
+		}
+
+		template <typename T>
+		ND_ LOO_FORCEINLINE EnableIf<IsFloatPoint<T>, T>  Log2 (const T& x)
+		{
+			return std::log2 (x);
+		}
+
+		template <typename T>
+		ND_ LOO_FORCEINLINE EnableIf<IsFloatPoint<T>, T>  Log10 (const T& x)
+		{
+			return std::log10 (x);
+		}
+
+		template <typename Base, typename T>
+		ND_ LOO_FORCEINLINE EnableIf<IsFloatPoint<T>, T>  Log (const T& x, Base base)
+		{
+			static constexpr auto log_base = std::log (base);
+			return std::log (x) / log_base;
+		}
+
+		/*
+		=================================================
+			Wrap
+		=================================================
+		*/
+		template <typename T>
+		LOO_FORCEINLINE EnableIf<IsFloatPoint<T>, T>  Wrap (const T& value, const T& minValue, const T& maxValue)
+		{
+			// check for NaN
+			if (minValue >= maxValue)
+				return minValue;
+
+			T	result = T (minValue + std::fmod (value - minValue, maxValue - minValue));
+
+			if (result < minValue)
+				result += (maxValue - minValue);
+
+			return result;
+		}
 	}
 }
 

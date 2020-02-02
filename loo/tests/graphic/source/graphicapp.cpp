@@ -30,7 +30,7 @@ void GraphicApp::DoUpdateOverlay ()
 
 }
 
-uint32_t GraphicApp::DoUpdate (uint32_t pass)
+loo::uint32 GraphicApp::DoUpdate (uint32_t pass)
 {
-	return 0;
+	return pass;
 }

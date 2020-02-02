@@ -144,7 +144,7 @@ namespace looreflect {
 
 		LooEnumConstant const* enum_constant_by_value (int value)const noexcept {
 			for (auto& enumvalue : values ()) {
-				if (value = enumvalue.value ()) {
+				if (value == enumvalue.value ()) {
 					return &enumvalue;
 				}
 			}
@@ -153,7 +153,7 @@ namespace looreflect {
 
 		LooEnumConstant const* enum_constant_by_index (int index)const noexcept {
 			for (auto& enumvalue : values ()) {
-				if (index = enumvalue.index ()) {
+				if (index == enumvalue.index ()) {
 					return &enumvalue;
 				}
 			}
@@ -178,6 +178,9 @@ namespace looreflect {
 
 		};
 	}
+
 }
+
+
 
 #endif

@@ -23,6 +23,13 @@
 #include <system_error>
 #include <tuple>
 #include <type_traits>
+#include <bitset>
+#include <chrono>
+#include "global/extstd/strtk.h"
+
+
+
+
 
 #define LOO_UNUSED(x) (void)(x)
 
@@ -121,17 +128,46 @@ namespace std
 
 
 #define DLL_SUFFIX LOO_OUTPUT_SUFFIX "." DLL_EXT_NAME
-
+// helper macro
+#define LOO_PRIVATE_GETARG_0( _0_, ... )				_0_
+#define LOO_PRIVATE_GETARG_1( _0_, _1_, ... )		_1_
+#define LOO_PRIVATE_GETARG_2( _0_, _1_, _2_, ... )	_2_
+#define LOO_PRIVATE_GETRAW( _value_ )				_value_
+#define LOO_PRIVATE_TOSTRING( ... )					#__VA_ARGS__
+#define LOO_PRIVATE_UNITE_RAW( _arg0_, _arg1_ )		LOO_PRIVATE_UNITE( _arg0_, _arg1_ )
+#define LOO_PRIVATE_UNITE( _arg0_, _arg1_ )			_arg0_ ## _arg1_
 
 #define ASSERT_MSG(con,msg) assert((con)&&msg)
-
+#define ASSERT(con) assert((con)&&con)
 #ifdef LOO_COMPILER_MSVC
 #define LOO_RESTRICT __restrict
 #define LOO_ASSUME(x) (__assume(x))
+
 #else
 #define LOO_RESTRICT
 #define LOO_ASSUME(x) (assert(x))
 #endif
+#ifndef STATIC_ASSERT
+#	define STATIC_ASSERT( ... ) \
+		static_assert(	LOO_PRIVATE_GETRAW( LOO_PRIVATE_GETARG_0( __VA_ARGS__ ) ), \
+						LOO_PRIVATE_GETRAW( LOO_PRIVATE_GETARG_1( __VA_ARGS__, LOO_PRIVATE_TOSTRING(__VA_ARGS__) ) ) )
+#endif
+
+
+// compile time messages
+#ifndef LOO_COMPILATION_MESSAGE
+#	if defined(LOO_COMPILER_CLANG)
+#		define LOO_PRIVATE_MESSAGE_TOSTR(x)	#x
+#		define LOO_COMPILATION_MESSAGE( _message_ )	_Pragma(FG_PRIVATE_MESSAGE_TOSTR( GCC warning ("" _message_) ))
+
+#	elif defined(LOO_COMPILER_MSVC)
+#		define LOO_COMPILATION_MESSAGE( _message_ )	__pragma(message( _message_ ))
+
+#	else
+#		define LOO_COMPILATION_MESSAGE( _message_ )	// not supported
+#	endif
+#endif
+
 
 
 #endif

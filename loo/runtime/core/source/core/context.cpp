@@ -63,19 +63,19 @@ void loo::core::Context::Destroy()
 void loo::core::Context::Suspend()
 {
 	loo::fm::ResLoader::Instance().Suspend();
-	if (graphicDevice)
-	{
-		graphicDevice->Suspend();
-	}
+	//if (graphicDevice)
+	//{
+	//	graphicDevice->Suspend();
+	//}
 }
 
 void loo::core::Context::Resume()
 {
 	loo::fm::ResLoader::Instance().Resume();
-	if (graphicDevice)
-	{
-		graphicDevice->Resume();
-	}
+	//if (graphicDevice)
+	//{
+	//	graphicDevice->Resume();
+	//}
 }
 
 loo::global::thread_pool & loo::core::Context::ThreadPool()
@@ -93,19 +93,19 @@ loo::core::ContextConfig const & loo::core::Context::Config() const
 	return contextConfig;
 }
 
-loo::rhi::GraphicDevice & loo::core::Context::GetGraphicDevice()
-{
-	if (!graphicDevice)
-	{
-		std::lock_guard<std::mutex> lock(singleton_mutex);
-		if (!graphicDevice)
-		{
-			this->LoadGraphicDevice(contextConfig.video_device_name);
-			graphicDevice->Init();
-		}
-	}
-	return *graphicDevice;
-}
+//loo::rhi::GraphicDevice & loo::core::Context::GetGraphicDevice()
+//{
+//	if (!graphicDevice)
+//	{
+//		std::lock_guard<std::mutex> lock(singleton_mutex);
+//		if (!graphicDevice)
+//		{
+//			this->LoadGraphicDevice(contextConfig.video_device_name);
+//			graphicDevice->Init();
+//		}
+//	}
+//	return *graphicDevice;
+//}
 
 //loo::shaderlib::ShaderLibManager & loo::core::Context::GetShaderLibManager()
 //{
@@ -129,63 +129,63 @@ loo::rhi::GraphicDevice & loo::core::Context::GetGraphicDevice()
 //}
 
 
-void loo::core::Context::LoadGraphicDevice (const std::string & vd_name)
-{
-	//VulkanRHI
-	const std::string module_name = vd_name + DLL_SUFFIX;
-#ifndef LOO_STATIC_LINK_PLUGINS
-	loo::FModuleManager::Get ().FreeModuleByName (module_name);
-	loo::IModuleInterface* mi = loo::FModuleManager::Get ().LoadModule (module_name);
-	int error_code = 0;
-	if (mi)
-	{
-		loo::rhi::VideoDeviceModule* vdm = static_cast<loo::rhi::VideoDeviceModule*>(mi);
-		if (vdm)
-		{
-			vdm->CreateVideoDevice (graphicDevice);
-			if (!graphicDevice)
-			{
-				error_code = 1;
-			}
-		}
-		else
-		{
-			error_code = 2;
-		}
-	}
-	else
-	{
-		error_code = 3;
-	}
-
-
-	if (error_code != 0)
-	{
-		loo::FModuleManager::Get ().FreeModuleByName (module_name);
-		switch (error_code)
-		{
-		case 1:
-			utils::slog.e << "CORE ERROR:" << "CreateVideoDeviceWindows: vdm->CreateRHI ( ptr ) failed. " << utils::io::endl;
-			break;
-		case 2:
-			utils::slog.e << "CORE ERROR:" << "CreateVideoDeviceWindows: static_cast<le::rhi::VideoDeviceModule*>(mi)  failed." << utils::io::endl;
-			break;
-		case 3:
-			utils::slog.e << "CORE ERROR:" << "CreateVideoDeviceWindows: LoadModule " << module_name<<" failed."<< utils::io::endl;
-			break;
-		default:
-			break;
-		}
-	}
-#else
-	MakeRenderFactory (ptr);
-#endif
-}
+//void loo::core::Context::LoadGraphicDevice (const std::string & vd_name)
+//{
+//	//VulkanRHI
+//	const std::string module_name = vd_name + DLL_SUFFIX;
+//#ifndef LOO_STATIC_LINK_PLUGINS
+//	loo::FModuleManager::Get ().FreeModuleByName (module_name);
+//	loo::IModuleInterface* mi = loo::FModuleManager::Get ().LoadModule (module_name);
+//	int error_code = 0;
+//	if (mi)
+//	{
+//		loo::rhi::VideoDeviceModule* vdm = static_cast<loo::rhi::VideoDeviceModule*>(mi);
+//		if (vdm)
+//		{
+//			vdm->CreateVideoDevice (graphicDevice);
+//			if (!graphicDevice)
+//			{
+//				error_code = 1;
+//			}
+//		}
+//		else
+//		{
+//			error_code = 2;
+//		}
+//	}
+//	else
+//	{
+//		error_code = 3;
+//	}
+//
+//
+//	if (error_code != 0)
+//	{
+//		loo::FModuleManager::Get ().FreeModuleByName (module_name);
+//		switch (error_code)
+//		{
+//		case 1:
+//			utils::slog.e << "CORE ERROR:" << "CreateVideoDeviceWindows: vdm->CreateRHI ( ptr ) failed. " << utils::io::endl;
+//			break;
+//		case 2:
+//			utils::slog.e << "CORE ERROR:" << "CreateVideoDeviceWindows: static_cast<le::rhi::VideoDeviceModule*>(mi)  failed." << utils::io::endl;
+//			break;
+//		case 3:
+//			utils::slog.e << "CORE ERROR:" << "CreateVideoDeviceWindows: LoadModule " << module_name<<" failed."<< utils::io::endl;
+//			break;
+//		default:
+//			break;
+//		}
+//	}
+//#else
+//	MakeRenderFactory (ptr);
+//#endif
+//}
 
 void loo::core::Context::DestroyAll()
 {
 	loo::fm::ResLoader::Destroy();
-	graphicDevice.reset();
+	//graphicDevice.reset();
 	//threadPoolInstance.reset();
 }
 

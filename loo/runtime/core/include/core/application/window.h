@@ -30,7 +30,8 @@ OBJC_CLASS(LEngineWindowListener);
 OBJC_CLASS(NSView);
 #endif
 #include "global/utlis.h"
-#include "RHI/RenderSettings.h"
+//#include "RHI/RenderSettings.h"
+#include "vkfg/fg/rendersettings.h"
 #include "global/math/math.h"
 
 #include <cstring>
@@ -54,7 +55,7 @@ namespace loo
 			};
 
 		public:
-			Window(std::string const & name, rhi::RenderSettings const & settings, void* native_wnd);
+			Window(std::string const & name, vkfg::RenderSettings const & settings, void* native_wnd);
 			~Window();
 
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP

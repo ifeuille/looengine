@@ -51,6 +51,7 @@ MACRO(declare_module)
     #add_library(${MODULE_NAME} ${LOO_PREFERRED_LIB_TYPE}
     # ${SOURCE_PRIVATE} ${SOURCE_PUBLIC}
     #)
+    target_compile_definitions( ${MODULE_NAME}  PUBLIC ${LOO_COMPILER_DEFINITIONS} )
     set_target_properties(${MODULE_NAME} PROPERTIES VERSION ${MODULE_ERSION} SOVERSION ${MODULE_SOVERSION})
     set_target_properties(${MODULE_NAME} PROPERTIES 
         PROJECT_LABEL ${MODULE_NAME}
@@ -106,6 +107,7 @@ MACRO(declare_module_static)
     #add_library(${MODULE_NAME} STATIC
     # ${SOURCE_PRIVATE} ${SOURCE_PUBLIC}
     #)
+    target_compile_definitions( ${MODULE_NAME}  PUBLIC ${LOO_COMPILER_DEFINITIONS} )
     set_target_properties(${MODULE_NAME} PROPERTIES VERSION ${MODULE_ERSION} SOVERSION ${MODULE_SOVERSION})
     set_target_properties(${MODULE_NAME} PROPERTIES 
     PROJECT_LABEL ${MODULE_NAME}

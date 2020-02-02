@@ -39,7 +39,7 @@ void loo::core::Application::Create()
 
 	//Context::Get().GetShaderLibManager();
 
-	Context::Get().GetGraphicDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
+	//Context::Get().GetGraphicDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
 
 
 
@@ -51,7 +51,7 @@ void loo::core::Application::Create()
 void loo::core::Application::Destroy()
 {
 	this->OnDestroy();
-	if (Context::Get().VideoDeviceValid())
+	//if (Context::Get().VideoDeviceValid())
 	{
 		//Context::Get ( ).RenderFactoryInstance ( ).RenderEngineInstance ( ).DestroyRenderWindow ( );
 	}
@@ -76,12 +76,12 @@ void loo::core::Application::Refresh()
 	//Context::Instance().RenderFactoryInstance().RenderEngineInstance().Refresh();
 }
 
-loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, rhi::RenderSettings const & settings)
+loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, vkfg::RenderSettings const & settings)
 {
 	return loo::global::MakeSharedPtr<Window>(aname, settings, nullptr);
 }
 
-loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, rhi::RenderSettings const & settings, void * native_wnd)
+loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, vkfg::RenderSettings const & settings, void * native_wnd)
 {
 	return loo::global::MakeSharedPtr<Window>(aname, settings, native_wnd);
 }

@@ -24,6 +24,8 @@ include(${LOO_ROOT_DIR}/buildsys/cmake/Options.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Common.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Platform.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Compiler.cmake)
+
+include(${LOO_ROOT_DIR}/buildsys/cmake/compiler_tests.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Programs.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Modules.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Dependence.cmake)

@@ -44,4 +44,7 @@ else()
 endif()
 
 add_static_module()
+
+
+
 declare_module_static()

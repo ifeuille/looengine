@@ -25,8 +25,8 @@ namespace loo
 			void Resume();
 			void Refresh();
 
-			WindowPtr MakeWindow(std::string const & name, rhi::RenderSettings const & settings);
-			WindowPtr MakeWindow(std::string const & name, rhi::RenderSettings const & settings, void* native_wnd);
+			WindowPtr MakeWindow(std::string const & name, vkfg::RenderSettings const & settings);
+			WindowPtr MakeWindow(std::string const & name, vkfg::RenderSettings const & settings, void* native_wnd);
 			WindowPtr const & MainWnd() const
 			{
 				return main_wnd;

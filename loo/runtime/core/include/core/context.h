@@ -8,10 +8,10 @@
 #include "core/application/window.h"
 #include "core/application/application.h"
 
-#include "rhi/rendersettings.h"
-#include "rhi/graphicdevice.h"
+//#include "rhi/rendersettings.h"
+//#include "rhi/graphicdevice.h"
 //#include "ShaderLib/ShaderLibManager.h"
-#include "RHI/RenderSettings.h"
+//#include "RHI/RenderSettings.h"
 //#include "Application/Core.Window.h"
 //#include "Application/Core.Application.h"
 
@@ -23,7 +23,8 @@ namespace loo
 		{
 			std::string video_device_name;
 			std::string shaderlib_name;
-			loo::rhi::RenderSettings graphic_settings;
+			//loo::rhi::RenderSettings graphic_settings;
+			vkfg::RenderSettings graphic_settings;
 		};
 
 		class CORE_EXPORT Context :loo::noncopyable
@@ -61,15 +62,15 @@ namespace loo
 				return *application;
 			}
 
-			bool VideoDeviceValid ()const
+			/*bool VideoDeviceValid ()const
 			{
 				return graphicDevice.get () != nullptr;
-			}
+			}*/
 
-			rhi::GraphicDevice& GetGraphicDevice ();
+			//rhi::GraphicDevice& GetGraphicDevice ();
 			//shaderlib::ShaderLibManager& GetShaderLibManager ();
 
-			void LoadGraphicDevice (const std::string& vd_name);
+			//void LoadGraphicDevice (const std::string& vd_name);
 			//void LoadShaderLibManager (const std::string& shaderlib_name);
 
 		protected:
@@ -79,7 +80,7 @@ namespace loo
 			Application* application;
 			static std::unique_ptr<Context> contextInstance;
 			std::unique_ptr<loo::global::thread_pool> threadPoolInstance;
-			std::unique_ptr<rhi::GraphicDevice> graphicDevice;
+			//std::unique_ptr<rhi::GraphicDevice> graphicDevice;
 			//std::unique_ptr<loo::shaderlib::ShaderLibManager> shaderLibManager;
 
 			ContextConfig contextConfig;

@@ -12,6 +12,9 @@ ${MODULE_ROOT_PATH}/include/rhi/descriptions.h
 ${MODULE_ROOT_PATH}/include/rhi/createinfo.h
 ${MODULE_ROOT_PATH}/include/rhi/renderutils.h
 ${MODULE_ROOT_PATH}/include/rhi/commandpool.h
+${MODULE_ROOT_PATH}/include/rhi/physicaldevice.h
+${MODULE_ROOT_PATH}/include/rhi/instance.h
+${MODULE_ROOT_PATH}/include/rhi/queue.h
 )
 
 set(LOCAL_PRIVATE
@@ -21,7 +24,9 @@ ${MODULE_ROOT_PATH}/source/rhi/renderutils.cpp
 ${MODULE_ROOT_PATH}/source/rhi/resources.cpp
 ${MODULE_ROOT_PATH}/source/rhi/commandbuffer.cpp
 ${MODULE_ROOT_PATH}/source/rhi/commandpool.cpp
-
+${MODULE_ROOT_PATH}/source/rhi/physicaldevice.cpp
+${MODULE_ROOT_PATH}/source/rhi/instance.cpp
+${MODULE_ROOT_PATH}/source/rhi/queue.cpp
 )
 
 

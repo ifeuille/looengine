@@ -351,5 +351,38 @@ typedef SSIZE_T ssize_t;
 #  define __FUNC__     ((const char*) (__FUNCTION__))
 #endif
 
+#ifndef ND_
+# ifdef LOO_COMPILER_MSVC
+#  if _MSC_VER >= 1917
+#	define ND_				[[nodiscard]]
+#  else
+#	define ND_
+#  endif
+# endif
+#endif
+
+
+#ifdef LOO_COMPILER_MSVC
+#	define and		&&
+#	define or		||
+#	define not		!
+#endif
+
+// debug only scope
+#ifndef DEBUG_ONLY
+# ifdef LOO_DEBUG
+#	define DEBUG_ONLY( ... )		__VA_ARGS__
+# else
+#	define DEBUG_ONLY( ... )
+# endif
+#endif
+
+// allocator
+#ifdef LOO_COMPILER_MSVC
+#	define LOO_ALLOCATOR		__declspec( allocator )
+#else
+#	define LOO_ALLOCATOR
+#endif
+
 #endif 
 //LOO_COMPILER_HPP

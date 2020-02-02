@@ -62,7 +62,7 @@ namespace loo
 		}
 #endif
 
-		Window::Window ( std::string const & name, rhi::RenderSettings const & settings, void* native_wnd )
+		Window::Window ( std::string const & name, vkfg::RenderSettings const & settings, void* native_wnd )
 			: active ( false ), ready ( false ), closed ( false ), keep_screen_on ( settings.keep_screen_on ),
 			dpi_scale ( 1 ), effective_dpi_scale ( 1 ), win_rotation ( WR_Identity ), hide ( settings.hide_win )
 		{

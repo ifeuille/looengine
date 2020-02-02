@@ -165,4 +165,13 @@ namespace utils {
 
 } // namespace utils
 
+#ifndef CHECK
+#define CHECK_PRIVATE(_func_)\
+{\
+if(!_func_){\
+utils::slog.e<<"CHECK FAILED:"<<#_func_<<utils::io::endl;\
+}}
+#define CHECK(_func_)\
+	CHECK_PRIVATE(_func_)
+#endif
 #endif // TNT_UTILS_LOG_H

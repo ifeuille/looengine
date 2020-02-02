@@ -27,6 +27,7 @@ set(FOLDER_PATH tests)
 add_dep_link_dir()
 dep_module_static(global)
 dep_module_static(ifvk)
+dep_module_static(vkfg)
 #add_dep_7z()
 add_dep_glm()
 
@@ -36,7 +37,7 @@ add_program(${EXE_NAME})
 # dep of core
 depdent_module(${EXE_NAME} modulemanager)
 depdent_module(${EXE_NAME} filemanager)
-depdent_module(${EXE_NAME} rhi)
+#depdent_module(${EXE_NAME} rhi)
 depdent_module(${EXE_NAME} core)
 
 declare_program(${EXE_NAME})
