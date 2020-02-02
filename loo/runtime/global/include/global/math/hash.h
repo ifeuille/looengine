@@ -86,4 +86,5 @@ namespace loo
 	}
 }
 
+
 #endif		// LOO_HASH_HPP

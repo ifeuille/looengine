@@ -36,23 +36,53 @@ namespace loo
 
 #ifdef LOO_COMPILER_MSVC
 		unsigned long	index;
-
-		if constexpr (sizeof (x) > sizeof (uint32))
-			return _BitScanReverse64 (OUT &index, x) ? index : INVALID_INDEX;
-		else
+		//if /*constexpr*/ (sizeof (T) > sizeof (uint32))
+		//	return _BitScanReverse64 (OUT &index, x) ? index : INVALID_INDEX;
+		//else
 			return _BitScanReverse (OUT &index, x) ? index : INVALID_INDEX;
 
 #elif defined(LOO_COMPILER_GCC) or defined(LOO_COMPILER_CLANG)
-		if constexpr (sizeof (x) > sizeof (uint))
+		/*if constexpr (sizeof (x) > sizeof (uint))
 			return x ? (sizeof (x) * 8) - 1 - __builtin_clzll (x) : INVALID_INDEX;
-		else
+		else*/
 			return x ? (sizeof (x) * 8) - 1 - __builtin_clz (x) : INVALID_INDEX;
 
 #else
 		//return std::ilogb( x );
 #endif
 	}
+	template <>
+	ND_ inline int  IntLog2 (const uint64& x)
+	{
+		constexpr int	INVALID_INDEX = std::numeric_limits<int>::min ();
 
+#ifdef LOO_COMPILER_MSVC
+		unsigned long	index;
+		return _BitScanReverse64 (OUT &index, x) ? index : INVALID_INDEX;
+
+#elif defined(LOO_COMPILER_GCC) or defined(LOO_COMPILER_CLANG)
+		return x ? (sizeof (x) * 8) - 1 - __builtin_clzll (x) : INVALID_INDEX;
+
+#else
+		//return std::ilogb( x );
+#endif
+	}
+	template <>
+	ND_ inline int  IntLog2 (const int64& x)
+	{
+		constexpr int	INVALID_INDEX = std::numeric_limits<int>::min ();
+
+#ifdef LOO_COMPILER_MSVC
+		unsigned long	index;
+		return _BitScanReverse64 (OUT &index, x) ? index : INVALID_INDEX;
+
+#elif defined(LOO_COMPILER_GCC) or defined(LOO_COMPILER_CLANG)
+		return x ? (sizeof (x) * 8) - 1 - __builtin_clzll (x) : INVALID_INDEX;
+
+#else
+		//return std::ilogb( x );
+#endif
+	}
 	template <typename T>
 	ND_ inline int  BitScanReverse (const T& x)
 	{

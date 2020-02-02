@@ -46,6 +46,8 @@ ${MODULE_ROOT_PATH}/include/global/extstd/fixedmap.h
 ${MODULE_ROOT_PATH}/include/global/extstd/union.h
 ${MODULE_ROOT_PATH}/include/global/extstd/arrayutils.h
 ${MODULE_ROOT_PATH}/include/global/extstd/umax.h
+${MODULE_ROOT_PATH}/include/global/extstd/enumutils.h
+${MODULE_ROOT_PATH}/include/global/extstd/defaulttypes.h
 )
 
 set(LOCAL_PUBLIC_EXTSTD_ATOMIC_QUEUE

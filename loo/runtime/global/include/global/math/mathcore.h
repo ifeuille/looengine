@@ -120,6 +120,9 @@ namespace loo
 		typedef glm::bool3 bvec3;
 		typedef glm::bool4 bvec4;
 
+		typedef glm::bool3 bool3;
+		typedef glm::bool4 bool4;
+
 		using glm::clamp;
 		using glm::min;
 		using glm::max;
@@ -429,7 +432,56 @@ namespace loo
 
 			return result;
 		}
+
+
+		/*
+		=================================================
+			Equals
+		=================================================
+		*/
+		template <typename T, uint I, glm::qualifier Q>
+		ND_ inline constexpr glm::vec<I, bool, Q>  Equals (const glm::vec<I, bool, Q> &lhs, const glm::vec<I, bool, Q> &rhs, const T &err = std::numeric_limits<T>::epsilon () * T (2))
+		{
+			glm::vec<I, bool, Q>	res;
+			for (uint i = 0; i < I; ++i) {
+				res[i] = Equals (lhs[i], rhs[i], err);
+			}
+			return res;
+		}
 	}
 }
+namespace std
+{
+#if LOO_FAST_HASH
+	template <typename T, uint I>
+	struct hash< loo::Vec<T, I> > {
+		ND_ size_t  operator () (const loo::Vec<T, I> &value) const {
+			return size_t (loo::HashOf (value.data (), value.size () * sizeof (T)));
+		}
+	};
 
+#else
+	template <typename T,glm::qualifier Q>
+	struct hash< glm::vec<2,T,Q> > {
+		ND_ size_t  operator () (const glm::vec<2, T, Q> &value) const {
+			return size_t (loo::HashOf (value.x) + loo::HashOf (value.y));
+		}
+	};
+
+	template <typename T, glm::qualifier Q>
+	struct hash< glm::vec<3, T, Q> > {
+		ND_ size_t  operator () (const glm::vec<3, T, Q> &value) const {
+			return size_t (loo::HashOf (value.x) + loo::HashOf (value.y) + loo::HashOf (value.z));
+		}
+	};
+
+	template <typename T, glm::qualifier Q>
+	struct hash< glm::vec<4, T, Q> > {
+		ND_ size_t  operator () (const glm::vec<4, T, Q> &value) const {
+			return size_t (loo::HashOf (value.x) + loo::HashOf (value.y) + loo::HashOf (value.z) + loo::HashOf (value.w));
+		}
+	};
+#endif
+
+}	// std
 #endif

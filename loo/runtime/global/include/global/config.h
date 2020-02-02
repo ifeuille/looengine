@@ -49,6 +49,6 @@
 #	define null				nullptr
 #endif
 
-
+#define LOO_UNUSED(x) (void)(x)
 
 #endif //LOO_CORE_CONFIG_HPP
