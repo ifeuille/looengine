@@ -1,0 +1,83 @@
+Performing C++ SOURCE FILE Test STD_CACHELINESIZE_SUPPORTED failed with the following output:
+Change Dir: E:/git/mine/loo/looengine/llvmbuild/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/work/tools/Nijia/ninja.exe" "cmTC_683cf"
+[1/2] Building CXX object CMakeFiles/cmTC_683cf.dir/src.cxx.obj
+FAILED: CMakeFiles/cmTC_683cf.dir/src.cxx.obj 
+C:\Strawberry\c\bin\c++.exe    -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -DSTD_CACHELINESIZE_SUPPORTED -std=c++14 -o CMakeFiles/cmTC_683cf.dir/src.cxx.obj -c src.cxx
+c++.exe: error: unrecognized command line option '-std=c++1z'
+ninja: build stopped: subcommand failed.
+
+Source file was:
+#include <new>
+	static constexpr size_t Align = std::hardware_destructive_interference_size;
+	int main () {
+		return 0;
+	}
+Performing C++ SOURCE FILE Test STD_BARRIER_SUPPORTED failed with the following output:
+Change Dir: E:/git/mine/loo/looengine/llvmbuild/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/work/tools/Nijia/ninja.exe" "cmTC_1a1a3"
+[1/2] Building CXX object CMakeFiles/cmTC_1a1a3.dir/src.cxx.obj
+FAILED: CMakeFiles/cmTC_1a1a3.dir/src.cxx.obj 
+C:\Strawberry\c\bin\c++.exe    -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -DSTD_BARRIER_SUPPORTED -std=c++14 -o CMakeFiles/cmTC_1a1a3.dir/src.cxx.obj -c src.cxx
+c++.exe: error: unrecognized command line option '-std=c++1z'
+ninja: build stopped: subcommand failed.
+
+Source file was:
+#include <barrier>
+	int main () {
+		std::barrier  temp;
+		return 0;
+	}
+Performing C++ SOURCE FILE Test HAS_HASHFN_HashArrayRepresentation failed with the following output:
+Change Dir: E:/git/mine/loo/looengine/llvmbuild/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/work/tools/Nijia/ninja.exe" "cmTC_d4aa3"
+[1/2] Building CXX object CMakeFiles/cmTC_d4aa3.dir/src.cxx.obj
+FAILED: CMakeFiles/cmTC_d4aa3.dir/src.cxx.obj 
+C:\Strawberry\c\bin\c++.exe    -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -DHAS_HASHFN_HashArrayRepresentation -std=c++14 -o CMakeFiles/cmTC_d4aa3.dir/src.cxx.obj -c src.cxx
+c++.exe: error: unrecognized command line option '-std=c++1z'
+ninja: build stopped: subcommand failed.
+
+Source file was:
+#include <functional>
+	int main () {
+		char buffer[128] = {};
+		(void)(std::_Hash_array_representation( reinterpret_cast<const unsigned char*>(buffer), std::size(buffer) ));
+		return 0;
+	}
+Performing C++ SOURCE FILE Test HAS_HASHFN_Murmur2OrCityhash failed with the following output:
+Change Dir: E:/git/mine/loo/looengine/llvmbuild/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/work/tools/Nijia/ninja.exe" "cmTC_17765"
+[1/2] Building CXX object CMakeFiles/cmTC_17765.dir/src.cxx.obj
+FAILED: CMakeFiles/cmTC_17765.dir/src.cxx.obj 
+C:\Strawberry\c\bin\c++.exe    -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -DHAS_HASHFN_Murmur2OrCityhash -std=c++14 -o CMakeFiles/cmTC_17765.dir/src.cxx.obj -c src.cxx
+c++.exe: error: unrecognized command line option '-std=c++1z'
+ninja: build stopped: subcommand failed.
+
+Source file was:
+#include <functional>
+	int main () {
+		char buffer[128] = {};
+		(void)(std::__murmur2_or_cityhash<size_t>()( buffer, std::size(buffer) ));
+		return 0;
+	}
+Performing C++ SOURCE FILE Test HAS_HASHFN_HashBytes failed with the following output:
+Change Dir: E:/git/mine/loo/looengine/llvmbuild/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/work/tools/Nijia/ninja.exe" "cmTC_18e92"
+[1/2] Building CXX object CMakeFiles/cmTC_18e92.dir/src.cxx.obj
+FAILED: CMakeFiles/cmTC_18e92.dir/src.cxx.obj 
+C:\Strawberry\c\bin\c++.exe    -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -DHAS_HASHFN_HashBytes -std=c++14 -o CMakeFiles/cmTC_18e92.dir/src.cxx.obj -c src.cxx
+c++.exe: error: unrecognized command line option '-std=c++1z'
+ninja: build stopped: subcommand failed.
+
+Source file was:
+#include <functional>
+	int main () {
+		char buffer[128] = {};
+		(void)(std::_Hash_bytes( buffer, std::size(buffer), 0 ));
+		return 0;
+	}

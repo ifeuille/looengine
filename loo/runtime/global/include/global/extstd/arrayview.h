@@ -2,6 +2,7 @@
 #pragma once
 #include "global/global.h"
 #include "global/template/hash.h"
+#include "global/extstd/type.h"
 
 namespace loo
 {
@@ -117,7 +118,7 @@ namespace std
 	{
 		ND_ size_t  operator () (const loo::ArrayView<T> &value) const
 		{
-#if FG_FAST_HASH == 0
+#if FG_FAST_HASH == 1
 			if /*constexpr*/ ( loo::IsPOD<T> )
 			{
 				return size_t(loo::HashOf( value.data(), value.size() * sizeof(T) ));

@@ -1,146 +1,149 @@
-// Copyright (c) 2018-2019,  Zhirnov Andrey. For more information see 'LICENSE'
 
 #include "vkfg/fg/renderstate.h"
 
 namespace loo
 {
-
-	/*
-	=================================================
-		ColorBuffer::operator ==
-	=================================================
-	*/
-	bool  RenderState::ColorBuffer::operator == (const ColorBuffer &rhs) const
+	namespace vkfg
 	{
-		return	blend == rhs.blend and
-			(blend ?
-			(srcBlendFactor == rhs.srcBlendFactor	and
-				dstBlendFactor == rhs.dstBlendFactor	and
-				blendOp == rhs.blendOp			and
-				 glm::all(glm::equal (colorMask, rhs.colorMask))) : true);
-	}
 
-	/*
-	=================================================
-		ColorBuffersState::operator ==
-	=================================================
-	*/
-	bool  RenderState::ColorBuffersState::operator == (const ColorBuffersState &rhs) const
-	{
-		return	buffers == rhs.buffers	and
-			logicOp == rhs.logicOp	and
-			blendColor == rhs.blendColor;
-	}
+		/*
+		=================================================
+			ColorBuffer::operator ==
+		=================================================
+		*/
+		bool  RenderState::ColorBuffer::operator == (const ColorBuffer &rhs) const
+		{
+			return	blend == rhs.blend and
+				(blend ?
+				(srcBlendFactor == rhs.srcBlendFactor	and
+					dstBlendFactor == rhs.dstBlendFactor	and
+					blendOp == rhs.blendOp			and
+					loo::math::All (loo::math::Equals (colorMask, rhs.colorMask))) : true);
+		}
 
-	/*
-	=================================================
-		StencilFaceState::operator ==
-	=================================================
-	*/
-	bool  RenderState::StencilFaceState::operator == (const StencilFaceState &rhs) const
-	{
-		return	failOp == rhs.failOp		and
-			depthFailOp == rhs.depthFailOp	and
-			passOp == rhs.passOp		and
-			compareOp == rhs.compareOp	and
-			reference == rhs.reference	and
-			writeMask == rhs.writeMask	and
-			compareMask == rhs.compareMask;
-	}
+		/*
+		=================================================
+			ColorBuffersState::operator ==
+		=================================================
+		*/
+		bool  RenderState::ColorBuffersState::operator == (const ColorBuffersState &rhs) const
+		{
+			return	buffers == rhs.buffers	and
+				logicOp == rhs.logicOp	and
+				blendColor == rhs.blendColor;
+		}
 
-	/*
-	=================================================
-		StencilBufferState::operator ==
-	=================================================
-	*/
-	bool  RenderState::StencilBufferState::operator == (const StencilBufferState &rhs) const
-	{
-		return	enabled == rhs.enabled and
-			(enabled ?
-			(front == rhs.front	and
-				back == rhs.back) : true);
-	}
+		/*
+		=================================================
+			StencilFaceState::operator ==
+		=================================================
+		*/
+		bool  RenderState::StencilFaceState::operator == (const StencilFaceState &rhs) const
+		{
+			return	failOp == rhs.failOp		and
+				depthFailOp == rhs.depthFailOp	and
+				passOp == rhs.passOp		and
+				compareOp == rhs.compareOp	and
+				reference == rhs.reference	and
+				writeMask == rhs.writeMask	and
+				compareMask == rhs.compareMask;
+		}
 
-	/*
-	=================================================
-		DepthBufferState::operator ==
-	=================================================
-	*/
-	bool  RenderState::DepthBufferState::operator == (const DepthBufferState &rhs) const
-	{
-		return	compareOp == rhs.compareOp		and
-			boundsEnabled == rhs.boundsEnabled and
-			(boundsEnabled ? glm::all (glm::equal (bounds, rhs.bounds)) : true) and
-			write == rhs.write			and
-			test == rhs.test;
-	}
+		/*
+		=================================================
+			StencilBufferState::operator ==
+		=================================================
+		*/
+		bool  RenderState::StencilBufferState::operator == (const StencilBufferState &rhs) const
+		{
+			return	enabled == rhs.enabled and
+				(enabled ?
+				(front == rhs.front	and
+					back == rhs.back) : true);
+		}
 
-	/*
-	=================================================
-		InputAssemblyState::operator ==
-	=================================================
-	*/
-	bool  RenderState::InputAssemblyState::operator == (const InputAssemblyState &rhs) const
-	{
-		return	topology == rhs.topology		and
-			primitiveRestart == rhs.primitiveRestart;
-	}
+		/*
+		=================================================
+			DepthBufferState::operator ==
+		=================================================
+		*/
+		bool  RenderState::DepthBufferState::operator == (const DepthBufferState &rhs) const
+		{
+			return	compareOp == rhs.compareOp		and
+				boundsEnabled == rhs.boundsEnabled and
+				(boundsEnabled ? loo::math::All (loo::math::Equals (bounds, rhs.bounds)) : true) and
+				write == rhs.write			and
+				test == rhs.test;
+		}
 
-	/*
-	=================================================
-		RasterizationState::operator ==
-	=================================================
-	*/
-	bool  RenderState::RasterizationState::operator == (const RasterizationState &rhs) const
-	{
-		return	polygonMode == rhs.polygonMode				and
-			math::Equals (lineWidth, rhs.lineWidth) and
-			math::Equals (depthBiasConstFactor, rhs.depthBiasConstFactor) and
-			math::Equals (depthBiasClamp, rhs.depthBiasClamp) and
-			math::Equals (depthBiasSlopeFactor, rhs.depthBiasSlopeFactor) and
-			depthBias == rhs.depthBias				and
-			depthClamp == rhs.depthClamp				and
-			rasterizerDiscard == rhs.rasterizerDiscard		and
-			cullMode == rhs.cullMode				and
-			frontFaceCCW == rhs.frontFaceCCW;
-	}
+		/*
+		=================================================
+			InputAssemblyState::operator ==
+		=================================================
+		*/
+		bool  RenderState::InputAssemblyState::operator == (const InputAssemblyState &rhs) const
+		{
+			return	topology == rhs.topology		and
+				primitiveRestart == rhs.primitiveRestart;
+		}
 
-	/*
-	=================================================
-		MultisampleState::operator ==
-	=================================================
-	*/
-	bool  RenderState::MultisampleState::operator == (const MultisampleState &rhs) const
-	{
-		return	sampleMask == rhs.sampleMask			and
-			samples == rhs.samples				and
-			math::Equals (minSampleShading, rhs.minSampleShading) and
-			sampleShading == rhs.sampleShading		and
-			alphaToCoverage == rhs.alphaToCoverage		and
-			alphaToOne == rhs.alphaToOne;
-	}
+		/*
+		=================================================
+			RasterizationState::operator ==
+		=================================================
+		*/
+		bool  RenderState::RasterizationState::operator == (const RasterizationState &rhs) const
+		{
+			return	polygonMode == rhs.polygonMode				and
+				math::Equals (lineWidth, rhs.lineWidth) and
+				math::Equals (depthBiasConstFactor, rhs.depthBiasConstFactor) and
+				math::Equals (depthBiasClamp, rhs.depthBiasClamp) and
+				math::Equals (depthBiasSlopeFactor, rhs.depthBiasSlopeFactor) and
+				depthBias == rhs.depthBias				and
+				depthClamp == rhs.depthClamp				and
+				rasterizerDiscard == rhs.rasterizerDiscard		and
+				cullMode == rhs.cullMode				and
+				frontFaceCCW == rhs.frontFaceCCW;
+		}
 
-	/*
-	=================================================
-		operator ==
-	=================================================
-	*/
-	bool  RenderState::operator == (const RenderState &rhs) const
-	{
-		return	color == rhs.color			and
-			depth == rhs.depth			and
-			stencil == rhs.stencil			and
-			inputAssembly == rhs.inputAssembly	and
-			rasterization == rhs.rasterization	and
-			multisample == rhs.multisample;
-	}
+		/*
+		=================================================
+			MultisampleState::operator ==
+		=================================================
+		*/
+		bool  RenderState::MultisampleState::operator == (const MultisampleState &rhs) const
+		{
+			return	sampleMask == rhs.sampleMask			and
+				samples == rhs.samples				and
+				math::Equals (minSampleShading, rhs.minSampleShading) and
+				sampleShading == rhs.sampleShading		and
+				alphaToCoverage == rhs.alphaToCoverage		and
+				alphaToOne == rhs.alphaToOne;
+		}
 
-}	// LOO
+		/*
+		=================================================
+			operator ==
+		=================================================
+		*/
+		bool  RenderState::operator == (const RenderState &rhs) const
+		{
+			return	color == rhs.color			and
+				depth == rhs.depth			and
+				stencil == rhs.stencil			and
+				inputAssembly == rhs.inputAssembly	and
+				rasterization == rhs.rasterization	and
+				multisample == rhs.multisample;
+		}
+
+	}	// LOO
+}
 
 
 namespace std
 {
 	using namespace loo;
+	using namespace loo::vkfg;
 
 	/*
 	=================================================

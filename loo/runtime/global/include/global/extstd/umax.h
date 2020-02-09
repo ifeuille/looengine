@@ -3,7 +3,10 @@
 */
 
 #pragma once
-#include "global/global.h"
+#include "global/config.h"
+#include "global/Compiler.h"
+#include "global/platform.h"
+
 
 namespace loo
 {
@@ -14,7 +17,7 @@ namespace loo
 			template <typename T>
 			ND_ constexpr operator const T () const
 			{
-				STATIC_ASSERT (T (~T (0)) > T (0));
+				STATIC_ASSERT (T (~T (0)) > T (0), "");
 				return T (~T (0));
 			}
 
@@ -31,9 +34,9 @@ namespace loo
 			}
 		};
 
-	}	// _fgc_hidden_
+	}	//_hidden_
 
 
 	static constexpr _hidden_::_UMax		UMax{};
 
-}	// FGC
+}

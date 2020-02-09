@@ -5,9 +5,34 @@
 #include "global/extstd/bytes.h"
 #include "global/extstd/fixedarray.h"
 #include "global/extstd/arrayview.h"
+#include "global/extstd/umax.h"
+
 
 namespace loo
 {
+
+	/*
+=================================================
+	Reverse
+=================================================
+*/
+	namespace _hidden_
+	{
+		template <typename Container>
+		class ReverseContainerView
+		{
+		private:
+			Container &		_container;
+
+		public:
+			explicit ReverseContainerView (Container& container) : _container{ container } {}
+
+			ND_ auto  begin () { return std::rbegin (_container); }
+			ND_ auto  end () { return std::rend (_container); }
+		};
+
+	}	// _hidden_
+
 
 	/*
 	=================================================
@@ -194,27 +219,7 @@ namespace loo
 		return ExponentialSearch (ArrayView<T>{arr}, key);
 	}
 
-	/*
-	=================================================
-		Reverse
-	=================================================
-	*/
-	namespace _hidden_
-	{
-		template <typename Container>
-		class ReverseContainerView
-		{
-		private:
-			Container &		_container;
 
-		public:
-			explicit ReverseContainerView (Container& container) : _container{ container } {}
-
-			ND_ auto  begin () { return std::rbegin (_container); }
-			ND_ auto  end () { return std::rend (_container); }
-		};
-
-	}	// _hidden_
 
 	template <typename Container>
 	ND_ auto  Reverse (Container& container)

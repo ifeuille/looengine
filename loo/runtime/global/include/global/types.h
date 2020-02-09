@@ -3,10 +3,10 @@
 #pragma once
 #include "global/global.h"
 #include "global/math/math.h"
+#include "global/math/vec.h"
+#include "global/math/rect.h"
 
-#include "global/extstd/umax.h"
 #include "global/extstd/ptr.h"
-#include "global/extstd/typetraits.h"
 #include "global/extstd/any.h"
 #include "global/extstd/byte.h"
 #include "global/extstd/cast.h"
@@ -34,10 +34,17 @@
 #include "global/extstd/operators.h"
 #include "global/extstd/arrayutils.h"
 #include "global/extstd/enumutils.h"
-#include "global/extstd/defaulttypes.h"
-
-
-
+#include "global/extstd/barrier.h"
+#include "global/extstd/memwriter.h"
+#include "global/extstd/linearallocator.h"
+#include "global/extstd/atomicptr.h"
+#include "global/extstd/dataracecheck.h"
+#include "global/extstd/dummylock.h"
+#include "global/extstd/lfdoublebuffer.h"
+#include "global/extstd/lffixedlist.h"
+#include "global/extstd/lffixedstack.h"
+#include "global/extstd/lfindexedpool.h"
+#include "global/extstd/spinlock.h"
 
 #include "global/template/hash.h"
 #include "global/template/flags.h"
@@ -45,10 +52,20 @@
 #include "global/template/external.h"
 #include "global/template/externalstring.h"
 
+#include "global/stream/stream.h"
+#include "global/stream/memstream.h"
+#include "global/stream/filestream.h"
+
+#include "global/algorithms/stringutils.h"
+#include "global/algorithms/stringparser.h"
 
 namespace loo
 {
 	typedef nonstd::byte byte;
+	typedef nonstd::string_view StringView;
+	template <typename T>
+	using Optional = nonstd::optional<T>;
+
 }
 
 // bit operators

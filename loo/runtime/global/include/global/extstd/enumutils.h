@@ -22,8 +22,8 @@ namespace loo
 	template <typename T>
 	ND_ LOO_FORCEINLINE constexpr NearUInt<T>  EnumToUInt (const T &value)
 	{
-		STATIC_ASSERT (IsScalarOrEnum<T>);
-		STATIC_ASSERT (sizeof (value) <= sizeof (NearUInt<T>));
+		STATIC_ASSERT (IsScalarOrEnum<T>, "");
+		STATIC_ASSERT (sizeof (value) <= sizeof (NearUInt<T>), "");
 
 		return NearUInt<T> (value);
 	}
@@ -36,8 +36,8 @@ namespace loo
 	template <typename T>
 	ND_ LOO_FORCEINLINE constexpr NearInt<T>  EnumToInt (const T &value)
 	{
-		STATIC_ASSERT (IsScalarOrEnum<T>);
-		STATIC_ASSERT (sizeof (value) <= sizeof (NearInt<T>));
+		STATIC_ASSERT (IsScalarOrEnum<T>, "");
+		STATIC_ASSERT (sizeof (value) <= sizeof (NearInt<T>), "");
 
 		return NearInt<T> (value);
 	}
@@ -52,8 +52,8 @@ namespace loo
 	template <typename T1, typename T2>
 	ND_ LOO_FORCEINLINE constexpr bool  EnumEq (const T1& lhs, const T2& rhs)
 	{
-		STATIC_ASSERT (IsScalarOrEnum< T1 >);
-		STATIC_ASSERT (IsScalarOrEnum< T2 >);
+		STATIC_ASSERT (IsScalarOrEnum< T1 >, "");
+		STATIC_ASSERT (IsScalarOrEnum< T2 >, "");
 		ASSERT (rhs != T2 (0));
 
 		return (EnumToUInt (lhs) & EnumToUInt (rhs)) == EnumToUInt (rhs);
@@ -69,11 +69,11 @@ namespace loo
 	template <typename T1, typename T2>
 	ND_ LOO_FORCEINLINE constexpr bool  EnumAny (const T1& lhs, const T2& rhs)
 	{
-		STATIC_ASSERT (IsScalarOrEnum< T1 >);
-		STATIC_ASSERT (IsScalarOrEnum< T2 >);
+		STATIC_ASSERT (IsScalarOrEnum< T1 >, "");
+		STATIC_ASSERT (IsScalarOrEnum< T2 >, "");
 		ASSERT (rhs != T2 (0));
 
 		return !!(EnumToUInt (lhs) & EnumToUInt (rhs));
 	}
 
-}	// FGC
+}

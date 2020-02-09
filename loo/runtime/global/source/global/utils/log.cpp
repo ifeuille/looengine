@@ -38,9 +38,9 @@ namespace utils {
 		//UTILS_DEFINE_TLS(ostream::Buffer) ostream::mData;
 
 		
-		void ostream::Buffer::advance (ssize_t n) noexcept {
+		void ostream::Buffer::advance (std::int64_t n) noexcept {
 			if (n > 0) {
-				size_t written = n < (ssize_t)size ? size_t (n) : size;
+				size_t written = n < (std::int64_t)size ? size_t (n) : size;
 				curr += written;
 				size -= written;
 			}

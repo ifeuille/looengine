@@ -73,7 +73,7 @@ void ReflectedEnum::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_p
   os << "namespace detail\n{\n";
 
   os << "template<>\n"
-     << "LooEnum const *\n"
+     << "inline LooEnum const *\n"
      << "LooGetEnumImpl(LooEnumTag<" << type << ">) noexcept\n"
      << "{\n"
      << "static detail::LooEnumBuilder<" << type << ", " << m_constnatDecls.size()
@@ -107,7 +107,7 @@ void ReflectedEnum::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_p
   /* GetType function */
   /* os << "template<> struct TypeResolver<" << type << ">;\n"; */
   os << "template<>\n"
-     << "LooType const *\n"
+     << "inline LooType const *\n"
      /* << "TypeResolver<" << type << ">::Get() noexcept\n" */
      /* << "GetType<" << type << ">() noexcept\n" */
      << "LooGetTypeImpl(LooTypeTag<" << type << ">) noexcept\n"

@@ -1,4 +1,3 @@
-// Copyright (c) 2018-2019,  Zhirnov Andrey. For more information see 'LICENSE'
 
 #pragma once
 #include "global/global.h"
@@ -15,7 +14,7 @@ namespace loo
 	template <typename T>
 	struct Bytes
 	{
-		STATIC_ASSERT (IsInteger<T> and IsScalar<T>, "must be integer scalar");
+		STATIC_ASSERT (IsInteger<T> and IsScalar<T>,"");
 
 		// variables
 	private:

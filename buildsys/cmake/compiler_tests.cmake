@@ -79,6 +79,21 @@ if (HAS_HASHFN_HashBytes)
 endif ()
 
 #------------------------------------------------------------------------------
+check_cxx_source_compiles(
+	"#include <new>
+	static constexpr size_t Align = std::hardware_destructive_interference_size;
+	int main () {
+		return 0;
+	}"
+	STD_CACHELINESIZE_SUPPORTED )
+if (STD_CACHELINESIZE_SUPPORTED)
+	set( LOO_COMPILER_DEFINITIONS "${LOO_COMPILER_DEFINITIONS}" "LOO_CACHE_LINE=std::hardware_destructive_interference_size" )
+else ()
+	set( LOO_COMPILER_DEFINITIONS "${LOO_COMPILER_DEFINITIONS}" "LOO_CACHE_LINE=64" )
+endif ()
+
+message("LOO_CACHE_LINE=${LOO_CACHE_LINE}")
+#------------------------------------------------------------------------------
 
 set( CMAKE_REQUIRED_FLAGS "" )
 set( LOO_COMPILER_DEFINITIONS "${LOO_COMPILER_DEFINITIONS}" CACHE INTERNAL "" FORCE )

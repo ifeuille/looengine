@@ -5,6 +5,7 @@
 #include "global/extstd/arrayview.h"
 #include "global/extstd/memutils.h"
 
+
 namespace loo
 {
 
@@ -37,7 +38,7 @@ namespace loo
 		{
 			DEBUG_ONLY (memset (data (), 0, sizeof (T) * capacity ()));
 
-			STATIC_ASSERT (alignof(Self) % alignof(T) == 0);
+			STATIC_ASSERT (alignof(Self) % alignof(T) == 0, "");
 		}
 
 		constexpr FixedArray (std::initializer_list<T> list) : FixedArray ()
@@ -266,7 +267,7 @@ namespace loo
 	private:
 		ND_ LOO_FORCEINLINE bool  _IsMemoryAliased (const_iterator beginIter, const_iterator endIter) const
 		{
-			return IsIntersects (begin (), end (), beginIter, endIter);
+			return loo::math::IsIntersects (begin (), end (), beginIter, endIter);
 		}
 	};
 

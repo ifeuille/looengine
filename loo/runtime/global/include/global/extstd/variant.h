@@ -129,25 +129,25 @@ struct in_place_index_tag {};
 struct in_place_t {};
 
 template< class T >
-inline in_place_t in_place( detail::in_place_type_tag<T> = detail::in_place_type_tag<T>() )
+inline in_place_t in_place( nonstd::detail::in_place_type_tag<T> = nonstd::detail::in_place_type_tag<T>() )
 {
     return in_place_t();
 }
 
 template< std::size_t K >
-inline in_place_t in_place( detail::in_place_index_tag<K> = detail::in_place_index_tag<K>() )
+inline in_place_t in_place( nonstd::detail::in_place_index_tag<K> = nonstd::detail::in_place_index_tag<K>() )
 {
     return in_place_t();
 }
 
 template< class T >
-inline in_place_t in_place_type( detail::in_place_type_tag<T> = detail::in_place_type_tag<T>() )
+inline in_place_t in_place_type( nonstd::detail::in_place_type_tag<T> = nonstd::detail::in_place_type_tag<T>() )
 {
     return in_place_t();
 }
 
 template< std::size_t K >
-inline in_place_t in_place_index( detail::in_place_index_tag<K> = detail::in_place_index_tag<K>() )
+inline in_place_t in_place_index( nonstd::detail::in_place_index_tag<K> = nonstd::detail::in_place_index_tag<K>() )
 {
     return in_place_t();
 }
@@ -225,8 +225,8 @@ namespace nonstd {
 
 // variant-lite type and visitor argument count configuration (script/generate_header.py):
 
-#define variant_CONFIG_MAX_TYPE_COUNT  16
-#define variant_CONFIG_MAX_VISITOR_ARG_COUNT  5
+#define variant_CONFIG_MAX_TYPE_COUNT  32
+#define variant_CONFIG_MAX_VISITOR_ARG_COUNT  10
 
 // variant-lite alignment configuration:
 
@@ -247,16 +247,17 @@ namespace nonstd {
 
 // Compiler versions:
 //
-// MSVC++ 6.0  _MSC_VER == 1200 (Visual Studio 6.0)
-// MSVC++ 7.0  _MSC_VER == 1300 (Visual Studio .NET 2002)
-// MSVC++ 7.1  _MSC_VER == 1310 (Visual Studio .NET 2003)
-// MSVC++ 8.0  _MSC_VER == 1400 (Visual Studio 2005)
-// MSVC++ 9.0  _MSC_VER == 1500 (Visual Studio 2008)
-// MSVC++ 10.0 _MSC_VER == 1600 (Visual Studio 2010)
-// MSVC++ 11.0 _MSC_VER == 1700 (Visual Studio 2012)
-// MSVC++ 12.0 _MSC_VER == 1800 (Visual Studio 2013)
-// MSVC++ 14.0 _MSC_VER == 1900 (Visual Studio 2015)
-// MSVC++ 14.1 _MSC_VER >= 1910 (Visual Studio 2017)
+// MSVC++  6.0  _MSC_VER == 1200  variant_COMPILER_MSVC_VERSION ==  60  (Visual Studio 6.0)
+// MSVC++  7.0  _MSC_VER == 1300  variant_COMPILER_MSVC_VERSION ==  70  (Visual Studio .NET 2002)
+// MSVC++  7.1  _MSC_VER == 1310  variant_COMPILER_MSVC_VERSION ==  71  (Visual Studio .NET 2003)
+// MSVC++  8.0  _MSC_VER == 1400  variant_COMPILER_MSVC_VERSION ==  80  (Visual Studio 2005)
+// MSVC++  9.0  _MSC_VER == 1500  variant_COMPILER_MSVC_VERSION ==  90  (Visual Studio 2008)
+// MSVC++ 10.0  _MSC_VER == 1600  variant_COMPILER_MSVC_VERSION == 100  (Visual Studio 2010)
+// MSVC++ 11.0  _MSC_VER == 1700  variant_COMPILER_MSVC_VERSION == 110  (Visual Studio 2012)
+// MSVC++ 12.0  _MSC_VER == 1800  variant_COMPILER_MSVC_VERSION == 120  (Visual Studio 2013)
+// MSVC++ 14.0  _MSC_VER == 1900  variant_COMPILER_MSVC_VERSION == 140  (Visual Studio 2015)
+// MSVC++ 14.1  _MSC_VER >= 1910  variant_COMPILER_MSVC_VERSION == 141  (Visual Studio 2017)
+// MSVC++ 14.2  _MSC_VER >= 1920  variant_COMPILER_MSVC_VERSION == 142  (Visual Studio 2019)
 
 #if defined(_MSC_VER ) && !defined(__clang__)
 # define variant_COMPILER_MSVC_VER      (_MSC_VER )
@@ -519,10 +520,10 @@ struct is_nothrow_swappable
 // is [nothow] swappable:
 
 template< typename T >
-struct is_swappable : decltype( detail::is_swappable::test<T>(0) ){};
+struct is_swappable : decltype( nonstd::variants::std17::detail::is_swappable::test<T>(0) ){};
 
 template< typename T >
-struct is_nothrow_swappable : decltype( detail::is_nothrow_swappable::test<T>(0) ){};
+struct is_nothrow_swappable : decltype( nonstd::variants::std17::detail::is_nothrow_swappable::test<T>(0) ){};
 
 #endif // variant_CPP17_OR_GREATER
 
@@ -538,22 +539,38 @@ namespace detail {
 
 // typelist:
 
-#define variant_TL1( T1 ) detail::typelist< T1, detail::nulltype >
-#define variant_TL2( T1, T2) detail::typelist< T1, variant_TL1( T2) >
-#define variant_TL3( T1, T2, T3) detail::typelist< T1, variant_TL2( T2, T3) >
-#define variant_TL4( T1, T2, T3, T4) detail::typelist< T1, variant_TL3( T2, T3, T4) >
-#define variant_TL5( T1, T2, T3, T4, T5) detail::typelist< T1, variant_TL4( T2, T3, T4, T5) >
-#define variant_TL6( T1, T2, T3, T4, T5, T6) detail::typelist< T1, variant_TL5( T2, T3, T4, T5, T6) >
-#define variant_TL7( T1, T2, T3, T4, T5, T6, T7) detail::typelist< T1, variant_TL6( T2, T3, T4, T5, T6, T7) >
-#define variant_TL8( T1, T2, T3, T4, T5, T6, T7, T8) detail::typelist< T1, variant_TL7( T2, T3, T4, T5, T6, T7, T8) >
-#define variant_TL9( T1, T2, T3, T4, T5, T6, T7, T8, T9) detail::typelist< T1, variant_TL8( T2, T3, T4, T5, T6, T7, T8, T9) >
-#define variant_TL10( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) detail::typelist< T1, variant_TL9( T2, T3, T4, T5, T6, T7, T8, T9, T10) >
-#define variant_TL11( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) detail::typelist< T1, variant_TL10( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) >
-#define variant_TL12( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) detail::typelist< T1, variant_TL11( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) >
-#define variant_TL13( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) detail::typelist< T1, variant_TL12( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) >
-#define variant_TL14( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) detail::typelist< T1, variant_TL13( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) >
-#define variant_TL15( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) detail::typelist< T1, variant_TL14( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) >
-#define variant_TL16( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) detail::typelist< T1, variant_TL15( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) >
+#define variant_TL1( T1 ) nonstd::variants::detail::typelist< T1, nonstd::variants::detail::nulltype >
+#define variant_TL2( T1, T2) nonstd::variants::detail::typelist< T1, variant_TL1( T2) >
+#define variant_TL3( T1, T2, T3) nonstd::variants::detail::typelist< T1, variant_TL2( T2, T3) >
+#define variant_TL4( T1, T2, T3, T4) nonstd::variants::detail::typelist< T1, variant_TL3( T2, T3, T4) >
+#define variant_TL5( T1, T2, T3, T4, T5) nonstd::variants::detail::typelist< T1, variant_TL4( T2, T3, T4, T5) >
+#define variant_TL6( T1, T2, T3, T4, T5, T6) nonstd::variants::detail::typelist< T1, variant_TL5( T2, T3, T4, T5, T6) >
+#define variant_TL7( T1, T2, T3, T4, T5, T6, T7) nonstd::variants::detail::typelist< T1, variant_TL6( T2, T3, T4, T5, T6, T7) >
+#define variant_TL8( T1, T2, T3, T4, T5, T6, T7, T8) nonstd::variants::detail::typelist< T1, variant_TL7( T2, T3, T4, T5, T6, T7, T8) >
+#define variant_TL9( T1, T2, T3, T4, T5, T6, T7, T8, T9) nonstd::variants::detail::typelist< T1, variant_TL8( T2, T3, T4, T5, T6, T7, T8, T9) >
+#define variant_TL10( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) nonstd::variants::detail::typelist< T1, variant_TL9( T2, T3, T4, T5, T6, T7, T8, T9, T10) >
+#define variant_TL11( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) nonstd::variants::detail::typelist< T1, variant_TL10( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11) >
+#define variant_TL12( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) nonstd::variants::detail::typelist< T1, variant_TL11( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) >
+#define variant_TL13( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) nonstd::variants::detail::typelist< T1, variant_TL12( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13) >
+#define variant_TL14( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) nonstd::variants::detail::typelist< T1, variant_TL13( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14) >
+#define variant_TL15( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) nonstd::variants::detail::typelist< T1, variant_TL14( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) >
+#define variant_TL16( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) nonstd::variants::detail::typelist< T1, variant_TL15( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) >
+#define variant_TL17( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) nonstd::variants::detail::typelist< T1, variant_TL16( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) >
+#define variant_TL18( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18) nonstd::variants::detail::typelist< T1, variant_TL17( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18) >
+#define variant_TL19( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19) nonstd::variants::detail::typelist< T1, variant_TL18( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19) >
+#define variant_TL20( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20) nonstd::variants::detail::typelist< T1, variant_TL19( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20) >
+#define variant_TL21( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21) nonstd::variants::detail::typelist< T1, variant_TL20( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21) >
+#define variant_TL22( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22) nonstd::variants::detail::typelist< T1, variant_TL21( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22) >
+#define variant_TL23( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23) nonstd::variants::detail::typelist< T1, variant_TL22( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23) >
+#define variant_TL24( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24) nonstd::variants::detail::typelist< T1, variant_TL23( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24) >
+#define variant_TL25( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25) nonstd::variants::detail::typelist< T1, variant_TL24( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25) >
+#define variant_TL26( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26) nonstd::variants::detail::typelist< T1, variant_TL25( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26) >
+#define variant_TL27( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27) nonstd::variants::detail::typelist< T1, variant_TL26( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27) >
+#define variant_TL28( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28) nonstd::variants::detail::typelist< T1, variant_TL27( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28) >
+#define variant_TL29( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29) nonstd::variants::detail::typelist< T1, variant_TL28( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29) >
+#define variant_TL30( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30) nonstd::variants::detail::typelist< T1, variant_TL29( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30) >
+#define variant_TL31( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31) nonstd::variants::detail::typelist< T1, variant_TL30( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31) >
+#define variant_TL32( T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32) nonstd::variants::detail::typelist< T1, variant_TL31( T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32) >
 
 
 // variant parameter unused type tags:
@@ -606,6 +623,22 @@ struct S12{}; typedef TX<S12> T12;
 struct S13{}; typedef TX<S13> T13;
 struct S14{}; typedef TX<S14> T14;
 struct S15{}; typedef TX<S15> T15;
+struct S16{}; typedef TX<S16> T16;
+struct S17{}; typedef TX<S17> T17;
+struct S18{}; typedef TX<S18> T18;
+struct S19{}; typedef TX<S19> T19;
+struct S20{}; typedef TX<S20> T20;
+struct S21{}; typedef TX<S21> T21;
+struct S22{}; typedef TX<S22> T22;
+struct S23{}; typedef TX<S23> T23;
+struct S24{}; typedef TX<S24> T24;
+struct S25{}; typedef TX<S25> T25;
+struct S26{}; typedef TX<S26> T26;
+struct S27{}; typedef TX<S27> T27;
+struct S28{}; typedef TX<S28> T28;
+struct S29{}; typedef TX<S29> T29;
+struct S30{}; typedef TX<S30> T30;
+struct S31{}; typedef TX<S31> T31;
 
 
 struct nulltype{};
@@ -692,6 +725,22 @@ template<> struct typelist_size< T12 > { enum V { value = 0 }; };
 template<> struct typelist_size< T13 > { enum V { value = 0 }; };
 template<> struct typelist_size< T14 > { enum V { value = 0 }; };
 template<> struct typelist_size< T15 > { enum V { value = 0 }; };
+template<> struct typelist_size< T16 > { enum V { value = 0 }; };
+template<> struct typelist_size< T17 > { enum V { value = 0 }; };
+template<> struct typelist_size< T18 > { enum V { value = 0 }; };
+template<> struct typelist_size< T19 > { enum V { value = 0 }; };
+template<> struct typelist_size< T20 > { enum V { value = 0 }; };
+template<> struct typelist_size< T21 > { enum V { value = 0 }; };
+template<> struct typelist_size< T22 > { enum V { value = 0 }; };
+template<> struct typelist_size< T23 > { enum V { value = 0 }; };
+template<> struct typelist_size< T24 > { enum V { value = 0 }; };
+template<> struct typelist_size< T25 > { enum V { value = 0 }; };
+template<> struct typelist_size< T26 > { enum V { value = 0 }; };
+template<> struct typelist_size< T27 > { enum V { value = 0 }; };
+template<> struct typelist_size< T28 > { enum V { value = 0 }; };
+template<> struct typelist_size< T29 > { enum V { value = 0 }; };
+template<> struct typelist_size< T30 > { enum V { value = 0 }; };
+template<> struct typelist_size< T31 > { enum V { value = 0 }; };
 
 
 template<> struct typelist_size< nulltype > { enum V { value = 0 } ; };
@@ -811,7 +860,7 @@ union max_align_t
 // Determine POD type to use for alignment:
 
 #define variant_ALIGN_AS( to_align ) \
-    typename detail::type_of_size< detail::alignment_types, detail::alignment_of< to_align >::value >::type
+    typename nonstd::variants::detail::type_of_size< nonstd::variants::detail::alignment_types, nonstd::variants::detail::alignment_of< to_align >::value >::type
 
 template< typename T >
 struct alignment_of;
@@ -915,6 +964,22 @@ inline std::size_t hash( T12 const & ) { return 0; }
 inline std::size_t hash( T13 const & ) { return 0; }
 inline std::size_t hash( T14 const & ) { return 0; }
 inline std::size_t hash( T15 const & ) { return 0; }
+inline std::size_t hash( T16 const & ) { return 0; }
+inline std::size_t hash( T17 const & ) { return 0; }
+inline std::size_t hash( T18 const & ) { return 0; }
+inline std::size_t hash( T19 const & ) { return 0; }
+inline std::size_t hash( T20 const & ) { return 0; }
+inline std::size_t hash( T21 const & ) { return 0; }
+inline std::size_t hash( T22 const & ) { return 0; }
+inline std::size_t hash( T23 const & ) { return 0; }
+inline std::size_t hash( T24 const & ) { return 0; }
+inline std::size_t hash( T25 const & ) { return 0; }
+inline std::size_t hash( T26 const & ) { return 0; }
+inline std::size_t hash( T27 const & ) { return 0; }
+inline std::size_t hash( T28 const & ) { return 0; }
+inline std::size_t hash( T29 const & ) { return 0; }
+inline std::size_t hash( T30 const & ) { return 0; }
+inline std::size_t hash( T31 const & ) { return 0; }
 
 
 #endif // variant_CPP11_OR_GREATER
@@ -923,11 +988,11 @@ inline std::size_t hash( T15 const & ) { return 0; }
 
 
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 struct helper
 {
     typedef signed char type_index_t;
-    typedef variant_TL16( T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15 ) variant_types;
+    typedef variant_TL32( T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 ) variant_types;
 
     template< class U >
     static U * as( void * data )
@@ -966,6 +1031,22 @@ struct helper
         case 13: as<T13>( data )->~T13(); break;
         case 14: as<T14>( data )->~T14(); break;
         case 15: as<T15>( data )->~T15(); break;
+        case 16: as<T16>( data )->~T16(); break;
+        case 17: as<T17>( data )->~T17(); break;
+        case 18: as<T18>( data )->~T18(); break;
+        case 19: as<T19>( data )->~T19(); break;
+        case 20: as<T20>( data )->~T20(); break;
+        case 21: as<T21>( data )->~T21(); break;
+        case 22: as<T22>( data )->~T22(); break;
+        case 23: as<T23>( data )->~T23(); break;
+        case 24: as<T24>( data )->~T24(); break;
+        case 25: as<T25>( data )->~T25(); break;
+        case 26: as<T26>( data )->~T26(); break;
+        case 27: as<T27>( data )->~T27(); break;
+        case 28: as<T28>( data )->~T28(); break;
+        case 29: as<T29>( data )->~T29(); break;
+        case 30: as<T30>( data )->~T30(); break;
+        case 31: as<T31>( data )->~T31(); break;
         
         }
     }
@@ -976,13 +1057,13 @@ struct helper
     {
         new( data ) T( std::forward<Args>(args)... );
 
-        return to_index_t( detail::typelist_index_of< variant_types, T>::value );
+        return to_index_t( nonstd::variants::detail::typelist_index_of< variant_types, T>::value );
     }
 
     template< std::size_t K, class... Args >
     static type_index_t construct_i( void * data, Args&&... args )
     {
-        using type = typename detail::typelist_type_at< variant_types, K >::type;
+        using type = typename nonstd::variants::detail::typelist_type_at< variant_types, K >::type;
 
         construct_t< type >( data, std::forward<Args>(args)... );
 
@@ -1009,6 +1090,22 @@ struct helper
         case 13: new( to_value ) T13( std::move( *as<T13>( from_value ) ) ); break;
         case 14: new( to_value ) T14( std::move( *as<T14>( from_value ) ) ); break;
         case 15: new( to_value ) T15( std::move( *as<T15>( from_value ) ) ); break;
+        case 16: new( to_value ) T16( std::move( *as<T16>( from_value ) ) ); break;
+        case 17: new( to_value ) T17( std::move( *as<T17>( from_value ) ) ); break;
+        case 18: new( to_value ) T18( std::move( *as<T18>( from_value ) ) ); break;
+        case 19: new( to_value ) T19( std::move( *as<T19>( from_value ) ) ); break;
+        case 20: new( to_value ) T20( std::move( *as<T20>( from_value ) ) ); break;
+        case 21: new( to_value ) T21( std::move( *as<T21>( from_value ) ) ); break;
+        case 22: new( to_value ) T22( std::move( *as<T22>( from_value ) ) ); break;
+        case 23: new( to_value ) T23( std::move( *as<T23>( from_value ) ) ); break;
+        case 24: new( to_value ) T24( std::move( *as<T24>( from_value ) ) ); break;
+        case 25: new( to_value ) T25( std::move( *as<T25>( from_value ) ) ); break;
+        case 26: new( to_value ) T26( std::move( *as<T26>( from_value ) ) ); break;
+        case 27: new( to_value ) T27( std::move( *as<T27>( from_value ) ) ); break;
+        case 28: new( to_value ) T28( std::move( *as<T28>( from_value ) ) ); break;
+        case 29: new( to_value ) T29( std::move( *as<T29>( from_value ) ) ); break;
+        case 30: new( to_value ) T30( std::move( *as<T30>( from_value ) ) ); break;
+        case 31: new( to_value ) T31( std::move( *as<T31>( from_value ) ) ); break;
         
         }
         return from_index;
@@ -1034,6 +1131,22 @@ struct helper
         case 13: *as<T13>( to_value ) = std::move( *as<T13>( from_value ) ); break;
         case 14: *as<T14>( to_value ) = std::move( *as<T14>( from_value ) ); break;
         case 15: *as<T15>( to_value ) = std::move( *as<T15>( from_value ) ); break;
+        case 16: *as<T16>( to_value ) = std::move( *as<T16>( from_value ) ); break;
+        case 17: *as<T17>( to_value ) = std::move( *as<T17>( from_value ) ); break;
+        case 18: *as<T18>( to_value ) = std::move( *as<T18>( from_value ) ); break;
+        case 19: *as<T19>( to_value ) = std::move( *as<T19>( from_value ) ); break;
+        case 20: *as<T20>( to_value ) = std::move( *as<T20>( from_value ) ); break;
+        case 21: *as<T21>( to_value ) = std::move( *as<T21>( from_value ) ); break;
+        case 22: *as<T22>( to_value ) = std::move( *as<T22>( from_value ) ); break;
+        case 23: *as<T23>( to_value ) = std::move( *as<T23>( from_value ) ); break;
+        case 24: *as<T24>( to_value ) = std::move( *as<T24>( from_value ) ); break;
+        case 25: *as<T25>( to_value ) = std::move( *as<T25>( from_value ) ); break;
+        case 26: *as<T26>( to_value ) = std::move( *as<T26>( from_value ) ); break;
+        case 27: *as<T27>( to_value ) = std::move( *as<T27>( from_value ) ); break;
+        case 28: *as<T28>( to_value ) = std::move( *as<T28>( from_value ) ); break;
+        case 29: *as<T29>( to_value ) = std::move( *as<T29>( from_value ) ); break;
+        case 30: *as<T30>( to_value ) = std::move( *as<T30>( from_value ) ); break;
+        case 31: *as<T31>( to_value ) = std::move( *as<T31>( from_value ) ); break;
         
         }
         return from_index;
@@ -1060,6 +1173,22 @@ struct helper
         case 13: new( to_value ) T13( *as<T13>( from_value ) ); break;
         case 14: new( to_value ) T14( *as<T14>( from_value ) ); break;
         case 15: new( to_value ) T15( *as<T15>( from_value ) ); break;
+        case 16: new( to_value ) T16( *as<T16>( from_value ) ); break;
+        case 17: new( to_value ) T17( *as<T17>( from_value ) ); break;
+        case 18: new( to_value ) T18( *as<T18>( from_value ) ); break;
+        case 19: new( to_value ) T19( *as<T19>( from_value ) ); break;
+        case 20: new( to_value ) T20( *as<T20>( from_value ) ); break;
+        case 21: new( to_value ) T21( *as<T21>( from_value ) ); break;
+        case 22: new( to_value ) T22( *as<T22>( from_value ) ); break;
+        case 23: new( to_value ) T23( *as<T23>( from_value ) ); break;
+        case 24: new( to_value ) T24( *as<T24>( from_value ) ); break;
+        case 25: new( to_value ) T25( *as<T25>( from_value ) ); break;
+        case 26: new( to_value ) T26( *as<T26>( from_value ) ); break;
+        case 27: new( to_value ) T27( *as<T27>( from_value ) ); break;
+        case 28: new( to_value ) T28( *as<T28>( from_value ) ); break;
+        case 29: new( to_value ) T29( *as<T29>( from_value ) ); break;
+        case 30: new( to_value ) T30( *as<T30>( from_value ) ); break;
+        case 31: new( to_value ) T31( *as<T31>( from_value ) ); break;
         
         }
         return from_index;
@@ -1085,6 +1214,22 @@ struct helper
         case 13: *as<T13>( to_value ) = *as<T13>( from_value ); break;
         case 14: *as<T14>( to_value ) = *as<T14>( from_value ); break;
         case 15: *as<T15>( to_value ) = *as<T15>( from_value ); break;
+        case 16: *as<T16>( to_value ) = *as<T16>( from_value ); break;
+        case 17: *as<T17>( to_value ) = *as<T17>( from_value ); break;
+        case 18: *as<T18>( to_value ) = *as<T18>( from_value ); break;
+        case 19: *as<T19>( to_value ) = *as<T19>( from_value ); break;
+        case 20: *as<T20>( to_value ) = *as<T20>( from_value ); break;
+        case 21: *as<T21>( to_value ) = *as<T21>( from_value ); break;
+        case 22: *as<T22>( to_value ) = *as<T22>( from_value ); break;
+        case 23: *as<T23>( to_value ) = *as<T23>( from_value ); break;
+        case 24: *as<T24>( to_value ) = *as<T24>( from_value ); break;
+        case 25: *as<T25>( to_value ) = *as<T25>( from_value ); break;
+        case 26: *as<T26>( to_value ) = *as<T26>( from_value ); break;
+        case 27: *as<T27>( to_value ) = *as<T27>( from_value ); break;
+        case 28: *as<T28>( to_value ) = *as<T28>( from_value ); break;
+        case 29: *as<T29>( to_value ) = *as<T29>( from_value ); break;
+        case 30: *as<T30>( to_value ) = *as<T30>( from_value ); break;
+        case 31: *as<T31>( to_value ) = *as<T31>( from_value ); break;
         
         }
         return from_index;
@@ -1097,7 +1242,7 @@ struct helper
 // Variant:
 //
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 class variant;
 
 // 19.7.8 Class monostate
@@ -1120,10 +1265,10 @@ inline variant_constexpr bool operator!=( monostate, monostate ) variant_noexcep
 template< class T >
 struct variant_size; /* undefined */
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-struct variant_size< variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+struct variant_size< variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >
 {
-    enum _ { value = detail::typelist_size< variant_TL16(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15) >::value };
+    enum _ { value = nonstd::variants::detail::typelist_size< variant_TL32(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31) >::value };
 };
 
 #if variant_CPP14_OR_GREATER
@@ -1140,10 +1285,10 @@ constexpr std::size_t variant_size_v = variant_size<T>::value;
 template< std::size_t K, class T >
 struct variant_alternative; /* undefined */
 
-template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-struct variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >
+template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+struct variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >
 {
-    typedef typename detail::typelist_type_at<variant_TL16(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15), K>::type type;
+    typedef typename nonstd::variants::detail::typelist_type_at<variant_TL32(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31), K>::type type;
 };
 
 #if variant_CPP11_OR_GREATER
@@ -1189,26 +1334,42 @@ public:
 
 template<
     class T0,
-    class T1 = detail::T1,
-    class T2 = detail::T2,
-    class T3 = detail::T3,
-    class T4 = detail::T4,
-    class T5 = detail::T5,
-    class T6 = detail::T6,
-    class T7 = detail::T7,
-    class T8 = detail::T8,
-    class T9 = detail::T9,
-    class T10 = detail::T10,
-    class T11 = detail::T11,
-    class T12 = detail::T12,
-    class T13 = detail::T13,
-    class T14 = detail::T14,
-    class T15 = detail::T15
+    class T1 = nonstd::variants::detail::T1,
+    class T2 = nonstd::variants::detail::T2,
+    class T3 = nonstd::variants::detail::T3,
+    class T4 = nonstd::variants::detail::T4,
+    class T5 = nonstd::variants::detail::T5,
+    class T6 = nonstd::variants::detail::T6,
+    class T7 = nonstd::variants::detail::T7,
+    class T8 = nonstd::variants::detail::T8,
+    class T9 = nonstd::variants::detail::T9,
+    class T10 = nonstd::variants::detail::T10,
+    class T11 = nonstd::variants::detail::T11,
+    class T12 = nonstd::variants::detail::T12,
+    class T13 = nonstd::variants::detail::T13,
+    class T14 = nonstd::variants::detail::T14,
+    class T15 = nonstd::variants::detail::T15,
+    class T16 = nonstd::variants::detail::T16,
+    class T17 = nonstd::variants::detail::T17,
+    class T18 = nonstd::variants::detail::T18,
+    class T19 = nonstd::variants::detail::T19,
+    class T20 = nonstd::variants::detail::T20,
+    class T21 = nonstd::variants::detail::T21,
+    class T22 = nonstd::variants::detail::T22,
+    class T23 = nonstd::variants::detail::T23,
+    class T24 = nonstd::variants::detail::T24,
+    class T25 = nonstd::variants::detail::T25,
+    class T26 = nonstd::variants::detail::T26,
+    class T27 = nonstd::variants::detail::T27,
+    class T28 = nonstd::variants::detail::T28,
+    class T29 = nonstd::variants::detail::T29,
+    class T30 = nonstd::variants::detail::T30,
+    class T31 = nonstd::variants::detail::T31
     >
 class variant
 {
-    typedef detail::helper< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15 > helper_type;
-    typedef variant_TL16( T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15 ) variant_types;
+    typedef nonstd::variants::detail::helper< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 > helper_type;
+    typedef variant_TL32( T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31 ) variant_types;
 
 public:
     // 19.7.3.1 Constructors
@@ -1231,6 +1392,22 @@ public:
     variant( T13 const & t13 ) : type_index( 13 ) { new( ptr() ) T13( t13 ); }
     variant( T14 const & t14 ) : type_index( 14 ) { new( ptr() ) T14( t14 ); }
     variant( T15 const & t15 ) : type_index( 15 ) { new( ptr() ) T15( t15 ); }
+    variant( T16 const & t16 ) : type_index( 16 ) { new( ptr() ) T16( t16 ); }
+    variant( T17 const & t17 ) : type_index( 17 ) { new( ptr() ) T17( t17 ); }
+    variant( T18 const & t18 ) : type_index( 18 ) { new( ptr() ) T18( t18 ); }
+    variant( T19 const & t19 ) : type_index( 19 ) { new( ptr() ) T19( t19 ); }
+    variant( T20 const & t20 ) : type_index( 20 ) { new( ptr() ) T20( t20 ); }
+    variant( T21 const & t21 ) : type_index( 21 ) { new( ptr() ) T21( t21 ); }
+    variant( T22 const & t22 ) : type_index( 22 ) { new( ptr() ) T22( t22 ); }
+    variant( T23 const & t23 ) : type_index( 23 ) { new( ptr() ) T23( t23 ); }
+    variant( T24 const & t24 ) : type_index( 24 ) { new( ptr() ) T24( t24 ); }
+    variant( T25 const & t25 ) : type_index( 25 ) { new( ptr() ) T25( t25 ); }
+    variant( T26 const & t26 ) : type_index( 26 ) { new( ptr() ) T26( t26 ); }
+    variant( T27 const & t27 ) : type_index( 27 ) { new( ptr() ) T27( t27 ); }
+    variant( T28 const & t28 ) : type_index( 28 ) { new( ptr() ) T28( t28 ); }
+    variant( T29 const & t29 ) : type_index( 29 ) { new( ptr() ) T29( t29 ); }
+    variant( T30 const & t30 ) : type_index( 30 ) { new( ptr() ) T30( t30 ); }
+    variant( T31 const & t31 ) : type_index( 31 ) { new( ptr() ) T31( t31 ); }
     
 
 #if variant_CPP11_OR_GREATER
@@ -1250,6 +1427,22 @@ public:
     variant( T13 && t13 ) : type_index( 13 ) { new( ptr() ) T13( std::move(t13) ); }
     variant( T14 && t14 ) : type_index( 14 ) { new( ptr() ) T14( std::move(t14) ); }
     variant( T15 && t15 ) : type_index( 15 ) { new( ptr() ) T15( std::move(t15) ); }
+    variant( T16 && t16 ) : type_index( 16 ) { new( ptr() ) T16( std::move(t16) ); }
+    variant( T17 && t17 ) : type_index( 17 ) { new( ptr() ) T17( std::move(t17) ); }
+    variant( T18 && t18 ) : type_index( 18 ) { new( ptr() ) T18( std::move(t18) ); }
+    variant( T19 && t19 ) : type_index( 19 ) { new( ptr() ) T19( std::move(t19) ); }
+    variant( T20 && t20 ) : type_index( 20 ) { new( ptr() ) T20( std::move(t20) ); }
+    variant( T21 && t21 ) : type_index( 21 ) { new( ptr() ) T21( std::move(t21) ); }
+    variant( T22 && t22 ) : type_index( 22 ) { new( ptr() ) T22( std::move(t22) ); }
+    variant( T23 && t23 ) : type_index( 23 ) { new( ptr() ) T23( std::move(t23) ); }
+    variant( T24 && t24 ) : type_index( 24 ) { new( ptr() ) T24( std::move(t24) ); }
+    variant( T25 && t25 ) : type_index( 25 ) { new( ptr() ) T25( std::move(t25) ); }
+    variant( T26 && t26 ) : type_index( 26 ) { new( ptr() ) T26( std::move(t26) ); }
+    variant( T27 && t27 ) : type_index( 27 ) { new( ptr() ) T27( std::move(t27) ); }
+    variant( T28 && t28 ) : type_index( 28 ) { new( ptr() ) T28( std::move(t28) ); }
+    variant( T29 && t29 ) : type_index( 29 ) { new( ptr() ) T29( std::move(t29) ); }
+    variant( T30 && t30 ) : type_index( 30 ) { new( ptr() ) T30( std::move(t30) ); }
+    variant( T31 && t31 ) : type_index( 31 ) { new( ptr() ) T31( std::move(t31) ); }
     
 #endif
 
@@ -1277,14 +1470,30 @@ public:
         std::is_nothrow_move_constructible<T12>::value &&
         std::is_nothrow_move_constructible<T13>::value &&
         std::is_nothrow_move_constructible<T14>::value &&
-        std::is_nothrow_move_constructible<T15>::value)
+        std::is_nothrow_move_constructible<T15>::value &&
+        std::is_nothrow_move_constructible<T16>::value &&
+        std::is_nothrow_move_constructible<T17>::value &&
+        std::is_nothrow_move_constructible<T18>::value &&
+        std::is_nothrow_move_constructible<T19>::value &&
+        std::is_nothrow_move_constructible<T20>::value &&
+        std::is_nothrow_move_constructible<T21>::value &&
+        std::is_nothrow_move_constructible<T22>::value &&
+        std::is_nothrow_move_constructible<T23>::value &&
+        std::is_nothrow_move_constructible<T24>::value &&
+        std::is_nothrow_move_constructible<T25>::value &&
+        std::is_nothrow_move_constructible<T26>::value &&
+        std::is_nothrow_move_constructible<T27>::value &&
+        std::is_nothrow_move_constructible<T28>::value &&
+        std::is_nothrow_move_constructible<T29>::value &&
+        std::is_nothrow_move_constructible<T30>::value &&
+        std::is_nothrow_move_constructible<T31>::value)
         : type_index( other.type_index )
     {
         (void) helper_type::move_construct( other.type_index, other.ptr(), ptr() );
     }
 
     template< std::size_t K >
-    using type_at_t = typename detail::typelist_type_at< variant_types, K >::type;
+    using type_at_t = typename nonstd::variants::detail::typelist_type_at< variant_types, K >::type;
 
     template< class T, class... Args
         variant_REQUIRES_T( std::is_constructible< T, Args...>::value )
@@ -1359,7 +1568,23 @@ public:
         std::is_nothrow_move_assignable<T12>::value &&
         std::is_nothrow_move_assignable<T13>::value &&
         std::is_nothrow_move_assignable<T14>::value &&
-        std::is_nothrow_move_assignable<T15>::value)
+        std::is_nothrow_move_assignable<T15>::value &&
+        std::is_nothrow_move_assignable<T16>::value &&
+        std::is_nothrow_move_assignable<T17>::value &&
+        std::is_nothrow_move_assignable<T18>::value &&
+        std::is_nothrow_move_assignable<T19>::value &&
+        std::is_nothrow_move_assignable<T20>::value &&
+        std::is_nothrow_move_assignable<T21>::value &&
+        std::is_nothrow_move_assignable<T22>::value &&
+        std::is_nothrow_move_assignable<T23>::value &&
+        std::is_nothrow_move_assignable<T24>::value &&
+        std::is_nothrow_move_assignable<T25>::value &&
+        std::is_nothrow_move_assignable<T26>::value &&
+        std::is_nothrow_move_assignable<T27>::value &&
+        std::is_nothrow_move_assignable<T28>::value &&
+        std::is_nothrow_move_assignable<T29>::value &&
+        std::is_nothrow_move_assignable<T30>::value &&
+        std::is_nothrow_move_assignable<T31>::value)
         {
         return move_assign( std::move( other ) );
     }
@@ -1380,6 +1605,22 @@ public:
     variant & operator=( T13 &&      t13 ) { return assign_value<13>( std::move( t13 ) ); }
     variant & operator=( T14 &&      t14 ) { return assign_value<14>( std::move( t14 ) ); }
     variant & operator=( T15 &&      t15 ) { return assign_value<15>( std::move( t15 ) ); }
+    variant & operator=( T16 &&      t16 ) { return assign_value<16>( std::move( t16 ) ); }
+    variant & operator=( T17 &&      t17 ) { return assign_value<17>( std::move( t17 ) ); }
+    variant & operator=( T18 &&      t18 ) { return assign_value<18>( std::move( t18 ) ); }
+    variant & operator=( T19 &&      t19 ) { return assign_value<19>( std::move( t19 ) ); }
+    variant & operator=( T20 &&      t20 ) { return assign_value<20>( std::move( t20 ) ); }
+    variant & operator=( T21 &&      t21 ) { return assign_value<21>( std::move( t21 ) ); }
+    variant & operator=( T22 &&      t22 ) { return assign_value<22>( std::move( t22 ) ); }
+    variant & operator=( T23 &&      t23 ) { return assign_value<23>( std::move( t23 ) ); }
+    variant & operator=( T24 &&      t24 ) { return assign_value<24>( std::move( t24 ) ); }
+    variant & operator=( T25 &&      t25 ) { return assign_value<25>( std::move( t25 ) ); }
+    variant & operator=( T26 &&      t26 ) { return assign_value<26>( std::move( t26 ) ); }
+    variant & operator=( T27 &&      t27 ) { return assign_value<27>( std::move( t27 ) ); }
+    variant & operator=( T28 &&      t28 ) { return assign_value<28>( std::move( t28 ) ); }
+    variant & operator=( T29 &&      t29 ) { return assign_value<29>( std::move( t29 ) ); }
+    variant & operator=( T30 &&      t30 ) { return assign_value<30>( std::move( t30 ) ); }
+    variant & operator=( T31 &&      t31 ) { return assign_value<31>( std::move( t31 ) ); }
     
 
 #endif
@@ -1400,6 +1641,22 @@ public:
     variant & operator=( T13 const & t13 ) { return assign_value<13>( t13 ); }
     variant & operator=( T14 const & t14 ) { return assign_value<14>( t14 ); }
     variant & operator=( T15 const & t15 ) { return assign_value<15>( t15 ); }
+    variant & operator=( T16 const & t16 ) { return assign_value<16>( t16 ); }
+    variant & operator=( T17 const & t17 ) { return assign_value<17>( t17 ); }
+    variant & operator=( T18 const & t18 ) { return assign_value<18>( t18 ); }
+    variant & operator=( T19 const & t19 ) { return assign_value<19>( t19 ); }
+    variant & operator=( T20 const & t20 ) { return assign_value<20>( t20 ); }
+    variant & operator=( T21 const & t21 ) { return assign_value<21>( t21 ); }
+    variant & operator=( T22 const & t22 ) { return assign_value<22>( t22 ); }
+    variant & operator=( T23 const & t23 ) { return assign_value<23>( t23 ); }
+    variant & operator=( T24 const & t24 ) { return assign_value<24>( t24 ); }
+    variant & operator=( T25 const & t25 ) { return assign_value<25>( t25 ); }
+    variant & operator=( T26 const & t26 ) { return assign_value<26>( t26 ); }
+    variant & operator=( T27 const & t27 ) { return assign_value<27>( t27 ); }
+    variant & operator=( T28 const & t28 ) { return assign_value<28>( t28 ); }
+    variant & operator=( T29 const & t29 ) { return assign_value<29>( t29 ); }
+    variant & operator=( T30 const & t30 ) { return assign_value<30>( t30 ); }
+    variant & operator=( T31 const & t31 ) { return assign_value<31>( t31 ); }
     
 
     std::size_t index() const
@@ -1479,7 +1736,23 @@ public:
             std::is_nothrow_move_constructible<T12>::value && std17::is_nothrow_swappable<T12>::value &&
             std::is_nothrow_move_constructible<T13>::value && std17::is_nothrow_swappable<T13>::value &&
             std::is_nothrow_move_constructible<T14>::value && std17::is_nothrow_swappable<T14>::value &&
-            std::is_nothrow_move_constructible<T15>::value && std17::is_nothrow_swappable<T15>::value 
+            std::is_nothrow_move_constructible<T15>::value && std17::is_nothrow_swappable<T15>::value &&
+            std::is_nothrow_move_constructible<T16>::value && std17::is_nothrow_swappable<T16>::value &&
+            std::is_nothrow_move_constructible<T17>::value && std17::is_nothrow_swappable<T17>::value &&
+            std::is_nothrow_move_constructible<T18>::value && std17::is_nothrow_swappable<T18>::value &&
+            std::is_nothrow_move_constructible<T19>::value && std17::is_nothrow_swappable<T19>::value &&
+            std::is_nothrow_move_constructible<T20>::value && std17::is_nothrow_swappable<T20>::value &&
+            std::is_nothrow_move_constructible<T21>::value && std17::is_nothrow_swappable<T21>::value &&
+            std::is_nothrow_move_constructible<T22>::value && std17::is_nothrow_swappable<T22>::value &&
+            std::is_nothrow_move_constructible<T23>::value && std17::is_nothrow_swappable<T23>::value &&
+            std::is_nothrow_move_constructible<T24>::value && std17::is_nothrow_swappable<T24>::value &&
+            std::is_nothrow_move_constructible<T25>::value && std17::is_nothrow_swappable<T25>::value &&
+            std::is_nothrow_move_constructible<T26>::value && std17::is_nothrow_swappable<T26>::value &&
+            std::is_nothrow_move_constructible<T27>::value && std17::is_nothrow_swappable<T27>::value &&
+            std::is_nothrow_move_constructible<T28>::value && std17::is_nothrow_swappable<T28>::value &&
+            std::is_nothrow_move_constructible<T29>::value && std17::is_nothrow_swappable<T29>::value &&
+            std::is_nothrow_move_constructible<T30>::value && std17::is_nothrow_swappable<T30>::value &&
+            std::is_nothrow_move_constructible<T31>::value && std17::is_nothrow_swappable<T31>::value 
             
         )
 #endif
@@ -1513,7 +1786,7 @@ public:
     template< class T >
     static variant_constexpr std::size_t index_of() variant_noexcept
     {
-        return to_size_t( detail::typelist_index_of<variant_types, typename std11::remove_cv<T>::type >::value );
+        return to_size_t( nonstd::variants::detail::typelist_index_of<variant_types, typename std11::remove_cv<T>::type >::value );
     }
 
     template< class T >
@@ -1552,14 +1825,14 @@ public:
     typename variant_alternative< K, variant >::type &
     get()
     {
-        return this->template get< typename detail::typelist_type_at< variant_types, K >::type >();
+        return this->template get< typename nonstd::variants::detail::typelist_type_at< variant_types, K >::type >();
     }
 
     template< std::size_t K >
     typename variant_alternative< K, variant >::type const &
     get() const
     {
-        return this->template get< typename detail::typelist_type_at< variant_types, K >::type >();
+        return this->template get< typename nonstd::variants::detail::typelist_type_at< variant_types, K >::type >();
     }
 
 private:
@@ -1705,16 +1978,32 @@ private:
             case 13: swap( this->get<13>(), other.get<13>() ); break;
             case 14: swap( this->get<14>(), other.get<14>() ); break;
             case 15: swap( this->get<15>(), other.get<15>() ); break;
+            case 16: swap( this->get<16>(), other.get<16>() ); break;
+            case 17: swap( this->get<17>(), other.get<17>() ); break;
+            case 18: swap( this->get<18>(), other.get<18>() ); break;
+            case 19: swap( this->get<19>(), other.get<19>() ); break;
+            case 20: swap( this->get<20>(), other.get<20>() ); break;
+            case 21: swap( this->get<21>(), other.get<21>() ); break;
+            case 22: swap( this->get<22>(), other.get<22>() ); break;
+            case 23: swap( this->get<23>(), other.get<23>() ); break;
+            case 24: swap( this->get<24>(), other.get<24>() ); break;
+            case 25: swap( this->get<25>(), other.get<25>() ); break;
+            case 26: swap( this->get<26>(), other.get<26>() ); break;
+            case 27: swap( this->get<27>(), other.get<27>() ); break;
+            case 28: swap( this->get<28>(), other.get<28>() ); break;
+            case 29: swap( this->get<29>(), other.get<29>() ); break;
+            case 30: swap( this->get<30>(), other.get<30>() ); break;
+            case 31: swap( this->get<31>(), other.get<31>() ); break;
             
         }
     }
 
 private:
-    enum { data_size  = detail::typelist_max< variant_types >::value };
+    enum { data_size  = nonstd::variants::detail::typelist_max< variant_types >::value };
 
 #if variant_CPP11_OR_GREATER
 
-    enum { data_align = detail::typelist_max_alignof< variant_types >::value };
+    enum { data_align = nonstd::variants::detail::typelist_max_alignof< variant_types >::value };
 
     using aligned_storage_t = typename std::aligned_storage< data_size, data_align >::type;
     aligned_storage_t data;
@@ -1723,11 +2012,11 @@ private:
 
     typedef union { unsigned char data[ data_size ]; } aligned_storage_t;
 
-    detail::max_align_t hack;
+    nonstd::variants::detail::max_align_t hack;
     aligned_storage_t data;
 
 #else
-    typedef typename detail::typelist_max< variant_types >::type max_type;
+    typedef typename nonstd::variants::detail::typelist_max< variant_types >::type max_type;
 
     typedef variant_ALIGN_AS( max_type ) align_as_type;
 
@@ -1743,27 +2032,27 @@ private:
 
 // 19.7.5 Value access
 
-template< class T, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline bool holds_alternative( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v ) variant_noexcept
+template< class T, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline bool holds_alternative( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v ) variant_noexcept
 {
-    return v.index() == variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::template index_of<T>();
+    return v.index() == variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31>::template index_of<T>();
 }
 
-template< class R, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline R & get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> & v, nonstd_lite_in_place_type_t(R) = nonstd_lite_in_place_type(R) )
-{
-    return v.template get<R>();
-}
-
-template< class R, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline R const & get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v, nonstd_lite_in_place_type_t(R) = nonstd_lite_in_place_type(R) )
+template< class R, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline R & get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> & v, nonstd_lite_in_place_type_t(R) = nonstd_lite_in_place_type(R) )
 {
     return v.template get<R>();
 }
 
-template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline typename variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::type &
-get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> & v, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
+template< class R, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline R const & get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v, nonstd_lite_in_place_type_t(R) = nonstd_lite_in_place_type(R) )
+{
+    return v.template get<R>();
+}
+
+template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline typename variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >::type &
+get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> & v, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
 {
 #if variant_CONFIG_NO_EXCEPTIONS
     assert( K == v.index() );
@@ -1776,9 +2065,9 @@ get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T1
     return v.template get<K>();
 }
 
-template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline typename variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::type const &
-get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
+template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline typename variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >::type const &
+get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
 {
 #if variant_CONFIG_NO_EXCEPTIONS
     assert( K == v.index() );
@@ -1793,21 +2082,21 @@ get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T1
 
 #if variant_CPP11_OR_GREATER
 
-template< class R, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline R && get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> && v, nonstd_lite_in_place_type_t(R) = nonstd_lite_in_place_type(R) )
+template< class R, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline R && get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> && v, nonstd_lite_in_place_type_t(R) = nonstd_lite_in_place_type(R) )
 {
     return std::move(v.template get<R>());
 }
 
-template< class R, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline R const && get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const && v, nonstd_lite_in_place_type_t(R) = nonstd_lite_in_place_type(R) )
+template< class R, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline R const && get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const && v, nonstd_lite_in_place_type_t(R) = nonstd_lite_in_place_type(R) )
 {
     return std::move(v.template get<R>());
 }
 
-template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline typename variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::type &&
-get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> && v, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
+template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline typename variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >::type &&
+get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> && v, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
 {
 #if variant_CONFIG_NO_EXCEPTIONS
     assert( K == v.index() );
@@ -1820,9 +2109,9 @@ get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T1
     return std::move(v.template get<K>());
 }
 
-template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline typename variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::type const &&
-get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const && v, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
+template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline typename variant_alternative< K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >::type const &&
+get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const && v, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
 {
 #if variant_CONFIG_NO_EXCEPTIONS
     assert( K == v.index() );
@@ -1837,37 +2126,37 @@ get( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T1
 
 #endif // variant_CPP11_OR_GREATER
 
-template< class T, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 inline typename std11::add_pointer<T>::type
-get_if( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> * pv, nonstd_lite_in_place_type_t(T) = nonstd_lite_in_place_type(T) )
+get_if( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> * pv, nonstd_lite_in_place_type_t(T) = nonstd_lite_in_place_type(T) )
 {
-    return ( pv->index() == variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::template index_of<T>() ) ? &get<T>( *pv ) : variant_nullptr;
+    return ( pv->index() == variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31>::template index_of<T>() ) ? &get<T>( *pv ) : variant_nullptr;
 }
 
-template< class T, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 inline typename std11::add_pointer<const T>::type
-get_if( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const * pv, nonstd_lite_in_place_type_t(T) = nonstd_lite_in_place_type(T))
+get_if( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const * pv, nonstd_lite_in_place_type_t(T) = nonstd_lite_in_place_type(T))
 {
-    return ( pv->index() == variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::template index_of<T>() ) ? &get<T>( *pv ) : variant_nullptr;
+    return ( pv->index() == variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31>::template index_of<T>() ) ? &get<T>( *pv ) : variant_nullptr;
 }
 
-template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline typename std11::add_pointer< typename variant_alternative<K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::type >::type
-get_if( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> * pv, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
+template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline typename std11::add_pointer< typename variant_alternative<K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >::type >::type
+get_if( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> * pv, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
 {
     return ( pv->index() == K ) ? &get<K>( *pv ) : variant_nullptr;
 }
 
-template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-inline typename std11::add_pointer< const typename variant_alternative<K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::type >::type
-get_if( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const * pv, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
+template< std::size_t K, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+inline typename std11::add_pointer< const typename variant_alternative<K, variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >::type >::type
+get_if( variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const * pv, nonstd_lite_in_place_index_t(K) = nonstd_lite_in_place_index(K) )
 {
     return ( pv->index() == K ) ? &get<K>( *pv )  : variant_nullptr;
 }
 
 // 19.7.10 Specialized algorithms
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31
 #if variant_CPP11_OR_GREATER
     variant_REQUIRES_T(
         std::is_move_constructible<T0>::value && std17::is_swappable<T0>::value &&
@@ -1885,13 +2174,29 @@ template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, 
         std::is_move_constructible<T12>::value && std17::is_swappable<T12>::value &&
         std::is_move_constructible<T13>::value && std17::is_swappable<T13>::value &&
         std::is_move_constructible<T14>::value && std17::is_swappable<T14>::value &&
-        std::is_move_constructible<T15>::value && std17::is_swappable<T15>::value 
+        std::is_move_constructible<T15>::value && std17::is_swappable<T15>::value &&
+        std::is_move_constructible<T16>::value && std17::is_swappable<T16>::value &&
+        std::is_move_constructible<T17>::value && std17::is_swappable<T17>::value &&
+        std::is_move_constructible<T18>::value && std17::is_swappable<T18>::value &&
+        std::is_move_constructible<T19>::value && std17::is_swappable<T19>::value &&
+        std::is_move_constructible<T20>::value && std17::is_swappable<T20>::value &&
+        std::is_move_constructible<T21>::value && std17::is_swappable<T21>::value &&
+        std::is_move_constructible<T22>::value && std17::is_swappable<T22>::value &&
+        std::is_move_constructible<T23>::value && std17::is_swappable<T23>::value &&
+        std::is_move_constructible<T24>::value && std17::is_swappable<T24>::value &&
+        std::is_move_constructible<T25>::value && std17::is_swappable<T25>::value &&
+        std::is_move_constructible<T26>::value && std17::is_swappable<T26>::value &&
+        std::is_move_constructible<T27>::value && std17::is_swappable<T27>::value &&
+        std::is_move_constructible<T28>::value && std17::is_swappable<T28>::value &&
+        std::is_move_constructible<T29>::value && std17::is_swappable<T29>::value &&
+        std::is_move_constructible<T30>::value && std17::is_swappable<T30>::value &&
+        std::is_move_constructible<T31>::value && std17::is_swappable<T31>::value 
          )
 #endif
 >
 inline void swap(
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> & a,
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> & b ) 
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> & a,
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> & b ) 
 #if variant_CPP11_OR_GREATER
     noexcept( noexcept( a.swap( b ) ) )
 #endif
@@ -1935,7 +2240,7 @@ struct VisitorUnwrapper;
 #if variant_CPP11_OR_GREATER
 template< size_t NumVars, typename R, typename Visitor, typename ... T >
 #else
-template< size_t NumVars, typename R, typename Visitor, typename T1, typename T2 = S0, typename T3 = S0, typename T4 = S0, typename T5 = S0 >
+template< size_t NumVars, typename R, typename Visitor, typename T1, typename T2 = S0, typename T3 = S0, typename T4 = S0, typename T5 = S0, typename T6 = S0, typename T7 = S0, typename T8 = S0, typename T9 = S0, typename T10 = S0 >
 #endif
 struct TypedVisitorUnwrapper;
 
@@ -2031,6 +2336,166 @@ struct TypedVisitorUnwrapper<5, R, Visitor, T2, T3, T4, T5>
     }
 };
 
+template< typename R, typename Visitor, typename T2, typename T3, typename T4, typename T5, typename T6 >
+struct TypedVisitorUnwrapper<6, R, Visitor, T2, T3, T4, T5, T6>
+{
+    const Visitor& visitor;
+    T2 const& val2;
+    T3 const& val3;
+    T4 const& val4;
+    T5 const& val5;
+    T6 const& val6;
+    
+    TypedVisitorUnwrapper(const Visitor& visitor_, T2 const& val2_, T3 const& val3_, T4 const& val4_, T5 const& val5_, T6 const& val6_)
+        : visitor(visitor_)
+        , val2(val2_)
+        , val3(val3_)
+        , val4(val4_)
+        , val5(val5_)
+        , val6(val6_)
+        
+    {
+    }
+
+    template<typename T>
+    R operator()(const T& val1) const
+    {
+        return visitor(val1, val2, val3, val4, val5, val6);
+    }
+};
+
+template< typename R, typename Visitor, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7 >
+struct TypedVisitorUnwrapper<7, R, Visitor, T2, T3, T4, T5, T6, T7>
+{
+    const Visitor& visitor;
+    T2 const& val2;
+    T3 const& val3;
+    T4 const& val4;
+    T5 const& val5;
+    T6 const& val6;
+    T7 const& val7;
+    
+    TypedVisitorUnwrapper(const Visitor& visitor_, T2 const& val2_, T3 const& val3_, T4 const& val4_, T5 const& val5_, T6 const& val6_, T7 const& val7_)
+        : visitor(visitor_)
+        , val2(val2_)
+        , val3(val3_)
+        , val4(val4_)
+        , val5(val5_)
+        , val6(val6_)
+        , val7(val7_)
+        
+    {
+    }
+
+    template<typename T>
+    R operator()(const T& val1) const
+    {
+        return visitor(val1, val2, val3, val4, val5, val6, val7);
+    }
+};
+
+template< typename R, typename Visitor, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8 >
+struct TypedVisitorUnwrapper<8, R, Visitor, T2, T3, T4, T5, T6, T7, T8>
+{
+    const Visitor& visitor;
+    T2 const& val2;
+    T3 const& val3;
+    T4 const& val4;
+    T5 const& val5;
+    T6 const& val6;
+    T7 const& val7;
+    T8 const& val8;
+    
+    TypedVisitorUnwrapper(const Visitor& visitor_, T2 const& val2_, T3 const& val3_, T4 const& val4_, T5 const& val5_, T6 const& val6_, T7 const& val7_, T8 const& val8_)
+        : visitor(visitor_)
+        , val2(val2_)
+        , val3(val3_)
+        , val4(val4_)
+        , val5(val5_)
+        , val6(val6_)
+        , val7(val7_)
+        , val8(val8_)
+        
+    {
+    }
+
+    template<typename T>
+    R operator()(const T& val1) const
+    {
+        return visitor(val1, val2, val3, val4, val5, val6, val7, val8);
+    }
+};
+
+template< typename R, typename Visitor, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9 >
+struct TypedVisitorUnwrapper<9, R, Visitor, T2, T3, T4, T5, T6, T7, T8, T9>
+{
+    const Visitor& visitor;
+    T2 const& val2;
+    T3 const& val3;
+    T4 const& val4;
+    T5 const& val5;
+    T6 const& val6;
+    T7 const& val7;
+    T8 const& val8;
+    T9 const& val9;
+    
+    TypedVisitorUnwrapper(const Visitor& visitor_, T2 const& val2_, T3 const& val3_, T4 const& val4_, T5 const& val5_, T6 const& val6_, T7 const& val7_, T8 const& val8_, T9 const& val9_)
+        : visitor(visitor_)
+        , val2(val2_)
+        , val3(val3_)
+        , val4(val4_)
+        , val5(val5_)
+        , val6(val6_)
+        , val7(val7_)
+        , val8(val8_)
+        , val9(val9_)
+        
+    {
+    }
+
+    template<typename T>
+    R operator()(const T& val1) const
+    {
+        return visitor(val1, val2, val3, val4, val5, val6, val7, val8, val9);
+    }
+};
+
+template< typename R, typename Visitor, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+struct TypedVisitorUnwrapper<10, R, Visitor, T2, T3, T4, T5, T6, T7, T8, T9, T10>
+{
+    const Visitor& visitor;
+    T2 const& val2;
+    T3 const& val3;
+    T4 const& val4;
+    T5 const& val5;
+    T6 const& val6;
+    T7 const& val7;
+    T8 const& val8;
+    T9 const& val9;
+    T10 const& val10;
+    
+    TypedVisitorUnwrapper(const Visitor& visitor_, T2 const& val2_, T3 const& val3_, T4 const& val4_, T5 const& val5_, T6 const& val6_, T7 const& val7_, T8 const& val8_, T9 const& val9_, T10 const& val10_)
+        : visitor(visitor_)
+        , val2(val2_)
+        , val3(val3_)
+        , val4(val4_)
+        , val5(val5_)
+        , val6(val6_)
+        , val7(val7_)
+        , val8(val8_)
+        , val9(val9_)
+        , val10(val10_)
+        
+    {
+    }
+
+    template<typename T>
+    R operator()(const T& val1) const
+    {
+        return visitor(val1, val2, val3, val4, val5, val6, val7, val8, val9, val10);
+    }
+};
+
 
 
 template<typename R, typename Visitor, typename V2>
@@ -2081,6 +2546,41 @@ struct VisitorUnwrapper
         return VisitorApplicator<R>::apply(visitor_type(visitor, val1, val2, val3, val4, val5), r);
     }
     
+    template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6 >
+    R operator()(T1 const& val1, T2 const& val2, T3 const& val3, T4 const& val4, T5 const& val5, T6 const& val6) const
+    {
+        typedef TypedVisitorUnwrapper<7, R, Visitor, T1, T2, T3, T4, T5, T6> visitor_type;
+        return VisitorApplicator<R>::apply(visitor_type(visitor, val1, val2, val3, val4, val5, val6), r);
+    }
+    
+    template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7 >
+    R operator()(T1 const& val1, T2 const& val2, T3 const& val3, T4 const& val4, T5 const& val5, T6 const& val6, T7 const& val7) const
+    {
+        typedef TypedVisitorUnwrapper<8, R, Visitor, T1, T2, T3, T4, T5, T6, T7> visitor_type;
+        return VisitorApplicator<R>::apply(visitor_type(visitor, val1, val2, val3, val4, val5, val6, val7), r);
+    }
+    
+    template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8 >
+    R operator()(T1 const& val1, T2 const& val2, T3 const& val3, T4 const& val4, T5 const& val5, T6 const& val6, T7 const& val7, T8 const& val8) const
+    {
+        typedef TypedVisitorUnwrapper<9, R, Visitor, T1, T2, T3, T4, T5, T6, T7, T8> visitor_type;
+        return VisitorApplicator<R>::apply(visitor_type(visitor, val1, val2, val3, val4, val5, val6, val7, val8), r);
+    }
+    
+    template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9 >
+    R operator()(T1 const& val1, T2 const& val2, T3 const& val3, T4 const& val4, T5 const& val5, T6 const& val6, T7 const& val7, T8 const& val8, T9 const& val9) const
+    {
+        typedef TypedVisitorUnwrapper<10, R, Visitor, T1, T2, T3, T4, T5, T6, T7, T8, T9> visitor_type;
+        return VisitorApplicator<R>::apply(visitor_type(visitor, val1, val2, val3, val4, val5, val6, val7, val8, val9), r);
+    }
+    
+    template< typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10 >
+    R operator()(T1 const& val1, T2 const& val2, T3 const& val3, T4 const& val4, T5 const& val5, T6 const& val6, T7 const& val7, T8 const& val8, T9 const& val9, T10 const& val10) const
+    {
+        typedef TypedVisitorUnwrapper<11, R, Visitor, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> visitor_type;
+        return VisitorApplicator<R>::apply(visitor_type(visitor, val1, val2, val3, val4, val5, val6, val7, val8, val9, val10), r);
+    }
+    
 };
 
 
@@ -2108,6 +2608,22 @@ struct VisitorApplicator
             case 13: return apply_visitor<13>(v, arg);
             case 14: return apply_visitor<14>(v, arg);
             case 15: return apply_visitor<15>(v, arg);
+            case 16: return apply_visitor<16>(v, arg);
+            case 17: return apply_visitor<17>(v, arg);
+            case 18: return apply_visitor<18>(v, arg);
+            case 19: return apply_visitor<19>(v, arg);
+            case 20: return apply_visitor<20>(v, arg);
+            case 21: return apply_visitor<21>(v, arg);
+            case 22: return apply_visitor<22>(v, arg);
+            case 23: return apply_visitor<23>(v, arg);
+            case 24: return apply_visitor<24>(v, arg);
+            case 25: return apply_visitor<25>(v, arg);
+            case 26: return apply_visitor<26>(v, arg);
+            case 27: return apply_visitor<27>(v, arg);
+            case 28: return apply_visitor<28>(v, arg);
+            case 29: return apply_visitor<29>(v, arg);
+            case 30: return apply_visitor<30>(v, arg);
+            case 31: return apply_visitor<31>(v, arg);
             
             default: return R();
         }
@@ -2167,6 +2683,46 @@ struct VisitorApplicator
         return apply(unwrapper, arg2, arg3, arg4, arg5);
     }
     
+    template< typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6 >
+    static R apply(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6)
+    {
+        typedef VisitorUnwrapper<R, Visitor, V1> Unwrapper;
+        Unwrapper unwrapper(v, arg1);
+        return apply(unwrapper, arg2, arg3, arg4, arg5, arg6);
+    }
+    
+    template< typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7 >
+    static R apply(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6, V7 const& arg7)
+    {
+        typedef VisitorUnwrapper<R, Visitor, V1> Unwrapper;
+        Unwrapper unwrapper(v, arg1);
+        return apply(unwrapper, arg2, arg3, arg4, arg5, arg6, arg7);
+    }
+    
+    template< typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8 >
+    static R apply(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6, V7 const& arg7, V8 const& arg8)
+    {
+        typedef VisitorUnwrapper<R, Visitor, V1> Unwrapper;
+        Unwrapper unwrapper(v, arg1);
+        return apply(unwrapper, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+    }
+    
+    template< typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8, typename V9 >
+    static R apply(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6, V7 const& arg7, V8 const& arg8, V9 const& arg9)
+    {
+        typedef VisitorUnwrapper<R, Visitor, V1> Unwrapper;
+        Unwrapper unwrapper(v, arg1);
+        return apply(unwrapper, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+    }
+    
+    template< typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8, typename V9, typename V10 >
+    static R apply(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6, V7 const& arg7, V8 const& arg8, V9 const& arg9, V10 const& arg10)
+    {
+        typedef VisitorUnwrapper<R, Visitor, V1> Unwrapper;
+        Unwrapper unwrapper(v, arg1);
+        return apply(unwrapper, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+    }
+    
 #endif
 };
 
@@ -2183,9 +2739,9 @@ struct VisitorImpl
 #if variant_CPP11_OR_GREATER
 // No perfect forwarding here in order to simplify code
 template< typename Visitor, typename ... V >
-inline auto visit(Visitor const& v, V const& ... vars) -> typename detail::VisitorImpl<sizeof ... (V), Visitor, V... > ::result_type
+inline auto visit(Visitor const& v, V const& ... vars) -> typename nonstd::variants::detail::VisitorImpl<sizeof ... (V), Visitor, V... > ::result_type
 {
-    typedef detail::VisitorImpl<sizeof ... (V), Visitor, V... > impl_type;
+    typedef nonstd::variants::detail::VisitorImpl<sizeof ... (V), Visitor, V... > impl_type;
     return impl_type::applicator_type::apply(v, vars...);
 }
 #else
@@ -2193,31 +2749,61 @@ inline auto visit(Visitor const& v, V const& ... vars) -> typename detail::Visit
 template< typename R, typename Visitor, typename V1 >
 inline R visit(const Visitor& v, V1 const& arg1)
 {
-    return detail::VisitorApplicator<R>::apply(v, arg1);
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1);
 }
 
 template< typename R, typename Visitor, typename V1, typename V2 >
 inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2)
 {
-    return detail::VisitorApplicator<R>::apply(v, arg1, arg2);
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2);
 }
 
 template< typename R, typename Visitor, typename V1, typename V2, typename V3 >
 inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3)
 {
-    return detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3);
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3);
 }
 
 template< typename R, typename Visitor, typename V1, typename V2, typename V3, typename V4 >
 inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4)
 {
-    return detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4);
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4);
 }
 
 template< typename R, typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5 >
 inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5)
 {
-    return detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4, arg5);
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4, arg5);
+}
+
+template< typename R, typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6 >
+inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6)
+{
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4, arg5, arg6);
+}
+
+template< typename R, typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7 >
+inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6, V7 const& arg7)
+{
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+}
+
+template< typename R, typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8 >
+inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6, V7 const& arg7, V8 const& arg8)
+{
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+}
+
+template< typename R, typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8, typename V9 >
+inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6, V7 const& arg7, V8 const& arg8, V9 const& arg9)
+{
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+}
+
+template< typename R, typename Visitor, typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8, typename V9, typename V10 >
+inline R visit(const Visitor& v, V1 const& arg1, V2 const& arg2, V3 const& arg3, V4 const& arg4, V5 const& arg5, V6 const& arg6, V7 const& arg7, V8 const& arg8, V9 const& arg9, V10 const& arg10)
+{
+    return nonstd::variants::detail::VisitorApplicator<R>::apply(v, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
 }
 
 #endif
@@ -2249,6 +2835,22 @@ struct Comparator
             case 13: return get<13>( v ) == get<13>( w );
             case 14: return get<14>( v ) == get<14>( w );
             case 15: return get<15>( v ) == get<15>( w );
+            case 16: return get<16>( v ) == get<16>( w );
+            case 17: return get<17>( v ) == get<17>( w );
+            case 18: return get<18>( v ) == get<18>( w );
+            case 19: return get<19>( v ) == get<19>( w );
+            case 20: return get<20>( v ) == get<20>( w );
+            case 21: return get<21>( v ) == get<21>( w );
+            case 22: return get<22>( v ) == get<22>( w );
+            case 23: return get<23>( v ) == get<23>( w );
+            case 24: return get<24>( v ) == get<24>( w );
+            case 25: return get<25>( v ) == get<25>( w );
+            case 26: return get<26>( v ) == get<26>( w );
+            case 27: return get<27>( v ) == get<27>( w );
+            case 28: return get<28>( v ) == get<28>( w );
+            case 29: return get<29>( v ) == get<29>( w );
+            case 30: return get<30>( v ) == get<30>( w );
+            case 31: return get<31>( v ) == get<31>( w );
             
             default: return false;
         }
@@ -2274,6 +2876,22 @@ struct Comparator
             case 13: return get<13>( v ) < get<13>( w );
             case 14: return get<14>( v ) < get<14>( w );
             case 15: return get<15>( v ) < get<15>( w );
+            case 16: return get<16>( v ) < get<16>( w );
+            case 17: return get<17>( v ) < get<17>( w );
+            case 18: return get<18>( v ) < get<18>( w );
+            case 19: return get<19>( v ) < get<19>( w );
+            case 20: return get<20>( v ) < get<20>( w );
+            case 21: return get<21>( v ) < get<21>( w );
+            case 22: return get<22>( v ) < get<22>( w );
+            case 23: return get<23>( v ) < get<23>( w );
+            case 24: return get<24>( v ) < get<24>( w );
+            case 25: return get<25>( v ) < get<25>( w );
+            case 26: return get<26>( v ) < get<26>( w );
+            case 27: return get<27>( v ) < get<27>( w );
+            case 28: return get<28>( v ) < get<28>( w );
+            case 29: return get<29>( v ) < get<29>( w );
+            case 30: return get<30>( v ) < get<30>( w );
+            case 31: return get<31>( v ) < get<31>( w );
             
             default: return false;
         }
@@ -2282,56 +2900,56 @@ struct Comparator
 
 } //namespace detail
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 inline bool operator==(
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v,
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & w )
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v,
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & w )
 {
     if      ( v.index() != w.index()     ) return false;
     else if ( v.valueless_by_exception() ) return true;
-    else                                   return detail::Comparator< variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::equal( v, w );
+    else                                   return nonstd::variants::detail::Comparator< variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >::equal( v, w );
 }
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 inline bool operator!=(
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v,
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & w )
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v,
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & w )
 {
     return ! ( v == w );
 }
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 inline bool operator<(
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v,
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & w )
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v,
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & w )
 {
     if      ( w.valueless_by_exception() ) return false;
     else if ( v.valueless_by_exception() ) return true;
     else if ( v.index() < w.index()      ) return true;
     else if ( v.index() > w.index()      ) return false;
-    else                                   return detail::Comparator< variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::less_than( v, w );
+    else                                   return nonstd::variants::detail::Comparator< variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >::less_than( v, w );
 }
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 inline bool operator>(
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v,
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & w )
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v,
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & w )
 {
     return w < v;
 }
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 inline bool operator<=(
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v,
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & w )
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v,
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & w )
 {
     return ! ( v > w );
 }
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
 inline bool operator>=(
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v,
-    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & w )
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v,
+    variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & w )
 {
     return ! ( v < w );
 }
@@ -2357,10 +2975,10 @@ struct hash< nonstd::monostate >
     }
 };
 
-template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15 >
-struct hash< nonstd::variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >
+template< class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13, class T14, class T15, class T16, class T17, class T18, class T19, class T20, class T21, class T22, class T23, class T24, class T25, class T26, class T27, class T28, class T29, class T30, class T31 >
+struct hash< nonstd::variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> >
 {
-    std::size_t operator()( nonstd::variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const & v ) const variant_noexcept
+    std::size_t operator()( nonstd::variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> const & v ) const variant_noexcept
     {
         namespace nvd = nonstd::variants::detail;
 
@@ -2382,6 +3000,22 @@ struct hash< nonstd::variant<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T
             case 13: return nvd::hash( 13 ) ^ nvd::hash( get<13>( v ) );
             case 14: return nvd::hash( 14 ) ^ nvd::hash( get<14>( v ) );
             case 15: return nvd::hash( 15 ) ^ nvd::hash( get<15>( v ) );
+            case 16: return nvd::hash( 16 ) ^ nvd::hash( get<16>( v ) );
+            case 17: return nvd::hash( 17 ) ^ nvd::hash( get<17>( v ) );
+            case 18: return nvd::hash( 18 ) ^ nvd::hash( get<18>( v ) );
+            case 19: return nvd::hash( 19 ) ^ nvd::hash( get<19>( v ) );
+            case 20: return nvd::hash( 20 ) ^ nvd::hash( get<20>( v ) );
+            case 21: return nvd::hash( 21 ) ^ nvd::hash( get<21>( v ) );
+            case 22: return nvd::hash( 22 ) ^ nvd::hash( get<22>( v ) );
+            case 23: return nvd::hash( 23 ) ^ nvd::hash( get<23>( v ) );
+            case 24: return nvd::hash( 24 ) ^ nvd::hash( get<24>( v ) );
+            case 25: return nvd::hash( 25 ) ^ nvd::hash( get<25>( v ) );
+            case 26: return nvd::hash( 26 ) ^ nvd::hash( get<26>( v ) );
+            case 27: return nvd::hash( 27 ) ^ nvd::hash( get<27>( v ) );
+            case 28: return nvd::hash( 28 ) ^ nvd::hash( get<28>( v ) );
+            case 29: return nvd::hash( 29 ) ^ nvd::hash( get<29>( v ) );
+            case 30: return nvd::hash( 30 ) ^ nvd::hash( get<30>( v ) );
+            case 31: return nvd::hash( 31 ) ^ nvd::hash( get<31>( v ) );
             
             default: return 0;
         }

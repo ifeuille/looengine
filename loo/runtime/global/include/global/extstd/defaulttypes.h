@@ -86,7 +86,6 @@ namespace loo
 
 	}	// _hidden_
 
-
 	static constexpr _hidden_::DefaultType		Default = {};
 
-}	// FGC
+}

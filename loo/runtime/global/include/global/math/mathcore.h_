@@ -1,15 +1,50 @@
-#ifndef LE_CORE_MATHCORE_H
-#define LE_CORE_MATHCORE_H
+#ifndef LOO_CORE_MATHCORE_H
+#define LOO_CORE_MATHCORE_H
+#include "global/config.h"
+#include "global/Compiler.h"
+#include "global/platform.h"
+
 #include "global/global.h"
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
-#include <glm/common.hpp>
-#include <glm/gtx/compatibility.hpp>
+//#define GLM_ENABLE_EXPERIMENTAL
+//#include <glm/glm.hpp>
+//#include <glm/ext.hpp>
+//#include <glm/common.hpp>
+//#include <glm/gtx/compatibility.hpp>
 
 #include "global/extstd/typetraits.h"
+
+
 namespace loo
 {
+
+	namespace _hidden_
+	{
+		template <typename T, T X, loo::uint Bit>
+		struct _IntLog2 {
+			static const int	value = int ((X >> Bit) != 0) + _IntLog2<T, X, Bit - 1 >::value;
+		};
+
+		template <typename T, T X>
+		struct _IntLog2< T, X, 0 > {
+			static const int	value = 0;
+		};
+
+	}	// _fgc_hidden_
+	/*
+	=================================================
+	helpers
+	=================================================
+	*/
+	namespace _hidden_
+	{
+		template <typename T1, typename T2, typename Result>
+		using EnableForInt = EnableIf< IsSignedInteger<T1> and IsSignedInteger<T2>, Result >;
+
+		template <typename T1, typename T2, typename Result>
+		using EnableForUInt = EnableIf< IsUnsignedInteger<T1> and IsUnsignedInteger<T2>, Result >;
+
+	}// 
+
 	namespace math
 	{
 		/*-----------------------------------------------------------------------------
@@ -85,45 +120,59 @@ namespace loo
 		float const THRESH_QUAT_NORMALIZED = (0.01f);	/** Allowed error for a normalized quaternion (against squared magnitude) */
 
 
-		typedef glm::vec1 vec1;
-		typedef glm::vec2 vec2;
-		typedef glm::vec3 vec3;
-		typedef glm::vec4 vec4;
+		//typedef glm::vec1 vec1;
+		//typedef glm::vec2 vec2;
+		//typedef glm::vec3 vec3;
+		//typedef glm::vec4 vec4;
 
-		typedef glm::ivec1 ivec1;
-		typedef glm::ivec2 ivec2;
-		typedef glm::ivec3 ivec3;
-		typedef glm::ivec4 ivec4;
+		//typedef glm::ivec1 ivec1;
+		//typedef glm::ivec2 ivec2;
+		//typedef glm::ivec3 ivec3;
+		//typedef glm::ivec4 ivec4;
 
-		typedef glm::uvec1 uvec1;
-		typedef glm::uvec2 uvec2;
-		typedef glm::uvec3 uvec3;
-		typedef glm::uvec4 uvec4;
-
-
-		typedef glm::u8vec1 u8vec1;
-		typedef glm::u8vec2 u8vec2;
-		typedef glm::u8vec3 u8vec3;
-		typedef glm::u8vec4 u8vec4;
+		//typedef glm::uvec1 uvec1;
+		//typedef glm::uvec2 uvec2;
+		//typedef glm::uvec3 uvec3;
+		//typedef glm::uvec4 uvec4;
 
 
-		typedef glm::f32vec1 f32vec1;
-		typedef glm::f32vec2 f32vec2;
-		typedef glm::f32vec3 f32vec3;
-		typedef glm::f32vec4 f32vec4;
+		//typedef glm::u8vec1 u8vec1;
+		//typedef glm::u8vec2 u8vec2;
+		//typedef glm::u8vec3 u8vec3;
+		//typedef glm::u8vec4 u8vec4;
 
-		typedef glm::f64vec1 f64vec1;
-		typedef glm::f64vec2 f64vec2;
-		typedef glm::f64vec3 f64vec3;
-		typedef glm::f64vec4 f64vec4;
 
-		typedef glm::bool3 bvec3;
-		typedef glm::bool4 bvec4;
+		//typedef glm::f32vec1 f32vec1;
+		//typedef glm::f32vec2 f32vec2;
+		//typedef glm::f32vec3 f32vec3;
+		//typedef glm::f32vec4 f32vec4;
 
-		typedef glm::bool3 bool3;
-		typedef glm::bool4 bool4;
+		//typedef glm::f64vec1 f64vec1;
+		//typedef glm::f64vec2 f64vec2;
+		//typedef glm::f64vec3 f64vec3;
+		//typedef glm::f64vec4 f64vec4;
 
-		using glm::clamp;
+
+		//typedef glm::bool3 bvec3;
+		//typedef glm::bool4 bvec4;
+
+		//typedef glm::bool3 bool3;
+		//typedef glm::bool4 bool4;
+
+		//typedef ivec2 int2;
+		//typedef ivec3 int3;
+		//typedef ivec4 int4;
+		//typedef uvec2 uint2;
+		//typedef uvec3 uint3;
+		//typedef uvec4 uint4;
+		//typedef f32vec2 float2;
+		//typedef f32vec3 float3;
+		//typedef f32vec4 float4;
+
+		//typedef f64vec2 double2;
+		//typedef f64vec3 double3;
+		//typedef f64vec4 double4;
+		/*using glm::clamp;
 		using glm::min;
 		using glm::max;
 		using glm::abs;
@@ -134,7 +183,7 @@ namespace loo
 		using glm::sqrt;
 		using glm::inversesqrt;
 		using glm::inverse;
-		using glm::inverseTranspose;
+		using glm::inverseTranspose;*/
 
 
 		using std::pow;
@@ -211,10 +260,10 @@ namespace loo
 		{
 			STATIC_ASSERT (IsFloatPoint<T>);
 
-			if constexpr (sizeof (T) >= sizeof (int64_t))
+			if /*constexpr*/ (sizeof (T) >= sizeof (int64_t))
 				return int64_t (std::round (x));
 
-			if constexpr (sizeof (T) >= sizeof (int32_t))
+			if /*constexpr*/ (sizeof (T) >= sizeof (int32_t))
 				return int32_t (std::round (x));
 		}
 		template< class T, class U >
@@ -254,20 +303,6 @@ namespace loo
 			else
 				return std::abs (lhs - rhs) <= err;
 		}
-		/*
-	=================================================
-		helpers
-	=================================================
-	*/
-	namespace _hidden_
-	{
-		template <typename T1, typename T2, typename Result>
-		using EnableForInt = EnableIf< IsSignedInteger<T1> and IsSignedInteger<T2>, Result >;
-
-		template <typename T1, typename T2, typename Result>
-		using EnableForUInt = EnableIf< IsUnsignedInteger<T1> and IsUnsignedInteger<T2>, Result >;
-
-	}	// 
 
 	/*
 	=================================================
@@ -448,6 +483,12 @@ namespace loo
 			}
 			return res;
 		}
+
+		template <uint X>
+		static constexpr int	CT_IntLog2 = (X ? _hidden_::_IntLog2< uint, X, sizeof (X) * 8 - 1 >::value : -1);
+		template <std::size_t X>
+		static constexpr int	CT_Int64Log2 = (X ? _hidden_::_IntLog2< std::size_t, X, sizeof (X) * 8 - 1 >::value : -1);
+
 	}
 }
 namespace std

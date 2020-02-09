@@ -15,6 +15,69 @@
 namespace loo
 {
 
+	/*
+	=================================================
+		RecursiveBinarySearch
+	=================================================
+	*/
+	namespace _hidden_
+	{
+		template <typename K, typename V, typename I, size_t N>
+		struct RecursiveBinarySearch
+		{
+			LOO_FORCEINLINE static int  Find (int left, int right, const K &key, const I* indices, const Pair<K, V>* data)
+			{
+				if (left < right)
+				{
+					int		mid = (left + right) >> 1;
+					auto&	curr = data[indices[mid]].first;
+
+					if (curr < key)
+						left = mid + 1;
+					else
+						if (curr > key)
+							right = mid - 1;
+						else
+							return mid;
+				}
+
+				return RecursiveBinarySearch< K, V, I, (N >> 1) >::Find (left, right, key, indices, data);
+			}
+
+			LOO_FORCEINLINE static int  LowerBound (int left, int right, const K &key, const I* indices, const Pair<K, V>* data)
+			{
+				if (left < right)
+				{
+					int		mid = (left + right) >> 1;
+					auto&	curr = data[indices[mid]].first;
+
+					if (curr < key)
+						left = mid + 1;
+					else
+						right = mid;
+				}
+
+				return RecursiveBinarySearch< K, V, I, (N >> 1) >::LowerBound (left, right, key, indices, data);
+			}
+		};
+
+		template <typename K, typename V, typename I>
+		struct RecursiveBinarySearch< K, V, I, 0 >
+		{
+			LOO_FORCEINLINE static int  Find (int left, int, const K &, const I *, const Pair<K, V> *)
+			{
+				return left;
+			}
+
+			LOO_FORCEINLINE static int  LowerBound (int left, int, const K &, const I *, const Pair<K, V> *)
+			{
+				return left;
+			}
+		};
+
+	}	// _hidden_
+
+
 	//
 	// Fixed Size Map
 	//
@@ -96,7 +159,7 @@ namespace loo
 	private:
 		ND_ LOO_FORCEINLINE bool _IsMemoryAliased (const Self* other) const
 		{
-			return IsIntersects (this, this + 1, other, other + 1);
+			return loo::math::IsIntersects (this, this + 1, other, other + 1);
 		}
 	};
 
@@ -224,68 +287,6 @@ namespace loo
 		ASSERT (i < _count);
 		return reinterpret_cast<Pair_t const&>(_array[_indices[i]]);
 	}
-
-	/*
-	=================================================
-		RecursiveBinarySearch
-	=================================================
-	*/
-	namespace _hidden_
-	{
-		template <typename K, typename V, typename I, size_t N>
-		struct RecursiveBinarySearch
-		{
-			LOO_FORCEINLINE static int  Find (int left, int right, const K &key, const I* indices, const Pair<K, V>* data)
-			{
-				if (left < right)
-				{
-					int		mid = (left + right) >> 1;
-					auto&	curr = data[indices[mid]].first;
-
-					if (curr < key)
-						left = mid + 1;
-					else
-						if (curr > key)
-							right = mid - 1;
-						else
-							return mid;
-				}
-
-				return RecursiveBinarySearch< K, V, I, (N >> 1) >::Find (left, right, key, indices, data);
-			}
-
-			LOO_FORCEINLINE static int  LowerBound (int left, int right, const K &key, const I* indices, const Pair<K, V>* data)
-			{
-				if (left < right)
-				{
-					int		mid = (left + right) >> 1;
-					auto&	curr = data[indices[mid]].first;
-
-					if (curr < key)
-						left = mid + 1;
-					else
-						right = mid;
-				}
-
-				return RecursiveBinarySearch< K, V, I, (N >> 1) >::LowerBound (left, right, key, indices, data);
-			}
-		};
-
-		template <typename K, typename V, typename I>
-		struct RecursiveBinarySearch< K, V, I, 0 >
-		{
-			LOO_FORCEINLINE static int  Find (int left, int, const K &, const I *, const Pair<K, V> *)
-			{
-				return left;
-			}
-
-			LOO_FORCEINLINE static int  LowerBound (int left, int, const K &, const I *, const Pair<K, V> *)
-			{
-				return left;
-			}
-		};
-
-	}	// _hidden_
 
 	/*
 	=================================================

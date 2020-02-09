@@ -25,7 +25,13 @@
 #include <type_traits>
 #include <bitset>
 #include <chrono>
+#include <array>
 #include "global/extstd/strtk.h"
+#include "global/extstd/typetraits.h"
+#include "global/extstd/defaulttypes.h"
+#include "global/extstd/umax.h"
+
+#include "global/utils/log.h"
 
 
 namespace loo
@@ -123,16 +129,6 @@ namespace std
 #endif
 
 
-#define DLL_SUFFIX LOO_OUTPUT_SUFFIX "." DLL_EXT_NAME
-// helper macro
-#define LOO_PRIVATE_GETARG_0( _0_, ... )				_0_
-#define LOO_PRIVATE_GETARG_1( _0_, _1_, ... )		_1_
-#define LOO_PRIVATE_GETARG_2( _0_, _1_, _2_, ... )	_2_
-#define LOO_PRIVATE_GETRAW( _value_ )				_value_
-#define LOO_PRIVATE_TOSTRING( ... )					#__VA_ARGS__
-#define LOO_PRIVATE_UNITE_RAW( _arg0_, _arg1_ )		LOO_PRIVATE_UNITE( _arg0_, _arg1_ )
-#define LOO_PRIVATE_UNITE( _arg0_, _arg1_ )			_arg0_ ## _arg1_
-
 #define ASSERT_MSG(con,msg) assert((con)&&msg)
 #define ASSERT(con) assert((con)&&con)
 #ifdef LOO_COMPILER_MSVC
@@ -143,18 +139,12 @@ namespace std
 #define LOO_RESTRICT
 #define LOO_ASSUME(x) (assert(x))
 #endif
-#ifndef STATIC_ASSERT
-#	define STATIC_ASSERT( ... ) \
-		static_assert(	LOO_PRIVATE_GETRAW( LOO_PRIVATE_GETARG_0( __VA_ARGS__ ) ), \
-						LOO_PRIVATE_GETRAW( LOO_PRIVATE_GETARG_1( __VA_ARGS__, LOO_PRIVATE_TOSTRING(__VA_ARGS__) ) ) )
-#endif
-
 
 // compile time messages
 #ifndef LOO_COMPILATION_MESSAGE
 #	if defined(LOO_COMPILER_CLANG)
 #		define LOO_PRIVATE_MESSAGE_TOSTR(x)	#x
-#		define LOO_COMPILATION_MESSAGE( _message_ )	_Pragma(FG_PRIVATE_MESSAGE_TOSTR( GCC warning ("" _message_) ))
+#		define LOO_COMPILATION_MESSAGE( _message_ )	_Pragma(LOO_PRIVATE_MESSAGE_TOSTR( GCC warning ("" _message_) ))
 
 #	elif defined(LOO_COMPILER_MSVC)
 #		define LOO_COMPILATION_MESSAGE( _message_ )	__pragma(message( _message_ ))
@@ -164,5 +154,38 @@ namespace std
 #	endif
 #endif
 
+
+// return error code
+#ifndef RETURN_ERR
+#	define LOO_PRIVATE_RETURN_ERR( _text_, _ret_ ) \
+		{ utils::slog.e<< _text_ ;  return (_ret_); }
+
+#	define RETURN_ERR( ... ) \
+		LOO_PRIVATE_RETURN_ERR( LOO_PRIVATE_GETARG_0( __VA_ARGS__ ), LOO_PRIVATE_GETARG_1( __VA_ARGS__, ::loo::Default ) )
+#endif
+
+// enable/disable checks for enums
+#ifdef LOO_COMPILER_MSVC
+#	define BEGIN_ENUM_CHECKS() \
+		__pragma (warning (push)) \
+		__pragma (warning (error: 4061)) /*enumerator 'identifier' in switch of enum 'enumeration' is not explicitly handled by a case label*/ \
+		__pragma (warning (error: 4062)) /*enumerator 'identifier' in switch of enum 'enumeration' is not handled*/ \
+		__pragma (warning (error: 4063)) /*case 'number' is not a valid value for switch of enum 'type'*/ \
+
+#	define END_ENUM_CHECKS() \
+		__pragma (warning (pop)) \
+
+#elif defined(LOO_COMPILER_CLANG)
+#	define BEGIN_ENUM_CHECKS() \
+		 _Pragma( "clang diagnostic error \"-Wswitch\"" )
+
+#	define END_ENUM_CHECKS() \
+		 _Pragma( "clang diagnostic ignored \"-Wswitch\"" )
+
+#else
+#	define BEGIN_ENUM_CHECKS()
+#	define END_ENUM_CHECKS()
+
+#endif
 
 #endif

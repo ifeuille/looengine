@@ -103,7 +103,7 @@ namespace loo
 		private:
 			Value_t		_value = UMax;
 
-			STATIC_ASSERT (sizeof (_value) == (sizeof (Index_t) + sizeof (InstanceID_t)));
+			STATIC_ASSERT (sizeof (_value) == (sizeof (Index_t) + sizeof (InstanceID_t)),"");
 
 			static constexpr Index_t	_IndexMask = (1 << sizeof (Index_t) * 8) - 1;
 			static constexpr Value_t	_InstOffset = sizeof (Index_t) * 8;
@@ -177,59 +177,61 @@ namespace loo
 	}	// _hidden_
 
 
-	enum class RenderTargetID : uint
+	namespace vkfg
 	{
-		Color_0 = 0,
-		Color_1 = 1,
-		Color_2 = 2,
-		Color_3 = 3,
-		_LastColor = LOO_MaxColorBuffers - 1,
-		DepthStencil = LOO_MaxColorBuffers,
-		Depth = DepthStencil,
-		Unknown = ~0u
-	};
-	STATIC_ASSERT (uint (RenderTargetID::_LastColor) <= LOO_MaxColorBuffers);
+		enum class RenderTargetID : uint
+		{
+			Color_0 = 0,
+			Color_1 = 1,
+			Color_2 = 2,
+			Color_3 = 3,
+			_LastColor = LOO_MaxColorBuffers - 1,
+			DepthStencil = LOO_MaxColorBuffers,
+			Depth = DepthStencil,
+			Unknown = ~0u
+		};
+		STATIC_ASSERT (uint (RenderTargetID::_LastColor) <= LOO_MaxColorBuffers, "");
 
+		using UniformID = _hidden_::IDWithString< 32, 1, LOO_OPTIMIZE_IDS >;
+		using PushConstantID = _hidden_::IDWithString< 32, 2, LOO_OPTIMIZE_IDS >;
+		using DescriptorSetID = _hidden_::IDWithString< 32, 4, LOO_OPTIMIZE_IDS >;
+		using SpecializationID = _hidden_::IDWithString< 32, 5, LOO_OPTIMIZE_IDS >;
+		using VertexID = _hidden_::IDWithString< 32, 6, LOO_OPTIMIZE_IDS >;
+		using VertexBufferID = _hidden_::IDWithString< 32, 7, LOO_OPTIMIZE_IDS >;
+		using MemPoolID = _hidden_::IDWithString< 32, 8, LOO_OPTIMIZE_IDS >;
+		using RTShaderID = _hidden_::IDWithString< 32, 10, false >;
+		using GeometryID = _hidden_::IDWithString< 32, 11, LOO_OPTIMIZE_IDS >;
+		using InstanceID = _hidden_::IDWithString< 32, 12, LOO_OPTIMIZE_IDS >;
 
-	using UniformID = _hidden_::IDWithString< 32, 1, LOO_OPTIMIZE_IDS >;
-	using PushConstantID = _hidden_::IDWithString< 32, 2, LOO_OPTIMIZE_IDS >;
-	using DescriptorSetID = _hidden_::IDWithString< 32, 4, LOO_OPTIMIZE_IDS >;
-	using SpecializationID = _hidden_::IDWithString< 32, 5, LOO_OPTIMIZE_IDS >;
-	using VertexID = _hidden_::IDWithString< 32, 6, LOO_OPTIMIZE_IDS >;
-	using VertexBufferID = _hidden_::IDWithString< 32, 7, LOO_OPTIMIZE_IDS >;
-	using MemPoolID = _hidden_::IDWithString< 32, 8, LOO_OPTIMIZE_IDS >;
-	using RTShaderID = _hidden_::IDWithString< 32, 10, false >;
-	using GeometryID = _hidden_::IDWithString< 32, 11, LOO_OPTIMIZE_IDS >;
-	using InstanceID = _hidden_::IDWithString< 32, 12, LOO_OPTIMIZE_IDS >;
+		// weak references
+		using RawBufferID = _hidden_::ResourceID< 1 >;
+		using RawImageID = _hidden_::ResourceID< 2 >;
+		using RawGPipelineID = _hidden_::ResourceID< 3 >;
+		using RawMPipelineID = _hidden_::ResourceID< 4 >;
+		using RawCPipelineID = _hidden_::ResourceID< 5 >;
+		using RawRTPipelineID = _hidden_::ResourceID< 6 >;
+		using RawSamplerID = _hidden_::ResourceID< 7 >;
+		using RawDescriptorSetLayoutID = _hidden_::ResourceID< 8 >;
+		using RawPipelineResourcesID = _hidden_::ResourceID< 9 >;
+		using LogicalPassID = _hidden_::ResourceID< 10 >;
+		using RawRTSceneID = _hidden_::ResourceID< 11 >;
+		using RawRTGeometryID = _hidden_::ResourceID< 12 >;
+		using RawRTShaderTableID = _hidden_::ResourceID< 13 >;
+		using RawSwapchainID = _hidden_::ResourceID< 14 >;
 
-	// weak references
-	using RawBufferID = _hidden_::ResourceID< 1 >;
-	using RawImageID = _hidden_::ResourceID< 2 >;
-	using RawGPipelineID = _hidden_::ResourceID< 3 >;
-	using RawMPipelineID = _hidden_::ResourceID< 4 >;
-	using RawCPipelineID = _hidden_::ResourceID< 5 >;
-	using RawRTPipelineID = _hidden_::ResourceID< 6 >;
-	using RawSamplerID = _hidden_::ResourceID< 7 >;
-	using RawDescriptorSetLayoutID = _hidden_::ResourceID< 8 >;
-	using RawPipelineResourcesID = _hidden_::ResourceID< 9 >;
-	using LogicalPassID = _hidden_::ResourceID< 10 >;
-	using RawRTSceneID = _hidden_::ResourceID< 11 >;
-	using RawRTGeometryID = _hidden_::ResourceID< 12 >;
-	using RawRTShaderTableID = _hidden_::ResourceID< 13 >;
-	using RawSwapchainID = _hidden_::ResourceID< 14 >;
-
-	// strong references
-	using BufferID = _hidden_::ResourceIDWrap< RawBufferID >;
-	using ImageID = _hidden_::ResourceIDWrap< RawImageID >;
-	using GPipelineID = _hidden_::ResourceIDWrap< RawGPipelineID >;
-	using MPipelineID = _hidden_::ResourceIDWrap< RawMPipelineID >;
-	using CPipelineID = _hidden_::ResourceIDWrap< RawCPipelineID >;
-	using RTPipelineID = _hidden_::ResourceIDWrap< RawRTPipelineID >;
-	using SamplerID = _hidden_::ResourceIDWrap< RawSamplerID >;
-	using RTSceneID = _hidden_::ResourceIDWrap< RawRTSceneID >;
-	using RTGeometryID = _hidden_::ResourceIDWrap< RawRTGeometryID >;
-	using RTShaderTableID = _hidden_::ResourceIDWrap< RawRTShaderTableID >;
-	using SwapchainID = _hidden_::ResourceIDWrap< RawSwapchainID >;
+		// strong references
+		using BufferID = _hidden_::ResourceIDWrap< RawBufferID >;
+		using ImageID = _hidden_::ResourceIDWrap< RawImageID >;
+		using GPipelineID = _hidden_::ResourceIDWrap< RawGPipelineID >;
+		using MPipelineID = _hidden_::ResourceIDWrap< RawMPipelineID >;
+		using CPipelineID = _hidden_::ResourceIDWrap< RawCPipelineID >;
+		using RTPipelineID = _hidden_::ResourceIDWrap< RawRTPipelineID >;
+		using SamplerID = _hidden_::ResourceIDWrap< RawSamplerID >;
+		using RTSceneID = _hidden_::ResourceIDWrap< RawRTSceneID >;
+		using RTGeometryID = _hidden_::ResourceIDWrap< RawRTGeometryID >;
+		using RTShaderTableID = _hidden_::ResourceIDWrap< RawRTShaderTableID >;
+		using SwapchainID = _hidden_::ResourceIDWrap< RawSwapchainID >;
+}
 
 }	// loo
 

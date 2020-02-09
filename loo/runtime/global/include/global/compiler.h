@@ -285,12 +285,12 @@ enum ENoInit { NoInit };
 #define LOO_CONSTEXPR_OR_CONST constexpr
 
 #define LOO_ASSERT(x,msg) assert(x&&msg);
-
-// ssize_t is a POSIX type.
-#if defined(WIN32)
-#include <BaseTsd.h>
-typedef SSIZE_T ssize_t;
-#endif
+//
+//// ssize_t is a POSIX type.
+//#if defined(WIN32)
+//#include <BaseTsd.h>
+//typedef SSIZE_T ssize_t;
+//#endif
 
 
 //for non-lang
@@ -382,6 +382,14 @@ typedef SSIZE_T ssize_t;
 #	define LOO_ALLOCATOR		__declspec( allocator )
 #else
 #	define LOO_ALLOCATOR
+#endif
+
+#ifndef LOO_FORCEINLINE
+#define LOO_FORCEINLINE inline
+#endif
+
+#ifndef ND_
+#define ND_
 #endif
 
 #endif 

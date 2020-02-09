@@ -20,7 +20,9 @@
 #include <string>
 #include <thread>
  //#include <utils/ThreadLocal.h>
-#include "global/global.h"
+#include "global/config.h"
+#include "global/Compiler.h"
+#include "global/platform.h"
 #include "global/utils/bitset.h"
 
 // We always use TINY IO, it seems to work well enough and that a nice way to not
@@ -102,7 +104,7 @@ namespace utils {
 				char* curr = mStorage;
 				size_t size = sizeof (mStorage);
 				const char* get () const noexcept { return mStorage; }
-				void advance (ssize_t n) noexcept;
+				void advance (std::int64_t n) noexcept;
 				void reset () noexcept;
 			};
 
@@ -172,6 +174,6 @@ if(!_func_){\
 utils::slog.e<<"CHECK FAILED:"<<#_func_<<utils::io::endl;\
 }}
 #define CHECK(_func_)\
-	CHECK_PRIVATE(_func_)
+	CHECK_PRIVATE((_func_))
 #endif
 #endif // TNT_UTILS_LOG_H

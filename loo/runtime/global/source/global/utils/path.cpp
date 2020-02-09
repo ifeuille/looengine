@@ -182,7 +182,7 @@ namespace utils {
 		if (isEmpty ()) return segments;
 
 		size_t current;
-		ssize_t next = -1;
+		std::int64_t next = -1;
 
 		// Matches a leading disk designator (C:\), forward slash (/), or back slash (\)
 		const static std::regex driveDesignationRegex (R"_regex(^([a-zA-Z]:\\|\\|\/))_regex");
@@ -217,7 +217,7 @@ namespace utils {
 		bool ends_with_slash = path.back () == SEPARATOR;
 
 		size_t current;
-		ssize_t next = -1;
+		loo::int64 next = -1;
 
 		do {
 			current = size_t (next + 1);

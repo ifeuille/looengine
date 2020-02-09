@@ -2,6 +2,8 @@
 #define LOO_GLOBAL_TEMPLATE_HASH_H
 #pragma once
 #include "global/global.h"
+#include "global/extstd/typetraits.h"
+
 namespace loo
 {
 

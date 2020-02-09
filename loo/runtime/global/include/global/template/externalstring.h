@@ -1,5 +1,5 @@
-#ifndef LE_CORE_EXTERNALSTRING_H
-#define LE_CORE_EXTERNALSTRING_H
+#ifndef LOO_CORE_EXTERNALSTRING_H
+#define LOO_CORE_EXTERNALSTRING_H
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -9,10 +9,10 @@
 #include <locale>
 #include <codecvt>
 #include <string>
-#include "global/math/math.h"
+#include "global/global.h"
+#include "global/extstd/typetraits.h"
 #include "global/template/andornot.h"
 #include "global/template/isvalidvariadicfunctionarg.h"
-
 
 #if (defined WIN32) ||  (defined _WIN32)
 #include<Windows.h>
@@ -60,7 +60,7 @@ namespace loo
 
 		inline std::string Left ( std::string& str, int32_t Count )
 		{
-			Count = loo::math::clamp ( Count, 0, static_cast<int32_t>(str.length ( )) );
+			Count = std::min (Count, std::max (0, static_cast<int32_t>(str.length ())));
 			std::string retString;
 			retString.copy ( &str[0], Count );
 			return retString;
@@ -85,7 +85,7 @@ namespace loo
 			int writtenBytes{};
 			writtenBytes = std::vsnprintf ( buf, STARTING_BUFFER_SIZE, Fmt, ap );
 			if (!writtenBytes) {
-				std::wcout << L"Cannot Output String" << std::endl;
+				std::wcout << L"Cannot Output std::string" << std::endl;
 				return std::string{};
 			}
 
@@ -216,6 +216,8 @@ namespace loo
 			return right == left;
 		}
 	}
+
+	
 }
 
 #endif

@@ -34,7 +34,7 @@ template <typename T, typename Allocator> void operator delete(void* ptr, std::v
 
 #ifdef __clang__
 template <typename T>
-auto ArrayCountHelper (T& t) -> typename TEnableIf<__is_array (T), char (&)[sizeof (t) / sizeof (t[0]) + 1]>::Type;
+auto ArrayCountHelper (T& t) -> typename std::enable_if<__is_array (T), char (&)[sizeof (t) / sizeof (t[0]) + 1]>::type;
 #else
 template <typename T, loo::uint32 N>
 char (&ArrayCountHelper (const T (&)[N]))[N + 1];

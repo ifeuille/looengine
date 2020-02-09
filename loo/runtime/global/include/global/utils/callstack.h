@@ -17,6 +17,7 @@ namespace utils {
  */
 class CallStack {
 public:
+	typedef std::int64_t ssize_t;
     /**
      * Creates an empty call stack
      * @see CallStack::capture()

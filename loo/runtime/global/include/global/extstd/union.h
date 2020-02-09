@@ -4,6 +4,7 @@
 #include "global/global.h"
 
 
+
 namespace loo
 {
 	namespace _hidden_
@@ -84,7 +85,7 @@ namespace loo
 		return std::holds_alternative<T> (un);
 	}
 
-}	// FGC
+}
 
 
 #else

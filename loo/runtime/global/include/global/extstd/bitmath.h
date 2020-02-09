@@ -101,13 +101,13 @@ namespace loo
 		constexpr int	INVALID_INDEX = std::numeric_limits<int>::min ();
 		unsigned long	index;
 
-		if constexpr (sizeof (x) > sizeof (uint32))
+		if /*constexpr*/ (sizeof (x) > sizeof (uint32))
 			return _BitScanForward64 (OUT &index, x) ? index : INVALID_INDEX;
 		else
 			return _BitScanForward (OUT &index, x) ? index : INVALID_INDEX;
 
 #elif defined(LOO_COMPILER_GCC) or defined(LOO_COMPILER_CLANG)
-		if constexpr (sizeof (x) > sizeof (uint))
+		if /*constexpr*/ (sizeof (x) > sizeof (uint))
 			return __builtin_ffsll (x) - 1;
 		else
 			return __builtin_ffs (x) - 1;
@@ -125,7 +125,7 @@ namespace loo
 	template <typename T>
 	ND_ inline size_t  BitCount (const T& x)
 	{
-		STATIC_ASSERT (IsUnsignedInteger<T>);
+		STATIC_ASSERT (IsUnsignedInteger<T>,"");
 
 		if /*constexpr*/ (sizeof (x) == 8)
 			return std::bitset<64>(x).count ();

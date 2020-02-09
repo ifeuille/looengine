@@ -1,7 +1,8 @@
 #ifndef LOO_CORE_MATH_RECT_H
 #define LOO_CORE_MATH_RECT_H
 #include "global/global.h"
-#include "global/math/mathcore.h"
+#include "global/math/vec.h"
+#include "global/math/rect.h"
 
 namespace loo
 {
@@ -11,8 +12,8 @@ namespace loo
 		struct Rectangle
 		{
 			// types
-			using Vec2_t = glm::vec<2, T, glm::defaultp>;
-			using Self = Rectangle<T>;
+			using Vec2_t = loo::math::Vec<T, 2>;
+			using Self = loo::math::Rectangle<T>;
 
 
 			// variables
@@ -25,10 +26,10 @@ namespace loo
 				left{ T (0) }, top{ T (0) }, right{ T (0) }, bottom{ T (0) }
 			{
 				// check is supported cast Rectangle to array
-				STATIC_ASSERT (offsetof (Self, left) + sizeof (T) == offsetof (Self, top));
-				STATIC_ASSERT (offsetof (Self, top) + sizeof (T) == offsetof (Self, right));
-				STATIC_ASSERT (offsetof (Self, right) + sizeof (T) == offsetof (Self, bottom));
-				STATIC_ASSERT (sizeof (T[3]) == (offsetof (Self, bottom) - offsetof (Self, left)));
+				STATIC_ASSERT (offsetof (Self, left) + sizeof (T) == offsetof (Self, top), "");
+				STATIC_ASSERT (offsetof (Self, top) + sizeof (T) == offsetof (Self, right), "");
+				STATIC_ASSERT (offsetof (Self, right) + sizeof (T) == offsetof (Self, bottom), "");
+				STATIC_ASSERT (sizeof (T[3]) == (offsetof (Self, bottom) - offsetof (Self, left)), "");
 			}
 
 			constexpr Rectangle (T left, T top, T right, T bottom) :
@@ -66,7 +67,7 @@ namespace loo
 			ND_ constexpr const Vec2_t	Size ()			const { return { Width (), Height () }; }
 			ND_ constexpr const Vec2_t	Center ()		const { return { CenterX (), CenterY () }; }
 
-			ND_ constexpr bool			IsEmpty ()		const { return Equals (left, right) | Equals (top, bottom); }
+			ND_ constexpr bool			IsEmpty ()		const { return loo::math::Equals (left, right) | Equals (top, bottom); }
 			ND_ constexpr bool			IsInvalid ()	const { return (right < left) | (bottom < top); }
 			ND_ constexpr bool			IsValid ()		const { return (not IsEmpty ()) & (not IsInvalid ()); }
 
@@ -78,7 +79,7 @@ namespace loo
 
 			ND_ constexpr Self	Intersection (const Self &other) const;
 
-			ND_ constexpr glm::bool4 operator == (const Self &rhs) const;
+			ND_ constexpr loo::math::bool4 operator == (const Self &rhs) const;
 
 			Self&	Join (const Self &other);
 			Self&	Join (const Vec2_t &point);
@@ -121,7 +122,7 @@ namespace loo
 		=================================================
 		*/
 		template <typename T>
-		inline constexpr Rectangle<T>&  operator += (Rectangle<T> &lhs, const glm::vec<2, T, glm::defaultp> &rhs)
+		inline constexpr Rectangle<T>&  operator += (Rectangle<T> &lhs, const loo::math::Vec<T,2> &rhs)
 		{
 			lhs.left += rhs.x;	lhs.right += rhs.x;
 			lhs.top += rhs.y;	lhs.bottom += rhs.y;
@@ -129,7 +130,7 @@ namespace loo
 		}
 
 		template <typename T>
-		inline constexpr Rectangle<T>  operator + (const Rectangle<T> &lhs, const glm::vec<2, T, glm::defaultp> &rhs)
+		inline constexpr Rectangle<T>  operator + (const Rectangle<T> &lhs, const loo::math::Vec<T, 2> &rhs)
 		{
 			return Rectangle<T>{ lhs.left + rhs.x, lhs.top + rhs.y,
 				lhs.right + rhs.x, lhs.bottom + rhs.y };
@@ -138,13 +139,13 @@ namespace loo
 		template <typename T>
 		inline constexpr Rectangle<T>&  operator += (Rectangle<T> &lhs, const T &rhs)
 		{
-			return lhs += glm::vec<2, T, glm::defaultp>{rhs};
+			return lhs += loo::math::Vec<T, 2>(rhs);
 		}
 
 		template <typename T>
 		inline constexpr Rectangle<T>  operator + (const Rectangle<T> &lhs, const T &rhs)
 		{
-			return lhs + glm::vec<2, T, glm::defaultp>{rhs};
+			return lhs + loo::math::Vec<T, 2> (rhs);
 		}
 
 		/*
@@ -153,7 +154,7 @@ namespace loo
 		=================================================
 		*/
 		template <typename T>
-		inline constexpr Rectangle<T>&  operator -= (Rectangle<T> &lhs, const glm::vec<2, T, glm::defaultp> &rhs)
+		inline constexpr Rectangle<T>&  operator -= (Rectangle<T> &lhs, const loo::math::Vec<T, 2> &rhs)
 		{
 			lhs.left -= rhs.x;	lhs.right -= rhs.x;
 			lhs.top -= rhs.y;	lhs.bottom -= rhs.y;
@@ -161,7 +162,7 @@ namespace loo
 		}
 
 		template <typename T>
-		inline constexpr Rectangle<T>  operator - (const Rectangle<T> &lhs, const glm::vec<2, T, glm::defaultp> &rhs)
+		inline constexpr Rectangle<T>  operator - (const Rectangle<T> &lhs, const loo::math::Vec<T, 2> &rhs)
 		{
 			return Rectangle<T>{ lhs.left - rhs.x, lhs.top - rhs.y,
 				lhs.right - rhs.x, lhs.bottom - rhs.y };
@@ -170,13 +171,13 @@ namespace loo
 		template <typename T>
 		inline constexpr Rectangle<T>&  operator -= (Rectangle<T> &lhs, const T &rhs)
 		{
-			return lhs -= glm::vec<2, T, glm::defaultp>{rhs};
+			return lhs -= loo::math::Vec<T,2>(rhs);
 		}
 
 		template <typename T>
 		inline constexpr Rectangle<T>  operator - (const Rectangle<T> &lhs, const T &rhs)
 		{
-			return lhs - glm::vec<2, T, glm::defaultp>{rhs};
+			return lhs - loo::math::Vec<T,2>(rhs);
 		}
 
 		/*
@@ -185,7 +186,7 @@ namespace loo
 		=================================================
 		*/
 		template <typename T>
-		inline constexpr Rectangle<T>&  operator *= (Rectangle<T> &lhs, const glm::vec<2, T, glm::defaultp> &rhs)
+		inline constexpr Rectangle<T>&  operator *= (Rectangle<T> &lhs, const loo::math::Vec<T, 2> &rhs)
 		{
 			lhs.left *= rhs.x;	lhs.right *= rhs.x;
 			lhs.top *= rhs.y;	lhs.bottom *= rhs.y;
@@ -193,7 +194,7 @@ namespace loo
 		}
 
 		template <typename T>
-		inline constexpr Rectangle<T>  operator * (const Rectangle<T> &lhs, const glm::vec<2, T, glm::defaultp> &rhs)
+		inline constexpr Rectangle<T>  operator * (const Rectangle<T> &lhs, const loo::math::Vec<T, 2> &rhs)
 		{
 			return Rectangle<T>{ lhs.left  * rhs.x, lhs.top    * rhs.y,
 				lhs.right * rhs.x, lhs.bottom * rhs.y };
@@ -202,13 +203,13 @@ namespace loo
 		template <typename T>
 		inline constexpr Rectangle<T>&  operator *= (Rectangle<T> &lhs, const T &rhs)
 		{
-			return lhs *= glm::vec<2, T, glm::defaultp>{rhs};
+			return lhs *= loo::math::Vec<T,2>(rhs);
 		}
 
 		template <typename T>
 		inline constexpr Rectangle<T>  operator * (const Rectangle<T> &lhs, const T &rhs)
 		{
-			return lhs * glm::vec<2, T, glm::defaultp>{rhs};
+			return lhs * loo::math::Vec<T,2>(rhs);
 		}
 
 		/*
@@ -217,7 +218,7 @@ namespace loo
 		=================================================
 		*/
 		template <typename T>
-		inline constexpr Rectangle<T>&  operator /= (Rectangle<T> &lhs, const glm::vec<2, T, glm::defaultp> &rhs)
+		inline constexpr Rectangle<T>&  operator /= (Rectangle<T> &lhs, const loo::math::Vec<T, 2> &rhs)
 		{
 			lhs.left /= rhs.x;	lhs.right /= rhs.x;
 			lhs.top /= rhs.y;	lhs.bottom /= rhs.y;
@@ -225,7 +226,7 @@ namespace loo
 		}
 
 		template <typename T>
-		inline constexpr Rectangle<T>  operator / (const Rectangle<T> &lhs, const glm::vec<2, T, glm::defaultp> &rhs)
+		inline constexpr Rectangle<T>  operator / (const Rectangle<T> &lhs, const loo::math::Vec<T, 2> &rhs)
 		{
 			return Rectangle<T>{ lhs.left / rhs.x, lhs.top / rhs.y,
 				lhs.right / rhs.x, lhs.bottom / rhs.y };
@@ -234,13 +235,13 @@ namespace loo
 		template <typename T>
 		inline constexpr Rectangle<T>&  operator /= (Rectangle<T> &lhs, const T &rhs)
 		{
-			return lhs /= glm::vec<2, T, glm::defaultp>{rhs};
+			return lhs /= loo::math::Vec<T,2>(rhs);
 		}
 
 		template <typename T>
 		inline constexpr Rectangle<T>  operator / (const Rectangle<T> &lhs, const T &rhs)
 		{
-			return lhs / glm::vec<2, T, glm::defaultp>{rhs};
+			return lhs / loo::math::Vec<T,2>(rhs);
 		}
 
 		/*
@@ -291,7 +292,7 @@ namespace loo
 		=================================================
 		*/
 		template <typename T>
-		inline constexpr glm::bool4  Rectangle<T>::operator == (const Self &rhs) const
+		inline constexpr loo::math::bool4  Rectangle<T>::operator == (const Self &rhs) const
 		{
 			return glm::bool4( left == rhs.left, top == rhs.top, right == rhs.right, bottom == rhs.bottom );
 		}
@@ -382,13 +383,13 @@ namespace loo
 		=================================================
 		*/
 		template <typename T>
-		ND_ inline constexpr glm::bool4  Equals (const Rectangle<T> &lhs, const Rectangle<T> &rhs, const T &err = std::numeric_limits<T>::epsilon () * T (2))
+		ND_ inline constexpr loo::math::bool4  Equals (const Rectangle<T> &lhs, const Rectangle<T> &rhs, const T &err = std::numeric_limits<T>::epsilon () * T (2))
 		{
-			glm::bool4	res;
-			res[0] = loo::Equals (lhs.left, rhs.left, err);
-			res[1] = loo::Equals (lhs.top, rhs.top, err);
-			res[2] = loo::Equals (lhs.right, rhs.right, err);
-			res[3] = loo::Equals (lhs.bottom, rhs.bottom, err);
+			loo::math::bool4	res;
+			res[0] = loo::math::Equals (lhs.left, rhs.left, err);
+			res[1] = loo::math::Equals (lhs.top, rhs.top, err);
+			res[2] = loo::math::Equals (lhs.right, rhs.right, err);
+			res[3] = loo::math::Equals (lhs.bottom, rhs.bottom, err);
 			return res;
 		}
 

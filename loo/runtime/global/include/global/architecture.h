@@ -132,4 +132,13 @@
 #endif
 
 
+
+#ifndef LOO_CACHE_LINE
+#ifdef LOO_64
+#define LOO_CACHE_LINE  64
+#else
+#define LOO_CACHE_LINE  32
+#endif
+#endif
+
 #endif

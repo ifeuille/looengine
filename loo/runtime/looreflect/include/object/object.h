@@ -7,7 +7,7 @@
 
 namespace loo
 {
-	LOOCLASS() LOOREFLECT_EXPORT Object:public loo::global::TRefCountPtr<Object>
+	class LOOCLASS() LOOREFLECT_EXPORT Object:public loo::global::TRefCountPtr<Object>
 	{
 		LOOMETA_OBJECT;
 	public:

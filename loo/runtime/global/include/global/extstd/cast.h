@@ -3,6 +3,7 @@
 #pragma once
 #include "global/global.h"
 #include "global/extstd/bitmath.h"
+#include "global/extstd/ptr.h"
 
 namespace loo
 {

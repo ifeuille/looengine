@@ -12,6 +12,7 @@
 
 #include "global/extstd/optional.h"
 #include "global/utlis.h"
+#include "global/utils/threadname.h"
 
 namespace loo
 {

@@ -1,0 +1,793 @@
+[
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\thread.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\thread.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/thread.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\utlis.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\utlis.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/utlis.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\time.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\time.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/time.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\container\\customizedstreambuf.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\container\\customizedstreambuf.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/container/customizedstreambuf.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\math\\color.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\math\\color.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/math/color.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\math\\random.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\math\\random.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/math/random.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\utils\\path.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\utils\\path.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/utils/path.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\utils\\log.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\utils\\log.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/utils/log.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\utils\\panic.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\utils\\panic.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/utils/panic.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\utils\\callstack.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\utils\\callstack.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/utils/callstack.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\utils\\cstring.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\utils\\cstring.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/utils/cstring.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\utils\\threadname.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\utils\\threadname.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/utils/threadname.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\stream\\stream.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\stream\\stream.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/stream/stream.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\stream\\filestream.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\stream\\filestream.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/stream/filestream.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\algorithms\\stringparser.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\algorithms\\stringparser.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/algorithms/stringparser.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOGLOBAL_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/glm -I../loo/runtime/global/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\global\\CMakeFiles\\global.dir\\source\\global\\extstd\\barrier.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\global\\source\\global\\extstd\\barrier.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/global/source/global/extstd/barrier.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOREFLECT_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dlooreflect_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\looreflect\\CMakeFiles\\looreflect.dir\\source\\looreflect\\looreflect.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\looreflect\\source\\looreflect\\looreflect.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/looreflect/source/looreflect/looreflect.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOREFLECT_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dlooreflect_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\looreflect\\CMakeFiles\\looreflect.dir\\source\\looreflect\\looreflectmanager.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\looreflect\\source\\looreflect\\looreflectmanager.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/looreflect/source/looreflect/looreflectmanager.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOREFLECT_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dlooreflect_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\looreflect\\CMakeFiles\\looreflect.dir\\source\\object\\object.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\looreflect\\source\\object\\object.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/looreflect/source/object/object.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOMODULEMANAGER_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dmodulemanager_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/modulemanager/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\modulemanager\\CMakeFiles\\modulemanager.dir\\source\\modulemanager\\dllloader.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\modulemanager\\source\\modulemanager\\dllloader.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/modulemanager/source/modulemanager/dllloader.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOOMODULEMANAGER_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dmodulemanager_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/modulemanager/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\modulemanager\\CMakeFiles\\modulemanager.dir\\source\\modulemanager\\modulemanager.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\modulemanager\\source\\modulemanager\\modulemanager.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/modulemanager/source/modulemanager/modulemanager.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOO_CACHE_LINE=64 -DPLOG_DLL_EXPORT -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dplog_EXPORTS -I../loo/runtime/plog/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\plog\\CMakeFiles\\plog.dir\\source\\plog\\empty.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\plog\\source\\plog\\empty.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/plog/source/plog/empty.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DFILEMANAGER_DLL_EXPORT -DGLM_FORCE_RADIANS -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dfilemanager_EXPORTS -I../loo/runtime/global/include -I../loo/thirdpart/7z -I../loo/runtime/filemanager/include -I../loo/runtime/modulemanager/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\filemanager\\CMakeFiles\\filemanager.dir\\source\\filemanager\\ArchiveExtractCallback.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\filemanager\\source\\filemanager\\ArchiveExtractCallback.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/filemanager/source/filemanager/ArchiveExtractCallback.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DFILEMANAGER_DLL_EXPORT -DGLM_FORCE_RADIANS -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dfilemanager_EXPORTS -I../loo/runtime/global/include -I../loo/thirdpart/7z -I../loo/runtime/filemanager/include -I../loo/runtime/modulemanager/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\filemanager\\CMakeFiles\\filemanager.dir\\source\\filemanager\\ArchiveOpenCallback.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\filemanager\\source\\filemanager\\ArchiveOpenCallback.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/filemanager/source/filemanager/ArchiveOpenCallback.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DFILEMANAGER_DLL_EXPORT -DGLM_FORCE_RADIANS -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dfilemanager_EXPORTS -I../loo/runtime/global/include -I../loo/thirdpart/7z -I../loo/runtime/filemanager/include -I../loo/runtime/modulemanager/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\filemanager\\CMakeFiles\\filemanager.dir\\source\\filemanager\\LZMACodec.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\filemanager\\source\\filemanager\\LZMACodec.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/filemanager/source/filemanager/LZMACodec.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DFILEMANAGER_DLL_EXPORT -DGLM_FORCE_RADIANS -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dfilemanager_EXPORTS -I../loo/runtime/global/include -I../loo/thirdpart/7z -I../loo/runtime/filemanager/include -I../loo/runtime/modulemanager/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\filemanager\\CMakeFiles\\filemanager.dir\\source\\filemanager\\package.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\filemanager\\source\\filemanager\\package.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/filemanager/source/filemanager/package.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DFILEMANAGER_DLL_EXPORT -DGLM_FORCE_RADIANS -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dfilemanager_EXPORTS -I../loo/runtime/global/include -I../loo/thirdpart/7z -I../loo/runtime/filemanager/include -I../loo/runtime/modulemanager/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\filemanager\\CMakeFiles\\filemanager.dir\\source\\filemanager\\resloader.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\filemanager\\source\\filemanager\\resloader.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/filemanager/source/filemanager/resloader.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DFILEMANAGER_DLL_EXPORT -DGLM_FORCE_RADIANS -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dfilemanager_EXPORTS -I../loo/runtime/global/include -I../loo/thirdpart/7z -I../loo/runtime/filemanager/include -I../loo/runtime/modulemanager/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\filemanager\\CMakeFiles\\filemanager.dir\\source\\filemanager\\streams.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\filemanager\\source\\filemanager\\streams.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/filemanager/source/filemanager/streams.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DCORE_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dcore_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/runtime/vkfg/include -I../loo/thirdpart/glm -I../loo/runtime/core/include -I../loo/runtime/modulemanager/include -I../loo/runtime/filemanager/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\core\\CMakeFiles\\core.dir\\source\\core\\context.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\core\\source\\core\\context.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/core/source/core/context.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DCORE_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dcore_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/runtime/vkfg/include -I../loo/thirdpart/glm -I../loo/runtime/core/include -I../loo/runtime/modulemanager/include -I../loo/runtime/filemanager/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\core\\CMakeFiles\\core.dir\\source\\core\\application\\window.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\core\\source\\core\\application\\window.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/core/source/core/application/window.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DCORE_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dcore_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/runtime/vkfg/include -I../loo/thirdpart/glm -I../loo/runtime/core/include -I../loo/runtime/modulemanager/include -I../loo/runtime/filemanager/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\core\\CMakeFiles\\core.dir\\source\\core\\application\\application.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\core\\source\\core\\application\\application.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/core/source/core/application/application.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DCORE_DLL_EXPORT -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -Dcore_EXPORTS -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/runtime/vkfg/include -I../loo/thirdpart/glm -I../loo/runtime/core/include -I../loo/runtime/modulemanager/include -I../loo/runtime/filemanager/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\core\\CMakeFiles\\core.dir\\source\\core\\application\\winwindow.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\core\\source\\core\\application\\winwindow.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/core/source/core/application/winwindow.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/runtime/global/include -IC:/VulkanSDK/1.1.106.0/Include -I../loo/runtime/ifvk/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -fvisibility=hidden   -o loo\\runtime\\ifvk\\CMakeFiles\\ifvk.dir\\source\\IfVK.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\ifvk\\source\\IfVK.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/ifvk/source/IfVK.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/runtime/global/include -IC:/VulkanSDK/1.1.106.0/Include -I../loo/runtime/ifvk/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -fvisibility=hidden   -o loo\\runtime\\ifvk\\CMakeFiles\\ifvk.dir\\source\\IfVKWindows.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\ifvk\\source\\IfVKWindows.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/ifvk/source/IfVKWindows.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOO_CACHE_LINE=64 -DUNICODE -DVKFG_DLL_EXPORT -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/thirdpart/glm -IC:/VulkanSDK/1.1.106.0/Include -I../loo/runtime/vkfg/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\vkfg\\CMakeFiles\\vkfg.dir\\source\\vkfg\\fg\\enums.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\vkfg\\source\\vkfg\\fg\\enums.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/vkfg/source/vkfg/fg/enums.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOO_CACHE_LINE=64 -DUNICODE -DVKFG_DLL_EXPORT -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/thirdpart/glm -IC:/VulkanSDK/1.1.106.0/Include -I../loo/runtime/vkfg/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\vkfg\\CMakeFiles\\vkfg.dir\\source\\vkfg\\fg\\renderstate.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\vkfg\\source\\vkfg\\fg\\renderstate.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/vkfg/source/vkfg/fg/renderstate.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOO_CACHE_LINE=64 -DUNICODE -DVKFG_DLL_EXPORT -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/thirdpart/glm -IC:/VulkanSDK/1.1.106.0/Include -I../loo/runtime/vkfg/include -I../loo/runtime/looreflect/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\runtime\\vkfg\\CMakeFiles\\vkfg.dir\\source\\vkfg\\vulkan\\device\\vulkandevice.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\runtime\\vkfg\\source\\vkfg\\vulkan\\device\\vulkandevice.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/runtime/vkfg/source/vkfg/vulkan/device/vulkandevice.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\CreateCoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\CreateCoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/CreateCoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\CWrappers.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\CWrappers.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/CWrappers.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\FilterCoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\FilterCoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/FilterCoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\InBuffer.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\InBuffer.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/InBuffer.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\LimitedStreams.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\LimitedStreams.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/LimitedStreams.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\LockedStream.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\LockedStream.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/LockedStream.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\MethodId.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\MethodId.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/MethodId.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\OutBuffer.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\OutBuffer.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/OutBuffer.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\ProgressUtils.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\ProgressUtils.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/ProgressUtils.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\StreamBinder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\StreamBinder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/StreamBinder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\StreamObjects.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\StreamObjects.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/StreamObjects.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\StreamUtils.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\StreamUtils.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/StreamUtils.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Common\\VirtThread.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Common\\VirtThread.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Common/VirtThread.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zCompressionMode.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zCompressionMode.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zCompressionMode.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zDecode.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zDecode.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zDecode.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zExtract.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zExtract.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zExtract.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zFolderOutStream.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zFolderOutStream.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zFolderOutStream.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zHandler.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zHandler.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zHandler.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zHeader.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zHeader.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zHeader.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zIn.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zIn.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zIn.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zProperties.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zProperties.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zProperties.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\7z\\7zRegister.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\7z\\7zRegister.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/7z/7zRegister.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\Common\\CoderMixer2.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\Common\\CoderMixer2.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/Common/CoderMixer2.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\Common\\CoderMixer2MT.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\Common\\CoderMixer2MT.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/Common/CoderMixer2MT.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\Common\\CoderMixer2ST.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\Common\\CoderMixer2ST.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/Common/CoderMixer2ST.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\Common\\CrossThreadProgress.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\Common\\CrossThreadProgress.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/Common/CrossThreadProgress.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\Common\\ItemNameUtils.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\Common\\ItemNameUtils.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/Common/ItemNameUtils.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\Common\\MultiStream.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\Common\\MultiStream.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/Common/MultiStream.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\Common\\OutStreamWithCRC.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\Common\\OutStreamWithCRC.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/Common/OutStreamWithCRC.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\Common\\ParseProperties.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\Common\\ParseProperties.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/Common/ParseProperties.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\7zCrc.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\7zCrc.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/7zCrc.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Aes.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Aes.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Aes.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Alloc.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Alloc.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Alloc.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Bra.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Bra.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Bra.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Bra86.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Bra86.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Bra86.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\BraIA64.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\BraIA64.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/BraIA64.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\CpuArch.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\CpuArch.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/CpuArch.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Delta.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Delta.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Delta.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Lzma2Dec.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Lzma2Dec.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Lzma2Dec.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\LzmaDec.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\LzmaDec.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/LzmaDec.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Ppmd7.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Ppmd7.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Ppmd7.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Ppmd7Dec.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Ppmd7Dec.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Ppmd7Dec.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Sha256.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Sha256.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Sha256.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\C\\Threads.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Threads.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Threads.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\CRC.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\CRC.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/CRC.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\IntToString.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\IntToString.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/IntToString.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\MyString.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\MyString.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/MyString.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\MyVector.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\MyVector.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/MyVector.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\MyWindows.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\MyWindows.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/MyWindows.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\NewHandler.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\NewHandler.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/NewHandler.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\StringConvert.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\StringConvert.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/StringConvert.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\StringToInt.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\StringToInt.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/StringToInt.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Common\\Wildcard.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Common\\Wildcard.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Common/Wildcard.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\Bcj2Coder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\Bcj2Coder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/Bcj2Coder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\Bcj2Register.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\Bcj2Register.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/Bcj2Register.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BcjCoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BcjCoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BcjCoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BcjRegister.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BcjRegister.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BcjRegister.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BranchCoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BranchCoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BranchCoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BranchMisc.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BranchMisc.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BranchMisc.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BranchRegister.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BranchRegister.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BranchRegister.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\ByteSwap.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\ByteSwap.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/ByteSwap.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\CopyCoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\CopyCoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/CopyCoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\CopyRegister.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\CopyRegister.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/CopyRegister.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\Lzma2Decoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\Lzma2Decoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/Lzma2Decoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\Lzma2Register.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\Lzma2Register.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/Lzma2Register.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\LzmaDecoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\LzmaDecoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/LzmaDecoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\LzmaRegister.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\LzmaRegister.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/LzmaRegister.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BitlDecoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BitlDecoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BitlDecoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BZip2Crc.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BZip2Crc.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BZip2Crc.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BZip2Decoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BZip2Decoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BZip2Decoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\BZip2Register.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\BZip2Register.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/BZip2Register.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\DeflateDecoder.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\DeflateDecoder.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/DeflateDecoder.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\DeflateRegister.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\DeflateRegister.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/DeflateRegister.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\DeltaFilter.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\DeltaFilter.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/DeltaFilter.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\LzOutWindow.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\LzOutWindow.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/LzOutWindow.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Crypto\\7zAes.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Crypto\\7zAes.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Crypto/7zAes.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Crypto\\7zAesRegister.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Crypto\\7zAesRegister.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Crypto/7zAesRegister.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Crypto\\MyAes.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Crypto\\MyAes.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Crypto/MyAes.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\ArchiveExports.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\ArchiveExports.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/ArchiveExports.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Compress\\CodecExports.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Compress\\CodecExports.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Compress/CodecExports.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Archive\\DllExports2.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Archive\\DllExports2.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Archive/DllExports2.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\windres.exe -O coff -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -IE:/git/mine/loo/looengine/loo/thirdpart/7z/CPP   --target=pe-x86-64 --target=pe-x86-64 --target=pe-x86-64 --target=pe-x86-64   E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Bundles\\Format7zExtract\\resource.rc loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Bundles\\Format7zExtract\\resource.rc.obj",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Bundles/Format7zExtract/resource.rc"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\7zip\\Bundles\\Format7zExtract\\StdAfx.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\7zip\\Bundles\\Format7zExtract\\StdAfx.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/7zip/Bundles/Format7zExtract/StdAfx.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Windows\\PropVariant.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Windows\\PropVariant.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Windows/PropVariant.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Windows\\Synchronization.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Windows\\Synchronization.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Windows/Synchronization.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DEXTRACT_ONLY -DMY7Z_EXPORTS -DNO_ASM -DNO_REGISTRY -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_LARGE_PAGES -D_7ZIP_ST -D_7zxa_EXPORTS -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/thirdpart/7z/CPP   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\7zxa\\CMakeFiles\\7zxa.dir\\__\\__\\__\\CPP\\Windows\\System.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\CPP\\Windows\\System.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/CPP/Windows/System.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DLZMALIB_EXPORTS -DLZMA_EXPORTS -DNO_ASM -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_ST -D_UNICODE -D_WIN32_WINNT=0x0601   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\LZMA\\CMakeFiles\\LZMA.dir\\__\\__\\__\\C\\Alloc.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Alloc.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Alloc.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DLZMALIB_EXPORTS -DLZMA_EXPORTS -DNO_ASM -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_ST -D_UNICODE -D_WIN32_WINNT=0x0601   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\LZMA\\CMakeFiles\\LZMA.dir\\__\\__\\__\\C\\LzFind.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\LzFind.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/LzFind.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DLZMALIB_EXPORTS -DLZMA_EXPORTS -DNO_ASM -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_ST -D_UNICODE -D_WIN32_WINNT=0x0601   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\LZMA\\CMakeFiles\\LZMA.dir\\__\\__\\__\\C\\LzFindMt.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\LzFindMt.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/LzFindMt.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DLZMALIB_EXPORTS -DLZMA_EXPORTS -DNO_ASM -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_ST -D_UNICODE -D_WIN32_WINNT=0x0601   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\LZMA\\CMakeFiles\\LZMA.dir\\__\\__\\__\\C\\LzmaDec.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\LzmaDec.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/LzmaDec.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DLZMALIB_EXPORTS -DLZMA_EXPORTS -DNO_ASM -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_ST -D_UNICODE -D_WIN32_WINNT=0x0601   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\LZMA\\CMakeFiles\\LZMA.dir\\__\\__\\__\\C\\LzmaEnc.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\LzmaEnc.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/LzmaEnc.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DLZMALIB_EXPORTS -DLZMA_EXPORTS -DNO_ASM -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_ST -D_UNICODE -D_WIN32_WINNT=0x0601   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\LZMA\\CMakeFiles\\LZMA.dir\\__\\__\\__\\C\\LzmaLib.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\LzmaLib.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/LzmaLib.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\gcc.exe -DLZMALIB_EXPORTS -DLZMA_EXPORTS -DNO_ASM -DUNICODE -DWINVER=_WIN32_WINNT -D_7ZIP_ST -D_UNICODE -D_WIN32_WINNT=0x0601   -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64 -W -Wall -Wno-error -fpic -march=core2 -msse2 -std=c11 -m64 -m64   -o loo\\thirdpart\\7z\\Build\\cmake\\LZMA\\CMakeFiles\\LZMA.dir\\__\\__\\__\\C\\Util\\LzmaLib\\LzmaLibExports.c.obj   -c E:\\git\\mine\\loo\\looengine\\loo\\thirdpart\\7z\\C\\Util\\LzmaLib\\LzmaLibExports.c",
+  "file": "E:/git/mine/loo/looengine/loo/thirdpart/7z/C/Util/LzmaLib/LzmaLibExports.c"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/runtime/vkfg/include -I../loo/thirdpart/glm -I../loo/tests/graphic/header -I../loo/runtime/modulemanager/include -I../loo/runtime/filemanager/include -I../loo/runtime/core/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\tests\\graphic\\CMakeFiles\\graphic_test.dir\\source\\main.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\tests\\graphic\\source\\main.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/tests/graphic/source/main.cpp"
+},
+
+{
+  "directory": "E:/git/mine/loo/looengine/llvmbuild",
+  "command": "C:\\Strawberry\\c\\bin\\c++.exe  -DLOO_CACHE_LINE=64 -DUNICODE -DWINVER=_WIN32_WINNT -D_UNICODE -D_WIN32_WINNT=0x0601 -I../loo/runtime/global/include -I../loo/runtime/ifvk/include -I../loo/runtime/vkfg/include -I../loo/thirdpart/glm -I../loo/tests/graphic/header -I../loo/runtime/modulemanager/include -I../loo/runtime/filemanager/include -I../loo/runtime/core/include   -W -Wall -Werror -fpic -march=core2 -msse2 -std=c++1z -m64 -m64   -o loo\\tests\\graphic\\CMakeFiles\\graphic_test.dir\\source\\graphicapp.cpp.obj -c E:\\git\\mine\\loo\\looengine\\loo\\tests\\graphic\\source\\graphicapp.cpp",
+  "file": "E:/git/mine/loo/looengine/loo/tests/graphic/source/graphicapp.cpp"
+}
+]
