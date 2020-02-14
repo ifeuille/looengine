@@ -176,4 +176,10 @@ utils::slog.e<<"CHECK FAILED:"<<#_func_<<utils::io::endl;\
 #define CHECK(_func_)\
 	CHECK_PRIVATE((_func_))
 #endif
+#define CHECK_ERR(_func_) CHECK(_func_)
+#define LOO_LOGI(arg) utils::slog.i<<arg<<utils::io::endl;
+#define LOO_LOGE(arg) utils::slog.e<<arg<<utils::io::endl;
+#define LOO_LOGW(arg) utils::slog.w<<arg<<utils::io::endl;
+#define LOO_LOGD(arg) utils::slog.d<<arg<<utils::io::endl;
+
 #endif // TNT_UTILS_LOG_H

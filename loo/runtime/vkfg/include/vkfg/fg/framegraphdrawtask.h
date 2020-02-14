@@ -1,5 +1,5 @@
 #pragma once
-
+#include "global/types.h"
 #include "vkfg/fg/pipelineresources.h"
 #include "vkfg/fg/renderstate.h"
 #include "vkfg/fg/vertexinputstate.h"

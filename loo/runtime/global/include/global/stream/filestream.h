@@ -1,4 +1,3 @@
-// Copyright (c) 2018-2019,  Zhirnov Andrey. For more information see 'LICENSE'
 
 #pragma once
 
@@ -28,9 +27,8 @@ namespace loo
 		FileRStream (nonstd::string_view  filename);
 		FileRStream (const char *filename);
 		FileRStream (const std::string &filename);
-#ifdef FG_STD_FILESYSTEM
-		FileRStream (const std::filesystem::path &path);
-#endif
+		FileRStream (const fs::path& path);
+
 		~FileRStream ();
 
 		bool	IsOpen ()	const override { return _file != null; }
@@ -78,7 +76,7 @@ namespace loo
 
 
 // check definitions
-#if defined (COMPILER_MSVC) or defined (COMPILER_CLANG)
+#if defined (LOO_COMPILER_MSVC) or defined (LOO_COMPILER_CLANG)
 
 # ifdef _FILE_OFFSET_BITS
 #  if _FILE_OFFSET_BITS == 64
@@ -88,10 +86,10 @@ namespace loo
 #  endif
 # endif
 
-#  ifdef FG_STD_FILESYSTEM
-#	pragma detect_mismatch( "FG_STD_FILESYSTEM", "1" )
+#  ifdef LOO_STD_FILESYSTEM
+#	pragma detect_mismatch( "LOO_STD_FILESYSTEM", "1" )
 #  else
-#	pragma detect_mismatch( "FG_STD_FILESYSTEM", "0" )
+#	pragma detect_mismatch( "LOO_STD_FILESYSTEM", "0" )
 #  endif
 
 #endif	// COMPILER_MSVC or COMPILER_CLANG

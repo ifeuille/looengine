@@ -4,7 +4,7 @@
 #include "global/global.h"
 #include <string>
 #include "global/extstd/string_view.h"
-using namespace std;
+//using namespace std;
 
 namespace loo
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vkfg/fg/mimaplevel.h"
+#include "vkfg/fg/mipmaplevel.h"
 #include "vkfg/fg/multisamples.h"
 #include "vkfg/fg/imagelayer.h"
 #include "vkfg/fg/imageswizzle.h"
@@ -126,47 +126,8 @@ namespace std
 	{
 		ND_ size_t  operator () (const loo::vkfg::ImageViewDesc &value) const
 		{
-#ifdef LOO_FAST_HASH	
-			struct ImageViewDesc
-			{
-				// variables
-				EImage				viewType = Default;
-				EPixelFormat		format = Default;
-				MipmapLevel			baseLevel;
-				uint				levelCount = 1;
-				ImageLayer			baseLayer;
-				uint				layerCount = 1;
-				ImageSwizzle		swizzle;
-				EImageAspect		aspectMask = Default;
-
-				// methods
-				ImageViewDesc () {}
-
-				ImageViewDesc (EImage			viewType,
-					EPixelFormat		format,
-					MipmapLevel		baseLevel = Default,
-					uint				levelCount = 1,
-					ImageLayer		baseLayer = Default,
-					uint				layerCount = 1,
-					ImageSwizzle		swizzle = Default,
-					EImageAspect		aspectMask = Default);
-
-				explicit ImageViewDesc (const ImageDesc &desc);
-
-				void Validate (const ImageDesc &desc);
-
-				ND_ bool operator == (const ImageViewDesc &rhs) const;
-
-				ImageViewDesc&  SetViewType (EImage value) { viewType = value;  return *this; }
-				ImageViewDesc&  SetFormat (EPixelFormat value) { format = value;  return *this; }
-				ImageViewDesc&  SetBaseLevel (uint value) { baseLevel = MipmapLevel{ value };  return *this; }
-				ImageViewDesc&  SetLevels (uint base, uint count) { baseLevel = MipmapLevel{ base };  levelCount = count;  return *this; }
-				ImageViewDesc&  SetBaseLayer (uint value) { baseLayer = ImageLayer{ value };  return *this; }
-				ImageViewDesc&  SetArrayLayers (uint base, uint count) { baseLayer = ImageLayer{ base };  layerCount = count;  return *this; }
-				ImageViewDesc&  SetSwizzle (ImageSwizzle value) { swizzle = value;  return *this; }
-				ImageViewDesc&  SetAspect (EImageAspect value) { aspectMask = value;  return *this; }
-			}; _FAST_HASH
-				return size_t (loo::HashOf (AddressOf (value), sizeof (value)));
+#if LOO_FAST_HASH
+			return size_t (FGC::HashOf (AddressOf (value), sizeof (value)));
 #else
 			loo::HashVal	result;
 			result << loo::HashOf (value.viewType);

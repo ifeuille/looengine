@@ -37,7 +37,11 @@ FOREACH(flag_var
 ENDFOREACH()
 
 ADD_SUBDIRECTORY(7z)
+include(FetchContent)
+INCLUDE(${LOO_PROJECT_DIR}/buildsys/cmake/download_vk.cmake)
+
 SET_TARGET_PROPERTIES(7zxa PROPERTIES FOLDER "thirdparty/7z")
 SET_TARGET_PROPERTIES(LZMA PROPERTIES FOLDER "thirdparty/7z")
+
 
 

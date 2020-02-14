@@ -65,7 +65,7 @@ namespace loo
 					if constexpr (CountOf<Arg0, Args...> () == Columns)
 						_CopyColumns<0> (arg0, args...);
 					else
-						STATIC_ASSERT ((CountOf<Arg0, Args...> () == Columns * Rows) or
+						STATIC_ASSERT ((CountOf<Arg0, Args...> () == Columns * Rows, "") or
 						(CountOf<Arg0, Args...> () == Columns), "");
 			}
 
@@ -164,7 +164,8 @@ namespace loo
 			template <uint I, typename Arg0, typename ...Args>
 			constexpr void _CopyColumns (const Arg0 &arg0, const Args& ...args)
 			{
-				STATIC_ASSERT (std::is_same< Arg0, Column_t>::value);
+				constexpr bool checkbool = std::is_same< Arg0, Column_t>::value;
+				STATIC_ASSERT (checkbool/*std::is_same< Arg0, Column_t>::value*/, "");
 				_columns[I].data = arg0;
 
 				if constexpr (I + 1 < Columns)
@@ -313,10 +314,11 @@ namespace loo
 			template <uint I, typename Arg0, typename ...Args>
 			constexpr void _CopyRows (const Arg0 &arg0, const Args& ...args)
 			{
-				STATIC_ASSERT (IsSameTypes< Arg0, Row_t >);
+				constexpr bool checkbool = IsSameTypes< Arg0, Row_t >;
+				STATIC_ASSERT (/*IsSameTypes< Arg0, Row_t >*/checkbool, "");
 				_rows[I].data = arg0;
 
-				if constexpr (I + 1 < Rows)
+				if /*constexpr*/ (I + 1 < Rows)
 					_CopyRows< I + 1 > (args...);
 			}
 		};

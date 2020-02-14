@@ -11,6 +11,9 @@
 # endif
 #endif
 
+#ifndef LOO_ENABLE_VULKAN
+#define LOO_ENABLE_VULKAN
+#endif
 
 namespace loo
 {

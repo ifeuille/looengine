@@ -12,6 +12,7 @@
 #include "global/extstd/cast.h"
 #include "global/extstd/bytes.h"
 #include "global/extstd/type.h"
+#include "global/extstd/typelist.h"
 #include "global/extstd/value_ptr.h"
 #include "global/extstd/variant.h"
 #include "global/extstd/signal.h"
@@ -45,12 +46,23 @@
 #include "global/extstd/lffixedstack.h"
 #include "global/extstd/lfindexedpool.h"
 #include "global/extstd/spinlock.h"
+#include "global/extstd/singleton.h"
+#include "global/extstd/atomiccounter.h"
+
+#include "global/container/appendable.h"
+#include "global/container/inplace.h"
+#include "global/container/iterators.h"
+#include "global/container/bittree.h"
+#include "global/container/untypedstorage.h"
+#include "global/container/fixedtuplearray.h"
+#include "global/container/chunkedindexedpool.h"
+#include "global/container/cachedindexedpool.h"
 
 #include "global/template/hash.h"
 #include "global/template/flags.h"
 #include "global/template/refcounting.h"
-#include "global/template/external.h"
 #include "global/template/externalstring.h"
+#include "global/template/external.h"
 
 #include "global/stream/stream.h"
 #include "global/stream/memstream.h"
@@ -68,15 +80,5 @@ namespace loo
 
 }
 
-// bit operators
-#define LOO_BIT_OPERATORS( _type_ ) \
-	ND_ constexpr _type_  operator |  (_type_ lhs, _type_ rhs)	{ return _type_( loo::EnumToUInt(lhs) | loo::EnumToUInt(rhs) ); } \
-	ND_ constexpr _type_  operator &  (_type_ lhs, _type_ rhs)	{ return _type_( loo::EnumToUInt(lhs) & loo::EnumToUInt(rhs) ); } \
-	\
-	constexpr _type_&  operator |= (_type_ &lhs, _type_ rhs)	{ return lhs = _type_( loo::EnumToUInt(lhs) | loo::EnumToUInt(rhs) ); } \
-	constexpr _type_&  operator &= (_type_ &lhs, _type_ rhs)	{ return lhs = _type_( loo::EnumToUInt(lhs) & loo::EnumToUInt(rhs) ); } \
-	\
-	ND_ constexpr _type_  operator ~ (_type_ lhs)				{ return _type_(~loo::EnumToUInt(lhs)); } \
-	ND_ constexpr bool   operator ! (_type_ lhs)	
 
 #endif

@@ -1,4 +1,3 @@
-// Copyright (c) 2018-2019,  Zhirnov Andrey. For more information see 'LICENSE'
 
 #pragma once
 #include "global/extstd/typetraits.h"
@@ -43,8 +42,8 @@ namespace loo
 
 		static constexpr uint	ChunkSizePOT = math::CT_Int64Log2< ChunkSize >;
 
-		STATIC_ASSERT (BitfieldArray_t::value_type::is_always_lock_free, "");
-		STATIC_ASSERT (ValueChunks_t::value_type::is_always_lock_free, "");
+		//STATIC_ASSERT (BitfieldArray_t::value_type::is_always_lock_free, "");
+		//STATIC_ASSERT (ValueChunks_t::value_type::is_always_lock_free, "");
 
 
 		// variables
@@ -96,7 +95,7 @@ namespace loo
 				Bitfield_t		ctor_bits = _createdBits[i].load (memory_order_relaxed);
 				Bitfield_t		assigned = _assignedBits[i].load (memory_order_relaxed);
 
-				FG_UNUSED (assigned);
+				LOO_UNUSED (assigned);
 				ASSERT (assigned == UMax);
 
 				if (not value)
@@ -151,7 +150,7 @@ namespace loo
 				}
 
 				// find available index
-				for (int index = BitScanForward (bits); index >= 0;)
+				for (int index = LooBitScanForward (bits); index >= 0;)
 				{
 					const Bitfield_t	mask = Bitfield_t (1) << index;
 
@@ -166,7 +165,7 @@ namespace loo
 						return true;
 					}
 
-					index = BitScanForward (bits);
+					index = LooBitScanForward (bits);
 				}
 			}
 			return false;
@@ -185,7 +184,7 @@ namespace loo
 			Bitfield_t	mask = 1 << bit_idx;
 			Bitfield_t	old_bits = _assignedBits[chunk_idx].fetch_or (mask, memory_order_relaxed);	// 0 -> 1
 
-			FG_UNUSED (old_bits);
+			LOO_UNUSED (old_bits);
 			ASSERT (!(old_bits & mask));
 		}
 

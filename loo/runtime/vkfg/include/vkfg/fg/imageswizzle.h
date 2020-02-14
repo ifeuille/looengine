@@ -87,7 +87,7 @@ namespace loo
 			return res;
 		}
 
-	}	// FG
+	}
 }
 
 

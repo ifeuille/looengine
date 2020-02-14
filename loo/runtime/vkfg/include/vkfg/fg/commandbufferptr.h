@@ -48,8 +48,10 @@ namespace loo
 				_cmdBuf{ static_cast<ICommandBuffer *>(cb) },
 				_batch{ static_cast<Batch *>(batch) }
 			{
-				STATIC_ASSERT (std::is_base_of< ICommandBuffer, T1 >::value);
-				STATIC_ASSERT (std::is_base_of< Batch, T2 >::value);
+				constexpr bool checkbool1 = std::is_base_of< ICommandBuffer, T1 >::value;
+				STATIC_ASSERT (/*std::is_base_of< ICommandBuffer, T1 >::value*/checkbool1,"");
+				constexpr bool checkbool2 = std::is_base_of< Batch, T2 >::value;
+				STATIC_ASSERT (/*std::is_base_of< Batch, T2 >::value*/checkbool2, "");
 
 				_IncRef ();
 			}

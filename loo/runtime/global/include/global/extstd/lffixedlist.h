@@ -84,7 +84,7 @@ namespace loo
 			{
 				auto&		bits = _bits[i];
 				uint64_t	curr = bits.load (memory_order_relaxed);
-				const int	pos = BitScanForward (curr);
+				const int	pos = LooBitScanForward (curr);
 
 				if (pos >= 0)
 				{

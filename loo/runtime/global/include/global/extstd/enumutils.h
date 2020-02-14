@@ -77,3 +77,15 @@ namespace loo
 	}
 
 }
+
+
+// bit operators
+#define LOO_BIT_OPERATORS( _type_ ) \
+	ND_ constexpr _type_  operator |  (_type_ lhs, _type_ rhs)	{ return _type_( loo::EnumToUInt(lhs) | loo::EnumToUInt(rhs) ); } \
+	ND_ constexpr _type_  operator &  (_type_ lhs, _type_ rhs)	{ return _type_( loo::EnumToUInt(lhs) & loo::EnumToUInt(rhs) ); } \
+	\
+	constexpr _type_&  operator |= (_type_ &lhs, _type_ rhs)	{ return lhs = _type_( loo::EnumToUInt(lhs) | loo::EnumToUInt(rhs) ); } \
+	constexpr _type_&  operator &= (_type_ &lhs, _type_ rhs)	{ return lhs = _type_( loo::EnumToUInt(lhs) & loo::EnumToUInt(rhs) ); } \
+	\
+	ND_ constexpr _type_  operator ~ (_type_ lhs)				{ return _type_(~loo::EnumToUInt(lhs)); } \
+	ND_ constexpr bool   operator ! (_type_ lhs)	

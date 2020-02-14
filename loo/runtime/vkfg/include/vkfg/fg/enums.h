@@ -1,9 +1,10 @@
 #ifndef LOO_FGVK_FG_ENUMS_H
 #define LOO_FGVK_FG_ENUMS_H
 #pragma once
-
 #include "global/types.h"
+#include "global/extstd/enumutils.h"
 #include "looreflect/looreflect.h"
+#include "looreflect/looreflectmanager.h"
 
 namespace loo
 {

@@ -294,7 +294,7 @@ namespace loo
 		template <typename T>
 		inline constexpr loo::math::bool4  Rectangle<T>::operator == (const Self &rhs) const
 		{
-			return glm::bool4( left == rhs.left, top == rhs.top, right == rhs.right, bottom == rhs.bottom );
+			return loo::math::bool4 ( left == rhs.left, top == rhs.top, right == rhs.right, bottom == rhs.bottom );
 		}
 
 		/*

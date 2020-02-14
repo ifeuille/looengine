@@ -7,6 +7,7 @@
 #include "global/platform.h"
 #include "global/architecture.h"
 #include "global/utils/win32/stdtypes.h"
+
 #include <assert.h>
 #include <string>
 #include <memory>

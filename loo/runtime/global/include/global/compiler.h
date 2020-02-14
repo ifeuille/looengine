@@ -392,5 +392,24 @@ enum ENoInit { NoInit };
 #define ND_
 #endif
 
+#define forceinline LOO_FORCEINLINE
+
+// function name
+#ifdef LOO_COMPILER_MSVC
+#	define LOO_FUNCTION_NAME			__FUNCTION__
+
+#elif defined(LOO_COMPILER_CLANG) or defined(LOO_COMPILER_GCC)
+#	define LOO_FUNCTION_NAME			__func__
+
+#else
+#	define LOO_FUNCTION_NAME			"unknown function"
+#endif
+
+// to fix compiler error C2338
+#ifdef LOO_COMPILER_MSVC
+#	define _ENABLE_EXTENDED_ALIGNED_STORAGE
+#endif
+
+
 #endif 
 //LOO_COMPILER_HPP

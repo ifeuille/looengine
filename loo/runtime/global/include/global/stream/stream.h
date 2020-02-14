@@ -1,4 +1,3 @@
-// Copyright (c) 2018-2019,  Zhirnov Andrey. For more information see 'LICENSE'
 
 #pragma once
 #include "global/global.h"
@@ -6,6 +5,7 @@
 #include "global/extstd/string_view.h"
 #include "global/extstd/bytes.h"
 #include "global/extstd/memutils.h"
+#include <memory>
 
 namespace loo
 {
@@ -13,7 +13,7 @@ namespace loo
 	//
 	// Read-only Stream
 	//
-
+	
 	class RStream : public std::enable_shared_from_this< RStream >
 	{
 	public:

@@ -252,25 +252,48 @@ namespace loo
 		template <typename T>
 		ND_ LOO_FORCEINLINE constexpr auto  RoundToInt (const T& x)
 		{
+			struct RoundToInt_Helper
+			{
+				int32_t operator()(const float& x)
+				{
+					return int32_t (std::round (x));
+				}
+				int64_t operator()(const double& x)
+				{
+					return int64_t (std::round (x));
+				}
+			};
 			STATIC_ASSERT (IsFloatPoint<T>, "");
-
-			if constexpr (sizeof (T) >= sizeof (int64_t))
+			return RoundToInt_Helper ()(x);
+			/*if constexpr (sizeof (T) >= sizeof (int64_t))
 				return int64_t (std::round (x));
 
 			if constexpr (sizeof (T) >= sizeof (int32_t))
-				return int32_t (std::round (x));
+				return int32_t (std::round (x));*/
 		}
+
 
 		template <typename T>
 		ND_ LOO_FORCEINLINE constexpr auto  RoundToUint (const T& x)
 		{
 			STATIC_ASSERT (IsFloatPoint<T>, "");
+			struct RoundToUInt_Helper
+			{
+				uint32_t operator()(const float& x)
+				{
+					return uint32_t (std::round (x));
+				}
+				uint64_t operator()(const double& x)
+				{
+					return uint64_t (std::round (x));
+				}
+			};
+			return RoundToUInt_Helper()(x);
+			//if constexpr (sizeof (T) >= sizeof (uint64_t))
+			//	return uint64_t (std::round (x));
 
-			if constexpr (sizeof (T) >= sizeof (uint64_t))
-				return uint64_t (std::round (x));
-
-			if constexpr (sizeof (T) >= sizeof (uint32_t))
-				return uint32_t (std::round (x));
+			//if constexpr (sizeof (T) >= sizeof (uint32_t))
+			//	return uint32_t (std::round (x));
 		}
 
 		/*

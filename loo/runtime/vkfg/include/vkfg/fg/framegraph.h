@@ -1,4 +1,5 @@
 #pragma once
+#include "global/types.h"
 #include "vkfg/fg/commandbuffer.h"
 #include "vkfg/fg/pipelinecompiler.h"
 #include "vkfg/fg/vulkantype.h"

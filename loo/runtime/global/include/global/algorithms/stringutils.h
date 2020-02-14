@@ -293,14 +293,15 @@ namespace loo
 	template <int Radix, typename T>
 	ND_ LOO_FORCEINLINE EnableIf< IsEnum<T> or IsInteger<T>, std::string>  ToString (const T &value)
 	{
-		if /*constexpr*/ (Radix == 16)
+		constexpr bool checkbool = (Radix == 16);
+		if /*constexpr*/ (checkbool)
 		{
 			std::stringstream	str;
 			str << std::hex << BitCast<NearUInt<T>> (value);
 			return str.str ();
 		}
 		else {
-			//STATIC_ASSERT( false, "not supported, yet" );
+			/*STATIC_*/ASSERT_MSG( false, "not supported, yet" );
 		}
 	}
 
@@ -370,7 +371,7 @@ namespace loo
 	{
 		const T	kb = T (1) << 12;
 		const T mb = T (1) << 22;
-		const T	gb = T (1) << Min (T (32), T (sizeof (T) * 8) - 1);
+		const T	gb = T (1) << loo::math::Min (T (32), T (sizeof (T) * 8) - 1);
 		const T	val = T (value);
 
 		std::string	str;

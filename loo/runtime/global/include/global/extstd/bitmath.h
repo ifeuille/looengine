@@ -95,19 +95,20 @@ namespace loo
 	=================================================
 	*/
 	template <typename T>
-	ND_ inline int  BitScanForward (const T& x)
+	ND_ inline int  LooBitScanForward (const T& x)
 	{
 #ifdef LOO_COMPILER_MSVC
 		constexpr int	INVALID_INDEX = std::numeric_limits<int>::min ();
 		unsigned long	index;
-
-		if /*constexpr*/ (sizeof (x) > sizeof (uint32))
-			return _BitScanForward64 (OUT &index, x) ? index : INVALID_INDEX;
+		constexpr bool checkbool = sizeof (x) > sizeof (uint32);
+		if /*constexpr*/ (/*sizeof (x) > sizeof (uint32)*/checkbool)
+			return (_BitScanForward64) (OUT &index, x) ? index : INVALID_INDEX;
 		else
-			return _BitScanForward (OUT &index, x) ? index : INVALID_INDEX;
+			return (_BitScanForward) (OUT &index, x) ? index : INVALID_INDEX;
 
 #elif defined(LOO_COMPILER_GCC) or defined(LOO_COMPILER_CLANG)
-		if /*constexpr*/ (sizeof (x) > sizeof (uint))
+		constexpr bool checkbool = (sizeof (x) > sizeof (uint));
+		if /*constexpr*/ (checkbool)
 			return __builtin_ffsll (x) - 1;
 		else
 			return __builtin_ffs (x) - 1;
@@ -122,16 +123,34 @@ namespace loo
 		BitCount
 	=================================================
 	*/
+	struct BitCountHelper
+	{
+		template<typename T>
+		size_t operator()(const T& x)
+		{
+			//constexpr int si = sizeof (x);
+			constexpr bool checkbool1 = (sizeof (x) == 8);
+			constexpr bool checkbool2 = (sizeof (x) <= 4);
+			if (checkbool1)
+			{
+				return std::bitset<64> (x).count ();
+			}
+			else if (checkbool2)
+			{
+				return std::bitset<32> (x).count ();
+			}
+			ASSERT (FALSE);
+		}
+	};
 	template <typename T>
 	ND_ inline size_t  BitCount (const T& x)
 	{
 		STATIC_ASSERT (IsUnsignedInteger<T>,"");
-
-		if /*constexpr*/ (sizeof (x) == 8)
-			return std::bitset<64>(x).count ();
-		else
-			if /*constexpr*/ (sizeof (x) <= 4)
-				return std::bitset<32> (x).count ();
+		return BitCountHelper()(x);
+		//if constexpr (sizeof (x) == 8)
+		//	return std::bitset<64>(x).count ();
+		//else if constexpr (sizeof (x) <= 4)
+		//	return std::bitset<32> (x).count ();
 	}
 
 

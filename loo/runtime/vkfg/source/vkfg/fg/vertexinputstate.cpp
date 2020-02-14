@@ -215,7 +215,7 @@ namespace loo
 			return true;
 		}
 
-	}	// FG
+	}	
 
 }
 
@@ -248,7 +248,7 @@ namespace std
 	*/
 	size_t  hash< VertexInputState::BufferBinding >::operator () (const VertexInputState::BufferBinding &value) const
 	{
-#if FG_FAST_HASH
+#if LOO_FAST_HASH
 		return size_t (HashOf (AddressOf (value), sizeof (value)));
 #else
 		return size_t (HashOf (value.index) + HashOf (value.stride) + HashOf (value.rate));
@@ -262,7 +262,7 @@ namespace std
 	*/
 	size_t  hash< VertexInputState >::operator () (const VertexInputState &value) const
 	{
-#if FG_FAST_HASH
+#if LOO_FAST_HASH
 		return size_t (HashOf (AddressOf (value), sizeof (value)));
 #else
 		HashVal	result;

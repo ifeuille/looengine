@@ -6,9 +6,9 @@
 #include <vector>
 #include <stdarg.h>
 #include <algorithm>
-#include <locale>
 #include <codecvt>
 #include <string>
+//#include <locale>
 #include "global/global.h"
 #include "global/extstd/typetraits.h"
 #include "global/template/andornot.h"
@@ -47,10 +47,10 @@ namespace loo
 					}
 					bHasDot = true;
 				}
-				else if (!std::isdigit ( *Str, std::locale ( ) ))
+				/*else if (!std::isdigit ( *Str, std::locale ( ) ))
 				{
 					return false;
-				}
+				}*/
 
 				++Str;
 			}
@@ -58,7 +58,7 @@ namespace loo
 			return true;
 		}
 
-		inline std::string Left ( std::string& str, int32_t Count )
+		inline std::string Left (std::string& str, int32_t Count)
 		{
 			Count = std::min (Count, std::max (0, static_cast<int32_t>(str.length ())));
 			std::string retString;

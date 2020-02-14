@@ -40,7 +40,7 @@ namespace loo
 		ND_ inline constexpr ImageLayer operator "" _layer (unsigned long long value) { return ImageLayer (uint (value)); }
 
 
-	}	// FG
+	}
 }
 
 

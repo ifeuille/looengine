@@ -12,7 +12,7 @@ namespace loo
 			CT_IntLog2
 		=================================================
 		*/
-		namespace _fgc_hidden_
+		namespace _math_hidden_
 		{
 			template <typename T, T X, uint Bit>
 			struct _IntLog2 {
@@ -24,12 +24,12 @@ namespace loo
 				static const int	value = 0;
 			};
 
-		}	// _fgc_hidden_
+		}	// _math_hidden_
 
 		template <uint X>
-		static constexpr int	CT_IntLog2 = (X ? _fgc_hidden_::_IntLog2< decltype(X), X, sizeof (X) * 8 - 1 >::value : -1);
+		static constexpr int	CT_IntLog2 = (X ? _math_hidden_::_IntLog2< decltype(X), X, sizeof (X) * 8 - 1 >::value : -1);
 		template <std::size_t X>
-		static constexpr int	CT_Int64Log2 = (X ? _hidden_::_IntLog2< std::size_t, X, sizeof (X) * 8 - 1 >::value : -1);
+		static constexpr int	CT_Int64Log2 = (X ? _math_hidden_::_IntLog2< std::size_t, X, sizeof (X) * 8 - 1 >::value : -1);
 
 
 		/*

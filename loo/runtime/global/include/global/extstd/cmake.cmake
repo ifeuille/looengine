@@ -47,6 +47,10 @@ ${MODULE_ROOT_PATH}/include/global/extstd/lffixedlist.h
 ${MODULE_ROOT_PATH}/include/global/extstd/lffixedstack.h
 ${MODULE_ROOT_PATH}/include/global/extstd/lfindexedpool.h
 ${MODULE_ROOT_PATH}/include/global/extstd/spinlock.h
+${MODULE_ROOT_PATH}/include/global/extstd/singleton.h
+${MODULE_ROOT_PATH}/include/global/extstd/atomiccounter.h
+${MODULE_ROOT_PATH}/include/global/extstd/typelist.h
+
 )
 
 set(LOCAL_PUBLIC_EXTSTD_ATOMIC_QUEUE

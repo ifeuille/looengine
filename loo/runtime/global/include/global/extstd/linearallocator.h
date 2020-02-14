@@ -26,6 +26,8 @@ namespace loo
 			void *		ptr = null;
 			BytesU		size;		// used memory size
 			BytesU		capacity;	// size of block
+			
+			Block (void * p, BytesU s, BytesU c) :ptr (p), size (s), capacity (c) {}
 		};
 
 		using Allocator_t = AllocatorType;
@@ -86,7 +88,7 @@ namespace loo
 		{
 			for (auto& block : _blocks)
 			{
-				BytesU	offset = AlignToLarger (size_t (block.ptr) + block.size, align) - size_t (block.ptr);
+				BytesU	offset = loo::math::AlignToLarger (size_t (block.ptr) + block.size, align) - size_t (block.ptr);
 
 				if (size <= (block.capacity - offset))
 				{
@@ -97,10 +99,13 @@ namespace loo
 
 			BytesU	block_size = _blockSize * (1 + _blocks.size () / 2);
 			block_size = size * 2 < block_size ? block_size : size * 2;
-			auto&	block = _blocks.emplace_back (Block{ _alloc.Allocate (block_size, _ptrAlign), 0_b, block_size });	// TODO: check for null
-			BytesU	offset = AlignToLarger (size_t (block.ptr) + block.size, align) - size_t (block.ptr);
+			Block block(_alloc.Allocate (block_size, _ptrAlign), 0_b, block_size);
+			//auto&	block = _blocks.emplace_back (Block( _alloc.Allocate (block_size, _ptrAlign), 0_b, block_size ));	// TODO: check for null
+			BytesU	offset = loo::math::AlignToLarger (size_t (block.ptr) + block.size, align) - size_t (block.ptr);
 
 			block.size = offset + size;
+			_blocks.emplace_back (block);
+
 			return block.ptr + offset;
 		}
 

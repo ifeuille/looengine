@@ -50,10 +50,10 @@ namespace loo
 		constructor
 	=================================================
 	*/
-#ifdef FG_STD_FILESYSTEM
-	FileRStream::FileRStream (const std::filesystem::path &path)
+
+	FileRStream::FileRStream (const fs::path &path)
 	{
-#	ifdef PLATFORM_WINDOWS
+#	ifdef LOO_PLATFORM_WINDOWS
 		_wfopen_s (OUT &_file, path.c_str (), L"rb");
 #	else
 		fopen_s (OUT &_file, path.c_str (), "rb");
@@ -62,9 +62,9 @@ namespace loo
 		if (_file)
 			_fileSize = _GetSize ();
 		else
-			FG_LOGI ("Can't open file: \""s << path.string () << '"');
+			LOO_LOGI ("Can't open file: \"" << path.string () << '"');
 	}
-#endif
+
 
 	/*
 	=================================================

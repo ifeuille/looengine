@@ -13,12 +13,6 @@ ${MODULE_ROOT_PATH}/include/global/types.h
 )
 
 
-set(LOCAL_PUBLIC_CONTAINER
-${MODULE_ROOT_PATH}/include/global/container/arrayref.h
-${MODULE_ROOT_PATH}/include/global/container/comptr.h
-${MODULE_ROOT_PATH}/include/global/container/customizedstreambuf.h
-)
-
 set(LOCAL_PUBLIC_MATH
 ${MODULE_ROOT_PATH}/include/global/math/hash.h
 ${MODULE_ROOT_PATH}/include/global/math/math.h
@@ -37,9 +31,7 @@ ${MODULE_ROOT_PATH}/source/global/utlis.cpp
 ${MODULE_ROOT_PATH}/source/global/time.cpp
 )
 
-set(LOCAL_PRIVATE_CONTAINER
-${MODULE_ROOT_PATH}/source/global/container/customizedstreambuf.cpp
-)
+
 set(LOCAL_PRIVATE_MATH
 ${MODULE_ROOT_PATH}/source/global/math/color.cpp
 ${MODULE_ROOT_PATH}/source/global/math/random.cpp
@@ -47,11 +39,8 @@ ${MODULE_ROOT_PATH}/source/global/math/random.cpp
 
 
 source_group("global\\include\\global" FILES ${LOCAL_PUBLIC})
-
-source_group("global\\include\\global\\container" FILES ${LOCAL_PUBLIC_CONTAINER})
 source_group("global\\include\\global\\math" FILES ${LOCAL_PUBLIC_MATH})
 source_group("global\\source\\global" FILES ${LOCAL_PRIVATE})
-source_group("global\\source\\global\\container" FILES ${LOCAL_PRIVATE_CONTAINER})
 source_group("global\\source\\global\\math" FILES ${LOCAL_PRIVATE_MATH})
 
 set(SOURCE_PUBLIC ${SOURCE_PUBLIC} 
@@ -64,7 +53,6 @@ ${LOCAL_PUBLIC_MATH}
 set(SOURCE_PRIVATE 
 ${SOURCE_PRIVATE} 
 ${LOCAL_PRIVATE} 
-${LOCAL_PRIVATE_CONTAINER}
 ${LOCAL_PRIVATE_MATH}
 )
 include(${MODULE_ROOT_PATH}/include/global/template/cmake.cmake)
@@ -72,3 +60,4 @@ include(${MODULE_ROOT_PATH}/include/global/utils/cmake.cmake)
 include(${MODULE_ROOT_PATH}/include/global/stream/cmake.cmake)
 include(${MODULE_ROOT_PATH}/include/global/algorithms/cmake.cmake)
 include(${MODULE_ROOT_PATH}/include/global/extstd/cmake.cmake)
+include(${MODULE_ROOT_PATH}/include/global/container/cmake.cmake)

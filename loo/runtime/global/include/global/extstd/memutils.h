@@ -38,9 +38,9 @@ namespace loo
 	template <typename T1, typename T2>
 	inline void  MemCopy (T1 &dst, const T2 &src)
 	{
-		static_assert (sizeof (dst) >= sizeof (src));
-		//STATIC_ASSERT( std::is_trivial_v<T1> and std::is_trivial_v<T2> );	// TODO
-		static_assert (not IsConst<T1>);
+		static_assert (sizeof (dst) >= sizeof (src),"");
+		//STATIC_ASSERT( std::is_trivial_v<T1> and std::is_trivial_v<T2> , "");	// TODO
+		static_assert (not IsConst<T1>,"");
 
 		std::memcpy (&dst, &src, sizeof (src));
 	}

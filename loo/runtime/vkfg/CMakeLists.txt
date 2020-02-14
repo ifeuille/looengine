@@ -14,21 +14,27 @@ set(FOLDER_PATH Engine/Modules)
 #include(${CMAKE_CURRENT_SOURCE_DIR}/include/vkfg/cmake.cmake)
 
 ADD_DEFINITIONS(-DVKFG_DLL_EXPORT)
+ADD_DEFINITIONS(-DLOO_ENABLE_VULKAN_MEMORY_ALLOCATOR)
+set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
 
 dep_module_static(global)
 dep_module_static(ifvk)
+dep_module_static(vulkanloader)
 add_dep_glm()
-find_package(Vulkan)
-if (Vulkan_FOUND)
-	set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${Vulkan_LIBRARIES})
-	include_directories(${Vulkan_INCLUDE_DIRS})
-	link_directories(${Vulkan_LIBRARY_DIRS})
-else()
-	message("Error : Not found vulkan !!")
-endif()
+
+# find_package(Vulkan)
+# if (Vulkan_FOUND)
+# 	set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${Vulkan_LIBRARIES})
+# 	include_directories(${Vulkan_INCLUDE_DIRS})
+# 	link_directories(${Vulkan_LIBRARY_DIRS})
+# else()
+# 	message("Error : Not found vulkan !!")
+# endif()
 
 add_static_module()
 depdent_module(ifvk looreflect)
+
+
 
 source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_PUBLIC} )
 #target_include_directories( "vkfg" PUBLIC "vkfg" )
