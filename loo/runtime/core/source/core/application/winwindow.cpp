@@ -231,7 +231,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerDown ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
+				this->OnPointerDown ( )(*this, loo::math::int2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
 			}
 			break;
 
@@ -239,7 +239,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerUp ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
+				this->OnPointerUp ( )(*this, loo::math::int2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
 			}
 			break;
 
@@ -247,7 +247,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerUpdate ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
+				this->OnPointerUpdate ( )(*this, loo::math::int2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
 					IS_POINTER_INCONTACT_WPARAM ( wParam ));
 			}
 			break;
@@ -256,7 +256,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerWheel ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
+				this->OnPointerWheel ( )(*this, loo::math::int2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
 					GET_WHEEL_DELTA_WPARAM ( wParam ));
 			}
 			break;

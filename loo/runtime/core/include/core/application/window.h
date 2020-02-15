@@ -32,7 +32,7 @@ OBJC_CLASS(NSView);
 #include "global/utlis.h"
 //#include "RHI/RenderSettings.h"
 #include "vkfg/fg/rendersettings.h"
-#include "global/math/math.h"
+#include "global/math/vec.h"
 
 #include <cstring>
 #include <iostream>
@@ -172,18 +172,18 @@ namespace loo
 			typedef sigslot::signal< Window const &, uint32> KeyDownEvent;
 			typedef sigslot::signal< Window const &, uint32> KeyUpEvent;
 #if defined LOO_PLATFORM_ANDROID
-			typedef sigslot::signal< Window const &, vec2 const &, uint32_t> MouseDownEvent;
-			typedef sigslot::signal< Window const &, vec2 const &, uint32_t> MouseUpEvent;
-			typedef sigslot::signal<Window const &, vec2 const &> MouseMoveEvent;
-			typedef sigslot::signal<Window const &, vec2 const &, int32_t> MouseWheelEvent;
+			typedef sigslot::signal< Window const &, float2 const &, uint32_t> MouseDownEvent;
+			typedef sigslot::signal< Window const &, float2 const &, uint32_t> MouseUpEvent;
+			typedef sigslot::signal<Window const &, float2 const &> MouseMoveEvent;
+			typedef sigslot::signal<Window const &, float2 const &, int32_t> MouseWheelEvent;
 			typedef sigslot::signal<Window const &, int32, int32_t> JoystickAxisEvent;
 			typedef sigslot::signal<Window const &, uint32> JoystickButtonsEvent;
 #endif
 #endif
-			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32> PointerDownEvent;
-			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32> PointerUpEvent;
-			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32, bool> PointerUpdateEvent;
-			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32, int32> PointerWheelEvent;
+			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32> PointerDownEvent;
+			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32> PointerUpEvent;
+			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32, bool> PointerUpdateEvent;
+			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32, int32> PointerWheelEvent;
 
 			typedef sigslot::signal<Window const &> CloseEvent;
 

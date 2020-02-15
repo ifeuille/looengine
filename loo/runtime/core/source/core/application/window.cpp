@@ -14,7 +14,7 @@ namespace loo
 			float const max_dpi_scale = Context::Get ().Config ().graphic_settings.max_dpi_scale;
 			if (max_dpi_scale > 0)
 			{
-				effective_dpi_scale = min (max_dpi_scale, dpi_scale);
+				effective_dpi_scale = loo::math::Min (max_dpi_scale, dpi_scale);
 			}
 			else
 			{
