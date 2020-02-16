@@ -13,12 +13,12 @@ set(FOLDER_PATH Engine/Modules)
 
 #include(${CMAKE_CURRENT_SOURCE_DIR}/include/vkfg/cmake.cmake)
 
-ADD_DEFINITIONS(-DVKFG_DLL_EXPORT)
+ADD_DEFINITIONS(-DLOOVKFG_DLL_EXPORT)
 ADD_DEFINITIONS(-DLOO_ENABLE_VULKAN_MEMORY_ALLOCATOR)
 set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
 
 dep_module_static(global)
-dep_module_static(ifvk)
+#dep_module_static(ifvk)
 dep_module_static(vulkanloader)
 add_dep_glm()
 

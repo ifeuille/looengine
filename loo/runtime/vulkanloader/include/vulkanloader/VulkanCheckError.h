@@ -1,5 +1,5 @@
 #pragma once
-
+#include "vulkanloader/dllexport.h"
 
 #if 0 //ndef LOO_DEBUG
 #	define VK_CALL( ... )		{ (void)(__VA_ARGS__); }
@@ -27,6 +27,6 @@
 namespace loo
 {
 
-	bool __vk_CheckErrors (VkResult errCode, const char *vkcall, const char *func, const char *file, int line);
+	/*VULKANLOADER_EXPORT*/ bool __vk_CheckErrors (VkResult errCode, const char *vkcall, const char *func, const char *file, int line);
 	
 }	

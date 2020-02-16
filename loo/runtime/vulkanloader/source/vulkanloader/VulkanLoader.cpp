@@ -249,7 +249,12 @@ namespace {
 #		undef  VKLOADER_STAGE_GETADDRESS
 	}
 	
-/*
+	VulkanDeviceFn::VulkanDeviceFn ()
+		: _table{ null }
+	{
+	}
+
+	/*
 =================================================
 	VulkanDeviceFn_Init
 =================================================

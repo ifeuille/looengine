@@ -44,3 +44,7 @@ struct ReadIntScalar
 其二：error C3849: 类型“const Visitor”的表达式中的函数样式调用会丢失所有 8 个可用运算符重载的 const 和/或 volatile 限定符
 原因是nonstd variant visit实现使用了 const VIsitor
 改为struct operator() const实现
+
+
+4.core.dll,exe
+vulkandll在exe里initilize和load得，core.dll里访问不到，在core.dll里另外load,initilize一份就ok了

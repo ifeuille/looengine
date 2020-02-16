@@ -14,7 +14,7 @@
 #define GET_KEYSTATE_WPARAM(wParam) (LOWORD(wParam))
 #endif
 #include "global/extstd/signal.h"
-
+#include "core/context.h"
 
 namespace loo
 {
@@ -31,6 +31,15 @@ namespace loo
 			{
 				return ::DefWindowProc ( hWnd, uMsg, wParam, lParam );
 			}
+		}
+		bool CALLBACK Window::CTRLHandler (DWORD fdwctrltype)
+		{
+			auto win = Context::Get ().GetApplication ().MainWnd ();
+			if (win)
+			{
+				return win->CTRLHandlerProc (fdwctrltype);
+			}
+			return false;
 		}
 
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
@@ -62,9 +71,10 @@ namespace loo
 		}
 #endif
 
-		Window::Window ( std::string const & name, vkfg::RenderSettings const & settings, void* native_wnd )
+		Window::Window ( std::string const & name, vkfg::RenderSettings const & settings, Application* _app, void* native_wnd )
 			: active ( false ), ready ( false ), closed ( false ), keep_screen_on ( settings.keep_screen_on ),
 			dpi_scale ( 1 ), effective_dpi_scale ( 1 ), win_rotation ( WR_Identity ), hide ( settings.hide_win )
+			,app(_app)
 		{
 			this->DetectsDpi ( );
 			this->KeepScreenOn ( );
@@ -130,7 +140,10 @@ namespace loo
 
 			::ShowWindow ( wnd, hide ? SW_HIDE : SW_SHOWNORMAL );
 			::UpdateWindow ( wnd );
-
+			if (app && app->IsMainApp ())
+			{
+				::SetConsoleCtrlHandler ((PHANDLER_ROUTINE)this->CTRLHandler, true);
+			}
 			ready = true;
 		}
 
@@ -309,6 +322,37 @@ namespace loo
 			}
 
 			return default_wnd_proc ( hWnd, uMsg, wParam, lParam );
+		}
+		bool Window::CTRLHandlerProc (DWORD fdwctrltype)
+		{
+			switch (fdwctrltype)
+			{
+				// handle the ctrl-c signal.
+			case CTRL_C_EVENT:
+				printf ("ctrl-c event\n\n");
+				return(true);
+				// ctrl-close: confirm that the user wants to exit.
+			case CTRL_CLOSE_EVENT://当试图关闭控制台程序，系统发送关闭消息。
+				printf ("ctrl-close event\n\n");
+				this->OnClose ()(*this);
+				active = false;
+				ready = false;
+				closed = true;
+				::PostQuitMessage (0);
+				return(true);
+				// pass other signals to the next handler.
+			case CTRL_BREAK_EVENT://用户按下CTRL+BREAK, 或者由GenerateConsoleCtrlEvent API发出.
+				printf ("ctrl-break event\n\n");
+				return false;
+			case CTRL_LOGOFF_EVENT://用户退出时，但是不能决定是哪个用户. 
+				printf ("ctrl-logoff event\n\n");
+				return false;
+			case CTRL_SHUTDOWN_EVENT://当系统被关闭时.  
+				printf ("ctrl-shutdown event\n\n");
+				return false;
+			default:
+				return false;
+			}
 		}
 
 		void Window::DetectsDpi ( )

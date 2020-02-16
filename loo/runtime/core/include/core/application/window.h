@@ -33,6 +33,7 @@ OBJC_CLASS(NSView);
 //#include "RHI/RenderSettings.h"
 #include "vkfg/fg/rendersettings.h"
 #include "global/math/vec.h"
+#include "vkfg/vulkan/framework/ivulkansurface.h"
 
 #include <cstring>
 #include <iostream>
@@ -41,7 +42,7 @@ namespace loo
 {
 	namespace core
 	{
-
+		class Application;
 		class CORE_EXPORT Window
 		{
 		public:
@@ -53,9 +54,17 @@ namespace loo
 				WR_Rotate180,
 				WR_Rotate270
 			};
-
+			class /*CORE_EXPORT*/ VulkanSurface : public loo::vkfg::IVulkanSurface
+			{
+				Array<const char*>	_extensions;
+				loo::core::Window* _windows;
+			public:
+				explicit VulkanSurface (loo::core::Window* wnd);
+				ND_ ArrayView<const char*>	GetRequiredExtensions () const { return _extensions; }
+				ND_ VkSurfaceKHR			Create (VkInstance inst) const;
+			};
 		public:
-			Window(std::string const & name, vkfg::RenderSettings const & settings, void* native_wnd);
+			Window(std::string const & name, vkfg::RenderSettings const & settings, Application* app, void* native_wnd);
 			~Window();
 
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
@@ -97,7 +106,10 @@ namespace loo
 			void FlushBuffer();
 			uint2 GetGLKViewSize();
 #endif
-
+#if defined LOO_PLATFORM_ANDROID
+			::ANativeWindow* NativeWindow(){return a_window_;}
+#endif
+			std::unique_ptr<loo::vkfg::IVulkanSurface>  GetVulkanSurface () ;
 		public:
 			//attribes
 
@@ -117,6 +129,10 @@ namespace loo
 			uint32_t Height() const
 			{
 				return height;
+			}
+
+			loo::math::uint2 GetSize ()const {
+				return loo::math::uint2 (width, height);
 			}
 
 			bool Active() const
@@ -192,6 +208,7 @@ namespace loo
 			// system call functions
 #if defined LOO_PLATFORM_WINDOWS
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
+			static bool CALLBACK CTRLHandler (DWORD fdwctrltype);
 		private:
 			static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
@@ -200,6 +217,7 @@ namespace loo
 			void KeepScreenOn();
 
 			LRESULT MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+			bool CTRLHandlerProc (DWORD fdwctrltype);
 #else
 			void DetectsOrientation();
 #endif
@@ -301,6 +319,7 @@ namespace loo
 			{
 				return close_event;
 			}
+
 		private:
 			ActiveEvent active_event;
 			PaintEvent paint_event;
@@ -330,6 +349,7 @@ namespace loo
 			CloseEvent close_event;
 		private:
 
+			Application* app;
 			int32_t left;
 			int32_t top;
 			uint32_t width;

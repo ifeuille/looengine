@@ -13,12 +13,15 @@ set(FOLDER_PATH Engine/Modules)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/cmake.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/application/cmake.cmake)
+#include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/vulkan/cmake.cmake)
 
 ADD_DEFINITIONS(-DCORE_DLL_EXPORT)
+set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
 
 add_dep_link_dir()
 dep_module_static(global)
-dep_module_static(ifvk)
+#dep_module_static(ifvk)
+dep_module_static(vulkanloader)
 dep_module_static(vkfg)
 #add_dep_7z()
 add_dep_glm()

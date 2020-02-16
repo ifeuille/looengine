@@ -1,6 +1,6 @@
 
 #pragma once
-
+#include "vulkanloader/dllexport.h"
 #include "global/global.h"
 #include "global/extstd/ntstringview.h"
 
@@ -80,7 +80,7 @@ namespace loo
 	//
 	// Vulkan Device Functions
 	//
-	class VulkanDeviceFn
+	class /*VULKANLOADER_EXPORT*/ VulkanDeviceFn
 	{
 	// variables
 	private:
@@ -88,7 +88,7 @@ namespace loo
 
 	// methods
 	public:
-		VulkanDeviceFn () : _table{null} {}
+		VulkanDeviceFn ();
 		explicit VulkanDeviceFn (VulkanDeviceFnTable *table) : _table{table} {}
 
 		void VulkanDeviceFn_Init (const VulkanDeviceFn &other);
@@ -104,7 +104,7 @@ namespace loo
 	//
 	// Vulkan Loader
 	//
-	struct VulkanLoader final
+	struct /*VULKANLOADER_EXPORT*/ VulkanLoader final
 	{
 		VulkanLoader () = delete;
 

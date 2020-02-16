@@ -10,11 +10,19 @@ namespace loo
 {
 	namespace core
 	{
+		struct ContextConfig
+		{
+			//std::string video_device_name;
+			//std::string shaderlib_name;
+			//loo::rhi::RenderSettings graphic_settings;
+			vkfg::RenderSettings graphic_settings;
+		};
+
 		class CORE_EXPORT Application : public loo::noncopyable
 		{
 		public:
-			explicit Application(const std::string& name);
-			explicit Application(const std::string& name, void* native_wnd);
+			explicit Application(const std::string& name, uint32_t appid, ContextConfig setting);
+			explicit Application(const std::string& name, void* native_wnd, uint32_t appid, ContextConfig setting);
 
 			virtual ~Application();
 
@@ -39,26 +47,24 @@ namespace loo
 			void Run();
 			void Quit();
 
-			virtual void OnResize(uint32_t width, uint32_t height);
+			uint32_t GetAppID ()const { return app_id; }
+			bool IsMainApp ()const { return app_id == 0; }
+
 		protected:
-			uint32_t Update(uint32_t pass);
+			uint32_t Update(uint64_t pass);
 			void UpdateStats();
+
+
 		private:
-			virtual void OnCreate()
-			{
-			}
-			virtual void OnDestroy()
-			{
-			}
-			virtual void OnSuspend()
-			{
-			}
-			virtual void OnResume()
-			{
-			}
-			virtual void DoUpdateOverlay() = 0;
-			virtual uint32_t DoUpdate(uint32_t pass) = 0;
-		private:
+			virtual bool OnCreate() { return false; }
+			virtual bool OnDestroy() { return false; }
+			virtual bool OnSuspend() { return false; }
+			virtual bool OnResume() { return false; }
+			virtual bool OnRefresh (){return false;}
+			virtual bool OnResize (uint32_t width, uint32_t height);
+			virtual bool DoUpdateOverlay() = 0;
+			virtual uint32_t DoUpdate(uint64_t pass) = 0;
+		protected:
 
 			std::string name;
 
@@ -71,8 +77,10 @@ namespace loo
 			loo::global::Timer timer;
 			float app_time;
 			float frame_time;
+			uint64_t pass_count;
 
 			WindowPtr main_wnd;
+			uint32_t app_id;//0 is the main
 
 		};
 	}

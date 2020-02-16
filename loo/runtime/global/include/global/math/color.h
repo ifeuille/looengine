@@ -58,7 +58,14 @@ namespace loo
 			}
 
 			ND_ constexpr bool operator != (const RGBAColor<T> &rhs) const { return not (*this == rhs); }
+#if 1
 
+			ND_ static constexpr T  MaxValue ()
+			{
+				return std::numeric_limits<T>::max ();
+			}
+
+#else
 			ND_ static constexpr T  MaxValue ()
 			{
 				if constexpr (IsFloatPoint<T>)
@@ -66,7 +73,7 @@ namespace loo
 				else
 					return std::numeric_limits<T>::max ();
 			}
-
+#endif
 			ND_ static constexpr T  Epsilon ()
 			{
 				if /*constexpr*/ (IsFloatPoint<T>)
@@ -83,6 +90,16 @@ namespace loo
 			ND_ T &			operator [] (size_t i) { ASSERT (i < size ());  return std::addressof (r)[i]; }
 			ND_ T const&	operator [] (size_t i)	const { ASSERT (i < size ());  return std::addressof (r)[i]; }
 		};
+		template <>
+		ND_ static constexpr float RGBAColor<float>::MaxValue ()
+		{
+			return float (1.0f);
+		}
+		template <>
+		ND_ static constexpr double RGBAColor<double>::MaxValue ()
+		{
+			return double (1.0);
+		}
 
 		using RGBA32f = RGBAColor< float >;
 		using RGBA32i = RGBAColor< int >;

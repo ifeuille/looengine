@@ -10,6 +10,7 @@ namespace loo
 			{
 				CHECK (vdi.instance and vdi.physicalDevice and vdi.device and not vdi.queues.empty ());
 				CHECK (VulkanLoader::Initialize ());
+
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4316)

@@ -19,13 +19,6 @@ namespace loo
 {
 	namespace core
 	{
-		struct ContextConfig
-		{
-			std::string video_device_name;
-			std::string shaderlib_name;
-			//loo::rhi::RenderSettings graphic_settings;
-			vkfg::RenderSettings graphic_settings;
-		};
 
 		class CORE_EXPORT Context :loo::noncopyable
 		{

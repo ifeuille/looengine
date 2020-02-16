@@ -1,27 +1,37 @@
 #include "core/application/application.h"
 #include "core/context.h"
 
-loo::core::Application::Application(const std::string & name)
-	:Application(name, nullptr)
+loo::core::Application::Application (const std::string & name, uint32_t appid, ContextConfig setting)
+	:Application (name, nullptr, appid, setting)
 {
 
 }
 
-loo::core::Application::Application(const std::string & name, void * native_wnd)
+loo::core::Application::Application (const std::string & name, void * native_wnd, uint32_t appid, ContextConfig setting)
 	: name(name), total_num_frames(0),
 	fps(0), accumulate_time(0), num_frames(0),
-	app_time(0), frame_time(0)
+	app_time(0), frame_time(0), pass_count (0), app_id(appid)
 {
-	Context::Get().SetApplication(*this);
-	ContextConfig cfg = Context::Get().Config();
-	main_wnd = this->MakeWindow(name, cfg.graphic_settings, native_wnd);
+	if (IsMainApp ())
+	{
+
+		Context::Get ().SetApplication (*this);
+		Context::Get ().Config (setting);
+		setting = Context::Get ().Config ();
+	}
+	main_wnd = this->MakeWindow (name, setting.graphic_settings, native_wnd);
 #ifndef LOO_PLATFORM_WINDOWS_STORE
-	cfg.graphic_settings.left = main_wnd->Left();
-	cfg.graphic_settings.top = main_wnd->Top();
-	cfg.graphic_settings.width = main_wnd->Width();
-	cfg.graphic_settings.height = main_wnd->Height();
-	Context::Get().Config(cfg);
+	setting.graphic_settings.left = main_wnd->Left ();
+	setting.graphic_settings.top = main_wnd->Top ();
+	setting.graphic_settings.width = main_wnd->Width ();
+	setting.graphic_settings.height = main_wnd->Height ();
+
+	if (IsMainApp ())
+	{
+		Context::Get ().Config (setting);
+	}
 #endif
+
 }
 
 loo::core::Application::~Application()
@@ -33,8 +43,8 @@ void loo::core::Application::Create()
 {
 	ContextConfig cfg = Context::Get().Config();
 	//TODO
-	cfg.video_device_name = "vulkanrhi";
-	cfg.shaderlib_name = "shaderlib";
+	//cfg.video_device_name = "vulkanrhi";
+	//cfg.shaderlib_name = "shaderlib";
 	Context::Get().Config(cfg);
 
 	//Context::Get().GetShaderLibManager();
@@ -73,17 +83,18 @@ void loo::core::Application::Resume()
 
 void loo::core::Application::Refresh()
 {
-	//Context::Instance().RenderFactoryInstance().RenderEngineInstance().Refresh();
+	Update (pass_count);
+	this->OnRefresh ();
 }
 
 loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, vkfg::RenderSettings const & settings)
 {
-	return loo::global::MakeSharedPtr<Window>(aname, settings, nullptr);
+	return MakeWindow (aname, settings, nullptr);
 }
 
-loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, vkfg::RenderSettings const & settings, void * native_wnd)
+loo::core::WindowPtr loo::core::Application::MakeWindow (std::string const & aname, vkfg::RenderSettings const & settings,void * native_wnd)
 {
-	return loo::global::MakeSharedPtr<Window>(aname, settings, native_wnd);
+	return loo::global::MakeSharedPtr<Window>(aname, settings, this, native_wnd);
 }
 
 uint32_t loo::core::Application::TotalNumFrames() const
@@ -137,7 +148,7 @@ void loo::core::Application::Run()
 		}
 		else
 		{
-			//re.Refresh ( );
+			Refresh ();
 		}
 	}
 #elif defined LOO_PLATFORM_WINDOWS_STORE
@@ -156,7 +167,7 @@ void loo::core::Application::Run()
 		if (main_wnd_->Active())
 		{
 			dispatcher->ProcessEvents(CoreProcessEventsOption::CoreProcessEventsOption_ProcessAllIfPresent);
-			re.Refresh();
+			Refresh ();
 		}
 		else
 		{
@@ -190,13 +201,13 @@ void loo::core::Application::Run()
 			}
 		} while (ident >= 0);
 
-		re.Refresh();
+		Refresh ();
 	}
 #elif defined LOO_PLATFORM_IOS
 	while (!main_wnd_->Closed())
 	{
 		Window::PumpEvents();
-		re.Refresh();
+		Refresh ();
 	}
 #endif
 
@@ -214,14 +225,16 @@ void loo::core::Application::Quit()
 #endif
 }
 
-void loo::core::Application::OnResize(uint32_t width, uint32_t height)
+
+bool loo::core::Application::OnResize(uint32_t width, uint32_t height)
 {
 	LOO_UNUSED(width);
 	LOO_UNUSED(height);
 	//this->Proj(this->ActiveCamera().NearPlane(), this->ActiveCamera().FarPlane());
+	return false;
 }
 
-uint32_t loo::core::Application::Update(uint32_t pass)
+uint32_t loo::core::Application::Update(uint64_t pass)
 {
 	if (0 == pass)
 	{
@@ -256,3 +269,4 @@ void loo::core::Application::UpdateStats()
 
 	timer.restart();
 }
+
