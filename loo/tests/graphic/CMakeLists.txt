@@ -23,13 +23,15 @@ ${CMAKE_CURRENT_SOURCE_DIR}/source/graphicapp.cpp
 source_group("graphic\\header" FILES ${SOURCE_PUBLIC})
 source_group("graphic\\source" FILES ${SOURCE_PRIVATE})
 set(FOLDER_PATH tests)
+set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
 
 add_dep_link_dir()
 dep_module_static(global)
-dep_module_static(ifvk)
+dep_module_static(vulkanloader)
+#dep_module_static(ifvk)
 dep_module_static(vkfg)
 #add_dep_7z()
-add_dep_glm()
+#add_dep_glm()
 
 include_directories(${EXE_ROOT_PATH}/header)
 add_program(${EXE_NAME})
@@ -39,6 +41,7 @@ depdent_module(${EXE_NAME} modulemanager)
 depdent_module(${EXE_NAME} filemanager)
 #depdent_module(${EXE_NAME} rhi)
 depdent_module(${EXE_NAME} core)
+target_link_libraries( ${EXE_NAME} "PipelineCompiler" )
 
 declare_program(${EXE_NAME})
 
