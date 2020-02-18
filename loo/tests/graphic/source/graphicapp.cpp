@@ -1,7 +1,7 @@
 #include "graphicapp.h"
-#include "pipeline_compiler/VPipelineCompiler.h"
 #include "global/stream/filestream.h"
 #include "global/algorithms/stringparser.h"
+#include "pipeline_compiler/VPipelineCompiler.h"
 
 extern void UnitTest_VResourceManager (const loo::vkfg::FrameGraph &fg);
 
@@ -370,4 +370,14 @@ ND_ loo::Array<uint8_t> GraphicApp::CreateData (loo::BytesU size) const
 	arr.resize (size_t (size));
 
 	return arr;
+}
+
+ND_ loo::String GraphicApp::GetFuncName(loo::StringView src)
+{
+	size_t	pos = src.find_last_of("::");
+
+	if (pos != loo::StringView::npos)
+		return loo::String{ src.substr(pos + 1) };
+	else
+		return loo::String{ src };
 }

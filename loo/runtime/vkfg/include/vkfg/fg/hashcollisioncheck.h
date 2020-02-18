@@ -2,6 +2,7 @@
 #pragma once
 #include "vkfg/fg/ids.h"
 #include "global/extstd/dummylock.h"
+#include "global/extstd/staticstring.h"
 
 #include <random>
 

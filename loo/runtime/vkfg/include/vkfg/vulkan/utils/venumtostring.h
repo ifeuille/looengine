@@ -172,6 +172,10 @@ namespace loo
 			case VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR:							return "SharedPresent";
 			case VK_IMAGE_LAYOUT_SHADING_RATE_OPTIMAL_NV:						return "ShadingRateOptimal";
 			case VK_IMAGE_LAYOUT_FRAGMENT_DENSITY_MAP_OPTIMAL_EXT:				return "FragmentDensityMapOptimal";
+			case VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL_KHR:					return "DepthAttachmentOptimal";
+			case VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL_KHR:					return "DepthReadOnly";
+			case VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL_KHR:				return "StencilAttachmentOptimal";
+			case VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL_KHR:					return "StencilReadOnly";
 			case VK_IMAGE_LAYOUT_RANGE_SIZE:
 			case VK_IMAGE_LAYOUT_MAX_ENUM:										break;
 			}

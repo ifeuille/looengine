@@ -11,13 +11,13 @@ private:
 	using TestFunc_t = bool (GraphicApp::*) ();
 	using TestQueue_t = loo::Deque<loo::Pair< TestFunc_t, loo::uint >>;
 	using DebugReport = loo::vkfg::VulkanDeviceExt::DebugReport;
-	using VPipelineCompilerPtr = loo::SharedPtr< class VPipelineCompiler >;
+	using VPipelineCompilerPtr = loo::SharedPtr< class loo::vkfg::VPipelineCompiler >;
 
 	// variables
 private:
 	loo::vkfg::VulkanDeviceExt			_vulkan;
 	loo::vkfg::FrameGraph				_frameGraph;
-	VPipelineCompilerPtr	_pplnCompiler;
+	VPipelineCompilerPtr				_pplnCompiler;
 	loo::vkfg::SwapchainID				_swapchainId;
 
 	TestQueue_t				_tests;
@@ -32,7 +32,7 @@ private:
 	bool SavePNG (const loo::String &filename, const loo::vkfg::ImageView &imageData) const;
 
 	template <typename Arg0, typename ...Args>
-	void DeleteResources (Arg0 &arg0, Args& ...args);
+	inline void DeleteResources (Arg0 &arg0, Args& ...args);
 
 	ND_ loo::Array<uint8_t>	CreateData (loo::BytesU size) const;
 
@@ -69,14 +69,5 @@ inline void GraphicApp::DeleteResources (Arg0 &arg0, Args& ...args)
 }
 
 
-inline loo::String  GraphicApp::GetFuncName (loo::StringView src)
-{
-	size_t	pos = src.find_last_of ("::");
-
-	if (pos != loo::StringView::npos)
-		return loo::String{ src.substr (pos + 1) };
-	else
-		return loo::String{ src };
-}
 
 #	define TEST_NAME	GetFuncName( LOO_FUNCTION_NAME )

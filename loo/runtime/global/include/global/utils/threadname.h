@@ -7,6 +7,6 @@ namespace loo
 {
 
 	//void SetThreadName (const std::thread &, StringView name);
-	void SetCurrentThreadName (NtStringView name);
+	void SetCurrentThreadName (loo::NtStringView name);
 
 }
