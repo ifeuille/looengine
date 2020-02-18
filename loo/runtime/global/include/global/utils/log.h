@@ -176,6 +176,15 @@ utils::slog.e<<"CHECK FAILED:"<<#_func_<<utils::io::endl;\
 #define CHECK(_func_)\
 	CHECK_PRIVATE((_func_))
 #endif
+// check function return value and exit
+#ifndef CHECK_FATAL
+#	define CHECK_FATAL( _expr_ ) \
+		{if (( _expr_ )) {}\
+		  else { \
+			LOO_LOGE( LOO_PRIVATE_TOSTRING( _expr_ ) ); \
+			LOO_PRIVATE_EXIT(); \
+		}}
+#endif
 #define CHECK_ERR(_func_) CHECK(_func_)
 #define LOO_LOGI(arg) utils::slog.i<<arg<<utils::io::endl;
 #define LOO_LOGE(arg) utils::slog.e<<arg<<utils::io::endl;

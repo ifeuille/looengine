@@ -12,13 +12,9 @@ loo::core::Application::Application (const std::string & name, void * native_wnd
 	fps(0), accumulate_time(0), num_frames(0),
 	app_time(0), frame_time(0), pass_count (0), app_id(appid)
 {
-	if (IsMainApp ())
-	{
-
-		Context::Get ().SetApplication (*this);
-		Context::Get ().Config (setting);
-		setting = Context::Get ().Config ();
-	}
+	Context::Get ().SetApplication (*this);
+	Config (setting);
+	setting = Config ();
 	main_wnd = this->MakeWindow (name, setting.graphic_settings, native_wnd);
 #ifndef LOO_PLATFORM_WINDOWS_STORE
 	setting.graphic_settings.left = main_wnd->Left ();
@@ -26,10 +22,7 @@ loo::core::Application::Application (const std::string & name, void * native_wnd
 	setting.graphic_settings.width = main_wnd->Width ();
 	setting.graphic_settings.height = main_wnd->Height ();
 
-	if (IsMainApp ())
-	{
-		Context::Get ().Config (setting);
-	}
+	Config (setting);
 #endif
 
 }
@@ -41,11 +34,11 @@ loo::core::Application::~Application()
 
 void loo::core::Application::Create()
 {
-	ContextConfig cfg = Context::Get().Config();
+	ContextConfig cfg = Config ();
 	//TODO
 	//cfg.video_device_name = "vulkanrhi";
 	//cfg.shaderlib_name = "shaderlib";
-	Context::Get().Config(cfg);
+	Config (cfg);
 
 	//Context::Get().GetShaderLibManager();
 
@@ -270,3 +263,12 @@ void loo::core::Application::UpdateStats()
 	timer.restart();
 }
 
+void loo::core::Application::Config (ContextConfig const & cfg)
+{
+	contextConfig = cfg;
+}
+
+loo::core::ContextConfig const & loo::core::Application::Config () const
+{
+	return contextConfig;
+}

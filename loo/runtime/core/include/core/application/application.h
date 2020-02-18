@@ -49,7 +49,8 @@ namespace loo
 
 			uint32_t GetAppID ()const { return app_id; }
 			bool IsMainApp ()const { return app_id == 0; }
-
+			void Config (ContextConfig const& cfg);
+			ContextConfig const& Config ()const;
 		protected:
 			uint32_t Update(uint64_t pass);
 			void UpdateStats();
@@ -65,7 +66,7 @@ namespace loo
 			virtual bool DoUpdateOverlay() = 0;
 			virtual uint32_t DoUpdate(uint64_t pass) = 0;
 		protected:
-
+			ContextConfig contextConfig;
 			std::string name;
 
 			// Stats

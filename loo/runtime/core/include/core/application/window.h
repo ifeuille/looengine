@@ -112,7 +112,6 @@ namespace loo
 			std::unique_ptr<loo::vkfg::IVulkanSurface>  GetVulkanSurface () ;
 		public:
 			//attribes
-
 			int32_t Left() const
 			{
 				return left;

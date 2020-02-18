@@ -139,6 +139,7 @@ namespace loo
 			ND_ static ArrayView<const char*>	GetRecomendedInstanceExtensions ();
 			ND_ static ArrayView<const char*>	GetRecomendedDeviceExtensions ();
 			ND_ static ArrayView<const char*>	GetAllDeviceExtensions_v100 ();
+			ND_ static ArrayView<const char*>	GetAllDeviceExtensions_v110 ();
 			ND_ static ArrayView<const char*>	GetAllDeviceExtensions ();
 
 

@@ -83,15 +83,6 @@ loo::global::thread_pool & loo::core::Context::ThreadPool()
 	return *threadPoolInstance;
 }
 
-void loo::core::Context::Config(ContextConfig const & cfg)
-{
-	contextConfig = cfg;
-}
-
-loo::core::ContextConfig const & loo::core::Context::Config() const
-{
-	return contextConfig;
-}
 
 //loo::rhi::GraphicDevice & loo::core::Context::GetGraphicDevice()
 //{
@@ -181,6 +172,29 @@ loo::core::ContextConfig const & loo::core::Context::Config() const
 //	MakeRenderFactory (ptr);
 //#endif
 //}
+
+loo::core::Application * loo::core::Context::GetApplication (int id)const
+{
+	auto it = apps.find (id);
+	if (it == apps.end ())
+	{
+		return nullptr;
+	}
+	return it->second;
+}
+
+void loo::core::Context::SetApplication (int id, Application * app)
+{
+	if (!app)
+	{
+		return;
+	}
+	apps[id] = app;
+	if (id == MainAppID)
+	{
+		application = app;
+	}
+}
 
 void loo::core::Context::DestroyAll()
 {

@@ -259,7 +259,7 @@ CHECK_ERR (swapchain->Create (
 
 extern void FW_Test2 ()
 {
-	FWApp2	app("windows_0",0,loo::core::ContextConfig());
+	FWApp2	app("windows_0",loo::core::MainAppID,loo::core::ContextConfig());
 
 	app.Create ();
 	app.Run ();

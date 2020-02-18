@@ -22,7 +22,7 @@ namespace loo
 			OptimizeSize = 1 << 17,
 			StrongOptimization = 1 << 18,	// very slow, may be usable for offline compilation
 
-			ParseAnnoations = 1 << 20,
+			ParseAnnotations = 1 << 20,
 
 			_Last,
 			Unknown = 0,

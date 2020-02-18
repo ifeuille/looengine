@@ -143,6 +143,116 @@ namespace loo
 		}
 
 		/*
+=================================================
+	GetAllDeviceExtensions_v110
+=================================================
+*/
+		ArrayView<const char*>  VulkanDevice::GetAllDeviceExtensions_v110 ()
+		{
+			static const char *	device_extensions[] =
+			{
+				#ifdef VK_KHR_create_renderpass2
+					VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_draw_indirect_count
+					VK_KHR_DRAW_INDIRECT_COUNT_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_8bit_storage
+					VK_KHR_8BIT_STORAGE_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_conservative_rasterization
+					VK_EXT_CONSERVATIVE_RASTERIZATION_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_sample_locations
+					VK_EXT_SAMPLE_LOCATIONS_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_push_descriptor
+					VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_shader_atomic_int64
+					VK_KHR_SHADER_ATOMIC_INT64_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_shader_float16_int8
+					VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_shader_float_controls
+					VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_blend_operation_advanced
+					VK_EXT_BLEND_OPERATION_ADVANCED_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_conditional_rendering
+					VK_EXT_CONDITIONAL_RENDERING_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_inline_uniform_block
+					VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_descriptor_indexing
+					VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_memory_budget
+					VK_EXT_MEMORY_BUDGET_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_shader_clock
+					VK_KHR_SHADER_CLOCK_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_timeline_semaphore
+					VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_subgroup_size_control
+					VK_EXT_SUBGROUP_SIZE_CONTROL_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_performance_query
+					VK_KHR_PERFORMANCE_QUERY_EXTENSION_NAME,
+				#endif
+				#ifdef VK_EXT_filter_cubic
+					VK_EXT_FILTER_CUBIC_EXTENSION_NAME,
+				#endif
+				#ifdef VK_KHR_spirv_1_4
+					VK_KHR_SPIRV_1_4_EXTENSION_NAME,
+				#endif
+
+					// Vendor specific extensions
+					#ifdef VK_NV_mesh_shader
+						VK_NV_MESH_SHADER_EXTENSION_NAME,
+					#endif
+					#ifdef VK_NV_shader_image_footprint
+						VK_NV_SHADER_IMAGE_FOOTPRINT_EXTENSION_NAME,
+					#endif
+					#ifdef VK_NV_shading_rate_image
+						VK_NV_SHADING_RATE_IMAGE_EXTENSION_NAME,
+					#endif
+					#ifdef VK_NV_fragment_shader_barycentric
+						VK_NV_FRAGMENT_SHADER_BARYCENTRIC_EXTENSION_NAME,
+					#endif
+					#ifdef VK_NV_ray_tracing
+						VK_NV_RAY_TRACING_EXTENSION_NAME,
+					#endif
+					#ifdef VK_NVX_device_generated_commands
+						VK_NVX_DEVICE_GENERATED_COMMANDS_EXTENSION_NAME,
+					#endif
+					#ifdef VK_NV_shader_sm_builtins
+						VK_NV_SHADER_SM_BUILTINS_EXTENSION_NAME,
+					#endif
+
+					#ifdef VK_AMD_shader_info
+						VK_AMD_SHADER_INFO_EXTENSION_NAME,
+					#endif
+					#ifdef VK_AMD_shader_core_properties
+						VK_AMD_SHADER_CORE_PROPERTIES_EXTENSION_NAME,
+					#endif
+					#ifdef VK_AMD_shader_core_properties2
+						VK_AMD_SHADER_CORE_PROPERTIES_2_EXTENSION_NAME,
+					#endif
+					#ifdef VK_AMD_rasterization_order
+						VK_AMD_RASTERIZATION_ORDER_EXTENSION_NAME,
+					#endif
+			};
+			return device_extensions;
+		}
+
+
+		/*
 		=================================================
 			GetAllDeviceExtensions
 		=================================================

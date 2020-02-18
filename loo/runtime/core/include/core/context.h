@@ -19,7 +19,10 @@ namespace loo
 {
 	namespace core
 	{
-
+		enum
+		{
+			MainAppID = 0
+		};
 		class CORE_EXPORT Context :loo::noncopyable
 		{
 		public:
@@ -37,8 +40,6 @@ namespace loo
 			}
 #endif
 			loo::global::thread_pool& ThreadPool ();
-			void Config (ContextConfig const& cfg);
-			ContextConfig const& Config ()const;
 
 			void SetApplication (Application & app)
 			{
@@ -54,6 +55,8 @@ namespace loo
 				LOO_ASSUME (application);
 				return *application;
 			}
+			void SetApplication (int id, Application* app);
+			Application* GetApplication (int id)const;
 
 			/*bool VideoDeviceValid ()const
 			{
@@ -70,13 +73,13 @@ namespace loo
 			void DestroyAll ();
 		private:
 			void Init ();
-			Application* application;
+			Application* application;//main
+			std::unordered_map<int, Application*> apps;
 			static std::unique_ptr<Context> contextInstance;
 			std::unique_ptr<loo::global::thread_pool> threadPoolInstance;
 			//std::unique_ptr<rhi::GraphicDevice> graphicDevice;
 			//std::unique_ptr<loo::shaderlib::ShaderLibManager> shaderLibManager;
 
-			ContextConfig contextConfig;
 #ifdef LOO_PLATFORM_ANDROID
 			android_app* state_;
 #endif

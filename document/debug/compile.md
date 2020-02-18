@@ -48,3 +48,11 @@ struct ReadIntScalar
 
 4.core.dll,exe
 vulkandll在exe里initilize和load得，core.dll里访问不到，在core.dll里另外load,initilize一份就ok了
+
+
+5.ExternalProject_Add
+编译glslang时一直报错glslang CMake Error at ChooseMSVCCRT.cmake:31 (string):
+查看可知，分隔符被设为了|
+而cmake仍然采用;
+也就是设置失败了
+不替换就好了

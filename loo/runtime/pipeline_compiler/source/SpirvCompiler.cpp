@@ -256,7 +256,7 @@ namespace loo
 
 			COMP_CHECK_ERR (_BuildReflection (glslang_data, OUT outReflection));
 
-			if (EnumEq (_compilerFlags, EShaderCompilationFlags::ParseAnnoations))
+			if (EnumEq (_compilerFlags, EShaderCompilationFlags::ParseAnnotations))
 			{
 				_ParseAnnotations (StringView{ source }, INOUT outReflection);
 

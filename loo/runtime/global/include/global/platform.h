@@ -106,4 +106,13 @@
 #define PLATFORM_CACHE_LINE_SIZE	128
 
 
+// exit
+#ifndef LOO_PRIVATE_EXIT
+# if defined(LOO_PLATFORM_ANDROID)
+#	define LOO_PRIVATE_EXIT()	std::terminate()
+# else
+#	define LOO_PRIVATE_EXIT()	::exit( EXIT_FAILURE )
+# endif
+#endif
+
 #endif//CORE_PLATFORM_H
