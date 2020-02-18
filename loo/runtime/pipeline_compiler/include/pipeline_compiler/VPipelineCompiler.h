@@ -47,8 +47,9 @@ namespace loo
 			)
 
 				// immutable:
-				PhysicalDeviceVk_t					_physicalDevice;
-			DeviceVk_t							_logicalDevice;
+			InstanceVk_t						_vkInstance;
+			PhysicalDeviceVk_t					_vkPhysicalDevice;
+			DeviceVk_t							_vkLogicalDevice;
 			void *								_fpCreateShaderModule = null;
 			void *								_fpDestroyShaderModule = null;
 
@@ -56,7 +57,7 @@ namespace loo
 			// methods
 		public:
 			VPipelineCompiler ();
-			VPipelineCompiler (PhysicalDeviceVk_t physicalDevice, DeviceVk_t device);
+			VPipelineCompiler (InstanceVk_t instance, PhysicalDeviceVk_t physicalDevice, DeviceVk_t device);
 			~VPipelineCompiler ();
 
 			bool SetCompilationFlags (EShaderCompilationFlags flags);

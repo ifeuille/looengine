@@ -184,20 +184,22 @@ bool GraphicApp::DoUpdateOverlay ()
 }
 uint32_t GraphicApp::DoUpdate (uint64_t pass)
 {
+	LOO_UNUSED (pass);
 	return true;
 }
-bool GraphicApp::Visualize (loo::StringView name) const
+bool GraphicApp::Visualize (loo::StringView name_) const
 {
 #	if defined(LOO_GRAPHVIZ_DOT_EXECUTABLE) and defined(FG_STD_FILESYSTEM)
 
 	String	str;
 	CHECK_ERR (_frameGraph->DumpToGraphViz (OUT str));
 
-	auto	path = std::filesystem::path{ FG_TEST_GRAPHS_DIR }.append (name.data ()).replace_extension ("dot");
+	auto	path = std::filesystem::path{ FG_TEST_GRAPHS_DIR }.append (name_.data ()).replace_extension ("dot");
 
 	CHECK (GraphViz::Visualize (str, path, "png", false, true));
 
 #	else
+	LOO_UNUSED (name_);
 	// not supported
 #	endif
 	return false;

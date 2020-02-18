@@ -26,6 +26,7 @@ static void SamplerCache_Test1 (const FrameGraph &fg)
 
 static void PipelineCache_Test1 (const FrameGraph &fg)
 {
+	LOO_UNUSED (fg);
 }
 
 

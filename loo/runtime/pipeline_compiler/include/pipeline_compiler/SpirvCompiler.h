@@ -97,6 +97,10 @@ namespace loo
 			bool						_targetVulkan = true;
 			uint						_spirvTraget = 0;		// spv_target_env
 
+			struct {
+				bool						shaderSubgroupClock = false;
+				bool						shaderDeviceClock = false;
+			}							_features;
 			TBuiltInResource			_builtinResource;
 
 
@@ -106,6 +110,7 @@ namespace loo
 			~SpirvCompiler ();
 
 			bool SetCompilationFlags (EShaderCompilationFlags flags);
+			void SetShaderClockFeatures (bool shaderSubgroupClock, bool shaderDeviceClock);
 
 			bool SetDefaultResourceLimits ();
 			bool SetCurrentResourceLimits (PhysicalDeviceVk_t physicalDevice);

@@ -88,4 +88,4 @@ namespace loo
 	constexpr _type_&  operator &= (_type_ &lhs, _type_ rhs)	{ return lhs = _type_( loo::EnumToUInt(lhs) & loo::EnumToUInt(rhs) ); } \
 	\
 	ND_ constexpr _type_  operator ~ (_type_ lhs)				{ return _type_(~loo::EnumToUInt(lhs)); } \
-	ND_ constexpr bool   operator ! (_type_ lhs)	
+	ND_ constexpr bool   operator ! (_type_ lhs)				{ return not loo::EnumToUInt(lhs); } \

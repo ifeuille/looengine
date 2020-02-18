@@ -4,6 +4,13 @@
 #include "vkfg/vkfg.h"
 #include "global/algorithms/stringutils.h"
 
+namespace loo
+{
+	namespace vkfg
+	{
+		class VPipelineCompiler;
+	}
+}
 class GraphicApp :public loo::core::Application
 {
 	// types

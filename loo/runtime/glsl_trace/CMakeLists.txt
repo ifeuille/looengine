@@ -28,8 +28,8 @@ set(FOLDER_PATH Engine/Modules)
 
 #include(${CMAKE_CURRENT_SOURCE_DIR}/include/vkfg/cmake.cmake)
 
-set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
-set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "GLSLang-lib")
+set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  PUBLIC "Vulkan-lib")
+set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} PUBLIC "GLSLang-lib")
 
 dep_module_static(global)
 dep_module_static(vulkanloader)

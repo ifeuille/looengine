@@ -1,6 +1,8 @@
 # find or download GLSLANG
 
 if (${LOO_EXTERNALS_USE_PREBUILD} AND ${LOO_ENABLE_GLSLANG})
+    message( FATAL_ERROR "not supported" )
+
 	add_library( "GLSLang-lib" INTERFACE )
 	target_include_directories( "GLSLang-lib" INTERFACE "${LOO_THIRDPART_ROOT_DIR}/glslang/include" )
 	target_compile_definitions( "GLSLang-lib" INTERFACE LOO_ENABLE_GLSLANG ENABLE_HLSL ENABLE_OPT AMD_EXTENSIONS NV_EXTENSIONS )
@@ -176,18 +178,18 @@ elseif (${LOO_ENABLE_GLSLANG})
 		LOG_BUILD 			1
 		# install
         INSTALL_DIR 		"${LOO_GLSLANG_INSTALL_DIR}"
-        INSTALL_COMMAND     ""
-		# INSTALL_COMMAND		${CMAKE_COMMAND}
-		# 					--build .
-		# 					--config $<CONFIG>
-		# 					--target
-		# 					install
-		# 					COMMAND ${CMAKE_COMMAND} -E copy_if_different
-		# 						"${LOO_EXTERNAL_GLSLANG_PATH}/StandAlone/ResourceLimits.h"
-		# 						"${LOO_GLSLANG_INSTALL_DIR}/include/StandAlone/ResourceLimits.h"
-		# 					COMMAND ${CMAKE_COMMAND} -E copy_if_different
-		# 						"${LOO_EXTERNAL_GLSLANG_PATH}/StandAlone/ResourceLimits.cpp"
-		# 						"${LOO_GLSLANG_INSTALL_DIR}/include/StandAlone/ResourceLimits.cpp"
+        #INSTALL_COMMAND     ""
+		INSTALL_COMMAND		${CMAKE_COMMAND}
+							--build .
+							--config $<CONFIG>
+							--target
+							install
+							COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								"${LOO_EXTERNAL_GLSLANG_PATH}/StandAlone/ResourceLimits.h"
+								"${LOO_GLSLANG_INSTALL_DIR}/include/StandAlone/ResourceLimits.h"
+							COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								"${LOO_EXTERNAL_GLSLANG_PATH}/StandAlone/ResourceLimits.cpp"
+								"${LOO_GLSLANG_INSTALL_DIR}/include/StandAlone/ResourceLimits.cpp"
 		LOG_INSTALL 		1
 		# test
 		TEST_COMMAND		""
@@ -229,13 +231,17 @@ elseif (${LOO_ENABLE_GLSLANG})
 		set( LOO_GLSLANG_LIBNAMES "${LOO_GLSLANG_LIBNAMES}" "SPIRV-Tools" "SPIRV-Tools-opt" )
 	endif ()
 
-	if (MSVC)
-		set( DBG_POSTFIX "${CMAKE_DEBUG_POSTFIX}" )
+    if (MSVC)
+    #${CMAKE_DEBUG_POSTFIX}
+    #glslang is d
+    #loo is _d
+		set( DBG_POSTFIX "d" )
 	else ()
 		set( DBG_POSTFIX "" )
 	endif ()
 
-	set( LOO_GLSLANG_LIBRARIES "" )
+    set( LOO_GLSLANG_LIBRARIES "" )
+    message("CMAKE_STATIC_LIBRARY_SUFFIX=${CMAKE_STATIC_LIBRARY_SUFFIX}")
 	foreach ( LIBNAME ${LOO_GLSLANG_LIBNAMES} )
 		if ( ${LIBNAME} STREQUAL "pthread" )
 			set( LOO_GLSLANG_LIBRARIES	"${LOO_GLSLANG_LIBRARIES}" "${LIBNAME}" )
@@ -249,9 +255,9 @@ elseif (${LOO_ENABLE_GLSLANG})
 	
 	add_library( "GLSLang-lib" INTERFACE )
     set_property( TARGET "GLSLang-lib" PROPERTY INTERFACE_LINK_LIBRARIES "${LOO_GLSLANG_LIBRARIES}" )
-    message("aaaa=${LOO_GLSLANG_INSTALL_DIR}/include")
-    target_include_directories( "GLSLang-lib" INTERFACE "${LOO_EXTERNAL_GLSLANG_PATH}" )
-    target_include_directories( "GLSLang-lib" INTERFACE "${LOO_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/include" )
+    #message("aaaa=${LOO_GLSLANG_INSTALL_DIR}/include")
+    target_include_directories( "GLSLang-lib" INTERFACE "${LOO_GLSLANG_INSTALL_DIR}/include" )
+    #target_include_directories( "GLSLang-lib" INTERFACE "${LOO_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/include" )
 	target_compile_definitions( "GLSLang-lib" INTERFACE "${LOO_GLSLANG_DEFINITIONS}" )
 	add_dependencies( "GLSLang-lib" "glslang-main" )
 

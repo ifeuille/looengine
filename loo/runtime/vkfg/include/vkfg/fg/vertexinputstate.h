@@ -90,8 +90,8 @@ namespace loo
 
 			ND_ bool operator ==(const VertexInputState& rhs)const;
 
-			ND_ Vertices_t const& Vertices ()const;
-			ND_ Bindings_t const& BufferBindings ()const;
+			ND_ Vertices_t const&	Vertices ()			const { return _vertices; }
+			ND_ Bindings_t const&	BufferBindings ()	const { return _bindings; }
 
 		};
 

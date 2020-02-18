@@ -228,6 +228,17 @@ namespace loo
 
 		/*
 		=================================================
+			SetShaderClockFeatures
+		=================================================
+		*/
+		void SpirvCompiler::SetShaderClockFeatures (bool shaderSubgroupClock, bool shaderDeviceClock)
+		{
+			_features.shaderSubgroupClock = shaderSubgroupClock;
+			_features.shaderDeviceClock = shaderDeviceClock;
+		}
+
+		/*
+		=================================================
 			Compile
 		=================================================
 		*/

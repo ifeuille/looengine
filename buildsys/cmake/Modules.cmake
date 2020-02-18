@@ -3,10 +3,10 @@
 MACRO(depdent_module _this_name _module_name)
     INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/include)
     add_dependencies(${_this_name} ${_module_name})
-    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${_module_name})
-    # set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
-    # debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${KLAYGE_OUTPUT_SUFFIX}
-    # )
+    #set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${_module_name})
+    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
+    debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${KLAYGE_OUTPUT_SUFFIX}
+    )
 ENDMACRO(depdent_module)
 
 MACRO(dep_module_static  _module_name)
@@ -17,6 +17,7 @@ MACRO(dep_module_static  _module_name)
     )
 
 ENDMACRO(dep_module_static)
+
 
 MACRO(add_dep_link_dir)
     #IF(NOT LOO_PLATFORM_WINDOWS_STORE AND NOT LOO_PLATFORM_ANDROID AND NOT LOO_PLATFORM_IOS)
@@ -85,7 +86,7 @@ MACRO(declare_module)
     ENDIF()
 
     TARGET_LINK_LIBRARIES(${MODULE_NAME}
-	${EXTRA_LINKED_LIBRARIES}
+    ${EXTRA_LINKED_LIBRARIES}
 	#debug MeshMLLib${LOO_OUTPUT_SUFFIX}_d optimized MeshMLLib${LOO_OUTPUT_SUFFIX}
     )
     IF(LOO_PLATFORM_WINDOWS)
@@ -141,7 +142,7 @@ MACRO(declare_module_static)
     ENDIF()
 
     TARGET_LINK_LIBRARIES(${MODULE_NAME}
-	${EXTRA_LINKED_LIBRARIES}
+    ${EXTRA_LINKED_LIBRARIES}
 	#debug MeshMLLib${LOO_OUTPUT_SUFFIX}_d optimized MeshMLLib${LOO_OUTPUT_SUFFIX}
     )
     IF(LOO_PLATFORM_WINDOWS)
