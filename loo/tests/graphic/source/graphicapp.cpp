@@ -41,7 +41,7 @@ bool GraphicApp::OnCreate ()
 			"",
 			loo::ArrayView<loo::vkfg::VulkanDevice::QueueCreateInfo> (
 			 { 
-				 { VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_SPARSE_BINDING_BIT/* | VK_QUEUE_PRESENT_BIT*/, 0.0f },
+				 { VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_SPARSE_BINDING_BIT | loo::vkfg::VK_QUEUE_PRESENT_BIT, 0.0f },
 				 { VK_QUEUE_COMPUTE_BIT,  0.0f },
 				 { VK_QUEUE_TRANSFER_BIT, 0.0f } 
 			 }

@@ -19,10 +19,6 @@ namespace loo
 {
 	namespace core
 	{
-		enum
-		{
-			MainAppID = 0
-		};
 		class CORE_EXPORT Context :loo::noncopyable
 		{
 		public:

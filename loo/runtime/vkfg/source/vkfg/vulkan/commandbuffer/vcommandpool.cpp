@@ -62,7 +62,7 @@ namespace loo
 				)
 			}
 
-			EXLOCK (SpinLock,_cmdGuard);
+			EXLOCK (std::mutex,_cmdGuard);
 			_freePrimaries.clear ();
 			_freeSecondaries.clear ();
 		}
@@ -113,13 +113,13 @@ namespace loo
 		*/
 		void VCommandPool::RecyclePrimary (VkCommandBuffer cmd) const
 		{
-			EXLOCK (SpinLock, _cmdGuard);
+			EXLOCK (std::mutex, _cmdGuard);
 			_freePrimaries.push_back (cmd);
 		}
 
 		void VCommandPool::RecycleSecondary (VkCommandBuffer cmd) const
 		{
-			EXLOCK (SpinLock, _cmdGuard);
+			EXLOCK (std::mutex, _cmdGuard);
 			_freeSecondaries.push_back (cmd);
 		}
 
@@ -135,7 +135,7 @@ namespace loo
 
 			// use cache
 			{
-				EXLOCK (SpinLock, _cmdGuard);
+				EXLOCK (std::mutex, _cmdGuard);
 				if (_freePrimaries.size ())
 				{
 					VkCommandBuffer  cmd = _freePrimaries.back ();
@@ -170,7 +170,7 @@ namespace loo
 
 			// use cache
 			{
-				EXLOCK (SpinLock, _cmdGuard);
+				EXLOCK (std::mutex, _cmdGuard);
 				if (_freeSecondaries.size ())
 				{
 					VkCommandBuffer  cmd = _freeSecondaries.back ();

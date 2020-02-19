@@ -24,7 +24,7 @@ namespace loo
 		private:
 			VkCommandPool			_pool = VK_NULL_HANDLE;
 
-			mutable SpinLock		_cmdGuard;			// TODO: use lock-free ?
+			mutable std::mutex			_cmdGuard;			// TODO: use lock-free ?
 			mutable CmdBufPool_t	_freePrimaries;
 			mutable CmdBufPool_t	_freeSecondaries;
 

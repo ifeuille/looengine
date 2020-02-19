@@ -22,10 +22,12 @@ set(EXTRA_LINKED_LIBRARIES "")
 
 file( GLOB_RECURSE SOURCE_PUBLIC "*.h" )
 file( GLOB_RECURSE SOURCE_PRIVATE "*.cpp" )
+file( GLOB_RECURSE SOURCE_EXTRA_SOURCE "*.txt" )
 source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_PUBLIC} )
 source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_PRIVATE} )
+source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_EXTRA_SOURCE} )
 
-
+set(SOURCE_PRIVATE ${SOURCE_PRIVATE} ${SOURCE_EXTRA_SOURCE} )
 
 # change here
 # source_group("graphic\\header" FILES ${SOURCE_PUBLIC})
@@ -47,8 +49,8 @@ dep_module_static(pipeline_compiler)
 include_directories(${EXE_ROOT_PATH}/header)
 add_program(${EXE_NAME})
 
-target_compile_definitions( ${EXE_NAME} PUBLIC "LOO_TEST_GRAPHS_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/Graphs\"" )
-target_compile_definitions( ${EXE_NAME} PUBLIC "LOO_TEST_DUMPS_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/Dumps\"" )
+target_compile_definitions( ${EXE_NAME} PUBLIC "LOO_TEST_GRAPHS_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/source/Graphs\"" )
+target_compile_definitions( ${EXE_NAME} PUBLIC "LOO_TEST_DUMPS_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/source/Dumps\"" )
 
 # dep of core
 depdent_module(${EXE_NAME} modulemanager)

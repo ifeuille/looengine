@@ -10,6 +10,10 @@ namespace loo
 {
 	namespace core
 	{
+		enum
+		{
+			MainAppID = 0
+		};
 		struct ContextConfig
 		{
 			//std::string video_device_name;
