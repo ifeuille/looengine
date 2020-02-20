@@ -1,0 +1,20 @@
+qWindowsWndProc
+extern "C" LRESULT QT_WIN_CALLBACK qWindowsWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    LRESULT result;
+    const QtWindows::WindowsEventType et = windowsEventType(message, wParam, lParam);
+    QWindowsWindow *platformWindow = nullptr;
+    const RECT ncCalcSizeFrame = rectFromNcCalcSize(message, wParam, lParam, 0);
+    const bool handled = QWindowsContext::instance()->windowsProc(hwnd, message, et, wParam, lParam, &result, &platformWindow);
+    if (QWindowsContext::verbose > 1 && lcQpaEvents().isDebugEnabled()) {
+        if (const char *eventName = QWindowsGuiEventDispatcher::windowsMessageName(message)) {
+            qCDebug(lcQpaEvents).nospace() << "EVENT: hwd=" << hwnd << ' ' << eventName
+                << " msg=0x" << hex << message << " et=0x" << et << dec << " wp="
+                << int(wParam) << " at " << GET_X_LPARAM(lParam) << ','
+                << GET_Y_LPARAM(lParam) << " handled=" << handled;
+        }
+    }
+    if (!handled)
+        result = DefWindowProc(hwnd, message, wParam, lParam);
+    //...
+}

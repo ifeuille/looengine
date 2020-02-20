@@ -15,6 +15,7 @@
 #endif
 #include "global/extstd/signal.h"
 #include "core/context.h"
+#include "core/application/application.h"
 
 namespace loo
 {
@@ -245,51 +246,67 @@ namespace loo
 			case WM_INPUT:
 				this->OnRawInput ( )(*this, reinterpret_cast<HRAWINPUT>(lParam));
 				break;
-			//case WM_KEYDOWN:
-
+			case WM_KEYLAST:
+			{
+				std::cout << "WM_KEYLAST" << std::endl;
+			}break;
 			//	break;
-			//case WM_KEYUP:
+			case WM_KEYDOWN:
+			case WM_SYSKEYDOWN:
+			case WM_KEYUP:
+			case WM_SYSKEYUP:
+			{
 
-			//	break;
-			//case WM_SYSKEYDOWN:
+				std::cout << "up" << std::endl;
+			}break;
+			case WM_MOUSEMOVE:
+			{
+				//std::cout << "WM_MOUSEMOVE" << std::endl;
+			}break;
+			case WM_LBUTTONDOWN:
+			case WM_LBUTTONDBLCLK:
+			{
+				std::cout << "WM_LBUTTONDOWN" << std::endl;
+			}break;
+			case WM_LBUTTONUP:
+			{
+				std::cout << "WM_LBUTTONUP" << std::endl;
+			}break;
+			case WM_RBUTTONDOWN:
+			case WM_RBUTTONDBLCLK:
+			{
+				std::cout << "WM_RBUTTONDOWN" << std::endl;
+			}break;
+			case WM_RBUTTONUP:
+			{
+				std::cout << "WM_RBUTTONUP" << std::endl;
+			}break;
+			case WM_MBUTTONDOWN:
+			case WM_MBUTTONDBLCLK:
+			{
+				std::cout << "WM_MBUTTONDOWN" << std::endl;
+			}break;
+			case WM_MBUTTONUP:
+			{
+				std::cout << "WM_MBUTTONUP" << std::endl;
+			}break;
+			case WM_MOUSEWHEEL:
+			{
+				//short fwKeys = GET_KEYSTATE_WPARAM(wParam);   /*   key   flags   */
+				short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+				/*   wheel   rotation   */
+				short xPos = GET_X_LPARAM(lParam);
+				/*   horizontal   position   of   pointer   */
+				short yPos = GET_Y_LPARAM(lParam);
+				/*   vertical   position   of   pointer   */
 
-			//	break;
-			//case WM_SYSKEYUP:
 
-			//	break;
+			}break;
 #if (_WIN32_WINNT > _WIN32_WINNT_WIN7)
 			case WM_TOUCH:
 			{
 				//https://docs.microsoft.com/zh-cn/windows/win32/wintouch/detecting-and-tracking-multiple-touch-points?redirectedfrom=MSDN
-				UINT cInputs;
-				PTOUCHINPUT pInputs;
-				POINT ptInput;
-				cInputs = LOWORD (wParam);
-				pInputs = new TOUCHINPUT[cInputs];
-				if (pInputs) {
-					if (GetTouchInputInfo ((HTOUCHINPUT)lParam, cInputs, pInputs, sizeof (TOUCHINPUT))) {
-						for (int i = 0; i < static_cast<INT>(cInputs); i++) {
-							TOUCHINPUT ti = pInputs[i];
-							index = GetContactIndex (ti.dwID);
-							if (ti.dwID != 0 && index < MAXPOINTS) {
-								// Do something with your touch input handle
-								ptInput.x = TOUCH_COORD_TO_PIXEL (ti.x);
-								ptInput.y = TOUCH_COORD_TO_PIXEL (ti.y);
-								ScreenToClient (hWnd, &ptInput);
-
-								if (ti.dwFlags & TOUCHEVENTF_UP) {
-									points[index][0] = -1;
-									points[index][1] = -1;
-								}
-								else {
-									points[index][0] = ptInput.x;
-									points[index][1] = ptInput.y;
-								}
-							}
-						}
-					}
-			}
-			break;
+			}break;
 #endif
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
 			case WM_POINTERDOWN:

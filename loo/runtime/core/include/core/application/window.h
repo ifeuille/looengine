@@ -189,32 +189,18 @@ namespace loo
 			typedef sigslot::signal< Window const &, bool> SizeEvent;
 			typedef sigslot::signal<Window const &> SetCursorEvent;
 			typedef sigslot::signal< Window const &, wchar_t> CharEvent;
-#if 1
+
 			typedef sigslot::signal< Window const &, uint32> KeyDownEvent;
 			typedef sigslot::signal< Window const &, uint32> KeyUpEvent;
-#if defined(LOO_PLATFORM_WINDOWS)
-#if defined LOO_PLATFORM_WINDOWS_DESKTOP
 
-			typedef sigslot::signal< Window const &, HRAWINPUT> RawInputEvent;
-#endif
-#elif defined(LOO_PLATFORM_ANDROID)
-
-#endif
-#else
-#if defined LOO_PLATFORM_WINDOWS_DESKTOP
-			typedef sigslot::signal< Window const &, HRAWINPUT> RawInputEvent;
-#elif defined(LOO_PLATFORM_WINDOWS_STORE) || defined(LOO_PLATFORM_ANDROID)
-			typedef sigslot::signal< Window const &, uint32> KeyDownEvent;
-			typedef sigslot::signal< Window const &, uint32> KeyUpEvent;
-#if defined LOO_PLATFORM_ANDROID
-			typedef sigslot::signal< Window const &, float2 const &, uint32_t> MouseDownEvent;
-			typedef sigslot::signal< Window const &, float2 const &, uint32_t> MouseUpEvent;
-			typedef sigslot::signal<Window const &, float2 const &> MouseMoveEvent;
-			typedef sigslot::signal<Window const &, float2 const &, int32_t> MouseWheelEvent;
+			typedef sigslot::signal< Window const &, loo::math::float2 const &, uint32_t> MouseDownEvent;
+			typedef sigslot::signal< Window const &, loo::math::float2 const &, uint32_t> MouseUpEvent;
+			typedef sigslot::signal<Window const &, loo::math::float2 const &> MouseMoveEvent;
+			typedef sigslot::signal<Window const &, loo::math::float2 const &, int32_t> MouseWheelEvent;
 			typedef sigslot::signal<Window const &, int32, int32_t> JoystickAxisEvent;
 			typedef sigslot::signal<Window const &, uint32> JoystickButtonsEvent;
-#endif
-#endif
+#if defined LOO_PLATFORM_WINDOWS_DESKTOP
+			typedef sigslot::signal< Window const &, HRAWINPUT> RawInputEvent;
 #endif
 			// single touch
 			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32> PointerDownEvent;
@@ -279,12 +265,6 @@ namespace loo
 			{
 				return char_event;
 			}
-#if defined LOO_PLATFORM_WINDOWS_DESKTOP
-			RawInputEvent& OnRawInput()
-			{
-				return raw_input_event;
-			}
-#elif defined(LOO_PLATFORM_WINDOWS_STORE) || defined(LOO_PLATFORM_ANDROID)
 			KeyDownEvent& OnKeyDown()
 			{
 				return key_down_event_;
@@ -293,7 +273,6 @@ namespace loo
 			{
 				return key_up_event_;
 			}
-#if defined LOO_PLATFORM_ANDROID
 			MouseDownEvent& OnMouseDown()
 			{
 				return mouse_down_event_;
@@ -318,7 +297,11 @@ namespace loo
 			{
 				return joystick_buttons_event_;
 			}
-#endif
+#if defined LOO_PLATFORM_WINDOWS_DESKTOP
+			RawInputEvent& OnRawInput()
+			{
+				return raw_input_event;
+			}
 #endif
 			PointerDownEvent& OnPointerDown()
 			{
@@ -349,20 +332,20 @@ namespace loo
 			SizeEvent size_event;
 			SetCursorEvent set_cursor_event;
 			CharEvent char_event;
-#if defined LOO_PLATFORM_WINDOWS_DESKTOP
-			RawInputEvent raw_input_event;
-#elif defined(LOO_PLATFORM_WINDOWS_STORE) || defined(LOO_PLATFORM_ANDROID) 
+
 			KeyDownEvent key_down_event_;
 			KeyUpEvent key_up_event_;
-#if defined LOO_PLATFORM_ANDROID
+
+#if defined LOO_PLATFORM_WINDOWS_DESKTOP
+			RawInputEvent raw_input_event;
+#endif
 			MouseDownEvent mouse_down_event_;
 			MouseUpEvent mouse_up_event_;
 			MouseMoveEvent mouse_move_event_;
 			MouseWheelEvent mouse_wheel_event_;
 			JoystickAxisEvent joystick_axis_event_;
 			JoystickButtonsEvent joystick_buttons_event_;
-#endif
-#endif
+
 			PointerDownEvent pointer_down_event;
 			PointerUpEvent pointer_up_event;
 			PointerUpdateEvent pointer_update_event;

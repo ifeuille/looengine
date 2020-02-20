@@ -184,10 +184,15 @@ namespace loo
 			SysReq LOOPROPERTY(Serialized) = 317,
 			Break LOOPROPERTY(Serialized) = 318,
 			Menu LOOPROPERTY(Serialized) = 319,
+			// left
 			Mouse0 LOOPROPERTY(Serialized) = 323,
+			// right
 			Mouse1 LOOPROPERTY(Serialized) = 324,
+			// middle
 			Mouse2 LOOPROPERTY(Serialized) = 325,
+			// x1
 			Mouse3 LOOPROPERTY(Serialized) = 326,
+			// x2
 			Mouse4 LOOPROPERTY(Serialized) = 327,
 			Mouse5 LOOPROPERTY(Serialized) = 328,
 			Mouse6 LOOPROPERTY(Serialized) = 329,
