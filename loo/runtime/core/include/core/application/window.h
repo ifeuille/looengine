@@ -173,6 +173,14 @@ namespace loo
 				return win_rotation;
 			}
 		public:
+			/*
+			android 
+			http://blog.sina.com.cn/s/blog_6dd0be790101mfka.html
+			https://developer.android.google.cn/ndk/reference/group/input?hl=zh-cn#group___input_1gga16685eea158879e41b101ca3634de462a55ea411f927aed8964fa72fec0da444f
+			windows:
+			https://blog.csdn.net/popten/article/details/50634694
+
+			*/
 			// some events
 			typedef sigslot::signal<Window const &, bool > ActiveEvent;
 			typedef sigslot::signal<Window const &> PaintEvent;
@@ -181,6 +189,18 @@ namespace loo
 			typedef sigslot::signal< Window const &, bool> SizeEvent;
 			typedef sigslot::signal<Window const &> SetCursorEvent;
 			typedef sigslot::signal< Window const &, wchar_t> CharEvent;
+#if 1
+			typedef sigslot::signal< Window const &, uint32> KeyDownEvent;
+			typedef sigslot::signal< Window const &, uint32> KeyUpEvent;
+#if defined(LOO_PLATFORM_WINDOWS)
+#if defined LOO_PLATFORM_WINDOWS_DESKTOP
+
+			typedef sigslot::signal< Window const &, HRAWINPUT> RawInputEvent;
+#endif
+#elif defined(LOO_PLATFORM_ANDROID)
+
+#endif
+#else
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
 			typedef sigslot::signal< Window const &, HRAWINPUT> RawInputEvent;
 #elif defined(LOO_PLATFORM_WINDOWS_STORE) || defined(LOO_PLATFORM_ANDROID)
@@ -195,6 +215,8 @@ namespace loo
 			typedef sigslot::signal<Window const &, uint32> JoystickButtonsEvent;
 #endif
 #endif
+#endif
+			// single touch
 			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32> PointerDownEvent;
 			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32> PointerUpEvent;
 			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32, bool> PointerUpdateEvent;

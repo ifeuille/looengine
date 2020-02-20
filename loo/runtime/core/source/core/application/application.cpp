@@ -12,7 +12,7 @@ loo::core::Application::Application (const std::string & name, void * native_wnd
 	fps(0), accumulate_time(0), num_frames(0),
 	app_time(0), frame_time(0), pass_count (0), app_id(appid)
 {
-	Context::Get ().SetApplication (*this);
+	Context::Get ().SetApplication (appid, this);
 	Config (setting);
 	setting = Config ();
 	main_wnd = this->MakeWindow (name, setting.graphic_settings, native_wnd);

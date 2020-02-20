@@ -190,10 +190,6 @@ void loo::core::Context::SetApplication (int id, Application * app)
 		return;
 	}
 	apps[id] = app;
-	if (id == MainAppID)
-	{
-		application = app;
-	}
 }
 
 void loo::core::Context::DestroyAll()

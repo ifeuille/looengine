@@ -27,10 +27,10 @@ private:
 	VPipelineCompilerPtr				_pplnCompiler;
 	loo::vkfg::SwapchainID				_swapchainId;
 
-	TestQueue_t				_tests;
-	loo::uint					_testInvocations = 0;
-	loo::uint					_testsPassed = 0;
-	loo::uint					_testsFailed;
+	TestQueue_t							_tests;
+	loo::uint							_testInvocations = 0;
+	loo::uint							_testsPassed = 0;
+	loo::uint							_testsFailed;
 	// helpers
 private:
 

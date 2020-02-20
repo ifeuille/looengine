@@ -34,10 +34,14 @@ namespace loo
 		}
 		bool CALLBACK Window::CTRLHandler (DWORD fdwctrltype)
 		{
-			auto win = Context::Get ().GetApplication ().MainWnd ();
-			if (win)
+			auto app = Context::Get ().GetApplication (MainAppID);
+			if (app)
 			{
-				return win->CTRLHandlerProc (fdwctrltype);
+				auto win = app->MainWnd ();
+				if (win)
+				{
+					return win->CTRLHandlerProc (fdwctrltype);
+				}
 			}
 			return false;
 		}
@@ -124,7 +128,10 @@ namespace loo
 				// Pass pointer to self
 				wnd = ::CreateWindowW ( wname.c_str ( ), wname.c_str ( ), win_style, settings.left, settings.top,
 					rc.right - rc.left, rc.bottom - rc.top, 0, 0, hInst, nullptr );
-
+#if (_WIN32_WINNT > _WIN32_WINNT_WIN7)
+				// register the window for touch instead of gestures
+				RegisterTouchWindow (wnd, 0);
+#endif
 				default_wnd_proc = ::DefWindowProc;
 				external_wnd = false;
 			}
@@ -238,7 +245,52 @@ namespace loo
 			case WM_INPUT:
 				this->OnRawInput ( )(*this, reinterpret_cast<HRAWINPUT>(lParam));
 				break;
+			//case WM_KEYDOWN:
 
+			//	break;
+			//case WM_KEYUP:
+
+			//	break;
+			//case WM_SYSKEYDOWN:
+
+			//	break;
+			//case WM_SYSKEYUP:
+
+			//	break;
+#if (_WIN32_WINNT > _WIN32_WINNT_WIN7)
+			case WM_TOUCH:
+			{
+				//https://docs.microsoft.com/zh-cn/windows/win32/wintouch/detecting-and-tracking-multiple-touch-points?redirectedfrom=MSDN
+				UINT cInputs;
+				PTOUCHINPUT pInputs;
+				POINT ptInput;
+				cInputs = LOWORD (wParam);
+				pInputs = new TOUCHINPUT[cInputs];
+				if (pInputs) {
+					if (GetTouchInputInfo ((HTOUCHINPUT)lParam, cInputs, pInputs, sizeof (TOUCHINPUT))) {
+						for (int i = 0; i < static_cast<INT>(cInputs); i++) {
+							TOUCHINPUT ti = pInputs[i];
+							index = GetContactIndex (ti.dwID);
+							if (ti.dwID != 0 && index < MAXPOINTS) {
+								// Do something with your touch input handle
+								ptInput.x = TOUCH_COORD_TO_PIXEL (ti.x);
+								ptInput.y = TOUCH_COORD_TO_PIXEL (ti.y);
+								ScreenToClient (hWnd, &ptInput);
+
+								if (ti.dwFlags & TOUCHEVENTF_UP) {
+									points[index][0] = -1;
+									points[index][1] = -1;
+								}
+								else {
+									points[index][0] = ptInput.x;
+									points[index][1] = ptInput.y;
+								}
+							}
+						}
+					}
+			}
+			break;
+#endif
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
 			case WM_POINTERDOWN:
 			{

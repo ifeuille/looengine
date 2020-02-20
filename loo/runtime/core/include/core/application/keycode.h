@@ -8,6 +8,41 @@ namespace loo
 {
 	namespace core
 	{
+		enum {
+			SAPP_MAX_TOUCHPOINTS = 8,
+			SAPP_MAX_MOUSEBUTTONS = 3,
+			SAPP_MAX_KEYCODES = 512,
+		};
+
+		enum class LOOENUM () TouchType :uint32_t
+		{
+			//已发生移动。不能与 TOUCHEVENTF_DOWN 结合使用。
+			Move LOOPROPERTY (Serialized) = 1,
+			//通过新的触控点创建了相应的触控点。不能与 TOUCHEVENTF_MOVE 或 TOUCHEVENTF_UP 结合使用。
+			Down LOOPROPERTY (Serialized) = 0x0002,
+			//已删除触某个触控点。
+			//Up LOOPROPERTY (Serialized) = 0x0004,
+			//触控点在范围内。此标志用于在兼容硬盘上启用触控悬停支持。不需要悬停支持的应用程序可忽略此标志。
+			Inrange LOOPROPERTY (Serialized) = 0x0008,
+			//指示此 TOUCHINPUT 结构对应于主触控点。有关主触控点的更多信息，请参见以下文本。
+			Primary LOOPROPERTY (Serialized) = 0x0010,
+			//在使用 GetTouchInputInfo 接收时，未合并此输入。
+			Nocoalesce LOOPROPERTY (Serialized) = 0x0020,
+			Pen LOOPROPERTY (Serialized) = 0x0040,
+			//触控事件来自用户的手掌。
+			Palm LOOPROPERTY (Serialized) = 0x0080
+		};
+
+		class LOOCLASS() Touch
+		{
+			LOOMETA_OBJECT;
+		public:
+			LOOPROPERTY (Serialized)
+			int Id;//touch id,-1无效
+			TouchType Status;
+
+		};
+
 		enum class LOOENUM() KeyCode:int
 		{
 			None LOOPROPERTY(Serialized) = 0,

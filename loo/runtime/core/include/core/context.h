@@ -37,20 +37,20 @@ namespace loo
 #endif
 			loo::global::thread_pool& ThreadPool ();
 
-			void SetApplication (Application & app)
-			{
-				application = &app;
-			}
-			bool AppValid ()const
-			{
-				return application != nullptr;
-			}
-			Application& GetApplication ()
-			{
-				assert (application);
-				LOO_ASSUME (application);
-				return *application;
-			}
+			//void SetApplication (Application & app)
+			//{
+			//	application = &app;
+			//}
+			//bool AppValid ()const
+			//{
+			//	return application != nullptr;
+			//}
+			//Application& GetApplication ()
+			//{
+			//	assert (application);
+			//	LOO_ASSUME (application);
+			//	return *application;
+			//}
 			void SetApplication (int id, Application* app);
 			Application* GetApplication (int id)const;
 
@@ -69,7 +69,7 @@ namespace loo
 			void DestroyAll ();
 		private:
 			void Init ();
-			Application* application;//main
+			//Application* application;//main
 			std::unordered_map<int, Application*> apps;
 			static std::unique_ptr<Context> contextInstance;
 			std::unique_ptr<loo::global::thread_pool> threadPoolInstance;
