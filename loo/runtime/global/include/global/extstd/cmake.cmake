@@ -69,14 +69,13 @@ ${MODULE_ROOT_PATH}/include/global/extstd/concurrentqueue/lightweightsemaphore.h
 
 set(LOCAL_PRIVATE
 ${MODULE_ROOT_PATH}/source/global/extstd/barrier.cpp
-
 )
 
 
 
 source_group("global\\include\\global\\extstd" FILES ${LOCAL_PUBLIC})
 source_group("global\\include\\global\\extstd\\atomic_queue" FILES ${LOCAL_PUBLIC_EXTSTD_ATOMIC_QUEUE})
-source_group("global\\include\\global\\extstd\\concurrentqueue" FILES ${LOCAL_PUBLIC_EXTSTD_CONCURRENTQUEUE})
+source_group("global\\include\\global\\extstd\\event" FILES ${LOCAL_PUBLIC_EXTSTD_EVENT})
 source_group("global\\source\\global\\extstd" FILES ${LOCAL_PRIVATE})
 
 

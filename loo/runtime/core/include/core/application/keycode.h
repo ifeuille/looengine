@@ -380,6 +380,110 @@ namespace loo
 	}
 }
 
+namespace loo
+{
+	namespace core
+	{
+		enum class LOOENUM () SAppEventType:uint32
+		{
+			SAPP_EVENTTYPE_INVALID LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_KEY_DOWN LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_KEY_UP LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_CHAR LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_MOUSE_DOWN LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_MOUSE_UP LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_MOUSE_SCROLL LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_MOUSE_MOVE LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_MOUSE_ENTER LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_MOUSE_LEAVE LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_TOUCHES_BEGAN LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_TOUCHES_MOVED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_TOUCHES_ENDED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_TOUCHES_CANCELLED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_RESIZED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_ICONIFIED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_RESTORED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_SUSPENDED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_RESUMED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_UPDATE_CURSOR LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_QUIT_REQUESTED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_CLIPBOARD_PASTED LOOPROPERTY (Serialized),
+			_SAPP_EVENTTYPE_NUM LOOPROPERTY (Serialized),
+			_SAPP_EVENTTYPE_FORCE_U32 LOOPROPERTY (Serialized) = 0x7FFFFFFF
+		};
+
+		class LOOCLASS () SAppTouchPoint
+		{
+			LOOMETA_OBJECT;
+		public:
+			LOOPROPERTY (Serialized)
+			std::uintptr_t identifier;
+			LOOPROPERTY (Serialized)
+			float x;
+			LOOPROPERTY (Serialized)
+			float y;
+			LOOPROPERTY (Serialized)
+			bool changed;
+
+		};
+
+		struct LOOCLASS () SAppEvent
+		{
+			LOOPROPERTY (Serialized)
+			uint64 frameCount;
+			LOOPROPERTY (Serialized)
+			SAppEventType type;
+			LOOPROPERTY (Serialized)
+			KeyCode keyCode;
+			LOOPROPERTY (Serialized)
+			uint32_t charCode;
+			LOOPROPERTY (Serialized)
+			bool keyRepeat;
+			LOOPROPERTY (Serialized)
+			uint32_t modifiers;
+			LOOPROPERTY (Serialized)
+			int mouseX;
+			LOOPROPERTY (Serialized)
+			int mouseY;
+			LOOPROPERTY (Serialized)
+			float scrollX;
+			LOOPROPERTY (Serialized)
+			float scrollY;
+			LOOPROPERTY (Serialized)
+			int numTouchs;
+			LOOPROPERTY (Serialized)
+			SAppTouchPoint touches[SAPP_MAX_TOUCHPOINTS];
+			LOOPROPERTY (Serialized)
+			int windowWidth;
+			LOOPROPERTY (Serialized)
+			int windowHeight;
+			LOOPROPERTY (Serialized)
+			int framebufferWidth;
+			LOOPROPERTY (Serialized)
+			int framebufferHeight;
+		};
+
+
+		enum class LOOENUM () SAppModifierType:uint32{
+			SAPP_MODIFIER_LSHIFT 	LOOPROPERTY (Serialized) = (1 << 0),
+			SAPP_MODIFIER_RSHIFT 	LOOPROPERTY (Serialized) = (1 << 1),
+			SAPP_MODIFIER_LCTRL 	LOOPROPERTY (Serialized) = (1 << 2),
+			SAPP_MODIFIER_RCTRL 	LOOPROPERTY (Serialized) = (1 << 3),
+			SAPP_MODIFIER_LALT 		LOOPROPERTY (Serialized) = (1 << 4),
+			SAPP_MODIFIER_RALT 		LOOPROPERTY (Serialized) = (1 << 5),
+			SAPP_MODIFIER_LMETA		LOOPROPERTY (Serialized) = (1 << 6),
+			SAPP_MODIFIER_RMETA		LOOPROPERTY (Serialized) = (1 << 7),//win
+			// add lock keys to the same bits
+			SAPP_MODIFIER_CAPSLOCK		LOOPROPERTY (Serialized) = (1 << 8),
+			SAPP_MODIFIER_NUMLOCK		LOOPROPERTY (Serialized) = (1 << 9),
+			SAPP_MODIFIER_SCROLLLOCK	LOOPROPERTY (Serialized) = (1 << 10),
+		};
+		LOO_BIT_OPERATORS (SAppModifierType);
+
+
+	}
+}
+
 #ifndef __LOOREFLECT__
 #include "core/application/generate/keycode.loo.h"
 #endif

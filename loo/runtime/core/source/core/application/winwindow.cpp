@@ -16,6 +16,7 @@
 #include "global/extstd/signal.h"
 #include "core/context.h"
 #include "core/application/application.h"
+#include "core/application/input.h"
 
 namespace loo
 {
@@ -79,7 +80,7 @@ namespace loo
 		Window::Window ( std::string const & name, vkfg::RenderSettings const & settings, Application* _app, void* native_wnd )
 			: active ( false ), ready ( false ), closed ( false ), keep_screen_on ( settings.keep_screen_on ),
 			dpi_scale ( 1 ), effective_dpi_scale ( 1 ), win_rotation ( WR_Identity ), hide ( settings.hide_win )
-			,app(_app)
+			,app(_app), iconified(false)
 		{
 			this->DetectsDpi ( );
 			this->KeepScreenOn ( );
@@ -178,8 +179,8 @@ namespace loo
 
 		LRESULT Window::MsgProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 		{
-		/*	sigslot::signal<void (loo::core::Window const & )> s;
-			s(*this);*/
+			Input& input = app->GetInput ();
+
 			switch (uMsg)
 			{
 			case WM_ACTIVATE:
@@ -293,11 +294,11 @@ namespace loo
 			case WM_MOUSEWHEEL:
 			{
 				//short fwKeys = GET_KEYSTATE_WPARAM(wParam);   /*   key   flags   */
-				short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+				//short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
 				/*   wheel   rotation   */
-				short xPos = GET_X_LPARAM(lParam);
+				//short xPos = GET_X_LPARAM(lParam);
 				/*   horizontal   position   of   pointer   */
-				short yPos = GET_Y_LPARAM(lParam);
+				//short yPos = GET_Y_LPARAM(lParam);
 				/*   vertical   position   of   pointer   */
 
 
@@ -305,6 +306,7 @@ namespace loo
 #if (_WIN32_WINNT > _WIN32_WINNT_WIN7)
 			case WM_TOUCH:
 			{
+				std::cout << "WM_TOUCH" << std::endl;
 				//https://docs.microsoft.com/zh-cn/windows/win32/wintouch/detecting-and-tracking-multiple-touch-points?redirectedfrom=MSDN
 			}break;
 #endif
@@ -388,6 +390,11 @@ namespace loo
 					}
 				}
 				break;
+			}
+
+			if (input.MsgProc (hWnd, uMsg, wParam, lParam))
+			{
+				return 0;
 			}
 
 			return default_wnd_proc ( hWnd, uMsg, wParam, lParam );

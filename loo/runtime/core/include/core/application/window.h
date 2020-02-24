@@ -66,7 +66,7 @@ namespace loo
 		public:
 			Window(std::string const & name, vkfg::RenderSettings const & settings, Application* app, void* native_wnd);
 			~Window();
-
+			Application* GetApp () { return app; }
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
 			HWND HWnd() const
 			{
@@ -167,6 +167,7 @@ namespace loo
 			{
 				return effective_dpi_scale;
 			}
+			bool& Iconified () { return iconified; }
 
 			WindowRotation Rotation() const
 			{
@@ -363,6 +364,7 @@ namespace loo
 			bool ready;
 			bool closed;
 			bool keep_screen_on;
+			bool iconified;
 
 			float dpi_scale;
 			float effective_dpi_scale;

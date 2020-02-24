@@ -44,10 +44,13 @@ void loo::core::Application::Create()
 
 	//Context::Get().GetGraphicDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
 
-
-
-
 	this->OnCreate();
+
+	// todo 
+	auto& cfg = Config ();
+	cfg.graphic_settings.framebufferWidth = cfg.graphic_settings.width;
+	cfg.graphic_settings.framebufferHeight = cfg.graphic_settings.height;
+
 	this->OnResize(cfg.graphic_settings.width, cfg.graphic_settings.height);
 }
 

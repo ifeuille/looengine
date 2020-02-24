@@ -14,6 +14,8 @@ namespace loo
 			int		top;
 			int		width;
 			int		height;
+			int		framebufferWidth;
+			int		framebufferHeight;
 			//EPixelFormat color_fmt;
 			//EPixelFormat depth_stencil_fmt;
 			uint32_t sample_count;
@@ -47,7 +49,9 @@ namespace loo
 				left (64),
 				top (64),
 				width (720),
-				height (680)
+				height (680),
+				framebufferWidth(720),
+				framebufferHeight(680)
 				//color_fmt ()
 			{
 

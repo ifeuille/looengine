@@ -5,6 +5,9 @@
 #include "global/extstd/noncopyable.h"
 #include "global/time.h"
 #include "core/application/window.h"
+#include "core/application/keycode.h"
+#include "core/application/input.h"
+#include "core/application/syseventbus.h"
 
 namespace loo
 {
@@ -58,7 +61,13 @@ namespace loo
 		protected:
 			uint32_t Update(uint64_t pass);
 			void UpdateStats();
+		public:
+			SAppEvent& GetEvent () { return app_event; }
+			Input& GetInput () { return input;}
+			SystemEventBus& GetEventBus () {return sys_event_bus;}
 
+		private:
+			SAppEvent app_event;
 
 		private:
 			virtual bool OnCreate() { return false; }
@@ -87,6 +96,8 @@ namespace loo
 			WindowPtr main_wnd;
 			uint32_t app_id;//0 is the main
 
+			Input input;
+			SystemEventBus sys_event_bus;
 		};
 	}
 }

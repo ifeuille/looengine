@@ -4,6 +4,7 @@ ${MODULE_ROOT_PATH}/include/core/application/window.h
 ${MODULE_ROOT_PATH}/include/core/application/application.h
 ${MODULE_ROOT_PATH}/include/core/application/input.h
 ${MODULE_ROOT_PATH}/include/core/application/keycode.h
+${MODULE_ROOT_PATH}/include/core/application/syseventbus.h
 )
 
 set(LOCAL_PRIVATE
@@ -11,6 +12,7 @@ set(LOCAL_PRIVATE
    ${MODULE_ROOT_PATH}/source/core/application/application.cpp
    ${MODULE_ROOT_PATH}/source/core/application/input.cpp
    ${MODULE_ROOT_PATH}/source/core/application/keycode.cpp
+   ${MODULE_ROOT_PATH}/source/core/application/syseventbus.cpp
 )
 
 

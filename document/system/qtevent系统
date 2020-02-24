@@ -18,3 +18,12 @@ extern "C" LRESULT QT_WIN_CALLBACK qWindowsWndProc(HWND hwnd, UINT message, WPAR
         result = DefWindowProc(hwnd, message, wParam, lParam);
     //...
 }
+
+
+
+
+QWindowSystemInterfacePrivate::TouchEvent
+
+  class TouchEvent : public InputEvent
+  InputEvent: public UserEvent 
+   class UserEvent : public WindowSystemEvent
