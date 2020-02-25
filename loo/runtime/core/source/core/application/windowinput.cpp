@@ -312,7 +312,7 @@ namespace loo
 		bool MsgProcVisitFunc_Local::app_event (SAppEventType type)
 		{
 			input->InitEvent (*event, type);
-			return bus->Dispatch (*event);
+			return bus->Dispatch (event);
 		}
 
 		bool MsgProcVisitFunc_Local::mouse_event (SAppEventType type, KeyCode keyCode)
@@ -323,7 +323,7 @@ namespace loo
 			event->mouseX = GET_X_LPARAM (lParam);
 			event->mouseY = GET_Y_LPARAM (lParam);
 
-			return bus->Dispatch (*event);
+			return bus->Dispatch (event);
 		}
 		bool MsgProcVisitFunc_Local::mouse_scroll_event (float x, float y)
 		{
@@ -332,7 +332,7 @@ namespace loo
 			event->scrollX = -x / 30.0f;
 			event->scrollY = y / 30.0f;
 
-			return bus->Dispatch (*event);
+			return bus->Dispatch (event);
 		}
 		bool MsgProcVisitFunc_Local::char_event (uint32_t c, bool repeat)
 		{
@@ -340,7 +340,7 @@ namespace loo
 			event->modifiers = _sapp_win32_mods ();
 			event->charCode = c;
 			event->keyRepeat = repeat;
-			return bus->Dispatch (*event);
+			return bus->Dispatch (event);
 		}
 		bool MsgProcVisitFunc_Local::key_event (SAppEventType type, KeyCode c, bool repeat)
 		{
@@ -348,7 +348,7 @@ namespace loo
 			event->modifiers = _sapp_win32_mods ();
 			event->keyCode = c;
 			event->keyRepeat = repeat;
-			return bus->Dispatch (*event);
+			return bus->Dispatch (event);
 		}
 		bool MsgProcVisitFunc_Local::touch_event ()
 		{
@@ -413,7 +413,7 @@ namespace loo
 			CloseTouchInputHandle ((HTOUCHINPUT)(lParam));
 			if (allStates == (uint)TouchPointState::TouchPointReleased)
 				touchInputIDToTouchPointID.clear ();
-			return bus->Dispatch (*event);
+			return bus->Dispatch (event);
 		}
 	}
 }
@@ -517,5 +517,5 @@ bool loo::core::Input::MsgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 #endif
 	}
 	
-	return bus.Dispatch (event);
+	return bus.Dispatch (&event);
 }

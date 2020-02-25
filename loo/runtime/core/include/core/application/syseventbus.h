@@ -13,14 +13,14 @@ namespace loo
 		class CORE_EXPORT SystemEventBus final
 		{
 		public:
-			typedef sigslot::signal< SAppEvent&> SysEvent;
+			typedef sigslot::signal< SAppEvent*> SysEvent;
 		public:
 
 			SystemEventBus () {}
 			virtual ~SystemEventBus () {}
 
 			SysEvent& GetTypeBus (SAppEventType type) { return type_handlers[type]; }
-			bool Dispatch (SAppEvent& event);
+			bool Dispatch (SAppEvent* event);
 
 
 		private:
