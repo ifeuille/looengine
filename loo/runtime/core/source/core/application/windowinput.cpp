@@ -7,6 +7,41 @@
 using namespace loo;
 using namespace core;
 
+namespace loo
+{
+	namespace core
+	{
+		struct MsgProcVisitFunc_Local
+		{
+		public:
+			HWND hWnd;
+			UINT uMsg;
+			WPARAM wParam;
+			LPARAM lParam;
+			SAppEvent* event;
+			SystemEventBus* bus;
+			Input* input;
+			loo::math::RectF screenGeometry;//todo
+			std::vector< TOUCHINPUT> winTouchInputs;
+			std::unordered_map<DWORD, int> touchInputIDToTouchPointID;
+			std::unordered_map<int, loo::math::float2> lastTouchPositions;
+			void Reset (Input* input_, HWND hWnd_,
+				UINT uMsg_, WPARAM wParam_, LPARAM lParam_,
+				SAppEvent* event_, SystemEventBus* bus_,
+				loo::math::RectF screenGeometry_);
+
+			bool app_event (SAppEventType type);
+
+			bool mouse_event (SAppEventType type, KeyCode keyCode);
+			bool mouse_scroll_event (float x, float y);
+			bool char_event (uint32_t c, bool repeat);
+			bool key_event (SAppEventType type, KeyCode c, bool repeat);
+			bool touch_event ();
+		};
+
+	}
+}
+
 #define DECLARE_KEY_MAP(scanCode,keyCode)\
 	case scanCode:return keyCode;
 #define DECLARE_JOYSTICK_BTNS(index)\
@@ -259,7 +294,6 @@ namespace loo
 {
 	namespace core
 	{
-#if 1
 		void MsgProcVisitFunc_Local::Reset (Input* input_, HWND hWnd_,
 			UINT uMsg_, WPARAM wParam_, LPARAM lParam_,
 			SAppEvent* event_, SystemEventBus* bus_,
@@ -318,6 +352,7 @@ namespace loo
 		}
 		bool MsgProcVisitFunc_Local::touch_event ()
 		{
+			//QWindowsMouseHandler::translateTouchEvent
 			input->InitEvent (*event, SAppEventType::SAPP_EVENTTYPE_TOUCHES);
 			const int winTouchPointCount = int (wParam);
 			winTouchInputs.clear ();
@@ -380,143 +415,6 @@ namespace loo
 				touchInputIDToTouchPointID.clear ();
 			return bus->Dispatch (*event);
 		}
-#else
-		struct MsgProcVisitFunc_Local
-		{
-		public:
-			HWND hWnd;
-			UINT uMsg;
-			WPARAM wParam;
-			LPARAM lParam;
-			SAppEvent* event;
-			SystemEventBus* bus;
-			Input* input;
-			loo::math::RectF screenGeometry;//todo
-			std::vector< TOUCHINPUT> winTouchInputs;
-			std::unordered_map<DWORD, int> touchInputIDToTouchPointID;
-			std::unordered_map<int, loo::math::float2> lastTouchPositions;
-			void Reset (Input* input_, HWND hWnd_,
-				UINT uMsg_, WPARAM wParam_, LPARAM lParam_, 
-				SAppEvent* event_, SystemEventBus* bus_,
-				loo::math::RectF screenGeometry_)
-			{
-				input = input_;
-				hWnd = hWnd_;
-				uMsg = uMsg_;
-				wParam = wParam_;
-				lParam = lParam_;
-				event = event_;
-				bus = bus_;
-				screenGeometry = screenGeometry_;
-			}
-
-			bool app_event (SAppEventType type)
-			{
-				input->InitEvent (*event, type);
-				return bus->Dispatch (*event);
-			}
-
-			bool mouse_event (SAppEventType type, KeyCode keyCode)
-			{
-				input->InitEvent (*event, type);
-				event->keyCode = keyCode;
-				event->modifiers = _sapp_win32_mods ();
-				event->mouseX = GET_X_LPARAM (lParam);
-				event->mouseY = GET_Y_LPARAM (lParam);
-
-				return bus->Dispatch (*event);
-			}
-			bool mouse_scroll_event (float x, float y)
-			{
-				input->InitEvent (*event, SAppEventType::SAPP_EVENTTYPE_MOUSE_SCROLL);
-				event->modifiers = _sapp_win32_mods ();
-				event->mouseX = -x / 30.0f;
-				event->mouseY = x / 30.0f;
-
-				return bus->Dispatch (*event);
-			}
-			bool char_event (uint32_t c, bool repeat)
-			{
-				input->InitEvent (*event, SAppEventType::SAPP_EVENTTYPE_CHAR);
-				event->modifiers = _sapp_win32_mods ();
-				event->charCode = c;
-				event->keyRepeat = repeat;
-				return bus->Dispatch (*event);
-			}
-			bool key_event (SAppEventType type, KeyCode c, bool repeat)
-			{
-				input->InitEvent (*event, type);
-				event->modifiers = _sapp_win32_mods ();
-				event->keyCode = c;
-				event->keyRepeat = repeat;
-				return bus->Dispatch (*event);
-			}
-			bool touch_event ()
-			{
-				input->InitEvent (*event, SAppEventType::SAPP_EVENTTYPE_TOUCHES);
-				const int winTouchPointCount = int (wParam);
-				winTouchInputs.clear ();
-				//int realTouchCount = winTouchPointCount > SAPP_MAX_TOUCHPOINTS ? SAPP_MAX_TOUCHPOINTS : winTouchPointCount;
-				int realTouchCount = winTouchPointCount;
-				//if (realTouchCount <= 0)	return false;
-				winTouchInputs.resize (realTouchCount);
-				memset (winTouchInputs.data (), 0, sizeof (TOUCHINPUT) * size_t (winTouchPointCount));
-				GetTouchInputInfo ((HTOUCHINPUT)(lParam), UINT (wParam), winTouchInputs.data (), sizeof (TOUCHINPUT));
-				uint allStates = 0;
-				event->touches.clear ();
-				event->touches.reserve (realTouchCount);
-				for (int i = 0; i < realTouchCount; ++i)
-				{
-					const TOUCHINPUT &winTouchInput = winTouchInputs[i];
-					auto it = touchInputIDToTouchPointID.find (winTouchInput.dwID);
-					int id = -1;
-					if (it == touchInputIDToTouchPointID.end ())
-					{
-						id =(int)touchInputIDToTouchPointID.size ();
-						touchInputIDToTouchPointID.insert (std::make_pair (winTouchInput.dwID, id));
-					}
-					TouchPoint touchPoint;
-					touchPoint.pressure = 1.0;
-					touchPoint.id = id;
-					auto it_lastPoint = lastTouchPositions.find (id);
-					if (it_lastPoint != lastTouchPositions.end ())
-					{
-						touchPoint.normalPosition = it_lastPoint->second;
-					}
-					const loo::math::float2 screenPos = loo::math::float2 (winTouchInput.x, winTouchInput.y) / 100.0f;
-					if (winTouchInput.dwMask & TOUCHINPUTMASKF_CONTACTAREA)
-					{
-						loo::math::float2 normalPosition = loo::math::float2 (
-							screenPos.x / screenGeometry.Width (),
-							screenPos.y / screenGeometry.Height ());
-						const bool stationaryTouchPoint = loo::math::All(normalPosition == touchPoint.normalPosition);
-						touchPoint.normalPosition = normalPosition;
-
-						if (winTouchInput.dwFlags & TOUCHEVENTF_DOWN) {
-							touchPoint.state = TouchPointState::TouchPointPressed;
-							lastTouchPositions.insert (std::make_pair (id, touchPoint.normalPosition));
-						}
-						else if (winTouchInput.dwFlags & TOUCHEVENTF_UP) {
-							touchPoint.state = TouchPointState::TouchPointReleased;
-							lastTouchPositions.erase (id);
-						}
-						else {
-							touchPoint.state = (stationaryTouchPoint
-								? TouchPointState::TouchPointStationary
-								: TouchPointState::TouchPointMoved);
-							lastTouchPositions.insert (std::make_pair(id, touchPoint.normalPosition));
-						}
-					}
-					allStates |= (uint)touchPoint.state;
-					event->touches.push_back (touchPoint);
-				}
-				CloseTouchInputHandle((HTOUCHINPUT)(lParam));
-				if (allStates == (uint)TouchPointState::TouchPointReleased)
-					touchInputIDToTouchPointID.clear ();
-				return bus->Dispatch (*event);
-			}
-		};
-#endif
 	}
 }
 
@@ -525,6 +423,11 @@ void loo::core::Input::Init (loo::core::Window& win)
 	windowptr = &win;
 	//windowptr->OnChar ().connect (&Input::cb_CharEvent,this);
 	visitor = new MsgProcVisitFunc_Local ();
+}
+
+void loo::core::Input::CleanUp ()
+{
+	delete visitor;
 }
 
 bool loo::core::Input::MsgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

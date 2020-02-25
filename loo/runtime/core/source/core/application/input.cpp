@@ -4,13 +4,9 @@
 
 loo::core::Input::~Input ()
 {
-	delete visitor;
+	CleanUp ();
 }
 
-
-void loo::core::Input::CleanUp ()
-{
-}
 
 void loo::core::Input::Update ()
 {
