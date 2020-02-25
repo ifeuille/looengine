@@ -188,16 +188,14 @@ namespace loo
 			typedef sigslot::signal<Window const &> EnterSizeMoveEvent;
 			typedef sigslot::signal<Window const &> ExitSizeMoveEvent;
 			typedef sigslot::signal< Window const &, bool> SizeEvent;
-			typedef sigslot::signal<Window const &> SetCursorEvent;
-			typedef sigslot::signal< Window const &, wchar_t> CharEvent;
 
 			typedef sigslot::signal< Window const &, uint32> KeyDownEvent;
 			typedef sigslot::signal< Window const &, uint32> KeyUpEvent;
 
-			typedef sigslot::signal< Window const &, loo::math::float2 const &, uint32_t> MouseDownEvent;
+			/*typedef sigslot::signal< Window const &, loo::math::float2 const &, uint32_t> MouseDownEvent;
 			typedef sigslot::signal< Window const &, loo::math::float2 const &, uint32_t> MouseUpEvent;
 			typedef sigslot::signal<Window const &, loo::math::float2 const &> MouseMoveEvent;
-			typedef sigslot::signal<Window const &, loo::math::float2 const &, int32_t> MouseWheelEvent;
+			typedef sigslot::signal<Window const &, loo::math::float2 const &, int32_t> MouseWheelEvent;*/
 			typedef sigslot::signal<Window const &, int32, int32_t> JoystickAxisEvent;
 			typedef sigslot::signal<Window const &, uint32> JoystickButtonsEvent;
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
@@ -258,14 +256,6 @@ namespace loo
 			{
 				return size_event;
 			}
-			SetCursorEvent& OnSetCursor()
-			{
-				return set_cursor_event;
-			}
-			CharEvent& OnChar()
-			{
-				return char_event;
-			}
 			KeyDownEvent& OnKeyDown()
 			{
 				return key_down_event_;
@@ -273,22 +263,6 @@ namespace loo
 			KeyUpEvent& OnKeyUp()
 			{
 				return key_up_event_;
-			}
-			MouseDownEvent& OnMouseDown()
-			{
-				return mouse_down_event_;
-			}
-			MouseUpEvent& OnMouseUp()
-			{
-				return mouse_up_event_;
-			}
-			MouseMoveEvent& OnMouseMove()
-			{
-				return mouse_move_event_;
-			}
-			MouseWheelEvent& OnMouseWheel()
-			{
-				return mouse_wheel_event_;
 			}
 			JoystickAxisEvent& OnJoystickAxis()
 			{
@@ -331,8 +305,6 @@ namespace loo
 			EnterSizeMoveEvent enter_size_move_event;
 			ExitSizeMoveEvent exit_size_move_event;
 			SizeEvent size_event;
-			SetCursorEvent set_cursor_event;
-			CharEvent char_event;
 
 			KeyDownEvent key_down_event_;
 			KeyUpEvent key_up_event_;
@@ -340,10 +312,6 @@ namespace loo
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
 			RawInputEvent raw_input_event;
 #endif
-			MouseDownEvent mouse_down_event_;
-			MouseUpEvent mouse_up_event_;
-			MouseMoveEvent mouse_move_event_;
-			MouseWheelEvent mouse_wheel_event_;
 			JoystickAxisEvent joystick_axis_event_;
 			JoystickButtonsEvent joystick_buttons_event_;
 

@@ -10,7 +10,7 @@ loo::core::Application::Application (const std::string & name, uint32_t appid, C
 loo::core::Application::Application (const std::string & name, void * native_wnd, uint32_t appid, ContextConfig setting)
 	: name(name), total_num_frames(0),
 	fps(0), accumulate_time(0), num_frames(0),
-	app_time(0), frame_time(0), pass_count (0), app_id(appid)
+	app_time(0), frame_time(0), pass_count (0), app_id(appid),input()
 {
 	Context::Get ().SetApplication (appid, this);
 	Config (setting);
@@ -24,6 +24,7 @@ loo::core::Application::Application (const std::string & name, void * native_wnd
 
 	Config (setting);
 #endif
+	input.Init (*main_wnd);
 
 }
 
@@ -46,12 +47,11 @@ void loo::core::Application::Create()
 
 	this->OnCreate();
 
-	// todo 
-	auto& cfg = Config ();
-	cfg.graphic_settings.framebufferWidth = cfg.graphic_settings.width;
-	cfg.graphic_settings.framebufferHeight = cfg.graphic_settings.height;
+	// todo framebuffersize
+	contextConfig.graphic_settings.framebufferWidth = contextConfig.graphic_settings.width;
+	contextConfig.graphic_settings.framebufferHeight = contextConfig.graphic_settings.height;
 
-	this->OnResize(cfg.graphic_settings.width, cfg.graphic_settings.height);
+	this->OnResize(contextConfig.graphic_settings.width, contextConfig.graphic_settings.height);
 }
 
 void loo::core::Application::Destroy()

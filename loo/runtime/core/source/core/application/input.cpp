@@ -1,20 +1,12 @@
 #include "core/application/input.h"
 #include "core/application/application.h"
 
-loo::core::Input::Input (loo::core::Window & win)
-{
-	windowptr = &win;
-}
 
 loo::core::Input::~Input ()
 {
+	delete visitor;
 }
 
-void loo::core::Input::Init ()
-{
-	windowptr->OnChar ().connect (&Input::cb_CharEvent,this);
-
-}
 
 void loo::core::Input::CleanUp ()
 {
@@ -30,7 +22,7 @@ void loo::core::Input::cb_CharEvent (Window const &, wchar_t)
 
 void loo::core::Input::InitEvent (SAppEvent & event, SAppEventType type)
 {
-	memset (&event, 0, sizeof (event));
+	event.clear ();
 	Application* app = windowptr->GetApp ();
 
 	event.type = type;

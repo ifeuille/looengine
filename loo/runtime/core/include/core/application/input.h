@@ -3,18 +3,49 @@
 #include "global/types.h"
 #include "core/application/window.h"
 #include "core/application/keycode.h"
+#include "core/application/syseventbus.h"
 
 namespace loo
 {
 	namespace core
 	{
+		class Input;
+#ifdef LOO_PLATFORM_WINDOWS
+		struct MsgProcVisitFunc_Local
+		{
+		public:
+			HWND hWnd;
+			UINT uMsg;
+			WPARAM wParam;
+			LPARAM lParam;
+			SAppEvent* event;
+			SystemEventBus* bus;
+			Input* input;
+			loo::math::RectF screenGeometry;//todo
+			std::vector< TOUCHINPUT> winTouchInputs;
+			std::unordered_map<DWORD, int> touchInputIDToTouchPointID;
+			std::unordered_map<int, loo::math::float2> lastTouchPositions;
+			void Reset (Input* input_, HWND hWnd_,
+				UINT uMsg_, WPARAM wParam_, LPARAM lParam_,
+				SAppEvent* event_, SystemEventBus* bus_,
+				loo::math::RectF screenGeometry_);
 
+			bool app_event (SAppEventType type);
+
+			bool mouse_event (SAppEventType type, KeyCode keyCode);
+			bool mouse_scroll_event (float x, float y);
+			bool char_event (uint32_t c, bool repeat);
+			bool key_event (SAppEventType type, KeyCode c, bool repeat);
+			bool touch_event ();
+		};
+
+#endif
 		class CORE_EXPORT Input
 		{
 		public:
-			Input (loo::core::Window& win);
+			Input () {}
 			virtual ~Input ();
-			void Init ();
+			void Init (loo::core::Window& win);
 			void CleanUp();
 			void Update();
 
@@ -101,6 +132,7 @@ https://blog.csdn.net/popten/article/details/50634694
 #endif
 		private:
 			loo::core::Window* windowptr;
+			MsgProcVisitFunc_Local* visitor;
 
 		};
 	}

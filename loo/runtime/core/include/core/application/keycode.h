@@ -33,14 +33,33 @@ namespace loo
 			Palm LOOPROPERTY (Serialized) = 0x0080
 		};
 
-		class LOOCLASS() Touch
+		enum class LOOENUM () TouchPointState :uint32_t
 		{
+			TouchPointPressed LOOPROPERTY (Serialized) = 0x01,
+			TouchPointMoved LOOPROPERTY (Serialized) = 0x02,
+			TouchPointStationary LOOPROPERTY (Serialized) = 0x04,
+			TouchPointReleased LOOPROPERTY (Serialized) = 0x08
+		};
+
+		//todo reflact all members
+		class LOOCLASS() TouchPoint
+		{
+		public:
+			enum InfoFlag {
+				Pen = 0x0001
+			};
 			LOOMETA_OBJECT;
 		public:
 			LOOPROPERTY (Serialized)
-			int Id;//touch id,-1无效
-			TouchType Status;
-
+			int id;//touch id,-1无效
+			LOOPROPERTY (Serialized)
+			TouchPointState state;
+			loo::math::float2 normalPosition;// touch device coordinates, (0 to 1, 0 to 1)
+			loo::math::RectF area; // the touched area, centered at position in screen coordinates
+			float pressure;// 0 to 1
+			loo::math::float2 velocity;// in screen coordinate system, pixels / seconds
+			InfoFlag flags;
+			std::vector<loo::math::float2> rawPositions; // in screen coordinates
 		};
 
 		enum class LOOENUM() KeyCode:int
@@ -396,10 +415,11 @@ namespace loo
 			SAPP_EVENTTYPE_MOUSE_MOVE LOOPROPERTY (Serialized),
 			SAPP_EVENTTYPE_MOUSE_ENTER LOOPROPERTY (Serialized),
 			SAPP_EVENTTYPE_MOUSE_LEAVE LOOPROPERTY (Serialized),
-			SAPP_EVENTTYPE_TOUCHES_BEGAN LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_TOUCHES LOOPROPERTY (Serialized),
+			/*SAPP_EVENTTYPE_TOUCHES_BEGAN LOOPROPERTY (Serialized),
 			SAPP_EVENTTYPE_TOUCHES_MOVED LOOPROPERTY (Serialized),
 			SAPP_EVENTTYPE_TOUCHES_ENDED LOOPROPERTY (Serialized),
-			SAPP_EVENTTYPE_TOUCHES_CANCELLED LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_TOUCHES_CANCELLED LOOPROPERTY (Serialized),*/
 			SAPP_EVENTTYPE_RESIZED LOOPROPERTY (Serialized),
 			SAPP_EVENTTYPE_ICONIFIED LOOPROPERTY (Serialized),
 			SAPP_EVENTTYPE_RESTORED LOOPROPERTY (Serialized),
@@ -449,10 +469,12 @@ namespace loo
 			float scrollX;
 			LOOPROPERTY (Serialized)
 			float scrollY;
+			//LOOPROPERTY (Serialized)
+			//int numTouchs;
+			//LOOPROPERTY (Serialized)
+			//TouchPoint touches[SAPP_MAX_TOUCHPOINTS];
 			LOOPROPERTY (Serialized)
-			int numTouchs;
-			LOOPROPERTY (Serialized)
-			SAppTouchPoint touches[SAPP_MAX_TOUCHPOINTS];
+			std::vector< TouchPoint> touches;
 			LOOPROPERTY (Serialized)
 			int windowWidth;
 			LOOPROPERTY (Serialized)
@@ -461,6 +483,29 @@ namespace loo
 			int framebufferWidth;
 			LOOPROPERTY (Serialized)
 			int framebufferHeight;
+
+			void clear ()
+			{
+				frameCount = 0;
+				type = SAppEventType::SAPP_EVENTTYPE_INVALID;
+				keyCode = KeyCode::None;
+				charCode = 0;
+				keyRepeat = false;
+				modifiers = 0;
+				mouseX = 0;
+				mouseY = 0;
+				scrollX = 0;
+				scrollY = 0;
+				//LOOPROPERTY (Serialized)
+				//int numTouchs;
+				//LOOPROPERTY (Serialized)
+				//TouchPoint touches[SAPP_MAX_TOUCHPOINTS];
+				touches.clear ();
+				windowWidth = 0;
+				windowHeight = 0;
+				framebufferWidth = 0;
+				framebufferHeight = 0;
+			}
 		};
 
 

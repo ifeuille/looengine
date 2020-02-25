@@ -236,80 +236,10 @@ namespace loo
 				reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = 100;
 				break;
 
-			case WM_SETCURSOR:
-				this->OnSetCursor ( )(*this);
-				break;
-
-			case WM_CHAR:
-				this->OnChar ( )(*this, static_cast<wchar_t>(wParam));
-				break;
-
 			case WM_INPUT:
 				this->OnRawInput ( )(*this, reinterpret_cast<HRAWINPUT>(lParam));
 				break;
-			case WM_KEYLAST:
-			{
-				std::cout << "WM_KEYLAST" << std::endl;
-			}break;
-			//	break;
-			case WM_KEYDOWN:
-			case WM_SYSKEYDOWN:
-			case WM_KEYUP:
-			case WM_SYSKEYUP:
-			{
-
-				std::cout << "up" << std::endl;
-			}break;
-			case WM_MOUSEMOVE:
-			{
-				//std::cout << "WM_MOUSEMOVE" << std::endl;
-			}break;
-			case WM_LBUTTONDOWN:
-			case WM_LBUTTONDBLCLK:
-			{
-				std::cout << "WM_LBUTTONDOWN" << std::endl;
-			}break;
-			case WM_LBUTTONUP:
-			{
-				std::cout << "WM_LBUTTONUP" << std::endl;
-			}break;
-			case WM_RBUTTONDOWN:
-			case WM_RBUTTONDBLCLK:
-			{
-				std::cout << "WM_RBUTTONDOWN" << std::endl;
-			}break;
-			case WM_RBUTTONUP:
-			{
-				std::cout << "WM_RBUTTONUP" << std::endl;
-			}break;
-			case WM_MBUTTONDOWN:
-			case WM_MBUTTONDBLCLK:
-			{
-				std::cout << "WM_MBUTTONDOWN" << std::endl;
-			}break;
-			case WM_MBUTTONUP:
-			{
-				std::cout << "WM_MBUTTONUP" << std::endl;
-			}break;
-			case WM_MOUSEWHEEL:
-			{
-				//short fwKeys = GET_KEYSTATE_WPARAM(wParam);   /*   key   flags   */
-				//short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
-				/*   wheel   rotation   */
-				//short xPos = GET_X_LPARAM(lParam);
-				/*   horizontal   position   of   pointer   */
-				//short yPos = GET_Y_LPARAM(lParam);
-				/*   vertical   position   of   pointer   */
-
-
-			}break;
-#if (_WIN32_WINNT > _WIN32_WINNT_WIN7)
-			case WM_TOUCH:
-			{
-				std::cout << "WM_TOUCH" << std::endl;
-				//https://docs.microsoft.com/zh-cn/windows/win32/wintouch/detecting-and-tracking-multiple-touch-points?redirectedfrom=MSDN
-			}break;
-#endif
+			
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
 			case WM_POINTERDOWN:
 			{
