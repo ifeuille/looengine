@@ -1,7 +1,7 @@
 #include "core/privatemodule.h"
-#include "core/object/object.h"
+#include "core/ecs/object.h"
 #ifndef __LOOREFLECT__
-#include "core/object/generate/object.looprivate.h"
+#include "core/ecs/generate/object.looprivate.h"
 #endif
 
 const char * loo::Object::name ()

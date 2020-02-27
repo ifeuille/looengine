@@ -49,6 +49,6 @@ namespace loo
 	};
 }
 #ifndef __LOOREFLECT__
-#include "core/object/generate/object.loo.h"
+#include "core/ecs/generate/object.loo.h"
 #endif
 #endif
