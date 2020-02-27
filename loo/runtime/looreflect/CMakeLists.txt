@@ -12,7 +12,7 @@ set(MODULE_SOVERSION 1)
 set(FOLDER_PATH Engine/Modules)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/include/looreflect/cmake.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/include/object/cmake.cmake)
+#include(${CMAKE_CURRENT_SOURCE_DIR}/include/object/cmake.cmake)
 ADD_DEFINITIONS(-DLOOREFLECT_DLL_EXPORT)
 
 add_dep_link_dir()

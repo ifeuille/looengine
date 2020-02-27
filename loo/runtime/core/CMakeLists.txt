@@ -11,9 +11,14 @@ set(MODULE_ERSION 1)
 set(MODULE_SOVERSION 1)
 set(FOLDER_PATH Engine/Modules)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/cmake.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/application/cmake.cmake)
-#include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/vulkan/cmake.cmake)
+file( GLOB_RECURSE SOURCE_PUBLIC "*.*" )
+#file( GLOB_RECURSE SOURCE_PRIVATE "*.cpp" )
+source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_PUBLIC} )
+#source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_PRIVATE} )
+
+#include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/cmake.cmake)
+#include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/application/cmake.cmake)
+#include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/object/cmake.cmake)#include(${CMAKE_CURRENT_SOURCE_DIR}/include/core/vulkan/cmake.cmake)
 
 ADD_DEFINITIONS(-DCORE_DLL_EXPORT)
 set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
