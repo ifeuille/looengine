@@ -125,11 +125,15 @@ namespace loo
 
 				RECT rc = { 0, 0, static_cast<LONG>(settings.width * dpi_scale + 0.5f), static_cast<LONG>(settings.height * dpi_scale + 0.5f) };
 				::AdjustWindowRect ( &rc, win_style, false );
-
+				HWND parent = NULL;
+				if (!app->IsMainApp())
+				{
+					parent = Context::Get().GetApplication(MainAppID)->MainWnd()->HWnd();
+				}
 				// Create our main window
 				// Pass pointer to self
 				wnd = ::CreateWindowW ( wname.c_str ( ), wname.c_str ( ), win_style, settings.left, settings.top,
-					rc.right - rc.left, rc.bottom - rc.top, 0, 0, hInst, nullptr );
+					rc.right - rc.left, rc.bottom - rc.top, parent, 0, hInst, nullptr );
 #if (_WIN32_WINNT > _WIN32_WINNT_WIN7)
 				// register the window for touch instead of gestures
 				RegisterTouchWindow (wnd, 0);
