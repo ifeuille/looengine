@@ -28,9 +28,8 @@
  * from http://www.klayge.org/licensing/.
  */
 
-#include <KlayGE/KlayGE.hpp>
-
-#ifdef KLAYGE_PLATFORM_ANDROID
+#include "global/global.h"
+#ifdef LOO_PLATFORM_ANDROID
 
 #include <android/window.h>
 

@@ -1,3 +1,5 @@
+#include "global/global.h"
+#ifdef LOO_PLATFORM_WINDOWS
 #include <windowsx.h>
 #include "core/application/input.h"
 #include "core/application/syseventbus.h"
@@ -519,3 +521,4 @@ bool loo::core::Input::MsgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	
 	return bus.Dispatch (&event);
 }
+#endif

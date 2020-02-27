@@ -30,8 +30,8 @@ elseif(LOO_PLATFORM_IOS)
     set(LOCAL_PRIVATE ${LOCAL_PRIVATE} ${MODULE_ROOT_PATH}/source/core/application/iosinput.cpp)
 endif()
 
-source_group("core\\include\\core\\application" FILES ${LOCAL_PUBLIC})
-source_group("core\\source\\core\\application" FILES ${LOCAL_PRIVATE})
+source_group("core\\core\\include\\core\\application" FILES ${LOCAL_PUBLIC})
+source_group("core\\core\\source\\core\\application" FILES ${LOCAL_PRIVATE})
 
 
 set(SOURCE_PUBLIC ${SOURCE_PUBLIC} ${LOCAL_PUBLIC})
