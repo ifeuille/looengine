@@ -311,7 +311,7 @@ namespace loo
 
 			VSubmitted *						_submitted = null;	// TODO: should be atomic
 
-			RWDataRaceCheck						_drCheck;
+			mutable RWDataRaceCheck						_drCheck;
 
 
 			// methods

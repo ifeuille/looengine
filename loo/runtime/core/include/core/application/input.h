@@ -3,7 +3,6 @@
 #include "global/types.h"
 #include "core/application/window.h"
 #include "core/application/keycode.h"
-#include "core/application/syseventbus.h"
 
 namespace loo
 {
@@ -14,7 +13,7 @@ namespace loo
 		class CORE_EXPORT Input
 		{
 		public:
-			Input () {}
+			Input ():windowptr(nullptr), visitor(nullptr){}
 			virtual ~Input ();
 			void Init (loo::core::Window& win);
 			void CleanUp();

@@ -43,7 +43,7 @@ namespace loo
 			DebugName_t					_debugName;
 			OnRelease_t					_onRelease;
 
-			RWDataRaceCheck				_drCheck;
+			mutable RWDataRaceCheck				_drCheck;
 
 
 			// methods

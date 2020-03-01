@@ -46,7 +46,7 @@ namespace loo
 			DebugName_t				_debugName;
 			// TODO: desc set update template
 
-			RWDataRaceCheck			_drCheck;
+			mutable RWDataRaceCheck			_drCheck;
 
 
 			// methods

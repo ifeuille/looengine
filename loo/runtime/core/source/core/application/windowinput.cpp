@@ -2,7 +2,6 @@
 #ifdef LOO_PLATFORM_WINDOWS
 #include <windowsx.h>
 #include "core/application/input.h"
-#include "core/application/syseventbus.h"
 #include "core/application/application.h"
 
 
@@ -21,7 +20,6 @@ namespace loo
 			WPARAM wParam;
 			LPARAM lParam;
 			SAppEvent* event;
-			SystemEventBus* bus;
 			Input* input;
 			loo::math::RectF screenGeometry;//todo
 			std::vector< TOUCHINPUT> winTouchInputs;
@@ -29,7 +27,7 @@ namespace loo
 			std::unordered_map<int, loo::math::float2> lastTouchPositions;
 			void Reset (Input* input_, HWND hWnd_,
 				UINT uMsg_, WPARAM wParam_, LPARAM lParam_,
-				SAppEvent* event_, SystemEventBus* bus_,
+				SAppEvent* event_, 
 				loo::math::RectF screenGeometry_);
 
 			bool app_event (SAppEventType type);
@@ -46,27 +44,7 @@ namespace loo
 
 #define DECLARE_KEY_MAP(scanCode,keyCode)\
 	case scanCode:return keyCode;
-#define DECLARE_JOYSTICK_BTNS(index)\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button0);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button1);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button2);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button3);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button4);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button5);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button6);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button7);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button8);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button9);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button10);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button11);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button12);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button13);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button14);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button15);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button16);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button17);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button18);\
-DECLARE_KEY_MAP(VK_BACK, KeyCode::Joystick##index##Button19);\
+
 
 KeyCode Input::TranslateKey (int scanCode)
 {
@@ -298,7 +276,7 @@ namespace loo
 	{
 		void MsgProcVisitFunc_Local::Reset (Input* input_, HWND hWnd_,
 			UINT uMsg_, WPARAM wParam_, LPARAM lParam_,
-			SAppEvent* event_, SystemEventBus* bus_,
+			SAppEvent* event_, 
 			loo::math::RectF screenGeometry_)
 		{
 			input = input_;
@@ -307,14 +285,13 @@ namespace loo
 			wParam = wParam_;
 			lParam = lParam_;
 			event = event_;
-			bus = bus_;
 			screenGeometry = screenGeometry_;
 		}
 
 		bool MsgProcVisitFunc_Local::app_event (SAppEventType type)
 		{
 			input->InitEvent (*event, type);
-			return bus->Dispatch (event);
+			return EventManager::Get ().sendEvent (event);
 		}
 
 		bool MsgProcVisitFunc_Local::mouse_event (SAppEventType type, KeyCode keyCode)
@@ -325,7 +302,7 @@ namespace loo
 			event->mouseX = GET_X_LPARAM (lParam);
 			event->mouseY = GET_Y_LPARAM (lParam);
 
-			return bus->Dispatch (event);
+			return EventManager::Get ().sendEvent (event);
 		}
 		bool MsgProcVisitFunc_Local::mouse_scroll_event (float x, float y)
 		{
@@ -334,7 +311,8 @@ namespace loo
 			event->scrollX = -x / 30.0f;
 			event->scrollY = y / 30.0f;
 
-			return bus->Dispatch (event);
+			EventManager::Get ().sendEvent (event);
+			return true;
 		}
 		bool MsgProcVisitFunc_Local::char_event (uint32_t c, bool repeat)
 		{
@@ -342,7 +320,7 @@ namespace loo
 			event->modifiers = _sapp_win32_mods ();
 			event->charCode = c;
 			event->keyRepeat = repeat;
-			return bus->Dispatch (event);
+			return EventManager::Get ().sendEvent (event);
 		}
 		bool MsgProcVisitFunc_Local::key_event (SAppEventType type, KeyCode c, bool repeat)
 		{
@@ -350,7 +328,7 @@ namespace loo
 			event->modifiers = _sapp_win32_mods ();
 			event->keyCode = c;
 			event->keyRepeat = repeat;
-			return bus->Dispatch (event);
+			return EventManager::Get ().sendEvent (event);
 		}
 		bool MsgProcVisitFunc_Local::touch_event ()
 		{
@@ -415,7 +393,7 @@ namespace loo
 			CloseTouchInputHandle ((HTOUCHINPUT)(lParam));
 			if (allStates == (uint)TouchPointState::TouchPointReleased)
 				touchInputIDToTouchPointID.clear ();
-			return bus->Dispatch (event);
+			return EventManager::Get ().sendEvent (event);
 		}
 	}
 }
@@ -434,12 +412,13 @@ void loo::core::Input::CleanUp ()
 
 bool loo::core::Input::MsgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	if (!windowptr)return false;
 	Application* app = windowptr->GetApp ();
-	SystemEventBus& bus = app->GetEventBus ();
 	SAppEvent& event = app->GetEvent ();
 	auto cfg = app->Config ();
-	visitor->Reset (this, hWnd, uMsg, wParam, lParam, &event, &bus,
+	visitor->Reset (this, hWnd, uMsg, wParam, lParam, &event,
 		loo::math::RectF((float)windowptr->Left(), (float)windowptr->Top(), (float)windowptr->Width(), (float)windowptr->Height()));
+	bool handled = false;
 	switch (uMsg)
 	{
 	case WM_SIZE:
@@ -448,10 +427,10 @@ bool loo::core::Input::MsgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (iconified != windowptr->Iconified()) {
 			windowptr->Iconified () = iconified;
 			if (iconified) {
-				visitor->app_event (SAppEventType::SAPP_EVENTTYPE_ICONIFIED);
+				handled =  visitor->app_event (SAppEventType::SAPP_EVENTTYPE_ICONIFIED);
 			}
 			else {
-				visitor->app_event (SAppEventType::SAPP_EVENTTYPE_RESTORED);
+				handled = visitor->app_event (SAppEventType::SAPP_EVENTTYPE_RESTORED);
 			}
 		}
 	}
@@ -459,66 +438,65 @@ bool loo::core::Input::MsgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case WM_SETCURSOR:
 		if (true) {//_sapp.desc.user_cursor
 			if (LOWORD (lParam) == HTCLIENT) {
-				visitor->app_event (SAppEventType::SAPP_EVENTTYPE_UPDATE_CURSOR);
-				return 1;
+				handled = visitor->app_event (SAppEventType::SAPP_EVENTTYPE_UPDATE_CURSOR);
 			}
 		}
 		break;
 	case WM_LBUTTONDOWN:
 	case WM_LBUTTONDBLCLK:
-		return visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_DOWN, KeyCode::Mouse0);
+		handled = visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_DOWN, KeyCode::Mouse0);
 		break;
 	case WM_RBUTTONDOWN:
 	case WM_RBUTTONDBLCLK:
-		return visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_DOWN, KeyCode::Mouse1);
+		handled = visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_DOWN, KeyCode::Mouse1);
 		break;
 	case WM_MBUTTONDOWN:
 	case WM_MBUTTONDBLCLK:
 		return visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_DOWN, KeyCode::Mouse2);
 		break;
 	case WM_LBUTTONUP:
-		return visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_UP, KeyCode::Mouse0);
+		handled = visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_UP, KeyCode::Mouse0);
 		break;
 	case WM_RBUTTONUP:
-		return visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_UP, KeyCode::Mouse1);
+		handled = visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_UP, KeyCode::Mouse1);
 		break;
 	case WM_MBUTTONUP:
-		return visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_UP, KeyCode::Mouse2);
+		handled = visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_UP, KeyCode::Mouse2);
 		break;
 	case WM_MOUSEMOVE:
-		return visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_MOVE, KeyCode::None);
+		handled = visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_MOVE, KeyCode::None);
 		break;
 	case WM_MOUSELEAVE:
-		return visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_LEAVE, KeyCode::None);
+		handled = visitor->mouse_event (SAppEventType::SAPP_EVENTTYPE_MOUSE_LEAVE, KeyCode::None);
 		break;
 	case WM_MOUSEWHEEL:
-		return visitor->mouse_scroll_event (0.0f, (float)((SHORT)HIWORD (wParam)));
+		handled = visitor->mouse_scroll_event (0.0f, (float)((SHORT)HIWORD (wParam)));
 		break;
 	case WM_MOUSEHWHEEL:
-		return visitor->mouse_scroll_event ((float)((SHORT)HIWORD (wParam)), 0.0f);
+		handled = visitor->mouse_scroll_event ((float)((SHORT)HIWORD (wParam)), 0.0f);
 		break;
 	case WM_CHAR:
-		return visitor->char_event (uint32_t(wParam), !!(lParam & 0x40000000));
+		handled = visitor->char_event (uint32_t(wParam), !!(lParam & 0x40000000));
 		break;
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
-		return visitor->key_event (SAppEventType::SAPP_EVENTTYPE_KEY_DOWN, TranslateKey((int)(HIWORD (lParam) & 0x1FF)), !!(lParam & 0x40000000));
+		handled = visitor->key_event (SAppEventType::SAPP_EVENTTYPE_KEY_DOWN, TranslateKey((int)(HIWORD (lParam) & 0x1FF)), !!(lParam & 0x40000000));
 		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
-		return visitor->key_event (SAppEventType::SAPP_EVENTTYPE_KEY_UP, TranslateKey ((int)(HIWORD (lParam) & 0x1FF)), false);
+		handled = visitor->key_event (SAppEventType::SAPP_EVENTTYPE_KEY_UP, TranslateKey ((int)(HIWORD (lParam) & 0x1FF)), false);
 		break;
-	default:
 #if (_WIN32_WINNT > _WIN32_WINNT_WIN7)
 	case WM_TOUCH:
 	{
 		std::cout << "WM_TOUCH" << std::endl;
-		return visitor->touch_event ();
+		handled = visitor->touch_event ();
 		//https://docs.microsoft.com/zh-cn/windows/win32/wintouch/detecting-and-tracking-multiple-touch-points?redirectedfrom=MSDN
 	}break;
 #endif
+	default:break;
 	}
 	
-	return bus.Dispatch (&event);
+	return handled;
 }
 #endif

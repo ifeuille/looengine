@@ -34,7 +34,7 @@ namespace loo
 			VkFence				_fence;
 			EQueueType			_queueType;
 
-			RWDataRaceCheck		_drCheck;
+			mutable RWDataRaceCheck		_drCheck;
 
 
 			// methods

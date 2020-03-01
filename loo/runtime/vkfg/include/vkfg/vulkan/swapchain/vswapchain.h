@@ -44,7 +44,7 @@ namespace loo
 
 			EQueueFamilyMask				_queueFamilyMask = Default;
 
-			RWDataRaceCheck					_drCheck;
+			mutable RWDataRaceCheck					_drCheck;
 
 
 			// methods

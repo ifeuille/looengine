@@ -28,7 +28,7 @@ namespace loo
 			mutable CmdBufPool_t	_freePrimaries;
 			mutable CmdBufPool_t	_freeSecondaries;
 
-			RWDataRaceCheck			_drCheck;
+			mutable RWDataRaceCheck			_drCheck;
 
 			DEBUG_ONLY (
 				int					_cmdBufCount = 0;

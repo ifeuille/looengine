@@ -185,7 +185,7 @@ void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_
   os << "} /* namespace looreflect */\n\n";
 
   os << "// utils functions for class instance\n";
-  os << "const looreflect::LooType *" << type << "::GetType() const { ";
+  os << "inline const looreflect::LooType *" << type << "::GetType() const { ";
   os << "return looreflect::LooGetClass<" << type<<">();}\n\n";
 
   //private

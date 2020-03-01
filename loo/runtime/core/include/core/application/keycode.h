@@ -3,6 +3,7 @@
 #include "global/types.h"
 #include "looreflect/looreflect.h"
 #include "looreflect/looreflectmanager.h"
+#include "core/event/event.h"
 
 namespace loo
 {
@@ -44,15 +45,15 @@ namespace loo
 		//todo reflact all members
 		class LOOCLASS() TouchPoint
 		{
+			LOOMETA_OBJECT;
 		public:
 			enum InfoFlag {
 				Pen = 0x0001
 			};
-			LOOMETA_OBJECT;
 		public:
 			LOOPROPERTY (Serialized)
 			int id;//touch id,-1ÎÞÐ§
-			LOOPROPERTY (Serialized)
+			//LOOPROPERTY (Serialized)
 			TouchPointState state;
 			loo::math::float2 normalPosition;// touch device coordinates, (0 to 1, 0 to 1)
 			loo::math::RectF area; // the touched area, centered at position in screen coordinates
@@ -405,7 +406,7 @@ namespace loo
 	{
 		enum class LOOENUM () SAppEventType:uint32
 		{
-			SAPP_EVENTTYPE_INVALID LOOPROPERTY (Serialized),
+			SAPP_EVENTTYPE_INVALID LOOPROPERTY (Serialized) = 0,
 			SAPP_EVENTTYPE_KEY_DOWN LOOPROPERTY (Serialized),
 			SAPP_EVENTTYPE_KEY_UP LOOPROPERTY (Serialized),
 			SAPP_EVENTTYPE_CHAR LOOPROPERTY (Serialized),
@@ -447,8 +448,9 @@ namespace loo
 
 		};
 
-		struct LOOCLASS () SAppEvent
+		struct LOOCLASS () SAppEvent:public loo::core::Event
 		{
+			LOOMETA_OBJECT;
 			LOOPROPERTY (Serialized)
 			uint64 frameCount;
 			LOOPROPERTY (Serialized)
@@ -473,7 +475,8 @@ namespace loo
 			//int numTouchs;
 			//LOOPROPERTY (Serialized)
 			//TouchPoint touches[SAPP_MAX_TOUCHPOINTS];
-			LOOPROPERTY (Serialized)
+			//TODO reflect vector
+			//LOOPROPERTY (Serialized)
 			std::vector< TouchPoint> touches;
 			LOOPROPERTY (Serialized)
 			int windowWidth;
@@ -484,6 +487,11 @@ namespace loo
 			LOOPROPERTY (Serialized)
 			int framebufferHeight;
 
+			SAppEvent ()
+				:Event("SAppEvent")
+			{
+
+			}
 			void clear ()
 			{
 				frameCount = 0;
@@ -524,8 +532,6 @@ namespace loo
 			SAPP_MODIFIER_SCROLLLOCK	LOOPROPERTY (Serialized) = (1 << 10),
 		};
 		LOO_BIT_OPERATORS (SAppModifierType);
-
-
 	}
 }
 

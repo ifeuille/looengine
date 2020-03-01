@@ -42,6 +42,7 @@ depdent_module(${EXE_NAME} modulemanager)
 depdent_module(${EXE_NAME} filemanager)
 #depdent_module(${EXE_NAME} rhi)
 depdent_module(${EXE_NAME} core)
+depdent_module(${EXE_NAME} looreflect)
 #depdent_module(${EXE_NAME} vkfg)
 
 declare_program(${EXE_NAME})

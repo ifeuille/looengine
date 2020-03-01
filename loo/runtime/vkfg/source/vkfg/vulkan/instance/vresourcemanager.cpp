@@ -1247,6 +1247,7 @@ namespace loo
 		*/
 		void  VResourceManager::CheckTask (const BuildRayTracingScene &task)
 		{
+			LOO_UNUSED (task);
 			DEBUG_ONLY ({
 				for (auto& inst : task.instances) {
 					_hashCollisionCheck.Add (inst.instanceId);

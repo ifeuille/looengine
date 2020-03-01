@@ -51,7 +51,7 @@ namespace loo
 			VDevice const &		_device;
 			Allocators_t		_allocators;
 
-			RWDataRaceCheck		_drCheck;
+			mutable RWDataRaceCheck		_drCheck;
 
 
 			// methods

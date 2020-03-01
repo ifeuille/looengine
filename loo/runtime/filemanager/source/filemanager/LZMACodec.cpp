@@ -185,6 +185,7 @@ namespace loo
 			int res = LZMALoader::Instance ( ).LzmaUncompress ( static_cast<Byte*>(output), &s_out_len, &in_data[LZMA_PROPS_SIZE], &s_src_len,
 				&in_data[0], LZMA_PROPS_SIZE );
 			assert( 0 == res );
+			LOO_UNUSED (res);
 		}
 	}
 }

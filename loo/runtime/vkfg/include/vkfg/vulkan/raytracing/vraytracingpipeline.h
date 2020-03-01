@@ -39,7 +39,7 @@ namespace loo
 			PipelineLayoutID		_baseLayoutId;
 			ShaderModules_t			_shaders;
 
-			RWDataRaceCheck			_drCheck;
+			mutable RWDataRaceCheck			_drCheck;
 
 
 			// methods

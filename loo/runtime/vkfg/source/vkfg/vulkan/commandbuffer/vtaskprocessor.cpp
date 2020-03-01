@@ -1724,6 +1724,7 @@ namespace loo
 		*/
 		void VTaskProcessor::_BeginSubpass (const VFgTask<SubmitRenderPass> &task)
 		{
+			LOO_UNUSED (task);
 			ASSERT (task.IsSubpass ());
 
 			// TODO: barriers for attachments

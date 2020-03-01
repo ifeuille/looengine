@@ -4,7 +4,7 @@
 #include "vkfg/vulkan/framework/vulkanswapchain.h"
 
 
-class FWApp2 final :public loo::core::Application, public loo::VulkanDeviceFn
+class FWApp2 final :public loo::core::Application, public loo::VulkanDeviceFn,public loo::core::EventListener
 {
 	loo::vkfg::VulkanDeviceExt		vulkan;
 	loo::vkfg::VulkanSwapchainPtr	swapchain;
@@ -21,6 +21,8 @@ public:
 		:Application(name, appid, setting)
 	{
 		VulkanDeviceFn_Init (vulkan);
+		listen ((int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES);
+
 	}
 	virtual bool OnCreate ()
 	{
@@ -254,6 +256,12 @@ CHECK_ERR (swapchain->Create (
 			break;
 		}
 		return true;
+	}
+
+	virtual bool onEvent (loo::core::Event* e)
+	{
+		std::cout << "event handle:id=" << e->typeID << std::endl;
+		return false;
 	}
 };
 

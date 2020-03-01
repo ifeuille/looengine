@@ -50,7 +50,7 @@ namespace loo
 
 			DebugName_t				_debugName;
 
-			RWDataRaceCheck			_drCheck;
+			mutable RWDataRaceCheck			_drCheck;
 
 
 			// methods

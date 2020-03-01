@@ -296,6 +296,7 @@ namespace loo
 		template <typename ID>
 		inline auto const*  VResourceManager::GetResource (ID id, bool incRef, bool quiet) const
 		{
+			LOO_UNUSED (quiet);
 			auto&	pool = _GetResourceCPool (id);
 
 			using Result_t = typename std::remove_reference_t<decltype(pool)>::Value_t::Resource_t const*;

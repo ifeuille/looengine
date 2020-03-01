@@ -55,6 +55,7 @@ namespace utils {
 		return formatString ("%s\nin %s:%d\nin file %s\nreason: %s",
 			msg.c_str (), function, line, file, reason);
 #else
+		LOO_UNUSED (file);
 		return formatString ("%s\nin %s:%d\nreason: %s",
 			msg.c_str (), function, line, reason);
 #endif

@@ -7,6 +7,461 @@
 namespace looreflect
 {
 
+template<> struct IsSerializable<loo::core::TouchPoint> { static constexpr bool value = true; };
+template<> struct HasBeforeSerialize<loo::core::TouchPoint> { static constexpr bool value = false; };
+template<> struct HasAfterSerialize<loo::core::TouchPoint> { static constexpr bool value = false; };
+template<> struct HasCustomSerialize<loo::core::TouchPoint> { static constexpr bool value = false; };
+template<> struct HasCustomDump<loo::core::TouchPoint> { static constexpr bool value = false; };
+namespace detail
+{
+template<>
+inline LooClass const *
+LooGetClassImpl(LooClassTag<loo::core::TouchPoint>) noexcept
+{
+static detail::LooClassBuilder<loo::core::TouchPoint, 1, 0> reflected([](auto self) {
+
+/* LooField 1 */
+self->fields[0].m_type = LooGetType<int>();
+self->fields[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[0].m_serializedWidth = sizeof(int) * 8;
+self->fields[0].m_offset = offsetof(loo::core::TouchPoint, id);
+self->fields[0].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[0].m_name = "id";
+});
+static LooClass cache(
+sizeof(loo::core::TouchPoint),
+Hash("loo::core::TouchPoint"),
+nullptr,
+reflected.fields,
+reflected.fields + reflected.numFields,
+reflected.functions,
+reflected.functions + reflected.numFunctions,
+"loo::core::TouchPoint",
+LooClass::kFlagsNull);
+return &cache;
+}
+
+template<>
+inline LooType const *
+LooGetTypeImpl(LooTypeTag<loo::core::TouchPoint>) noexcept
+{
+return LooGetClass<loo::core::TouchPoint>();
+}
+} /* namespace detail */
+} /* namespace looreflect */
+
+// utils functions for class instance
+inline const looreflect::LooType *loo::core::TouchPoint::GetType() const { return looreflect::LooGetClass<loo::core::TouchPoint>();}
+
+/* this file is auto-generated. do not edit! */
+#pragma once
+#include "looreflect/looreflect.h"
+#ifndef __LOOREFLECT__
+#include "looreflect/looreflectmanager.h"
+#endif
+namespace looreflect
+{
+
+template<> struct IsSerializable<loo::core::SAppTouchPoint> { static constexpr bool value = true; };
+template<> struct HasBeforeSerialize<loo::core::SAppTouchPoint> { static constexpr bool value = false; };
+template<> struct HasAfterSerialize<loo::core::SAppTouchPoint> { static constexpr bool value = false; };
+template<> struct HasCustomSerialize<loo::core::SAppTouchPoint> { static constexpr bool value = false; };
+template<> struct HasCustomDump<loo::core::SAppTouchPoint> { static constexpr bool value = false; };
+namespace detail
+{
+template<>
+inline LooClass const *
+LooGetClassImpl(LooClassTag<loo::core::SAppTouchPoint>) noexcept
+{
+static detail::LooClassBuilder<loo::core::SAppTouchPoint, 4, 0> reflected([](auto self) {
+
+/* LooField 1 */
+self->fields[0].m_type = LooGetType<unsigned long long>();
+self->fields[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[0].m_serializedWidth = sizeof(unsigned long long) * 8;
+self->fields[0].m_offset = offsetof(loo::core::SAppTouchPoint, identifier);
+self->fields[0].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[0].m_name = "identifier";
+
+/* LooField 2 */
+self->fields[1].m_type = LooGetType<float>();
+self->fields[1].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[1].m_serializedWidth = sizeof(float) * 8;
+self->fields[1].m_offset = offsetof(loo::core::SAppTouchPoint, x);
+self->fields[1].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[1].m_name = "x";
+
+/* LooField 3 */
+self->fields[2].m_type = LooGetType<float>();
+self->fields[2].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[2].m_serializedWidth = sizeof(float) * 8;
+self->fields[2].m_offset = offsetof(loo::core::SAppTouchPoint, y);
+self->fields[2].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[2].m_name = "y";
+
+/* LooField 4 */
+self->fields[3].m_type = LooGetType<bool>();
+self->fields[3].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[3].m_serializedWidth = sizeof(bool) * 8;
+self->fields[3].m_offset = offsetof(loo::core::SAppTouchPoint, changed);
+self->fields[3].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[3].m_name = "changed";
+});
+static LooClass cache(
+sizeof(loo::core::SAppTouchPoint),
+Hash("loo::core::SAppTouchPoint"),
+nullptr,
+reflected.fields,
+reflected.fields + reflected.numFields,
+reflected.functions,
+reflected.functions + reflected.numFunctions,
+"loo::core::SAppTouchPoint",
+LooClass::kFlagsNull);
+return &cache;
+}
+
+template<>
+inline LooType const *
+LooGetTypeImpl(LooTypeTag<loo::core::SAppTouchPoint>) noexcept
+{
+return LooGetClass<loo::core::SAppTouchPoint>();
+}
+} /* namespace detail */
+} /* namespace looreflect */
+
+// utils functions for class instance
+inline const looreflect::LooType *loo::core::SAppTouchPoint::GetType() const { return looreflect::LooGetClass<loo::core::SAppTouchPoint>();}
+
+/* this file is auto-generated. do not edit! */
+#pragma once
+#include "looreflect/looreflect.h"
+#ifndef __LOOREFLECT__
+#include "looreflect/looreflectmanager.h"
+#endif
+namespace looreflect
+{
+
+template<> struct IsSerializable<loo::core::SAppEvent> { static constexpr bool value = true; };
+template<> struct HasBeforeSerialize<loo::core::SAppEvent> { static constexpr bool value = false; };
+template<> struct HasAfterSerialize<loo::core::SAppEvent> { static constexpr bool value = false; };
+template<> struct HasCustomSerialize<loo::core::SAppEvent> { static constexpr bool value = false; };
+template<> struct HasCustomDump<loo::core::SAppEvent> { static constexpr bool value = false; };
+namespace detail
+{
+template<>
+inline LooClass const *
+LooGetClassImpl(LooClassTag<loo::core::SAppEvent>) noexcept
+{
+static detail::LooClassBuilder<loo::core::SAppEvent, 14, 0> reflected([](auto self) {
+
+/* LooField 1 */
+self->fields[0].m_type = LooGetType<unsigned long long>();
+self->fields[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[0].m_serializedWidth = sizeof(unsigned long long) * 8;
+self->fields[0].m_offset = offsetof(loo::core::SAppEvent, frameCount);
+self->fields[0].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[0].m_name = "frameCount";
+
+/* LooField 2 */
+self->fields[1].m_type = LooGetType<loo::core::SAppEventType>();
+self->fields[1].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[1].m_serializedWidth = sizeof(loo::core::SAppEventType) * 8;
+self->fields[1].m_offset = offsetof(loo::core::SAppEvent, type);
+self->fields[1].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[1].m_name = "type";
+
+/* LooField 3 */
+self->fields[2].m_type = LooGetType<loo::core::KeyCode>();
+self->fields[2].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[2].m_serializedWidth = sizeof(loo::core::KeyCode) * 8;
+self->fields[2].m_offset = offsetof(loo::core::SAppEvent, keyCode);
+self->fields[2].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[2].m_name = "keyCode";
+
+/* LooField 4 */
+self->fields[3].m_type = LooGetType<unsigned int>();
+self->fields[3].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[3].m_serializedWidth = sizeof(unsigned int) * 8;
+self->fields[3].m_offset = offsetof(loo::core::SAppEvent, charCode);
+self->fields[3].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[3].m_name = "charCode";
+
+/* LooField 5 */
+self->fields[4].m_type = LooGetType<bool>();
+self->fields[4].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[4].m_serializedWidth = sizeof(bool) * 8;
+self->fields[4].m_offset = offsetof(loo::core::SAppEvent, keyRepeat);
+self->fields[4].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[4].m_name = "keyRepeat";
+
+/* LooField 6 */
+self->fields[5].m_type = LooGetType<unsigned int>();
+self->fields[5].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[5].m_serializedWidth = sizeof(unsigned int) * 8;
+self->fields[5].m_offset = offsetof(loo::core::SAppEvent, modifiers);
+self->fields[5].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[5].m_name = "modifiers";
+
+/* LooField 7 */
+self->fields[6].m_type = LooGetType<int>();
+self->fields[6].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[6].m_serializedWidth = sizeof(int) * 8;
+self->fields[6].m_offset = offsetof(loo::core::SAppEvent, mouseX);
+self->fields[6].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[6].m_name = "mouseX";
+
+/* LooField 8 */
+self->fields[7].m_type = LooGetType<int>();
+self->fields[7].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[7].m_serializedWidth = sizeof(int) * 8;
+self->fields[7].m_offset = offsetof(loo::core::SAppEvent, mouseY);
+self->fields[7].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[7].m_name = "mouseY";
+
+/* LooField 9 */
+self->fields[8].m_type = LooGetType<float>();
+self->fields[8].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[8].m_serializedWidth = sizeof(float) * 8;
+self->fields[8].m_offset = offsetof(loo::core::SAppEvent, scrollX);
+self->fields[8].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[8].m_name = "scrollX";
+
+/* LooField 10 */
+self->fields[9].m_type = LooGetType<float>();
+self->fields[9].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[9].m_serializedWidth = sizeof(float) * 8;
+self->fields[9].m_offset = offsetof(loo::core::SAppEvent, scrollY);
+self->fields[9].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[9].m_name = "scrollY";
+
+/* LooField 11 */
+self->fields[10].m_type = LooGetType<int>();
+self->fields[10].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[10].m_serializedWidth = sizeof(int) * 8;
+self->fields[10].m_offset = offsetof(loo::core::SAppEvent, windowWidth);
+self->fields[10].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[10].m_name = "windowWidth";
+
+/* LooField 12 */
+self->fields[11].m_type = LooGetType<int>();
+self->fields[11].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[11].m_serializedWidth = sizeof(int) * 8;
+self->fields[11].m_offset = offsetof(loo::core::SAppEvent, windowHeight);
+self->fields[11].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[11].m_name = "windowHeight";
+
+/* LooField 13 */
+self->fields[12].m_type = LooGetType<int>();
+self->fields[12].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[12].m_serializedWidth = sizeof(int) * 8;
+self->fields[12].m_offset = offsetof(loo::core::SAppEvent, framebufferWidth);
+self->fields[12].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[12].m_name = "framebufferWidth";
+
+/* LooField 14 */
+self->fields[13].m_type = LooGetType<int>();
+self->fields[13].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->fields[13].m_serializedWidth = sizeof(int) * 8;
+self->fields[13].m_offset = offsetof(loo::core::SAppEvent, framebufferHeight);
+self->fields[13].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
+self->fields[13].m_name = "framebufferHeight";
+});
+static LooClass cache(
+sizeof(loo::core::SAppEvent),
+Hash("loo::core::SAppEvent"),
+const_cast<LooClass*>(LooGetClass<loo::core::Event>()),
+reflected.fields,
+reflected.fields + reflected.numFields,
+reflected.functions,
+reflected.functions + reflected.numFunctions,
+"loo::core::SAppEvent",
+LooClass::kFlagsNull);
+return &cache;
+}
+
+template<>
+inline LooType const *
+LooGetTypeImpl(LooTypeTag<loo::core::SAppEvent>) noexcept
+{
+return LooGetClass<loo::core::SAppEvent>();
+}
+} /* namespace detail */
+} /* namespace looreflect */
+
+// utils functions for class instance
+inline const looreflect::LooType *loo::core::SAppEvent::GetType() const { return looreflect::LooGetClass<loo::core::SAppEvent>();}
+
+/* this file is auto-generated. do not edit! */
+#pragma once
+#include "looreflect/looreflect.h"
+#ifndef __LOOREFLECT__
+#include "looreflect/looreflectmanager.h"
+#endif
+namespace looreflect
+{
+
+template<> struct IsSerializable<loo::core::TouchType> { static constexpr bool value = true; };
+namespace detail
+{
+template<>
+inline LooEnum const *
+LooGetEnumImpl(LooEnumTag<loo::core::TouchType>) noexcept
+{
+static detail::LooEnumBuilder<loo::core::TouchType, 7> reflected([](auto self) {
+
+/* EnumConstant 1 */
+self->enumValues[0].m_index = 0;
+self->enumValues[0].m_value = 1;
+self->enumValues[0].m_name = "Move";
+self->enumValues[0].m_tagName = "Move";
+self->enumValues[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[0].m_type = nullptr;
+
+/* EnumConstant 2 */
+self->enumValues[1].m_index = 1;
+self->enumValues[1].m_value = 2;
+self->enumValues[1].m_name = "Down";
+self->enumValues[1].m_tagName = "Down";
+self->enumValues[1].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[1].m_type = nullptr;
+
+/* EnumConstant 3 */
+self->enumValues[2].m_index = 2;
+self->enumValues[2].m_value = 8;
+self->enumValues[2].m_name = "Inrange";
+self->enumValues[2].m_tagName = "Inrange";
+self->enumValues[2].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[2].m_type = nullptr;
+
+/* EnumConstant 4 */
+self->enumValues[3].m_index = 3;
+self->enumValues[3].m_value = 16;
+self->enumValues[3].m_name = "Primary";
+self->enumValues[3].m_tagName = "Primary";
+self->enumValues[3].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[3].m_type = nullptr;
+
+/* EnumConstant 5 */
+self->enumValues[4].m_index = 4;
+self->enumValues[4].m_value = 32;
+self->enumValues[4].m_name = "Nocoalesce";
+self->enumValues[4].m_tagName = "Nocoalesce";
+self->enumValues[4].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[4].m_type = nullptr;
+
+/* EnumConstant 6 */
+self->enumValues[5].m_index = 5;
+self->enumValues[5].m_value = 64;
+self->enumValues[5].m_name = "Pen";
+self->enumValues[5].m_tagName = "Pen";
+self->enumValues[5].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[5].m_type = nullptr;
+
+/* EnumConstant 7 */
+self->enumValues[6].m_index = 6;
+self->enumValues[6].m_value = 128;
+self->enumValues[6].m_name = "Palm";
+self->enumValues[6].m_tagName = "Palm";
+self->enumValues[6].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[6].m_type = nullptr;
+});
+static LooEnum cache(
+sizeof(loo::core::TouchType),
+Hash("loo::core::TouchType"),
+reflected.enumValues,
+reflected.enumValues + reflected.numValues,
+"loo::core::TouchType",
+LooClass::kFlagsNull);
+return &cache;
+}
+
+template<>
+inline LooType const *
+LooGetTypeImpl(LooTypeTag<loo::core::TouchType>) noexcept
+{
+return LooGetEnum<loo::core::TouchType>();
+}
+} /* namespace detail */
+} /* namespace looreflect */
+
+/* this file is auto-generated. do not edit! */
+#pragma once
+#include "looreflect/looreflect.h"
+#ifndef __LOOREFLECT__
+#include "looreflect/looreflectmanager.h"
+#endif
+namespace looreflect
+{
+
+template<> struct IsSerializable<loo::core::TouchPointState> { static constexpr bool value = true; };
+namespace detail
+{
+template<>
+inline LooEnum const *
+LooGetEnumImpl(LooEnumTag<loo::core::TouchPointState>) noexcept
+{
+static detail::LooEnumBuilder<loo::core::TouchPointState, 4> reflected([](auto self) {
+
+/* EnumConstant 1 */
+self->enumValues[0].m_index = 0;
+self->enumValues[0].m_value = 1;
+self->enumValues[0].m_name = "TouchPointPressed";
+self->enumValues[0].m_tagName = "TouchPointPressed";
+self->enumValues[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[0].m_type = nullptr;
+
+/* EnumConstant 2 */
+self->enumValues[1].m_index = 1;
+self->enumValues[1].m_value = 2;
+self->enumValues[1].m_name = "TouchPointMoved";
+self->enumValues[1].m_tagName = "TouchPointMoved";
+self->enumValues[1].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[1].m_type = nullptr;
+
+/* EnumConstant 3 */
+self->enumValues[2].m_index = 2;
+self->enumValues[2].m_value = 4;
+self->enumValues[2].m_name = "TouchPointStationary";
+self->enumValues[2].m_tagName = "TouchPointStationary";
+self->enumValues[2].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[2].m_type = nullptr;
+
+/* EnumConstant 4 */
+self->enumValues[3].m_index = 3;
+self->enumValues[3].m_value = 8;
+self->enumValues[3].m_name = "TouchPointReleased";
+self->enumValues[3].m_tagName = "TouchPointReleased";
+self->enumValues[3].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[3].m_type = nullptr;
+});
+static LooEnum cache(
+sizeof(loo::core::TouchPointState),
+Hash("loo::core::TouchPointState"),
+reflected.enumValues,
+reflected.enumValues + reflected.numValues,
+"loo::core::TouchPointState",
+LooClass::kFlagsNull);
+return &cache;
+}
+
+template<>
+inline LooType const *
+LooGetTypeImpl(LooTypeTag<loo::core::TouchPointState>) noexcept
+{
+return LooGetEnum<loo::core::TouchPointState>();
+}
+} /* namespace detail */
+} /* namespace looreflect */
+
+/* this file is auto-generated. do not edit! */
+#pragma once
+#include "looreflect/looreflect.h"
+#ifndef __LOOREFLECT__
+#include "looreflect/looreflectmanager.h"
+#endif
+namespace looreflect
+{
+
 template<> struct IsSerializable<loo::core::KeyCode> { static constexpr bool value = true; };
 namespace detail
 {
@@ -2639,6 +3094,336 @@ inline LooType const *
 LooGetTypeImpl(LooTypeTag<loo::core::KeyCode>) noexcept
 {
 return LooGetEnum<loo::core::KeyCode>();
+}
+} /* namespace detail */
+} /* namespace looreflect */
+
+/* this file is auto-generated. do not edit! */
+#pragma once
+#include "looreflect/looreflect.h"
+#ifndef __LOOREFLECT__
+#include "looreflect/looreflectmanager.h"
+#endif
+namespace looreflect
+{
+
+template<> struct IsSerializable<loo::core::SAppEventType> { static constexpr bool value = true; };
+namespace detail
+{
+template<>
+inline LooEnum const *
+LooGetEnumImpl(LooEnumTag<loo::core::SAppEventType>) noexcept
+{
+static detail::LooEnumBuilder<loo::core::SAppEventType, 21> reflected([](auto self) {
+
+/* EnumConstant 1 */
+self->enumValues[0].m_index = 0;
+self->enumValues[0].m_value = 0;
+self->enumValues[0].m_name = "SAPP_EVENTTYPE_INVALID";
+self->enumValues[0].m_tagName = "SAPP_EVENTTYPE_INVALID";
+self->enumValues[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[0].m_type = nullptr;
+
+/* EnumConstant 2 */
+self->enumValues[1].m_index = 1;
+self->enumValues[1].m_value = 1;
+self->enumValues[1].m_name = "SAPP_EVENTTYPE_KEY_DOWN";
+self->enumValues[1].m_tagName = "SAPP_EVENTTYPE_KEY_DOWN";
+self->enumValues[1].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[1].m_type = nullptr;
+
+/* EnumConstant 3 */
+self->enumValues[2].m_index = 2;
+self->enumValues[2].m_value = 2;
+self->enumValues[2].m_name = "SAPP_EVENTTYPE_KEY_UP";
+self->enumValues[2].m_tagName = "SAPP_EVENTTYPE_KEY_UP";
+self->enumValues[2].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[2].m_type = nullptr;
+
+/* EnumConstant 4 */
+self->enumValues[3].m_index = 3;
+self->enumValues[3].m_value = 3;
+self->enumValues[3].m_name = "SAPP_EVENTTYPE_CHAR";
+self->enumValues[3].m_tagName = "SAPP_EVENTTYPE_CHAR";
+self->enumValues[3].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[3].m_type = nullptr;
+
+/* EnumConstant 5 */
+self->enumValues[4].m_index = 4;
+self->enumValues[4].m_value = 4;
+self->enumValues[4].m_name = "SAPP_EVENTTYPE_MOUSE_DOWN";
+self->enumValues[4].m_tagName = "SAPP_EVENTTYPE_MOUSE_DOWN";
+self->enumValues[4].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[4].m_type = nullptr;
+
+/* EnumConstant 6 */
+self->enumValues[5].m_index = 5;
+self->enumValues[5].m_value = 5;
+self->enumValues[5].m_name = "SAPP_EVENTTYPE_MOUSE_UP";
+self->enumValues[5].m_tagName = "SAPP_EVENTTYPE_MOUSE_UP";
+self->enumValues[5].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[5].m_type = nullptr;
+
+/* EnumConstant 7 */
+self->enumValues[6].m_index = 6;
+self->enumValues[6].m_value = 6;
+self->enumValues[6].m_name = "SAPP_EVENTTYPE_MOUSE_SCROLL";
+self->enumValues[6].m_tagName = "SAPP_EVENTTYPE_MOUSE_SCROLL";
+self->enumValues[6].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[6].m_type = nullptr;
+
+/* EnumConstant 8 */
+self->enumValues[7].m_index = 7;
+self->enumValues[7].m_value = 7;
+self->enumValues[7].m_name = "SAPP_EVENTTYPE_MOUSE_MOVE";
+self->enumValues[7].m_tagName = "SAPP_EVENTTYPE_MOUSE_MOVE";
+self->enumValues[7].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[7].m_type = nullptr;
+
+/* EnumConstant 9 */
+self->enumValues[8].m_index = 8;
+self->enumValues[8].m_value = 8;
+self->enumValues[8].m_name = "SAPP_EVENTTYPE_MOUSE_ENTER";
+self->enumValues[8].m_tagName = "SAPP_EVENTTYPE_MOUSE_ENTER";
+self->enumValues[8].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[8].m_type = nullptr;
+
+/* EnumConstant 10 */
+self->enumValues[9].m_index = 9;
+self->enumValues[9].m_value = 9;
+self->enumValues[9].m_name = "SAPP_EVENTTYPE_MOUSE_LEAVE";
+self->enumValues[9].m_tagName = "SAPP_EVENTTYPE_MOUSE_LEAVE";
+self->enumValues[9].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[9].m_type = nullptr;
+
+/* EnumConstant 11 */
+self->enumValues[10].m_index = 10;
+self->enumValues[10].m_value = 10;
+self->enumValues[10].m_name = "SAPP_EVENTTYPE_TOUCHES";
+self->enumValues[10].m_tagName = "SAPP_EVENTTYPE_TOUCHES";
+self->enumValues[10].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[10].m_type = nullptr;
+
+/* EnumConstant 12 */
+self->enumValues[11].m_index = 11;
+self->enumValues[11].m_value = 11;
+self->enumValues[11].m_name = "SAPP_EVENTTYPE_RESIZED";
+self->enumValues[11].m_tagName = "SAPP_EVENTTYPE_RESIZED";
+self->enumValues[11].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[11].m_type = nullptr;
+
+/* EnumConstant 13 */
+self->enumValues[12].m_index = 12;
+self->enumValues[12].m_value = 12;
+self->enumValues[12].m_name = "SAPP_EVENTTYPE_ICONIFIED";
+self->enumValues[12].m_tagName = "SAPP_EVENTTYPE_ICONIFIED";
+self->enumValues[12].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[12].m_type = nullptr;
+
+/* EnumConstant 14 */
+self->enumValues[13].m_index = 13;
+self->enumValues[13].m_value = 13;
+self->enumValues[13].m_name = "SAPP_EVENTTYPE_RESTORED";
+self->enumValues[13].m_tagName = "SAPP_EVENTTYPE_RESTORED";
+self->enumValues[13].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[13].m_type = nullptr;
+
+/* EnumConstant 15 */
+self->enumValues[14].m_index = 14;
+self->enumValues[14].m_value = 14;
+self->enumValues[14].m_name = "SAPP_EVENTTYPE_SUSPENDED";
+self->enumValues[14].m_tagName = "SAPP_EVENTTYPE_SUSPENDED";
+self->enumValues[14].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[14].m_type = nullptr;
+
+/* EnumConstant 16 */
+self->enumValues[15].m_index = 15;
+self->enumValues[15].m_value = 15;
+self->enumValues[15].m_name = "SAPP_EVENTTYPE_RESUMED";
+self->enumValues[15].m_tagName = "SAPP_EVENTTYPE_RESUMED";
+self->enumValues[15].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[15].m_type = nullptr;
+
+/* EnumConstant 17 */
+self->enumValues[16].m_index = 16;
+self->enumValues[16].m_value = 16;
+self->enumValues[16].m_name = "SAPP_EVENTTYPE_UPDATE_CURSOR";
+self->enumValues[16].m_tagName = "SAPP_EVENTTYPE_UPDATE_CURSOR";
+self->enumValues[16].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[16].m_type = nullptr;
+
+/* EnumConstant 18 */
+self->enumValues[17].m_index = 17;
+self->enumValues[17].m_value = 17;
+self->enumValues[17].m_name = "SAPP_EVENTTYPE_QUIT_REQUESTED";
+self->enumValues[17].m_tagName = "SAPP_EVENTTYPE_QUIT_REQUESTED";
+self->enumValues[17].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[17].m_type = nullptr;
+
+/* EnumConstant 19 */
+self->enumValues[18].m_index = 18;
+self->enumValues[18].m_value = 18;
+self->enumValues[18].m_name = "SAPP_EVENTTYPE_CLIPBOARD_PASTED";
+self->enumValues[18].m_tagName = "SAPP_EVENTTYPE_CLIPBOARD_PASTED";
+self->enumValues[18].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[18].m_type = nullptr;
+
+/* EnumConstant 20 */
+self->enumValues[19].m_index = 19;
+self->enumValues[19].m_value = 19;
+self->enumValues[19].m_name = "_SAPP_EVENTTYPE_NUM";
+self->enumValues[19].m_tagName = "_SAPP_EVENTTYPE_NUM";
+self->enumValues[19].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[19].m_type = nullptr;
+
+/* EnumConstant 21 */
+self->enumValues[20].m_index = 20;
+self->enumValues[20].m_value = 2147483647;
+self->enumValues[20].m_name = "_SAPP_EVENTTYPE_FORCE_U32";
+self->enumValues[20].m_tagName = "_SAPP_EVENTTYPE_FORCE_U32";
+self->enumValues[20].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[20].m_type = nullptr;
+});
+static LooEnum cache(
+sizeof(loo::core::SAppEventType),
+Hash("loo::core::SAppEventType"),
+reflected.enumValues,
+reflected.enumValues + reflected.numValues,
+"loo::core::SAppEventType",
+LooClass::kFlagsNull);
+return &cache;
+}
+
+template<>
+inline LooType const *
+LooGetTypeImpl(LooTypeTag<loo::core::SAppEventType>) noexcept
+{
+return LooGetEnum<loo::core::SAppEventType>();
+}
+} /* namespace detail */
+} /* namespace looreflect */
+
+/* this file is auto-generated. do not edit! */
+#pragma once
+#include "looreflect/looreflect.h"
+#ifndef __LOOREFLECT__
+#include "looreflect/looreflectmanager.h"
+#endif
+namespace looreflect
+{
+
+template<> struct IsSerializable<loo::core::SAppModifierType> { static constexpr bool value = true; };
+namespace detail
+{
+template<>
+inline LooEnum const *
+LooGetEnumImpl(LooEnumTag<loo::core::SAppModifierType>) noexcept
+{
+static detail::LooEnumBuilder<loo::core::SAppModifierType, 11> reflected([](auto self) {
+
+/* EnumConstant 1 */
+self->enumValues[0].m_index = 0;
+self->enumValues[0].m_value = 1;
+self->enumValues[0].m_name = "SAPP_MODIFIER_LSHIFT";
+self->enumValues[0].m_tagName = "SAPP_MODIFIER_LSHIFT";
+self->enumValues[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[0].m_type = nullptr;
+
+/* EnumConstant 2 */
+self->enumValues[1].m_index = 1;
+self->enumValues[1].m_value = 2;
+self->enumValues[1].m_name = "SAPP_MODIFIER_RSHIFT";
+self->enumValues[1].m_tagName = "SAPP_MODIFIER_RSHIFT";
+self->enumValues[1].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[1].m_type = nullptr;
+
+/* EnumConstant 3 */
+self->enumValues[2].m_index = 2;
+self->enumValues[2].m_value = 4;
+self->enumValues[2].m_name = "SAPP_MODIFIER_LCTRL";
+self->enumValues[2].m_tagName = "SAPP_MODIFIER_LCTRL";
+self->enumValues[2].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[2].m_type = nullptr;
+
+/* EnumConstant 4 */
+self->enumValues[3].m_index = 3;
+self->enumValues[3].m_value = 8;
+self->enumValues[3].m_name = "SAPP_MODIFIER_RCTRL";
+self->enumValues[3].m_tagName = "SAPP_MODIFIER_RCTRL";
+self->enumValues[3].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[3].m_type = nullptr;
+
+/* EnumConstant 5 */
+self->enumValues[4].m_index = 4;
+self->enumValues[4].m_value = 16;
+self->enumValues[4].m_name = "SAPP_MODIFIER_LALT";
+self->enumValues[4].m_tagName = "SAPP_MODIFIER_LALT";
+self->enumValues[4].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[4].m_type = nullptr;
+
+/* EnumConstant 6 */
+self->enumValues[5].m_index = 5;
+self->enumValues[5].m_value = 32;
+self->enumValues[5].m_name = "SAPP_MODIFIER_RALT";
+self->enumValues[5].m_tagName = "SAPP_MODIFIER_RALT";
+self->enumValues[5].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[5].m_type = nullptr;
+
+/* EnumConstant 7 */
+self->enumValues[6].m_index = 6;
+self->enumValues[6].m_value = 64;
+self->enumValues[6].m_name = "SAPP_MODIFIER_LMETA";
+self->enumValues[6].m_tagName = "SAPP_MODIFIER_LMETA";
+self->enumValues[6].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[6].m_type = nullptr;
+
+/* EnumConstant 8 */
+self->enumValues[7].m_index = 7;
+self->enumValues[7].m_value = 128;
+self->enumValues[7].m_name = "SAPP_MODIFIER_RMETA";
+self->enumValues[7].m_tagName = "SAPP_MODIFIER_RMETA";
+self->enumValues[7].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[7].m_type = nullptr;
+
+/* EnumConstant 9 */
+self->enumValues[8].m_index = 8;
+self->enumValues[8].m_value = 256;
+self->enumValues[8].m_name = "SAPP_MODIFIER_CAPSLOCK";
+self->enumValues[8].m_tagName = "SAPP_MODIFIER_CAPSLOCK";
+self->enumValues[8].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[8].m_type = nullptr;
+
+/* EnumConstant 10 */
+self->enumValues[9].m_index = 9;
+self->enumValues[9].m_value = 512;
+self->enumValues[9].m_name = "SAPP_MODIFIER_NUMLOCK";
+self->enumValues[9].m_tagName = "SAPP_MODIFIER_NUMLOCK";
+self->enumValues[9].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[9].m_type = nullptr;
+
+/* EnumConstant 11 */
+self->enumValues[10].m_index = 10;
+self->enumValues[10].m_value = 1024;
+self->enumValues[10].m_name = "SAPP_MODIFIER_SCROLLLOCK";
+self->enumValues[10].m_tagName = "SAPP_MODIFIER_SCROLLLOCK";
+self->enumValues[10].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[10].m_type = nullptr;
+});
+static LooEnum cache(
+sizeof(loo::core::SAppModifierType),
+Hash("loo::core::SAppModifierType"),
+reflected.enumValues,
+reflected.enumValues + reflected.numValues,
+"loo::core::SAppModifierType",
+LooClass::kFlagsNull);
+return &cache;
+}
+
+template<>
+inline LooType const *
+LooGetTypeImpl(LooTypeTag<loo::core::SAppModifierType>) noexcept
+{
+return LooGetEnum<loo::core::SAppModifierType>();
 }
 } /* namespace detail */
 } /* namespace looreflect */

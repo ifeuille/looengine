@@ -173,7 +173,7 @@ namespace loo
 			DynamicDataPtr			_dataPtr;
 			bool					_allowEmptyResources = false;
 			mutable CachedID		_cachedId;
-			RWDataRaceCheck			_drCheck;
+			mutable RWDataRaceCheck			_drCheck;
 
 
 			// methods
