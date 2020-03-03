@@ -5,7 +5,7 @@ MACRO(depdent_module _this_name _module_name)
     add_dependencies(${_this_name} ${_module_name})
     #set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${_module_name})
     set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
-    debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${KLAYGE_OUTPUT_SUFFIX}
+    debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${LOO_OUTPUT_SUFFIX}
     )
 ENDMACRO(depdent_module)
 
@@ -13,7 +13,7 @@ MACRO(dep_module_static  _module_name)
     INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/include)
     #add_dependencies(${MODULE_NAME} ${_module_name})
     set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
-    debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${KLAYGE_OUTPUT_SUFFIX}
+    debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${LOO_OUTPUT_SUFFIX}
     )
 
 ENDMACRO(dep_module_static)

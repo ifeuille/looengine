@@ -87,3 +87,22 @@ msbuild  LOO.sln /t:material_sandbox /m /p:configuration=Release
 
 
 ````
+
+
+### android
+
+windows:
+buildsys/scripts/generate_android_gradle.bat
+linux
+buildsys/scripts/generate_android_gradle.sh
+
+cd android_gradle
+gradle assembleDebug
+
+adb install build/outputs/apk/debug/*.apk
+
+cmake build:
+cmake -G "Unix Makefiles" -H. -Bbuild/android -DCMAKE_TOOLCHAIN_FILE=bldsys/toolchain/android_gradle.cmake
+cmake --build build/android --config Release --target *
+
+

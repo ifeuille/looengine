@@ -3114,7 +3114,7 @@ template<>
 inline LooEnum const *
 LooGetEnumImpl(LooEnumTag<loo::core::SAppEventType>) noexcept
 {
-static detail::LooEnumBuilder<loo::core::SAppEventType, 21> reflected([](auto self) {
+static detail::LooEnumBuilder<loo::core::SAppEventType, 25> reflected([](auto self) {
 
 /* EnumConstant 1 */
 self->enumValues[0].m_index = 0;
@@ -3207,82 +3207,114 @@ self->enumValues[10].m_type = nullptr;
 /* EnumConstant 12 */
 self->enumValues[11].m_index = 11;
 self->enumValues[11].m_value = 11;
-self->enumValues[11].m_name = "SAPP_EVENTTYPE_RESIZED";
-self->enumValues[11].m_tagName = "SAPP_EVENTTYPE_RESIZED";
+self->enumValues[11].m_name = "SAPP_EVENTTYPE_TOUCHES_BEGAN";
+self->enumValues[11].m_tagName = "SAPP_EVENTTYPE_TOUCHES_BEGAN";
 self->enumValues[11].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[11].m_type = nullptr;
 
 /* EnumConstant 13 */
 self->enumValues[12].m_index = 12;
 self->enumValues[12].m_value = 12;
-self->enumValues[12].m_name = "SAPP_EVENTTYPE_ICONIFIED";
-self->enumValues[12].m_tagName = "SAPP_EVENTTYPE_ICONIFIED";
+self->enumValues[12].m_name = "SAPP_EVENTTYPE_TOUCHES_MOVED";
+self->enumValues[12].m_tagName = "SAPP_EVENTTYPE_TOUCHES_MOVED";
 self->enumValues[12].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[12].m_type = nullptr;
 
 /* EnumConstant 14 */
 self->enumValues[13].m_index = 13;
 self->enumValues[13].m_value = 13;
-self->enumValues[13].m_name = "SAPP_EVENTTYPE_RESTORED";
-self->enumValues[13].m_tagName = "SAPP_EVENTTYPE_RESTORED";
+self->enumValues[13].m_name = "SAPP_EVENTTYPE_TOUCHES_ENDED";
+self->enumValues[13].m_tagName = "SAPP_EVENTTYPE_TOUCHES_ENDED";
 self->enumValues[13].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[13].m_type = nullptr;
 
 /* EnumConstant 15 */
 self->enumValues[14].m_index = 14;
 self->enumValues[14].m_value = 14;
-self->enumValues[14].m_name = "SAPP_EVENTTYPE_SUSPENDED";
-self->enumValues[14].m_tagName = "SAPP_EVENTTYPE_SUSPENDED";
+self->enumValues[14].m_name = "SAPP_EVENTTYPE_TOUCHES_CANCELLED";
+self->enumValues[14].m_tagName = "SAPP_EVENTTYPE_TOUCHES_CANCELLED";
 self->enumValues[14].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[14].m_type = nullptr;
 
 /* EnumConstant 16 */
 self->enumValues[15].m_index = 15;
 self->enumValues[15].m_value = 15;
-self->enumValues[15].m_name = "SAPP_EVENTTYPE_RESUMED";
-self->enumValues[15].m_tagName = "SAPP_EVENTTYPE_RESUMED";
+self->enumValues[15].m_name = "SAPP_EVENTTYPE_RESIZED";
+self->enumValues[15].m_tagName = "SAPP_EVENTTYPE_RESIZED";
 self->enumValues[15].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[15].m_type = nullptr;
 
 /* EnumConstant 17 */
 self->enumValues[16].m_index = 16;
 self->enumValues[16].m_value = 16;
-self->enumValues[16].m_name = "SAPP_EVENTTYPE_UPDATE_CURSOR";
-self->enumValues[16].m_tagName = "SAPP_EVENTTYPE_UPDATE_CURSOR";
+self->enumValues[16].m_name = "SAPP_EVENTTYPE_ICONIFIED";
+self->enumValues[16].m_tagName = "SAPP_EVENTTYPE_ICONIFIED";
 self->enumValues[16].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[16].m_type = nullptr;
 
 /* EnumConstant 18 */
 self->enumValues[17].m_index = 17;
 self->enumValues[17].m_value = 17;
-self->enumValues[17].m_name = "SAPP_EVENTTYPE_QUIT_REQUESTED";
-self->enumValues[17].m_tagName = "SAPP_EVENTTYPE_QUIT_REQUESTED";
+self->enumValues[17].m_name = "SAPP_EVENTTYPE_RESTORED";
+self->enumValues[17].m_tagName = "SAPP_EVENTTYPE_RESTORED";
 self->enumValues[17].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[17].m_type = nullptr;
 
 /* EnumConstant 19 */
 self->enumValues[18].m_index = 18;
 self->enumValues[18].m_value = 18;
-self->enumValues[18].m_name = "SAPP_EVENTTYPE_CLIPBOARD_PASTED";
-self->enumValues[18].m_tagName = "SAPP_EVENTTYPE_CLIPBOARD_PASTED";
+self->enumValues[18].m_name = "SAPP_EVENTTYPE_SUSPENDED";
+self->enumValues[18].m_tagName = "SAPP_EVENTTYPE_SUSPENDED";
 self->enumValues[18].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[18].m_type = nullptr;
 
 /* EnumConstant 20 */
 self->enumValues[19].m_index = 19;
 self->enumValues[19].m_value = 19;
-self->enumValues[19].m_name = "_SAPP_EVENTTYPE_NUM";
-self->enumValues[19].m_tagName = "_SAPP_EVENTTYPE_NUM";
+self->enumValues[19].m_name = "SAPP_EVENTTYPE_RESUMED";
+self->enumValues[19].m_tagName = "SAPP_EVENTTYPE_RESUMED";
 self->enumValues[19].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[19].m_type = nullptr;
 
 /* EnumConstant 21 */
 self->enumValues[20].m_index = 20;
-self->enumValues[20].m_value = 2147483647;
-self->enumValues[20].m_name = "_SAPP_EVENTTYPE_FORCE_U32";
-self->enumValues[20].m_tagName = "_SAPP_EVENTTYPE_FORCE_U32";
+self->enumValues[20].m_value = 20;
+self->enumValues[20].m_name = "SAPP_EVENTTYPE_UPDATE_CURSOR";
+self->enumValues[20].m_tagName = "SAPP_EVENTTYPE_UPDATE_CURSOR";
 self->enumValues[20].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->enumValues[20].m_type = nullptr;
+
+/* EnumConstant 22 */
+self->enumValues[21].m_index = 21;
+self->enumValues[21].m_value = 21;
+self->enumValues[21].m_name = "SAPP_EVENTTYPE_QUIT_REQUESTED";
+self->enumValues[21].m_tagName = "SAPP_EVENTTYPE_QUIT_REQUESTED";
+self->enumValues[21].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[21].m_type = nullptr;
+
+/* EnumConstant 23 */
+self->enumValues[22].m_index = 22;
+self->enumValues[22].m_value = 22;
+self->enumValues[22].m_name = "SAPP_EVENTTYPE_CLIPBOARD_PASTED";
+self->enumValues[22].m_tagName = "SAPP_EVENTTYPE_CLIPBOARD_PASTED";
+self->enumValues[22].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[22].m_type = nullptr;
+
+/* EnumConstant 24 */
+self->enumValues[23].m_index = 23;
+self->enumValues[23].m_value = 23;
+self->enumValues[23].m_name = "_SAPP_EVENTTYPE_NUM";
+self->enumValues[23].m_tagName = "_SAPP_EVENTTYPE_NUM";
+self->enumValues[23].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[23].m_type = nullptr;
+
+/* EnumConstant 25 */
+self->enumValues[24].m_index = 24;
+self->enumValues[24].m_value = 2147483647;
+self->enumValues[24].m_name = "_SAPP_EVENTTYPE_FORCE_U32";
+self->enumValues[24].m_tagName = "_SAPP_EVENTTYPE_FORCE_U32";
+self->enumValues[24].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
+self->enumValues[24].m_type = nullptr;
 });
 static LooEnum cache(
 sizeof(loo::core::SAppEventType),

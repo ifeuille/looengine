@@ -26,9 +26,11 @@ elseif (${LOO_ENABLE_GLSLANG})
 	mark_as_advanced( LOO_EXTERNAL_GLSLANG_PATH )
 
 	# SPIRV-Tools require Python 2.7 for building
+	if(LOO_PLATFORM_WINDOWS)
 	find_package( PythonInterp 2.7 REQUIRED )
 	find_package( PythonLibs 2.7 REQUIRED )
-	
+	endif()
+
 	# reset to default
 	if (NOT EXISTS "${LOO_EXTERNAL_GLSLANG_PATH}/CMakeLists.txt")
 		message( STATUS "glslang is not found in ${LOO_EXTERNAL_GLSLANG_PATH}" )

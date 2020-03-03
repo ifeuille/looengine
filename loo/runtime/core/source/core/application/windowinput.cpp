@@ -42,12 +42,13 @@ namespace loo
 	}
 }
 
-#define DECLARE_KEY_MAP(scanCode,keyCode)\
-	case scanCode:return keyCode;
-
 
 KeyCode Input::TranslateKey (int scanCode)
 {
+
+#define DECLARE_KEY_MAP(scanCode,keyCode)\
+	case scanCode:return keyCode;
+
 	//kVirtKeyToKeyCode
 	//https://wenku.baidu.com/view/18cc927bf56527d3240c844769eae009581ba27e.html
 	switch (scanCode)
@@ -234,6 +235,7 @@ KeyCode Input::TranslateKey (int scanCode)
 		//DECLARE_JOYSTICK_BTNS(8);
 		default:return KeyCode::None;
 	}
+#undef DECLARE_KEY_MAP
 }
 
 uint32 _sapp_win32_mods (void) {
@@ -308,6 +310,7 @@ namespace loo
 		{
 			input->InitEvent (*event, SAppEventType::SAPP_EVENTTYPE_MOUSE_SCROLL);
 			event->modifiers = _sapp_win32_mods ();
+
 			event->scrollX = -x / 30.0f;
 			event->scrollY = y / 30.0f;
 

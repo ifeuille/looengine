@@ -29,8 +29,8 @@ namespace loo
 			//for windows
 #ifdef LOO_PLATFORM_WINDOWS
 			bool MsgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-#else
-
+#elif defined(LOO_PLATFORM_ANDROID)
+			int32_t InputProc (android_app* app, AInputEvent* event);
 #endif
 
 #if 1
