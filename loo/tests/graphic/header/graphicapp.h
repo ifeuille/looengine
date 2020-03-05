@@ -70,8 +70,8 @@ template <typename Arg0, typename ...Args>
 inline void GraphicApp::DeleteResources (Arg0 &arg0, Args& ...args)
 {
 	_frameGraph->ReleaseResource (INOUT arg0);
-
-	if constexpr (loo::CountOf<Args...> ())
+	//constexpr bool cb = loo::CountOf<Args...> () != 0;
+	if constexpr (loo::CountOf<Args...> () != 0)
 		DeleteResources (std::forward<Args&> (args)...);
 }
 

@@ -68,7 +68,8 @@ namespace loo
 #else
 			ND_ static constexpr T  MaxValue ()
 			{
-				if constexpr (IsFloatPoint<T>)
+				constexpr bool cb = IsFloatPoint<T>;
+				if /*constexpr*/ (cb)
 					return T (1.0);
 				else
 					return std::numeric_limits<T>::max ();
@@ -91,12 +92,12 @@ namespace loo
 			ND_ T const&	operator [] (size_t i)	const { ASSERT (i < size ());  return std::addressof (r)[i]; }
 		};
 		template <>
-		ND_ static constexpr float RGBAColor<float>::MaxValue ()
+		ND_ /*static*/ constexpr float RGBAColor<float>::MaxValue ()
 		{
 			return float (1.0f);
 		}
 		template <>
-		ND_ static constexpr double RGBAColor<double>::MaxValue ()
+		ND_ /*static*/ constexpr double RGBAColor<double>::MaxValue ()
 		{
 			return double (1.0);
 		}
@@ -154,7 +155,7 @@ namespace loo
 				float4 q = c.r < p.x ? float4 (p.x, p.y, p.w, c.r) : float4 (c.r, p.y, p.z, p.x);
 				float  d = q.x - Min (q.w, q.y);
 				float  e = 1.0e-10f;
-				h = Abs (q.z + (q.w - q.y) / (6.0f * d + e));
+				h = std::abs (q.z + (q.w - q.y) / (6.0f * d + e));
 				s = d / (q.x + e);
 				v = q.x;
 			}

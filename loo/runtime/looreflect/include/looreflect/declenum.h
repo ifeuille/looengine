@@ -15,12 +15,13 @@ namespace looreflect {
 			const char* tagName,
 			uint64_t value,
 			int index)noexcept
-			:m_type (type)
-			, m_flags (flags)
-			, m_name (name)
-			, m_tagName(tagName)
+			: m_index (index)
 			, m_value (value)
-			, m_index (index) {
+			, m_name (name)
+			, m_tagName (tagName)
+			, m_flags (flags)
+			, m_type (type)
+		{
 		}
 
 		uint64_t value ()const noexcept {
@@ -153,7 +154,7 @@ namespace looreflect {
 			return nullptr;
 		}
 
-		LooEnumConstant const* enum_constant_by_index (int index)const noexcept {
+		LooEnumConstant const* enum_constant_by_index (uint64_t index)const noexcept {
 			for (auto& enumvalue : values ()) {
 				if (index == enumvalue.index ()) {
 					return &enumvalue;

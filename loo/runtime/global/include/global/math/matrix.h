@@ -59,10 +59,12 @@ namespace loo
 			template <typename Arg0, typename ...Args>
 			constexpr explicit Matrix (const Arg0 &arg0, const Args& ...args)
 			{
-				if constexpr (CountOf<Arg0, Args...> () == Columns * Rows)
+				constexpr bool cb = CountOf<Arg0, Args...> () == Columns * Rows;
+				constexpr bool cb2 = CountOf<Arg0, Args...> () == Columns;
+				if /*constexpr*/ (cb)
 					_CopyScalars<0> (arg0, args...);
 				else
-					if constexpr (CountOf<Arg0, Args...> () == Columns)
+					if /*constexpr*/ (cb2)
 						_CopyColumns<0> (arg0, args...);
 					else
 						STATIC_ASSERT ((CountOf<Arg0, Args...> () == Columns * Rows, "") or
@@ -156,8 +158,8 @@ namespace loo
 			{
 				STATIC_ASSERT (IsScalar<Arg0>, "");
 				_columns[I / Rows].data[I % Rows] = arg0;
-
-				if constexpr (I + 1 < Columns * Rows)
+				constexpr bool cb = I + 1 < Columns * Rows;
+				if /*constexpr*/ (cb)
 					_CopyScalars< I + 1 > (args...);
 			}
 
@@ -167,8 +169,8 @@ namespace loo
 				constexpr bool checkbool = std::is_same< Arg0, Column_t>::value;
 				STATIC_ASSERT (checkbool/*std::is_same< Arg0, Column_t>::value*/, "");
 				_columns[I].data = arg0;
-
-				if constexpr (I + 1 < Columns)
+				constexpr bool cb = I + 1 < Columns;
+				if /*constexpr*/ (cb)
 					_CopyColumns< I + 1 > (args...);
 			}
 		};
@@ -216,10 +218,12 @@ namespace loo
 			template <typename Arg0, typename ...Args>
 			constexpr explicit Matrix (const Arg0 &arg0, const Args& ...args)
 			{
-				if constexpr (CountOf<Arg0, Args...> () == Columns * Rows)
+				constexpr bool cb = CountOf<Arg0, Args...> () == Columns * Rows;
+				constexpr bool cb2 = CountOf<Arg0, Args...> () == Rows;
+				if /*constexpr*/ (cb)
 					_CopyScalars<0> (arg0, args...);
 				else
-					if constexpr (CountOf<Arg0, Args...> () == Rows)
+					if /*constexpr*/ (cb2)
 						_CopyRows<0> (arg0, args...);
 					else
 						STATIC_ASSERT ((CountOf<Arg0, Args...> () == Columns * Rows) or
@@ -306,8 +310,8 @@ namespace loo
 			{
 				STATIC_ASSERT (IsScalar<Arg0>, "");
 				_rows[I / Columns].data[I % Columns] = arg0;
-
-				if constexpr (I + 1 < Columns * Rows)
+				constexpr bool cb = I + 1 < Columns * Rows;
+				if /*constexpr*/ (cb)
 					_CopyScalars< I + 1 > (args...);
 			}
 
@@ -424,10 +428,11 @@ namespace loo
 		inline Matrix< T, Columns, Rows, EMatrixOrder::ColumnMajor, Align >
 			Matrix< T, Columns, Rows, EMatrixOrder::ColumnMajor, Align >::Inverse () const
 		{
-			if constexpr (Columns == 4 and Rows == 4)
+			constexpr bool cb1 = Columns == 4 and Rows == 4;
+			if /*constexpr*/ (cb1)
 				return _math_hidden_::Mat44_Inverse (*this);
-
-			if constexpr (Columns == 3 and Rows == 3)
+			constexpr bool cb2 = Columns == 3 and Rows == 3;
+			if /*constexpr*/ (cb2)
 				return _math_hidden_::Mat33_Inverse (*this);
 		}
 
@@ -452,7 +457,8 @@ namespace loo
 		inline Matrix< T, Columns, Rows, EMatrixOrder::ColumnMajor, Align >
 			Matrix< T, Columns, Rows, EMatrixOrder::ColumnMajor, Align >::Translate (const Vec<T, Rows> &v) const
 		{
-			if constexpr (Columns == 4 and Rows == 4)
+			constexpr bool cb1 = Columns == 4 and Rows == 4;
+			if /*constexpr*/ (cb1)
 				return _math_hidden_::Mat44_Translate (*this, v);
 		}
 
@@ -460,7 +466,8 @@ namespace loo
 		inline Matrix< T, Columns, Rows, EMatrixOrder::ColumnMajor, Align >
 			Matrix< T, Columns, Rows, EMatrixOrder::ColumnMajor, Align >::Translate (const Vec<T, Rows - 1> &v) const
 		{
-			if constexpr (Columns == 4 and Rows == 4)
+			constexpr bool cb = Columns == 4 and Rows == 4;
+			if /*constexpr*/ (cb)
 				return _math_hidden_::Mat44_Translate (*this, v);
 		}
 

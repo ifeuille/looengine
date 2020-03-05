@@ -120,7 +120,8 @@ namespace loo
 
 
 // check for 'VulkanDeviceFnTable' structure size missmatch
-#if defined (LOO_COMPILER_MSVC) or defined (LOO_COMPILER_CLANG)
+#if defined (LOO_COMPILER_MSVC) 
+//or defined (LOO_COMPILER_CLANG)
 
 # if defined(VK_USE_PLATFORM_ANDROID_KHR) and VK_USE_PLATFORM_ANDROID_KHR
 #	pragma detect_mismatch( "VK_USE_PLATFORM_ANDROID_KHR", "1" )
@@ -188,7 +189,8 @@ namespace loo
 
 
 // check definitions
-#if defined (LOO_COMPILER_MSVC) or defined (LOO_COMPILER_CLANG)
+#if defined (LOO_COMPILER_MSVC)
+//or defined (LOO_COMPILER_CLANG)
 #  ifdef LOO_VULKAN_STATIC
 #	pragma detect_mismatch( "LOO_VULKAN_STATIC", "1" )
 #  else

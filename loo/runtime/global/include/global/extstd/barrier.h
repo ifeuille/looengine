@@ -259,7 +259,8 @@ namespace LOOC
 
 
 // check definitions
-#if defined (LOO_COMPILER_MSVC) or defined (LOO_COMPILER_CLANG)
+#if defined (LOO_COMPILER_MSVC) 
+//or defined (LOO_COMPILER_CLANG)
 
 #  if LOO_BARRIER_MODE == 0
 #	pragma detect_mismatch( "LOO_BARRIER_MODE", "0" )

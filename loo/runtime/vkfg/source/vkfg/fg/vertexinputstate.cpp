@@ -76,6 +76,9 @@ namespace loo
 
 			case EVertexType::_Double:
 				return (EVertexType::_Double | vec_size);
+			default:
+
+				break;
 			}
 
 			RETURN_ERR ("invalid vertex type", float_type);

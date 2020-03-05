@@ -22,7 +22,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="com.arm.vulkan_best_practice"
+	package="com.loo.looengine"
 	android:versionCode="1"
 	android:versionName="1.0">
 
@@ -36,14 +36,14 @@
 		android:theme="@style/AppTheme"
 		tools:ignore="GoogleAppIndexingWarning">
 
-		<activity android:name="com.arm.vulkan_best_practice.BPSampleActivity">
+		<activity android:name="com.loo.looengine.BPSampleActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 
-		<activity android:name="com.arm.vulkan_best_practice.BPNativeActivity"
+		<activity android:name="com.loo.looengine.BPNativeActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:screenOrientation="fullSensor">
 			<meta-data android:name="android.app.lib_name"

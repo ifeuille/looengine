@@ -68,7 +68,7 @@ namespace loo
 		ND_ T const&		back ()					const	{ ASSERT( _count > 0 );  return _array[_count-1]; }
 
 
-		ND_ bool  operator == (ArrayView<T> rhs) const
+		ND_ bool  operator == (const ArrayView<T>& rhs) const
 		{
 			if ( size() != rhs.size() )
 				return false;

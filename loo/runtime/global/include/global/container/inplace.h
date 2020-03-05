@@ -36,7 +36,7 @@ namespace loo
 
 		~InPlace ()
 		{
-			ASSERT (not _isCreated);
+			DEBUG_ONLY(ASSERT (not _isCreated);)
 		}
 
 		template <typename ...Args>
@@ -59,11 +59,11 @@ namespace loo
 				_value.~T ();
 		}
 
-		ND_ T *			operator -> () { ASSERT (_isCreated);  return &_value; }
-		ND_ T const*	operator -> ()	const { ASSERT (_isCreated);  return &_value; }
+		ND_ T *			operator -> () { DEBUG_ONLY(ASSERT (_isCreated); ) return &_value; }
+		ND_ T const*	operator -> ()	const { DEBUG_ONLY( ASSERT (_isCreated);)  return &_value; }
 
-		ND_ T &			operator * () { ASSERT (_isCreated);  return _value; }
-		ND_ T const&	operator * ()	const { ASSERT (_isCreated);  return _value; }
+		ND_ T &			operator * () { DEBUG_ONLY (ASSERT (_isCreated);)  return _value; }
+		ND_ T const&	operator * ()	const { DEBUG_ONLY (ASSERT (_isCreated);)  return _value; }
 
 		DEBUG_ONLY (
 			ND_ bool	IsCreated ()	const { return _isCreated; }

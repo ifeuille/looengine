@@ -80,7 +80,7 @@ namespace loo
 		IsUpperCase
 	=================================================
 	*/
-	ND_ LOO_FORCEINLINE const char  IsUpperCase (const char c)
+	ND_ LOO_FORCEINLINE char  IsUpperCase (const char c)
 	{
 		return (c >= 'A' and c <= 'Z');
 	}
@@ -90,7 +90,7 @@ namespace loo
 		IsLowerCase
 	=================================================
 	*/
-	ND_ LOO_FORCEINLINE const char  IsLowerCase (const char c)
+	ND_ LOO_FORCEINLINE char  IsLowerCase (const char c)
 	{
 		return (c >= 'a' and c <= 'z');
 	}
@@ -100,7 +100,7 @@ namespace loo
 		ToLowerCase
 	=================================================
 	*/
-	ND_ LOO_FORCEINLINE const char  ToLowerCase (const char c)
+	ND_ LOO_FORCEINLINE char  ToLowerCase (const char c)
 	{
 		return IsUpperCase (c) ? (c - 'A' + 'a') : c;
 	}
@@ -110,7 +110,7 @@ namespace loo
 		ToUpperCase
 	=================================================
 	*/
-	ND_ LOO_FORCEINLINE const char  ToUpperCase (const char c)
+	ND_ LOO_FORCEINLINE char  ToUpperCase (const char c)
 	{
 		return IsLowerCase (c) ? (c - 'a' + 'A') : c;
 	}

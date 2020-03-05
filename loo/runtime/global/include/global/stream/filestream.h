@@ -76,7 +76,8 @@ namespace loo
 
 
 // check definitions
-#if defined (LOO_COMPILER_MSVC) or defined (LOO_COMPILER_CLANG)
+#if defined (LOO_COMPILER_MSVC)
+//or defined (LOO_COMPILER_CLANG)
 
 # ifdef _FILE_OFFSET_BITS
 #  if _FILE_OFFSET_BITS == 64

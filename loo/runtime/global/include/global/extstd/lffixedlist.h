@@ -66,11 +66,24 @@ namespace loo
 
 		bool Erase (uint index)
 		{
+			LOO_UNUSED (index);
+			//ASSERT (false);
+			return false;
 		}
 
 
 		bool Find (const T &value, OUT uint &outIndex)
 		{
+			outIndex = -1;
+			for (std::size_t i = 0; i < _nodes.size (); ++i)
+			{
+				if (_nodes[i] == value)
+				{
+					outIndex = i;
+					return true;
+				}
+			}
+			return false;
 		}
 
 
@@ -134,6 +147,9 @@ namespace loo
 
 		bool _InsertIndex (const uint newIndex)
 		{
+			LOO_UNUSED (newIndex);
+			//ASSERT (false);
+			return false;
 		}
 	};
 

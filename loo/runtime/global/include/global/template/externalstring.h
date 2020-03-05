@@ -20,6 +20,7 @@
 #include<unistd.h> 
 #include<sys/types.h>
 #include<strings.h>
+#include <stdlib.h>
 #endif
 
 #include <limits>
@@ -105,7 +106,7 @@ namespace loo
 		{
 			if (str.length ( ) >= subStr.length ( ))
 			{
-				for (int i = 0; i < subStr.length ( ); ++i)
+				for (size_t i = 0; i < subStr.length ( ); ++i)
 				{
 					if (str[i] != subStr[i])
 					{
@@ -158,8 +159,12 @@ namespace loo
 #else
 			setlocale(LC_ALL, "zh_CN.gbk");
 #endif
-
-			mbs_size = wcstombs_s(&mbs_size, mbs, wc_size, wc, c_size);
+#if defined(LOO_COMPILER_MSVC)
+			wcstombs_s (&mbs_size, mbs, wc_size, wc, c_size);
+#else
+			LOO_UNUSED (wc_size);
+			mbs_size = wcstombs ( mbs, wc, c_size);
+#endif
 			return mbs_size;
 		}
 
@@ -174,8 +179,12 @@ namespace loo
 
 			if (mbs_size == 0)
 				mbs_size = UINT_MAX;			
-			mbstowcs_s(&out_wc_size,wc, wc_size, mbs, mbs_size);
-
+#if defined(LOO_COMPILER_MSVC)
+			mbstowcs_s (&out_wc_size, wc, wc_size, mbs, mbs_size);
+#else
+			LOO_UNUSED (wc_size);
+			out_wc_size = mbstowcs (wc, mbs, mbs_size);
+#endif
 			return out_wc_size;
 		}
 

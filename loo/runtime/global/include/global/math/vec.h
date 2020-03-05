@@ -1,4 +1,3 @@
-// Copyright (c) 2018-2019,  Zhirnov Andrey. For more information see 'LICENSE'
 
 #pragma once
 #include "global/math/math.h"
@@ -559,7 +558,8 @@ namespace loo
 		{
 			for (uint i = 0; i < I; ++i)
 			{
-				if constexpr (IsFloatPoint<T>)
+				constexpr bool cb = IsFloatPoint<T>;
+				if /*constexpr*/ (cb)
 					lhs[i] = std::fmod (lhs[i], rhs[i]);
 				else
 					lhs[i] %= rhs[i];
@@ -584,7 +584,8 @@ namespace loo
 			Vec<T, I>	res;
 			for (uint i = 0; i < I; ++i)
 			{
-				if constexpr (IsFloatPoint<T>)
+				constexpr bool cb = IsFloatPoint<T>;
+				if /*constexpr*/ (cb)
 					res[i] = std::fmod (lhs[i], rhs[i]);
 				else
 					res[i] = lhs[i] % rhs[i];
@@ -988,7 +989,7 @@ namespace loo
 		{
 			Vec<T, I>	res;
 			for (uint i = 0; i < I; ++i) {
-				res[i] = Abs (x[i]);
+				res[i] = std::abs (x[i]);
 			}
 			return res;
 		}
@@ -1180,22 +1181,34 @@ namespace loo
 		template <typename T, uint I>
 		ND_ inline T  MinOf (const Vec<T, I> &v)
 		{
-			if constexpr (I == 2)
+			constexpr bool cb1 = I == 2;
+			constexpr bool cb3 = I == 3;
+			constexpr bool cb4 = I == 4;
+			if(cb1)
+				return Min (v.x, v.y);
+			else if(cb3)
+				return Min (v.x, v.y, v.z);
+			else if(cb4)
+				return Min (v.x, v.y, v.z, v.w);
+	/*		if constexpr (I == 2)
 				return Min (v.x, v.y);
 			if constexpr (I == 3)
 				return Min (v.x, v.y, v.z);
 			if constexpr (I == 4)
-				return Min (v.x, v.y, v.z, v.w);
+				return Min (v.x, v.y, v.z, v.w);*/
 		}
 
 		template <typename T, uint I>
 		ND_ inline T  MaxOf (const Vec<T, I> &v)
 		{
-			if constexpr (I == 2)
+			constexpr bool cb1 = I == 2;
+			constexpr bool cb3 = I == 3;
+			constexpr bool cb4 = I == 4;
+			if /*constexpr*/ (cb1)
 				return Max (v.x, v.y);
-			if constexpr (I == 3)
+			if /*constexpr*/ (cb3)
 				return Max (v.x, v.y, v.z);
-			if constexpr (I == 4)
+			if /*constexpr*/ (cb4)
 				return Max (v.x, v.y, v.z, v.w);
 		}
 

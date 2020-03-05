@@ -1,9 +1,15 @@
 #ifndef FILENAMAGER_DLLEXPORT_H
 #define FILENAMAGER_DLLEXPORT_H
+#ifndef __LOOREFLECT__
+#include "global/compiler.h"
 #ifdef FILEMANAGER_DLL_EXPORT
-#define FILEMANAGER_EXPORT __declspec(dllexport)
+#define FILEMANAGER_EXPORT LOO_SYMBOL_EXPORT
 #else
-#define FILEMANAGER_EXPORT __declspec(dllimport)
+#define FILEMANAGER_EXPORT LOO_SYMBOL_IMPORT
+#endif
+#else
+#define FILEMANAGER_EXPORT
+#define FILEMANAGER_EXPORT
 #endif
 #define MODULENAME_FILEMANAGER "filemanager"
 #endif

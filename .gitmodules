@@ -1,0 +1,12 @@
+[submodule "loo/thirdpart/glslang"]
+	path = loo/thirdpart/glslang
+	url = https://github.com/KhronosGroup/glslang.git
+	branch = 7.11.3113
+[submodule "loo/thirdpart/glslang/External/SPIRV-Tools"]
+	path = loo/thirdpart/glslang/External/SPIRV-Tools
+	url = https://github.com/KhronosGroup/SPIRV-Tools.git
+	branch = v2019.1 
+[submodule "loo/thirdpart/glslang/External/SPIRV-Tools/external/SPIRV-Headers"]
+	path = loo/thirdpart/glslang/External/SPIRV-Tools/external/SPIRV-Headers
+	url = https://github.com/KhronosGroup/SPIRV-Headers.git
+	branch = 1.3.7

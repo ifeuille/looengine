@@ -21,7 +21,7 @@
 #include <thread>
  //#include <utils/ThreadLocal.h>
 #include "global/config.h"
-#include "global/Compiler.h"
+#include "global/compiler.h"
 #include "global/platform.h"
 #include "global/utils/bitset.h"
 

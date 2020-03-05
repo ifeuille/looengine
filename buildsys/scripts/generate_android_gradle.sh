@@ -23,20 +23,20 @@
 ROOT_DIR="$(cd "$(dirname "$0")"; pwd)/../.."
 
 if [ "$#" -ne 1 ]; then
-	BUILD_DIR=$ROOT_DIR/build/android_gradle
+	BUILD_DIR=$ROOT_DIR/android_gradle
 else
 	BUILD_DIR="$1"
 fi
 
-cmake -DPROJECT_NAME="vulkan_best_practice" \
+cmake -DPROJECT_NAME="looengine" \
 	  -DANDROID_API=24 \
 	  -DARCH_ABI="arm64-v8a;armeabi-v7a" \
-	  -DANDROID_MANIFEST=$ROOT_DIR/vulkan_best_practice/android/AndroidManifest.xml \
-	  -DJAVA_DIRS=$ROOT_DIR/vulkan_best_practice/android/java \
-	  -DRES_DIRS=$ROOT_DIR/vulkan_best_practice/android/res \
+	  -DANDROID_MANIFEST=$ROOT_DIR/loo/thirdpart/android/AndroidManifest.xml \
+	  -DJAVA_DIRS=$ROOT_DIR/loo/thirdpart/android/java \
+	  -DRES_DIRS=$ROOT_DIR/loo/thirdpart/android/res \
 	  -DOUTPUT_DIR=$BUILD_DIR \
 	  -DASSET_DIRS="" \
 	  -DJNI_LIBS_DIRS="" \
 	  -DNATIVE_SCRIPT=$ROOT_DIR/CMakeLists.txt \
 	  -DNATIVE_ARGUMENTS="ANDROID_TOOLCHAIN=clang;ANDROID_STL=c++_static" \
-	  -P $ROOT_DIR/bldsys/cmake/create_gradle_project.cmake
+	  -P $ROOT_DIR/buildsys/cmake/create_gradle_project.cmake

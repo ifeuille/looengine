@@ -3,7 +3,11 @@
 #if defined(LOO_PLATFORM_WINDOWS) && !defined(VK_USE_PLATFORM_WIN32_KHR)
 #include "global/utils/win32/windowsheader.h"
 #define VK_USE_PLATFORM_WIN32_KHR	1
-#include <Vulkan/vulkan_win32.h>
+#include <vulkan/vulkan_win32.h>
+#elif defined(LOO_PLATFORM_ANDROID)
+#define VK_USE_PLATFORM_ANDROID_KHR	1
+#include <vulkan/vulkan_android.h>
+//#include <android_native_app_glue.h>
 #endif
 
 namespace loo
@@ -82,13 +86,14 @@ namespace loo
 			return surface;
 		}
 # endif
-# if defined(VK_USE_PLATFORM_ANDROID_KHR) and VK_USE_PLATFORM_ANDROID_KHR
+# if defined(LOO_PLATFORM_ANDROID)
+		//defined(VK_USE_PLATFORM_ANDROID_KHR) and VK_USE_PLATFORM_ANDROID_KHR
 		/*
 		=================================================
 			CreateAndroidSurface
 		=================================================
 		*/
-		VkSurfaceKHR  VulkanSurface::CreateAndroidSurface (VkInstance instance, void* window)
+		VkSurfaceKHR  VulkanSurfaceUtil::CreateAndroidSurface (VkInstance instance, void* window)
 		{
 			CHECK_ERR (instance and window);
 
@@ -97,7 +102,7 @@ namespace loo
 
 			surface_info.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
 			surface_info.flags = 0;
-			surface_info.window = Cast<ANativeWindow> (window);
+			surface_info.window = (ANativeWindow*) (window);
 
 			PFN_vkCreateAndroidSurfaceKHR  fpCreateAndroidSurfaceKHR = BitCast<PFN_vkCreateAndroidSurfaceKHR> (vkGetInstanceProcAddr (instance, "vkCreateAndroidSurfaceKHR"));
 			CHECK_ERR (fpCreateAndroidSurfaceKHR);

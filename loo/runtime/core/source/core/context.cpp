@@ -7,20 +7,31 @@
 #include "modulemanager/modulemanager.h"
 #include "global/utils/log.h"
 
+#if defined(LOO_PLATFORM_WINDOWS)
+#include <windows.h>
+#if defined(LOO_PLATFORM_WINDOWS_DESKTOP)
+#if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
+#include <VersionHelpers.h>
+#endif
+#endif
+#elif defined(LOO_PLATFORM_ANDROID)
+#include <android_native_app_glue.h>
+#endif
+
 #if defined(LOO_PLATFORM_ANDROID) || defined(LOO_PLATFORM_IOS)
 #define LOO_STATIC_LINK_PLUGINS
 #endif
 
-#ifdef LOO_STATIC_LINK_PLUGINS
-extern "C"
-{
-	void MakeRenderFactory(std::unique_ptr<loo::core::RenderFactory>& ptr);
-	void MakeAudioFactory(std::unique_ptr<loo::core::AudioFactory>& ptr);
-	void MakeInputFactory(std::unique_ptr<loo::core::InputFactory>& ptr);
-	void MakeSceneManager(std::unique_ptr<loo::core::SceneManager>& ptr);
-	void MakeShaderLibManagerFactory(std::unique_ptr< loo::core::ShaderLibManagerFactory>& ptr);
-}
-#endif
+//#ifdef LOO_STATIC_LINK_PLUGINS
+//extern "C"
+//{
+//	void MakeRenderFactory(std::unique_ptr<loo::core::RenderFactory>& ptr);
+//	void MakeAudioFactory(std::unique_ptr<loo::core::AudioFactory>& ptr);
+//	void MakeInputFactory(std::unique_ptr<loo::core::InputFactory>& ptr);
+//	void MakeSceneManager(std::unique_ptr<loo::core::SceneManager>& ptr);
+//	void MakeShaderLibManagerFactory(std::unique_ptr< loo::core::ShaderLibManagerFactory>& ptr);
+//}
+//#endif
 namespace loo
 {
 	namespace core
@@ -30,6 +41,9 @@ namespace loo
 }
 loo::core::Context::Context()
 {
+#ifdef LOO_PLATFORM_ANDROID
+	state_ = get_app ();
+#endif
 	Init();
 }
 loo::core::Context::~Context()
@@ -205,6 +219,10 @@ void loo::core::Context::Init()
 	int count = std::thread::hardware_concurrency();
 	count = count < minCount ? minCount : count;
 	threadPoolInstance = loo::global::MakeUniquePtr<loo::global::thread_pool>(1, count);
-	loo::fm::ResLoader::Instance().Init(*threadPoolInstance);
+	loo::fm::ResLoader::Instance().Init(*threadPoolInstance
+#if defined(LOO_PLATFORM_ANDROID)
+		, state_
+#endif
+	);
 
 }

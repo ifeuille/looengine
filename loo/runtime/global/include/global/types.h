@@ -67,6 +67,7 @@
 #include "global/stream/stream.h"
 #include "global/stream/memstream.h"
 #include "global/stream/filestream.h"
+#include "global/stream/customizedstreambuf.h"
 
 #include "global/algorithms/stringutils.h"
 #include "global/algorithms/stringparser.h"

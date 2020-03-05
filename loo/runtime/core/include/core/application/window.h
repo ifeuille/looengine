@@ -38,6 +38,10 @@ OBJC_CLASS(NSView);
 #include <cstring>
 #include <iostream>
 
+#ifdef LOO_PLATFORM_ANDROID
+struct android_app;
+#endif
+
 namespace loo
 {
 	namespace core
@@ -98,7 +102,7 @@ namespace loo
 #elif defined LOO_PLATFORM_ANDROID
 			::ANativeWindow* AWindow() const
 			{
-				return a_window_;
+				return a_window;
 			}
 #elif defined LOO_PLATFORM_IOS
 			static void PumpEvents();
@@ -107,7 +111,7 @@ namespace loo
 			uint2 GetGLKViewSize();
 #endif
 #if defined LOO_PLATFORM_ANDROID
-			::ANativeWindow* NativeWindow(){return a_window_;}
+			::ANativeWindow* NativeWindow(){return a_window;}
 #endif
 			std::unique_ptr<loo::vkfg::IVulkanSurface>  GetVulkanSurface () ;
 		public:
@@ -355,7 +359,8 @@ namespace loo
 #endif
 
 #elif defined LOO_PLATFORM_ANDROID
-			::ANativeWindow* a_window_;
+			android_app* state;
+			::ANativeWindow* a_window;
 #elif defined LOO_PLATFORM_IOS
 			LEngineView* eagl_view_;
 #endif

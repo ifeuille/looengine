@@ -1,10 +1,11 @@
 #ifndef LOO_CORE_OBJECT_H
 #define LOO_CORE_OBJECT_H
 #pragma once
-#include "core/dllexporter.h"
+
 #include "looreflect/looreflect.h"//must include this
 #include "looreflect/looreflectmanager.h"
 #include "global/template/refcounting.h"
+#include "core/dllexporter.h"
 
 namespace loo
 {
@@ -43,7 +44,7 @@ namespace loo
 		const char* name ();
 
 	private:
-		LOOPROPERTY(Serialized, cstring)
+		//LOOPROPERTY(Serialized, cstring)
 		const char* m_Name;
 		mutable int32 NumRefs;
 	};

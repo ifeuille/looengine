@@ -3,6 +3,7 @@
 #include "global/global.h"
 #include "global/extstd/typetraits.h"
 #include "global/extstd/cast.h"
+#include "global/template/hash.h"
 
 namespace loo
 {

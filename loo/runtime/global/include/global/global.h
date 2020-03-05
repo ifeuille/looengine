@@ -3,7 +3,7 @@
 #pragma once
 
 #include "global/config.h"
-#include "global/Compiler.h"
+#include "global/compiler.h"
 #include "global/platform.h"
 #include "global/architecture.h"
 #include "global/utils/win32/stdtypes.h"
@@ -130,12 +130,9 @@ namespace std
 #endif
 
 
-#define ASSERT_MSG(con,msg) assert((con)&&msg)
-#define ASSERT(con) assert((con)&&con)
 #ifdef LOO_COMPILER_MSVC
 #define LOO_RESTRICT __restrict
 #define LOO_ASSUME(x) (__assume(x))
-
 #else
 #define LOO_RESTRICT
 #define LOO_ASSUME(x) (assert(x))
@@ -188,5 +185,14 @@ namespace std
 #	define END_ENUM_CHECKS()
 
 #endif
+
+# ifdef LOO_DEBUG
+#define ASSERT_MSG(con,msg) assert((con)&&msg)
+#define ASSERT(con) assert((con)&&con)
+# else
+#define ASSERT_MSG(con,msg)  
+#define ASSERT(con)  
+# endif
+
 
 #endif

@@ -59,7 +59,8 @@ namespace loo
 		template <size_t I, typename FN>
 		static constexpr void _Visit (FN&& fn)
 		{
-			if constexpr (I < Count)
+			constexpr bool cb = I < Count;
+			if /*constexpr*/ (cb)
 			{
 				using T = Get<I>;
 				fn.template operator() < T, I > ();

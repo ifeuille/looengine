@@ -1,6 +1,7 @@
 #ifndef LOO_GLOBAL_MATH_H
 #define LOO_GLOBAL_MATH_H
 #include "global/global.h"
+#include "global/template/hash.h"
 #include <cmath>
 #include <algorithm>
 //#include "global/math/mathcore.h"
@@ -183,11 +184,11 @@ namespace loo
 			Abs
 		=================================================
 		*/
-		template <typename T>
+		/*template <typename T>
 		ND_ LOO_FORCEINLINE constexpr EnableIf<IsScalar<T>, T>  Abs (const T &x)
 		{
 			return std::abs (x);
-		}
+		}*/
 
 		/*
 		=================================================
@@ -197,12 +198,15 @@ namespace loo
 		template <typename T>
 		ND_ LOO_FORCEINLINE constexpr EnableIf<IsScalar<T>, bool>  Equals (const T &lhs, const T &rhs, const T &err = std::numeric_limits<T>::epsilon () * T (2))
 		{
-			if /*constexpr*/ (IsUnsignedInteger<T>)
+			constexpr bool checkbool = IsUnsignedInteger<T>;
+			if /*constexpr*/ (checkbool)
 			{
 				return lhs < rhs ? ((rhs - lhs) <= err) : ((lhs - rhs) <= err);
 			}
 			else
-				return Abs (lhs - rhs) <= err;
+			{
+				return std::fabs (lhs - rhs) <= err;
+			}
 		}
 
 		ND_ LOO_FORCEINLINE bool  Equals (const bool &lhs, const bool &rhs, const bool &err = std::numeric_limits<bool>::epsilon () * 2)
@@ -396,7 +400,7 @@ namespace loo
 			return std::log10 (x);
 		}
 
-		template <typename Base, typename T>
+		template <int Base, typename T>
 		ND_ LOO_FORCEINLINE EnableIf<IsFloatPoint<T>, T>  Log (const T& x)
 		{
 			static constexpr auto log_base = std::log (Base);

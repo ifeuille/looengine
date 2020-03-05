@@ -1,21 +1,22 @@
 
 #must before add_target_link
 MACRO(depdent_module _this_name _module_name)
-    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/include)
-    add_dependencies(${_this_name} ${_module_name})
+    #INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/include)
+    #add_dependencies(${_this_name} ${_module_name})
     #set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${_module_name})
-    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
-    debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${LOO_OUTPUT_SUFFIX}
-    )
+    #set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
+    #debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${LOO_OUTPUT_SUFFIX}
+    #)
+    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "${_module_name}")
 ENDMACRO(depdent_module)
 
 MACRO(dep_module_static  _module_name)
-    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/include)
+    #INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${_module_name}/include)
     #add_dependencies(${MODULE_NAME} ${_module_name})
-    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
-    debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${LOO_OUTPUT_SUFFIX}
-    )
-
+    #set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
+    #debug ${_module_name}${LOO_OUTPUT_SUFFIX}_d optimized ${_module_name}${LOO_OUTPUT_SUFFIX}
+    #)
+    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "${_module_name}")
 ENDMACRO(dep_module_static)
 
 
@@ -34,14 +35,14 @@ ENDMACRO(add_dep_link_dir)
 #SOURCE_PRIVATE
 #set(MODULE_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 MACRO(add_module)
-    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/include)
+    #INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/include)
     add_library(${MODULE_NAME} ${LOO_PREFERRED_LIB_TYPE}
     ${SOURCE_PRIVATE} ${SOURCE_PUBLIC}
     )
 ENDMACRO(add_module)
 
 MACRO(add_static_module)
-    INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/include)
+    #INCLUDE_DIRECTORIES(${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/include)
     add_library(${MODULE_NAME} STATIC
     ${SOURCE_PRIVATE} ${SOURCE_PUBLIC}
     )
@@ -84,7 +85,7 @@ MACRO(declare_module)
             LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${LOO_BIN_DIR}
             LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL ${LOO_BIN_DIR})
     ENDIF()
-
+    target_include_directories(${MODULE_NAME}  PUBLIC ${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/include)
     TARGET_LINK_LIBRARIES(${MODULE_NAME}
     ${EXTRA_LINKED_LIBRARIES}
 	#debug MeshMLLib${LOO_OUTPUT_SUFFIX}_d optimized MeshMLLib${LOO_OUTPUT_SUFFIX}
@@ -97,7 +98,6 @@ MACRO(declare_module)
             ARCHIVE DESTINATION ${LOO_OUTPUT_DIR}
         )
     ENDIF()
-
     SET_TARGET_PROPERTIES(${MODULE_NAME} PROPERTIES FOLDER "${FOLDER_PATH}")
     ADD_DEPENDENCIES(AllInEngine ${MODULE_NAME})
 ENDMACRO(declare_module)
@@ -140,7 +140,7 @@ MACRO(declare_module_static)
             LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${LOO_BIN_DIR}
             LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL ${LOO_BIN_DIR})
     ENDIF()
-
+    target_include_directories(${MODULE_NAME}  PUBLIC ${LOO_RUNTIME_ROOT_DIR}/${MODULE_NAME}/include)
     TARGET_LINK_LIBRARIES(${MODULE_NAME}
     ${EXTRA_LINKED_LIBRARIES}
 	#debug MeshMLLib${LOO_OUTPUT_SUFFIX}_d optimized MeshMLLib${LOO_OUTPUT_SUFFIX}

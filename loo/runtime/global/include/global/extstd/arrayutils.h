@@ -1,4 +1,3 @@
-// Copyright (c) 2018-2019,  Zhirnov Andrey. For more information see 'LICENSE'
 
 #pragma once
 #include "global/global.h"
@@ -6,7 +5,7 @@
 #include "global/extstd/fixedarray.h"
 #include "global/extstd/arrayview.h"
 #include "global/extstd/umax.h"
-
+#include "global/math/math.h"
 
 namespace loo
 {
@@ -198,7 +197,7 @@ namespace loo
 		}
 
 		left = bound >> 1;
-		right = Min (bound + 1, right);
+		right = loo::math::Min (bound + 1, right);
 
 		for (; left < right; )
 		{

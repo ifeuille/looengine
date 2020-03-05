@@ -70,7 +70,7 @@ namespace loo
 	{
 		assert (ignoreMantissaBits < 23);
 		uint32	dst;
-		std::memcpy (OUT &dst, &value, sizeof (dst));
+		std::memcpy (&dst, &value, sizeof (dst));
 		dst &= ~((1 << ignoreMantissaBits) - 1);
 		return HashVal (std::hash<uint32_t> ()(dst));
 	}
@@ -84,7 +84,7 @@ namespace loo
 	{
 		assert (ignoreMantissaBits < 52);
 		uint64	dst;
-		std::memcpy (OUT &dst, &value, sizeof (dst));
+		std::memcpy ( &dst, &value, sizeof (dst));
 		dst &= ~((1 << ignoreMantissaBits) - 1);
 		return HashVal (std::hash<uint64_t> ()(dst));
 	}
@@ -110,7 +110,7 @@ namespace loo
 		return HashVal{ std::_Hash_bytes (ptr, sizeInBytes, 0) };
 
 #else
-		LOO_COMPILATION_MESSAGE ("used fallback hash function")
+		//LOO_COMPILATION_MESSAGE ("used fallback hash function")
 		const uint8_t*	buf = static_cast<const uint8_t*>(ptr);
 		HashVal			result;
 		for (size_t i = 0; i < sizeInBytes; ++i) {

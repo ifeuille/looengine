@@ -8,26 +8,27 @@
 #include "global/utlis.h"
 #include "core/application/application.h"
 #include "core/application/window.h"
-
+#include <android_native_app_glue.h>
 
 namespace loo
 {
 	namespace core
 	{
-		Window::Window(std::string const & name, RenderSettings const & settings, Application* _app, void* native_wnd)
-				: active_(false), ready_(false), closed_(false), keep_screen_on_(settings.keep_screen_on),
-                app(_app), dpi_scale_(1), effective_dpi_scale_(1), win_rotation_(WR_Identity)
+		Window::Window(std::string const & name, vkfg::RenderSettings const & settings, Application* _app, void* native_wnd)
+				: active (false), ready (false), closed (false), keep_screen_on (settings.keep_screen_on),
+                app(_app), dpi_scale (1), effective_dpi_scale (1), win_rotation (WR_Identity)
 		{
-			KFL_UNUSED(name);
+			LOO_UNUSED(name);
+#ifdef LOO_PLATFORM_ANDROID
+			state = get_app ();
+#endif
+			a_window = static_cast<ANativeWindow*>(native_wnd);
 
-			a_window_ = static_cast<ANativeWindow*>(native_wnd);
-
-			android_app* state = Context::Instance().AppState();
 			state->userData = this;
 			state->onAppCmd = HandleCMD;
 			state->onInputEvent = HandleInput;
 
-			while (nullptr == a_window_)
+			while (nullptr == a_window)
 			{
 				// Read all pending events.
 				int ident;
@@ -49,15 +50,15 @@ namespace loo
 					{
 						return;
 					}
-				} while ((nullptr == a_window_) && (ident >= 0));
+				} while ((nullptr == a_window) && (ident >= 0));
 			}
 
-			left_ = settings.left;
-			top_ = settings.top;
-			width_ = ANativeWindow_getWidth(a_window_);
-			height_ = ANativeWindow_getHeight(a_window_);
+			left = settings.left;
+			top = settings.top;
+			width = ANativeWindow_getWidth(a_window);
+			height = ANativeWindow_getHeight(a_window);
 
-			if (keep_screen_on_)
+			if (keep_screen_on)
 			{
 				ANativeActivity_setWindowFlags(state->activity, AWINDOW_FLAG_KEEP_SCREEN_ON, 0);
 			}
@@ -65,9 +66,8 @@ namespace loo
 
 		Window::~Window()
 		{
-			if (keep_screen_on_)
+			if (keep_screen_on)
 			{
-				android_app* state = Context::Instance().AppState();
 				ANativeActivity_setWindowFlags(state->activity, 0, AWINDOW_FLAG_KEEP_SCREEN_ON);
 			}
 		}
@@ -75,49 +75,50 @@ namespace loo
 		void Window::HandleCMD(android_app* app, int32_t cmd)
 		{
 			Window* win = static_cast<Window*>(app->userData);
+			Application* myapp = win->GetApp ();
 			switch (cmd)
 			{
 				case APP_CMD_SAVE_STATE:
-					Context::Instance().AppInstance().Suspend();
+					myapp->Suspend();
 					break;
 
 				case APP_CMD_RESUME:
-					if (win->ready_)
+					if (win->ready)
 					{
-						Context::Instance().AppInstance().Resume();
+						myapp->Resume();
 					}
 					break;
 
 				case APP_CMD_INIT_WINDOW:
-					win->a_window_ = app->window;
+					win->a_window = app->window;
 					break;
 
 				case APP_CMD_TERM_WINDOW:
 					win->OnClose()(*win);
-					win->active_ = false;
-					win->ready_ = false;
-					win->closed_ = true;
+					win->active = false;
+					win->ready = false;
+					win->closed = true;
 					break;
 
 				case APP_CMD_GAINED_FOCUS:
-					win->active_ = true;
-					win->ready_ = true;
+					win->active = true;
+					win->ready = true;
 					win->OnActive()(*win, true);
 					break;
 
 				case APP_CMD_LOST_FOCUS:
-					win->active_ = false;
+					win->active = false;
 					win->OnActive()(*win, false);
 					break;
 
 				case APP_CMD_WINDOW_RESIZED:
 				case APP_CMD_CONTENT_RECT_CHANGED:
-					win->left_ = app->contentRect.left;
-					win->top_ = app->contentRect.top;
-					win->width_ = app->contentRect.right;
-					win->height_ = app->contentRect.bottom;
-					win->active_ = true;
-					win->ready_ = true;
+					win->left = app->contentRect.left;
+					win->top = app->contentRect.top;
+					win->width = app->contentRect.right;
+					win->height = app->contentRect.bottom;
+					win->active = true;
+					win->ready = true;
 					win->OnSize()(*win, true);
 					break;
 			}
@@ -125,7 +126,8 @@ namespace loo
 
 		int32_t Window::HandleInput(android_app* app, AInputEvent* event)
 		{
-			Input& input = app->GetInput ();
+			Window* win = static_cast<Window*>(app->userData);
+			Input& input = win->GetApp ()->GetInput ();
 			return input.InputProc (app,event);
 		}
 	}

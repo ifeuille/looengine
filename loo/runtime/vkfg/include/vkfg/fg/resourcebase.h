@@ -132,9 +132,18 @@ namespace loo
 #endif
 
 	}
-
-
 }
+//template<typename ResType>
+//bool  operator==(const loo::vkfg::ResourceBase<ResType> &lhs, const loo::vkfg::ResourceBase<ResType> &rhs) {
+//	return lhs.Data() == rhs.Data ();
+//}
+//template<typename ResType>
+//bool  operator!=(const loo::vkfg::ResourceBase<ResType> &lhs, const loo::vkfg::ResourceBase<ResType> &rhs) {
+//	return !(lhs.Data () == rhs.Data ());
+//}
+
+
+
 namespace std
 {
 	template <typename T>

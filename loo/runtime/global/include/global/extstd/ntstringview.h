@@ -162,7 +162,7 @@ namespace loo
 		else
 			new_data = _buffer;
 
-		memcpy (OUT new_data, _data, size_t (size));
+		memcpy ( new_data, _data, size_t (size));
 		new_data[_length] = NullChar;
 		_data = new_data;
 

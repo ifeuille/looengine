@@ -1034,7 +1034,7 @@ namespace loo
 		=================================================
 			_WaitQueue
 		=================================================
-		*
+		*/
 			bool  VFrameGraph::_WaitQueue (EQueueType queue, Nanoseconds timeout)
 			{
 				TempFences_t	fences;
@@ -1049,11 +1049,11 @@ namespace loo
 
 				if ( fences.size() )
 				{
-					VK_CALL( _device.vkWaitForFences( _device.GetVkDevice(), uint(fences.size()), fences.data(), VK_TRUE, UMax ));
+					VK_CALL( _device.vkWaitForFences( _device.GetVkDevice(), uint(fences.size()), fences.data(), VK_TRUE, timeout.count()/*UMax*/ ));
 				}
 
 				for (auto* s : q.submitted) {
-					CHECK( s->_Release( GetDevice(), _debugger, _shaderDebugCallback, OUT _semaphoreCache, OUT _fenceCache ));
+					s->_Release (GetDevice (), _debugger, _shaderDebugCallback, OUT _lastStatistic);//?
 					_submittedPool.Unassign( s->GetIndexInPool() );
 				}
 				q.submitted.clear();

@@ -707,7 +707,7 @@ namespace loo
 			{
 				//ASSERT( id.IsDefined() );	// one buffer may be unnamed
 				ASSERT (vb);
-				vertexBuffers.insert_or_assign (id, _fg_hidden_::VertexBuffer{ vb, offset });
+				vertexBuffers.insert_or_assign (id, _vkfg_hidden_::VertexBuffer{ vb, offset });
 				return static_cast<TaskType &>(*this);
 			}
 

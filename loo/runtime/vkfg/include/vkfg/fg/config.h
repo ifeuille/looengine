@@ -83,7 +83,8 @@ namespace loo
 
 
 // check definitions
-#if defined (LOO_COMPILER_MSVC) or defined (LOO_COMPILER_CLANG)
+#if defined (LOO_COMPILER_MSVC) 
+//or defined (LOO_COMPILER_CLANG)
 #  if LOO_OPTIMIZE_IDS
 #	pragma detect_mismatch( "LOO_OPTIMIZE_IDS", "1" )
 #  else

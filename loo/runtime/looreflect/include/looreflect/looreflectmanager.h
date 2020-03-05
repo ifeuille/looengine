@@ -2,8 +2,8 @@
 #ifndef LOOREFLECTMANAGER_H
 #define LOOREFLECTMANAGER_H
 #pragma once
-#include "dllexport.h"
 #include "looreflect/looreflect.h"
+#include "looreflect/dllexport.h"
 
 namespace looreflect 
 {
@@ -22,7 +22,7 @@ namespace looreflect
 
     public:
           LooReflectManager();
-          ~LooReflectManager();
+          virtual ~LooReflectManager();
 
 		  void regist_type(const looreflect::LooType *type, const char *moduleName = DEFAULT_MODULE);
 		  void remove_type (const char *nsname, const char *moduleName = DEFAULT_MODULE);

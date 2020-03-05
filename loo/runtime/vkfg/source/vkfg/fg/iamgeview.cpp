@@ -114,8 +114,8 @@ namespace loo
 		{
 			STATIC_ASSERT (Bits <= 32);
 			STATIC_ASSERT (Bits + (OffsetBits & 31) <= 32);
-
-			if constexpr (Bits == 0)
+			constexpr bool cb = Bits == 0;
+			if /*constexpr*/ (cb)
 			{
 				(void)(data);
 				return 0;
@@ -158,11 +158,13 @@ namespace loo
 		LOO_FORCEINLINE int ReadIntScalar (const StaticArray<uint, 4> &data)
 		{
 			const uint	value = ReadUIntScalar< Bits, OffsetBits > (data);
+			constexpr bool cb1 = Bits == 0;
+			constexpr bool cb2 = Bits == 32;
 
-			if constexpr (Bits == 0)
+			if /*constexpr*/ (cb1)
 				return 0;
 			else
-				if constexpr (Bits == 32)
+				if /*constexpr*/ (cb2)
 					return int (value);
 				else
 					return (value >> (Bits - 1)) ? -int (value) : int (value);	// TODO: check
@@ -244,6 +246,8 @@ namespace loo
 		template <uint R, uint G, uint B, uint A>
 		LOO_FORCEINLINE void ReadFloat (ArrayView<ImageView::T> pixel, OUT loo::math::RGBA32f &result)
 		{
+			LOO_UNUSED (pixel);
+			LOO_UNUSED (result);
 			ASSERT (!"not supported");
 		}
 

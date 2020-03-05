@@ -23,7 +23,84 @@
 #include "vkfg/vulkan/memory/vmemorymanager.h"
 #include "vkfg/vulkan/descriptors/vdescriptormanager.h"
 #include "vkfg/vulkan/commandbuffer/vcmdbatch.h"
-#
+
+//namespace loo
+//{
+	/*
+	=================================================
+		operator ==
+	=================================================
+	*/
+	inline bool operator == (const VkAttachmentDescription &lhs, const VkAttachmentDescription &rhs)
+	{
+		return	lhs.flags == rhs.flags			and
+			lhs.format == rhs.format			and
+			lhs.samples == rhs.samples			and
+			lhs.loadOp == rhs.loadOp			and
+			lhs.storeOp == rhs.storeOp			and
+			lhs.stencilLoadOp == rhs.stencilLoadOp	and
+			lhs.stencilStoreOp == rhs.stencilStoreOp	and
+			lhs.initialLayout == rhs.initialLayout	and
+			lhs.finalLayout == rhs.finalLayout;
+	}
+
+	/*
+	=================================================
+		operator ==
+	=================================================
+	*/
+	inline bool operator == (const VkAttachmentReference &lhs, const VkAttachmentReference &rhs)
+	{
+		return	lhs.attachment == rhs.attachment	and
+			lhs.layout == rhs.layout;
+	}
+
+	/*
+	=================================================
+		operator ==
+	=================================================
+	*/
+	inline bool operator == (const VkSubpassDescription &lhs, const VkSubpassDescription &rhs)
+	{
+		using AttachView = loo::ArrayView< VkAttachmentReference >;
+		using PreserveView = loo::ArrayView< loo::uint >;
+
+		auto	lhs_resolve_attachments = lhs.pResolveAttachments ? AttachView{ lhs.pResolveAttachments, lhs.colorAttachmentCount } : AttachView{};
+		auto	rhs_resolve_attachments = rhs.pResolveAttachments ? AttachView{ rhs.pResolveAttachments, rhs.colorAttachmentCount } : AttachView{};
+
+		return	lhs.flags == rhs.flags														and
+			lhs.pipelineBindPoint == rhs.pipelineBindPoint											and
+			AttachView{ lhs.pInputAttachments, lhs.inputAttachmentCount } == AttachView{ rhs.pInputAttachments, rhs.inputAttachmentCount }		and
+			AttachView{ lhs.pColorAttachments, lhs.colorAttachmentCount } == AttachView{ rhs.pColorAttachments, rhs.colorAttachmentCount }		and
+			lhs_resolve_attachments == rhs_resolve_attachments and
+			not lhs.pDepthStencilAttachment == not rhs.pDepthStencilAttachment and
+			(not lhs.pDepthStencilAttachment or *lhs.pDepthStencilAttachment == *rhs.pDepthStencilAttachment) and
+			PreserveView {
+			lhs.pPreserveAttachments, lhs.preserveAttachmentCount
+		} == PreserveView{ rhs.pPreserveAttachments, rhs.preserveAttachmentCount };
+	}
+
+	/*
+	=================================================
+		operator ==
+	=================================================
+	*/
+	inline bool operator == (const VkSubpassDependency &lhs, const VkSubpassDependency &rhs)
+	{
+		return	lhs.srcSubpass == rhs.srcSubpass		and
+			lhs.dstSubpass == rhs.dstSubpass		and
+			lhs.srcStageMask == rhs.srcStageMask		and
+			lhs.dstStageMask == rhs.dstStageMask		and
+			lhs.srcAccessMask == rhs.srcAccessMask	and
+			lhs.dstAccessMask == rhs.dstAccessMask	and
+			lhs.dependencyFlags == rhs.dependencyFlags;
+	}
+	//inline bool operator==(const ArrayView< VkSubpassDependency>& lhs, const ArrayView< VkSubpassDependency>& rhs)
+	//{
+	//	return lhs.data () == rhs.data ();
+	//}
+
+//}
 
 
 namespace loo

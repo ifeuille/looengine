@@ -14,6 +14,9 @@
 //#include "RHI/RenderSettings.h"
 //#include "Application/Core.Window.h"
 //#include "Application/Core.Application.h"
+#ifdef LOO_PLATFORM_ANDROID
+struct android_app;
+#endif
 
 namespace loo
 {

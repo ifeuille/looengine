@@ -123,7 +123,8 @@ namespace loo
 			ND_ constexpr Value_t		Data ()							const { return _value; }
 
 			ND_ constexpr bool			operator == (const Self &rhs)	const { return _value == rhs._value; }
-			ND_ constexpr bool			operator != (const Self &rhs)	const { return not (*this == rhs); }
+			ND_ constexpr bool			operator != (const Self &rhs)	const { return not IsEqual(rhs); }
+			ND_ constexpr bool			IsEqual(const Self &rhs)	const { return _value == rhs._value; }
 
 			ND_ explicit constexpr		operator bool ()				const { return IsValid (); }
 
@@ -266,3 +267,9 @@ namespace std
 	};
 
 }	// std
+
+//template <loo::uint UID>
+//constexpr bool operator==(const loo::_hidden_::ResourceID<UID> &lhs, const loo::_hidden_::ResourceID<UID> &rhs)
+//{
+//	return lhs.IsEqual (rhs);
+//}

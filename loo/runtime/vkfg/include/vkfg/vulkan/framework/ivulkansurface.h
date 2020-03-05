@@ -4,8 +4,8 @@
 #include "global/math/vec.h"
 #include "global/extstd/fixedarray.h"
 #include "global/extstd/ntstringview.h"
-#include "vulkanloader/vulkanloader.h"
-#include "vulkanloader/vulkancheckerror.h"
+#include "vulkanloader/VulkanLoader.h"
+#include "vulkanloader/VulkanCheckError.h"
 
 namespace loo
 {

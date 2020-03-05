@@ -83,5 +83,20 @@ INCLUDE(${LOO_PROJECT_DIR}/buildsys/cmake/download_glslang.cmake)
 SET_TARGET_PROPERTIES(7zxa PROPERTIES FOLDER "thirdpart/7z")
 SET_TARGET_PROPERTIES(LZMA PROPERTIES FOLDER "thirdpart/7z")
 
+IF(LOO_PLATFORM_ANDROID)
+	# native_app_glue
+	if(TRUE)
+		add_subdirectory(android_native_app_glue)
+	elseif()
+		set(NATIVE_APP_GLUE_DIR "${CMAKE_ANDROID_NDK}/sources/android/native_app_glue")
 
+		file(GLOB NATIVE_APP_GLUE_FILES "${NATIVE_APP_GLUE_DIR}/*.c" "${NATIVE_APP_GLUE_DIR}/*.h")
+		
+		add_library(native_app_glue STATIC ${NATIVE_APP_GLUE_FILES})
+			
+		target_include_directories(native_app_glue PUBLIC ${NATIVE_APP_GLUE_DIR})
+		
+		set_property(TARGET native_app_glue PROPERTY FOLDER "ThirdParty")
+	endif()
+ENDIF()
 

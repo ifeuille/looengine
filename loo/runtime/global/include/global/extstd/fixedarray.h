@@ -1,10 +1,9 @@
-// Copyright (c) 2018-2019,  Zhirnov Andrey. For more information see 'LICENSE'
 
 #pragma once
 #include "global/global.h"
 #include "global/extstd/arrayview.h"
 #include "global/extstd/memutils.h"
-
+#include "global/math/math.h"
 
 namespace loo
 {

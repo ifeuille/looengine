@@ -41,8 +41,8 @@ namespace loo
 		inline constexpr T  CT_Pow (const T &base)
 		{
 			STATIC_ASSERT (IsInteger<T> and IsInteger<decltype(Power)> and Power >= 0, "");
-
-			if constexpr (Power == 0)
+			constexpr bool cb = Power == 0;
+			if /*constexpr*/ (cb)
 			{
 				LOO_UNUSED (base);
 				return 1;

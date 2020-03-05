@@ -4,7 +4,7 @@
 
 #pragma once
 #include "global/config.h"
-#include "global/Compiler.h"
+#include "global/compiler.h"
 #include "global/platform.h"
 
 

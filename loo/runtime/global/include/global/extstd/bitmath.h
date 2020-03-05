@@ -139,7 +139,7 @@ namespace loo
 			{
 				return std::bitset<32> (x).count ();
 			}
-			ASSERT (FALSE);
+			ASSERT (false);
 		}
 	};
 	template <typename T>

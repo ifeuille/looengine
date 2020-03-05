@@ -2,7 +2,7 @@
 #include "pipeline_compiler/VPipelineCompiler.h"
 #include "pipeline_compiler/SpirvCompiler.h"
 #include "pipeline_compiler/PrivateDefines.h"
-#include "vulkanloader/vulkanloader.h"
+#include "vulkanloader/VulkanLoader.h"
 #include "vulkanloader/VulkanCheckError.h"
 #include "vkfg/fg/enumutils.h"
 #include "global/algorithms/stringutils.h"

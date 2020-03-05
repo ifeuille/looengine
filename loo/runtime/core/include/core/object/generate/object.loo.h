@@ -7,7 +7,7 @@
 namespace looreflect
 {
 
-template<> struct IsSerializable<loo::Object> { static constexpr bool value = true; };
+template<> struct IsSerializable<loo::Object> { static constexpr bool value = false; };
 template<> struct HasBeforeSerialize<loo::Object> { static constexpr bool value = false; };
 template<> struct HasAfterSerialize<loo::Object> { static constexpr bool value = false; };
 template<> struct HasCustomSerialize<loo::Object> { static constexpr bool value = false; };
@@ -18,15 +18,7 @@ template<>
 inline LooClass const *
 LooGetClassImpl(LooClassTag<loo::Object>) noexcept
 {
-static detail::LooClassBuilder<loo::Object, 1, 1> reflected([](auto self) {
-
-/* LooField 1 */
-self->fields[0].m_type = LooGetType<char>();
-self->fields[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized | LooField::kFlagsCString;
-self->fields[0].m_serializedWidth = sizeof(char) * 8;
-self->fields[0].m_offset = offsetof(loo::Object, m_Name);
-self->fields[0].m_qualifier = Qualifier(0, 0, 0, 1, 0, 0);
-self->fields[0].m_name = "m_Name";
+static detail::LooClassBuilder<loo::Object, 0, 1> reflected([](auto self) {
 
 /* LooFunction 1*/
 static LooFunctionReturn functionRet0;

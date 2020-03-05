@@ -11,10 +11,10 @@
 
 loo::core::Event::Event ( const char* name_)
 	:Object (name_),
-	sender (nullptr),
 	typeID (-1),
 	flags (0),
-	canceled (false)
+	canceled (false),
+	sender (nullptr)
 {}
 
 loo::core::Event::~Event ()
@@ -25,6 +25,10 @@ loo::core::Event::~Event ()
 	canceled = false;
 }
 
+loo::core::EventListener::~EventListener ()
+{
+
+}
 void loo::core::EventListener::listen (int eventType)
 {
 	EventManager::Get ().listen (eventType, this);

@@ -63,7 +63,8 @@ namespace loo
 			bool Create (const VDevice &dev, StringView dbgName);
 			void Destroy (VResourceManager &);
 
-			ND_ bool operator == (const VRenderPass &rhs) const;
+			ND_ bool operator==(const VRenderPass &rhs) const;
+			ND_ bool IsEqual(const VRenderPass &rhs) const;
 
 			ND_ VkRenderPass					Handle ()			const { SHAREDLOCK (RWDataRaceCheck,_drCheck);  return _renderPass; }
 			ND_ VkRenderPassCreateInfo const&	GetCreateInfo ()	const { SHAREDLOCK (RWDataRaceCheck, _drCheck);  return _createInfo; }
@@ -76,10 +77,10 @@ namespace loo
 			static void  _CalcHash (const VkRenderPassCreateInfo &ci, OUT HashVal &hash, OUT HashVal &attachmentHash,
 				OUT SubpassesHash_t &subpassesHash);
 		};
-
-
 	}	
 }
+
+//bool operator==(const loo::vkfg::VRenderPass& lhs, const loo::vkfg::VRenderPass& rhs);
 
 namespace std
 {

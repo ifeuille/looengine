@@ -539,8 +539,14 @@ namespace loo
 		{
 			STATIC_ASSERT ((IsSameTypes<PipelineType, VGraphicsPipeline>) or
 				(IsSameTypes<PipelineType, VMeshPipeline>), "");
-
-			pipeline->IsEarlyFragmentTests () ? _earlyFragmentTests = true : _lateFragmentTests = true;
+			if (pipeline->IsEarlyFragmentTests ())
+			{
+				_earlyFragmentTests = true;
+			}
+			else
+			{
+				_lateFragmentTests = true;
+			}
 
 			_depthWrite |= (ds.hasDepthWrite & ds.depthWrite);
 

@@ -18,7 +18,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.arm.vulkan_best_practice;
+package com.loo.looengine;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

@@ -24,6 +24,10 @@ public:
 		listen ((int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES);
 
 	}
+	virtual ~FWApp2 ()
+	{
+
+	}
 	virtual bool OnCreate ()
 	{
 		// create window and vulkan device

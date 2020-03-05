@@ -107,7 +107,7 @@ namespace {
 			return false;
 		
 		// write library path to log
-#		ifndef PLATFORM_ANDROID
+#		ifndef LOO_PLATFORM_ANDROID
 		{
 			char	buf[PATH_MAX] = "";
 			CHECK( dlinfo( lib->module, RTLD_DI_ORIGIN, buf ) == 0 );

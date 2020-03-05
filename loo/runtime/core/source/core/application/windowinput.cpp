@@ -419,6 +419,7 @@ bool loo::core::Input::MsgProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	Application* app = windowptr->GetApp ();
 	SAppEvent& event = app->GetEvent ();
 	auto cfg = app->Config ();
+	auto rs = cfg.graphic_settings;
 	visitor->Reset (this, hWnd, uMsg, wParam, lParam, &event,
 		loo::math::RectF((float)windowptr->Left(), (float)windowptr->Top(), (float)windowptr->Width(), (float)windowptr->Height()));
 	bool handled = false;

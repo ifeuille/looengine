@@ -121,10 +121,20 @@ else()
 
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -W -Wall -Werror -fpic")
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -fpic")
+
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-invalid-offsetof  -Wno-ignored-qualifiers -Wno-reorder -Wno-unused-parameter -Wno-unused-variable")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-invalid-offsetof -Wno-ignored-qualifiers -Wno-reorder -Wno-unused-parameter -Wno-unused-variable")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS} -Wno-implicit-function-declaration -Wno-missing-field-initializers -Wno-unused")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS} -Wno-implicit-function-declaration -Wno-missing-field-initializers -Wno-unused")
+
 	IF(NOT (ANDROID OR IOS))
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=core2 -msse2")
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=core2 -msse2")
 	ENDIF()
+
+	# SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
+	# SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+
 	IF(LOO_COMPILER_CLANG)
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
 		IF(MSVC)

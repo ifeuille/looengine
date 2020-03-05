@@ -53,13 +53,13 @@ namespace loo
                 int touchCount = AMotionEvent_getPointerCount(sysevent);
                 event->touches.clear ();
                 event->touches.reserve (touchCount);
-                for (size_t i = 0; i < touchCount; ++i)
+                for (int i = 0; i < touchCount; ++i)
                 {
                     TouchPoint touchPoint;
                     touchPoint.pressure = 1.0;
                     touchPoint.id = AMotionEvent_getPointerId(sysevent, i);
-                    touchPoint.normalPosition.x = (float)AMotionEvent_getRawX(sysevent, i)/(float)windowGeometry.x*(float)screenGeometry.x;
-                    touchPoint.normalPosition.y = (float)AMotionEvent_getRawY(sysevent, i)/(float)windowGeometry.y*(float)screenGeometry.y;
+                    touchPoint.normalPosition.x = (float)AMotionEvent_getRawX(sysevent, i)/(float)windowGeometry.Width()*(float)screenGeometry.Width();
+                    touchPoint.normalPosition.y = (float)AMotionEvent_getRawY(sysevent, i)/(float)windowGeometry.Height()*(float)screenGeometry.Height();
                     touchPoint.pressure = AMotionEvent_getPressure(sysevent,i);
                     //AMotionEvent_getHistoricalPressure
                     event->touches.push_back(touchPoint);
@@ -72,10 +72,12 @@ namespace loo
         int32_t Input::InputProc (android_app* app, AInputEvent* event)
         {
             Window* win = static_cast<Window*>(app->userData);
-            Application* app = win->GetApp();
-            SAppEvent& e = app->GetEvent ();
-            auto cfg = app->Config ();
-            visitor->Reset (this, &e, event, loo::math::RectF((float)windowptr->Left(), (float)windowptr->Top(), (float)windowptr->Width(), (float)windowptr->Height()));
+            Application* myapp = win->GetApp();
+            SAppEvent& e = myapp->GetEvent ();
+            auto cfg = myapp->Config ();
+            auto rs = cfg.graphic_settings;
+            visitor->Reset (this, &e, event, loo::math::RectF((float)windowptr->Left(), (float)windowptr->Top(), (float)windowptr->Width(), (float)windowptr->Height()),
+                    loo::math::RectF(0, 0, (float)rs.framebufferWidth, (float)rs.framebufferHeight));
 
             int32_t source = AInputEvent_getSource(event);
             SAppEventType touchType = SAppEventType::SAPP_EVENTTYPE_INVALID;
@@ -92,7 +94,7 @@ namespace loo
                     {
                         case AINPUT_SOURCE_MOUSE:
                         {
-                            BOOST_ASSERT(1 == AMotionEvent_getPointerCount(event));
+                            ASSERT(1 == AMotionEvent_getPointerCount(event));
                             int x = AMotionEvent_getX(event, pointer_index);
                             int y = AMotionEvent_getY(event, pointer_index);
 
@@ -110,7 +112,7 @@ namespace loo
                                     break;
 
                                 case AMOTION_EVENT_ACTION_SCROLL:
-                                    visitor->mouse_scroll_event(*win, pt, x, y, AMotionEvent_getAxisValue(event, MOTION_EVENT_AXIS_HSCROLL, pointer_index),
+                                    visitor->mouse_scroll_event(x, y, AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_HSCROLL, pointer_index),
                                                         AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_VSCROLL, pointer_index));
                                     break;
 
@@ -130,10 +132,10 @@ namespace loo
                                     break;
                                 case AMOTION_EVENT_ACTION_UP:
                                 case AMOTION_EVENT_ACTION_POINTER_UP:
-                                    touchType = SAppEventType::SAPP_EVENTTYPE_TOUCHES_UP;
+                                    touchType = SAppEventType::SAPP_EVENTTYPE_TOUCHES_ENDED;
                                     break;
                                 case AMOTION_EVENT_ACTION_MOVE:
-                                    touchType = SAppEventType::SAPP_EVENTTYPE_TOUCHES_MOVE;
+                                    touchType = SAppEventType::SAPP_EVENTTYPE_TOUCHES_MOVED;
                                     break;
                                 case AMOTION_EVENT_ACTION_CANCEL:
                                     touchType = SAppEventType::SAPP_EVENTTYPE_TOUCHES_CANCELLED;
@@ -193,6 +195,7 @@ namespace loo
                     }
                     return 1;
             }
+            return 1;
         }
 
         void Input::Init(Window& win)

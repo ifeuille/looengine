@@ -55,11 +55,11 @@ constexpr inline unsigned long clz (unsigned long x) noexcept {
 	x |= (x >> 8);
 	x |= (x >> 16);
 	//64bits
-#if !defined(LOO_PLATFORM_WINDOWS)
-	bool b = sizeof (unsigned long) > 4;
-	if(b)
-		x |= (x >> 32);
-#endif
+//#if !defined(LOO_PLATFORM_WINDOWS)
+//	constexpr bool b = sizeof (unsigned long) > 4;
+//	if(b)
+//		x |= (x >> 32);
+//#endif
 
 	return (sizeof (uint64_t) * CHAR_BIT) - details::popcount (x);
 }

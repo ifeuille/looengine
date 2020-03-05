@@ -18,42 +18,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.arm.vulkan_best_practice;
+package com.loo.looengine;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+public class Sample {
+    private String id;
+    private String category;
+    private String name;
+    private String description;
 
-import java.util.List;
-
-public class SampleArrayAdapter extends ArrayAdapter<Sample> {
-
-    SampleArrayAdapter(Context context, List<Sample> sample_list) {
-        super(context, R.layout.bp_sample_listview_item, sample_list);
+    public Sample(String id, String category, String name, String description) {
+        this.id = id;
+        this.category = category;
+        this.name = name;
+        this.description = description;
     }
 
-    @NonNull
-    @SuppressLint("SetTextI18n")
-    @Override
-    public View getView(int position, View view, @NonNull ViewGroup parent) {
-        if(view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.bp_sample_listview_item, parent,false);
-        }
+    public String getId() {
+        return id;
+    }
 
-        Sample sample = getItem(position);
-        assert sample != null;
+    public String getCategory() {
+        return category;
+    }
 
-        TextView title = view.findViewById(R.id.title_text);
-        title.setText(sample.getName());
+    public String getName() {
+        return name;
+    }
 
-        TextView description = view.findViewById(R.id.description_text);
-        description.setText(sample.getDescription());
-
-        return view;
+    public String getDescription() {
+        return description;
     }
 }

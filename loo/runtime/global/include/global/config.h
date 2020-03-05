@@ -80,7 +80,9 @@
 #ifndef INOUT
 #define INOUT
 #endif
-
+#ifndef OUT
+#define OUT
+#endif
 
 #define DECLARE_CPP_NOTHING(NAME) namespace nothing\
 {\

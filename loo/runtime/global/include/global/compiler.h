@@ -1,6 +1,6 @@
 #ifndef LOO_CORE_COMPILER_HPP
 #define LOO_CORE_COMPILER_HPP
-
+#include "global/config.h"
 // Detects supported compilers
 #if defined(__clang__)
 	// Clang++

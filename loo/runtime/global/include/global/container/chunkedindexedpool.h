@@ -140,7 +140,7 @@ namespace loo
 			{
 				auto&			idx_count	= _indexCount[i];
 				auto&			indices		= *_indices[i];
-				const size_t	cnt			= Min( numIndices - result, size_t(idx_count) );
+				const size_t	cnt			= loo::math::Min( numIndices - result, size_t(idx_count) );
 				idx_count -= RawIndex_t(cnt);
 
 				for (size_t j = 0; j < cnt; ++j, ++result)
@@ -162,7 +162,7 @@ namespace loo
 			{
 				auto&			idx_count	= _indexCount [chunk_idx];
 				auto&			indices		= *_indices [chunk_idx];
-				const size_t	cnt			= Min( numIndices - result, size_t(idx_count) );
+				const size_t	cnt			= loo::math::Min( numIndices - result, size_t(idx_count) );
 				idx_count -= RawIndex_t(cnt);
 
 				for (size_t j = 0; j < cnt; ++j, ++result)

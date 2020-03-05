@@ -74,6 +74,9 @@ elseif (${LOO_ENABLE_GLSLANG})
 		set( SPIRV_HEADERS_TAG "master" )
 	endif ()
 
+
+	
+
 	ExternalProject_Add( "glslang"
 		#LOG_OUTPUT_ON_FAILURE 1
 		# download

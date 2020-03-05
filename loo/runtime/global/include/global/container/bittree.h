@@ -22,7 +22,7 @@ namespace loo
 		{
 			// types
 			static constexpr uint	BitCount = sizeof (BitType) * 8;
-			static constexpr uint	Size = Max (1u, uint ((MaxSize + BitCount - 1) / BitCount));
+			static constexpr uint	Size = loo::math::Max (1u, uint ((MaxSize + BitCount - 1) / BitCount));
 
 			STATIC_ASSERT (Size <= BitCount,"");
 			STATIC_ASSERT (MaxSize <= (Size * BitCount), "");
@@ -44,8 +44,8 @@ namespace loo
 			void Initialize (const Index_t offset, const Index_t totalSize)
 			{
 				_indexOffset = offset;
-
-				if constexpr (Size != BitCount)
+				constexpr bool cb = Size != BitCount;
+				if /*constexpr*/ (cb)
 					_highLevel = ~(((BitType (1) << (BitCount - Size)) - 1) << Size);
 				else
 					_highLevel = UMax;
@@ -132,7 +132,8 @@ namespace loo
 			template <uint N>
 			static constexpr IndexType  _CalcLevelSize ()
 			{
-				if constexpr (N) {
+				constexpr bool cb = N != 0;
+				if /*constexpr*/ (cb) {
 					constexpr IndexType  base = _CalcLevelSize<N - 1> ();
 					return loo::math::Min (loo::math::AlignToLarger (MaxSize, IndexType (base)), BitCount*base);
 				}
@@ -163,7 +164,8 @@ namespace loo
 
 			void Initialize (Index_t offset, const Index_t totalSize)
 			{
-				if constexpr (Size != BitCount)
+				constexpr bool cb = Size != BitCount;
+				if /*constexpr*/ (cb)
 					_highLevel = ~(((BitType (1) << (BitCount - Size)) - 1) << Size);
 				else
 					_highLevel = UMax;

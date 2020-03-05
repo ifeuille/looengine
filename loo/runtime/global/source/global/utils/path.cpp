@@ -295,7 +295,11 @@ namespace utils {
 	}
 
 	bool Path::unlinkFile () {
+#if defined(LOO_COMPILER_MSVC)
 		return ::_unlink (m_path.c_str ()) == 0;
+#else
+		return ::unlink (m_path.c_str ()) == 0;
+#endif
 	}
 
 } // namespace utils

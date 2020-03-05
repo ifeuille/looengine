@@ -39,6 +39,7 @@ namespace loo
 		{
 			LOOMETA_OBJECT;
 		public:
+			virtual ~EventListener ();
 			LOOFUNCTION ()
 			void listen (int eventType);
 			LOOFUNCTION ()

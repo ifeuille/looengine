@@ -1,6 +1,3 @@
-
-
-
 #include "vkfg/vulkan/renderpass/vrenderpass.h"
 #include "vkfg/vulkan/instance/vdevice.h"
 #include "vkfg/vulkan/image/vlocalimage.h"
@@ -256,79 +253,7 @@ namespace loo
 	}
 }
 
-namespace loo
-{
-	/*
-	=================================================
-		operator ==
-	=================================================
-	*/
-	inline bool operator == (const VkAttachmentDescription &lhs, const VkAttachmentDescription &rhs)
-	{
-		return	lhs.flags == rhs.flags			and
-			lhs.format == rhs.format			and
-			lhs.samples == rhs.samples			and
-			lhs.loadOp == rhs.loadOp			and
-			lhs.storeOp == rhs.storeOp			and
-			lhs.stencilLoadOp == rhs.stencilLoadOp	and
-			lhs.stencilStoreOp == rhs.stencilStoreOp	and
-			lhs.initialLayout == rhs.initialLayout	and
-			lhs.finalLayout == rhs.finalLayout;
-	}
 
-	/*
-	=================================================
-		operator ==
-	=================================================
-	*/
-	inline bool operator == (const VkAttachmentReference &lhs, const VkAttachmentReference &rhs)
-	{
-		return	lhs.attachment == rhs.attachment	and
-			lhs.layout == rhs.layout;
-	}
-
-	/*
-	=================================================
-		operator ==
-	=================================================
-	*/
-	inline bool operator == (const VkSubpassDescription &lhs, const VkSubpassDescription &rhs)
-	{
-		using AttachView = ArrayView< VkAttachmentReference >;
-		using PreserveView = ArrayView< uint >;
-
-		auto	lhs_resolve_attachments = lhs.pResolveAttachments ? AttachView{ lhs.pResolveAttachments, lhs.colorAttachmentCount } : AttachView{};
-		auto	rhs_resolve_attachments = rhs.pResolveAttachments ? AttachView{ rhs.pResolveAttachments, rhs.colorAttachmentCount } : AttachView{};
-
-		return	lhs.flags == rhs.flags														and
-			lhs.pipelineBindPoint == rhs.pipelineBindPoint											and
-			AttachView{ lhs.pInputAttachments, lhs.inputAttachmentCount } == AttachView{ rhs.pInputAttachments, rhs.inputAttachmentCount }		and
-			AttachView{ lhs.pColorAttachments, lhs.colorAttachmentCount } == AttachView{ rhs.pColorAttachments, rhs.colorAttachmentCount }		and
-			lhs_resolve_attachments == rhs_resolve_attachments and
-			not lhs.pDepthStencilAttachment == not rhs.pDepthStencilAttachment and
-			(not lhs.pDepthStencilAttachment or *lhs.pDepthStencilAttachment == *rhs.pDepthStencilAttachment) and
-			PreserveView {
-			lhs.pPreserveAttachments, lhs.preserveAttachmentCount
-		} == PreserveView{ rhs.pPreserveAttachments, rhs.preserveAttachmentCount };
-	}
-
-	/*
-	=================================================
-		operator ==
-	=================================================
-	*/
-	inline bool operator == (const VkSubpassDependency &lhs, const VkSubpassDependency &rhs)
-	{
-		return	lhs.srcSubpass == rhs.srcSubpass		and
-			lhs.dstSubpass == rhs.dstSubpass		and
-			lhs.srcStageMask == rhs.srcStageMask		and
-			lhs.dstStageMask == rhs.dstStageMask		and
-			lhs.srcAccessMask == rhs.srcAccessMask	and
-			lhs.dstAccessMask == rhs.dstAccessMask	and
-			lhs.dependencyFlags == rhs.dependencyFlags;
-	}
-
-}	
 
 namespace loo
 {
@@ -355,6 +280,27 @@ namespace loo
 				SubpassView{ _createInfo.pSubpasses, _createInfo.subpassCount } == SubpassView{ rhs._createInfo.pSubpasses, rhs._createInfo.subpassCount }		and
 				DepsView{ _createInfo.pDependencies, _createInfo.dependencyCount } == DepsView{ rhs._createInfo.pDependencies, rhs._createInfo.dependencyCount };
 		}
+		bool VRenderPass::IsEqual (const VRenderPass &rhs) const
+		{
+			SHAREDLOCK (RWDataRaceCheck, _drCheck);
+			SHAREDLOCK (RWDataRaceCheck, rhs._drCheck);
 
+			using AttachView = ArrayView< VkAttachmentDescription >;
+			using SubpassView = ArrayView< VkSubpassDescription >;
+			using DepsView = ArrayView< VkSubpassDependency >;
+			return	_hash == rhs._hash																	and
+				_attachmentHash == rhs._attachmentHash															and
+				_subpassesHash == rhs._subpassesHash															and
+				_createInfo.flags == rhs._createInfo.flags														and
+				AttachView{ _createInfo.pAttachments, _createInfo.attachmentCount } == AttachView{ rhs._createInfo.pAttachments, rhs._createInfo.attachmentCount }	and
+				SubpassView{ _createInfo.pSubpasses, _createInfo.subpassCount } == SubpassView{ rhs._createInfo.pSubpasses, rhs._createInfo.subpassCount }		and
+				DepsView{ _createInfo.pDependencies, _createInfo.dependencyCount } == DepsView{ rhs._createInfo.pDependencies, rhs._createInfo.dependencyCount };
+
+		}
 	}
 }
+
+//bool operator==(const loo::vkfg::VRenderPass& lhs, const loo::vkfg::VRenderPass& rhs)
+//{
+//	return lhs.IsEqual (rhs);
+//}

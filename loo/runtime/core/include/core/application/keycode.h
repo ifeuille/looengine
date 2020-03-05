@@ -43,7 +43,7 @@ namespace loo
 		};
 
 		//todo reflact all members
-		class LOOCLASS() TouchPoint
+		class LOOCLASS() TouchPoint //: public Object
 		{
 			LOOMETA_OBJECT;
 		public:
@@ -51,6 +51,7 @@ namespace loo
 				Pen = 0x0001
 			};
 		public:
+			virtual ~TouchPoint () {}
 			LOOPROPERTY (Serialized)
 			int id;//touch id,-1ÎÞÐ§
 			//LOOPROPERTY (Serialized)
@@ -450,6 +451,7 @@ namespace loo
 
 		struct LOOCLASS () SAppEvent:public loo::core::Event
 		{
+			virtual ~SAppEvent () {}
 			LOOMETA_OBJECT;
 			LOOPROPERTY (Serialized)
 			uint64 frameCount;

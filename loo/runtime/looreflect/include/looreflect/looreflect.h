@@ -8,7 +8,7 @@
 #include <vector>
 #include <unordered_map>
 #include <assert.h>
-
+#include "global/extstd/strtk.h"
 #define DEFAULT_MODULE "default"
 #define ALL_MODULE "all"
 #if defined(MODULE_NAME)
@@ -157,7 +157,7 @@ namespace looreflect{
 		T const* begin ()const noexcept {return begin_it;}
 		T const* end ()const noexcept { return end_it; }
 		std::size_t length ()const noexcept { return end_it - begin_it; }
-		T const& operator[](std::size_t index)const noexcept { return begin[index]; }
+		T const& operator[](std::size_t index)const noexcept { return begin_it[index]; }
 	};
 	enum CVQualifier : unsigned char {
 		kCVQualifierNone = 0x0,

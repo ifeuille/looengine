@@ -1,9 +1,14 @@
 #ifndef VULKANLOADER_DLLEXPORT_H
 #define VULKANLOADER_DLLEXPORT_H
+#ifndef __LOOREFLECT__
+#include "global/compiler.h"
 #ifdef VULKANLOADER_DLL_EXPORT
-#define VULKANLOADER_EXPORT __declspec(dllexport)
+#define VULKANLOADER_EXPORT LOO_SYMBOL_EXPORT
 #else
-#define VULKANLOADER_EXPORT __declspec(dllimport)
+#define VULKANLOADER_EXPORT LOO_SYMBOL_IMPORT
 #endif
-
+#else
+#define VULKANLOADER_EXPORT
+#define VULKANLOADER_EXPORT
+#endif
 #endif

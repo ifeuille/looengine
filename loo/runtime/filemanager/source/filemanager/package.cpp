@@ -20,7 +20,7 @@
 
 #include <CPP/7zip/Archive/IArchive.h>
 
-#include "Streams.h"
+#include "streams.h"
 #include "ArchiveExtractCallback.h"
 #include "ArchiveOpenCallback.h"
 #include <string>

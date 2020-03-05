@@ -46,7 +46,7 @@ namespace loo
 
 		static void SetCurrentThreadNameImpl (const char*)
 		{
-			LOO_COMPILATION_MESSAGE ("SetCurrentThreadName() - not supported for current platform")
+			//LOO_COMPILATION_MESSAGE ("SetCurrentThreadName() - not supported for current platform")
 		}
 
 #endif

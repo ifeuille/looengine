@@ -171,18 +171,18 @@ void loo::core::Application::Run()
 		}
 	}
 #elif defined LOO_PLATFORM_ANDROID
-	while (!main_wnd_->Closed())
+	while (!main_wnd->Closed())
 	{
 		// Read all pending events.
 		int ident;
 		int events;
 		android_poll_source* source;
 
-		android_app* state = Context::Instance().AppState();
+		android_app* state = Context::Get ().AppState();
 
 		do
 		{
-			ident = ALooper_pollAll(main_wnd_->Active() ? 0 : -1, nullptr, &events, reinterpret_cast<void**>(&source));
+			ident = ALooper_pollAll(main_wnd->Active() ? 0 : -1, nullptr, &events, reinterpret_cast<void**>(&source));
 
 			// Process this event.
 			if (source != nullptr)

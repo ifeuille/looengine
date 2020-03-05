@@ -19,7 +19,7 @@ namespace loo
 			VulkanLoader::Initialize ();//core.dll,这种结构下,每个dll需要单独load vulkan得符号
 #ifdef LOO_PLATFORM_WINDOWS
 			return loo::vkfg::VulkanSurfaceUtil::CreateWin32Surface (inst, GetModuleHandle (NULL), _windows->HWnd ());
-#elif LOO_PLATFORM_ANDROID
+#elif defined(LOO_PLATFORM_ANDROID)
 			return loo::vkfg::VulkanSurfaceUtil::CreateAndroidSurface (inst, _windows->NativeWindow ());
 #else
 #error "Un Supported!"

@@ -24,7 +24,7 @@ namespace loo
 	=================================================
 	*/
 	template <typename T, typename ...Types>
-	inline T *  PlacementNew (OUT void *ptr, Types&&... args)
+	inline T *  PlacementNew ( void *ptr, Types&&... args)
 	{
 		assert (CheckPointerAlignment<T> (ptr));
 		return (new(ptr) T{ std::forward<Types &&> (args)... });

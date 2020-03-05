@@ -1,9 +1,15 @@
 #ifndef LOOREFLECT_DLLEXPORT_H
 #define LOOREFLECT_DLLEXPORT_H
+#ifndef __LOOREFLECT__
+#include "global/compiler.h"
 #ifdef LOOREFLECT_DLL_EXPORT
-#define LOOREFLECT_EXPORT __declspec(dllexport)
+#define LOOREFLECT_EXPORT LOO_SYMBOL_EXPORT
 #else
-#define LOOREFLECT_EXPORT __declspec(dllimport)
+#define LOOREFLECT_EXPORT LOO_SYMBOL_IMPORT
+#endif
+#else
+#define LOOREFLECT_EXPORT
+#define LOOREFLECT_EXPORT
 #endif
 #define MODULENAME_LOOREFLECT "looreflect"
 #endif

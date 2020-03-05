@@ -27,7 +27,7 @@ namespace loo
 			static uint32_t Tester (const void*) { return 0; }
 			static uint8_t  Tester (...) { return 0; }
 
-			static T DeclValT () { return T; }
+			static T DeclValT () { return T(); }
 
 		public:
 			//编译器类型推导
