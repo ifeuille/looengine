@@ -66,7 +66,7 @@ namespace loo
 						explicit ShaderIncluder (const Array<String> &dirs) : _directories{dirs} {}
 						~ShaderIncluder () override {}
 
-						//bool GetHeaderSource (StringView header, OUT StringView &source) const;
+						bool GetHeaderSource (StringView header, OUT StringView &source) const;
 
 						ND_ IncludedFiles_t const&  GetIncludedFiles () const { return _includedFiles; }
 
@@ -82,7 +82,7 @@ namespace loo
 		=================================================
 			GetHeaderSource
 		=================================================
-		*
+		*/
 			bool SpirvCompiler::ShaderIncluder::GetHeaderSource (StringView header, OUT StringView &source) const
 			{
 				auto	iter = _includedFiles.find( String{header} );

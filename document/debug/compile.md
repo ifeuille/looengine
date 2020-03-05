@@ -109,3 +109,5 @@ android下ExternalProject_Add机制有点失灵了。不能编译时下载，动
 改为cmake项目时下载
 
 
+一个project只能有一个shared lib
+

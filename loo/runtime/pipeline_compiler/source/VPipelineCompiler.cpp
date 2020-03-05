@@ -137,7 +137,7 @@ namespace loo
 
 			for (auto iter = _shaderCache.begin (); iter != _shaderCache.end ();)
 			{
-				if (not iter->second.use_count () == 1)
+				if (not (iter->second.use_count () == 1))
 				{
 					++iter;
 					continue;

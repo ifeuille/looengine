@@ -1065,9 +1065,10 @@ static std::string  GetFunctionName (TIntermOperator *op)
 		case TOperator::EOpExecuteCallableNV : return "executeCallableNV";
 		case TOperator::EOpWritePackedPrimitiveIndices4x8NV : return "writePackedPrimitiveIndices4x8NV";
 		#endif
+		default:CHECK (false); return "<unknown>";
 	}
-	CHECK(false);
-	return "<unknown>";
+	//CHECK(false);
+	//return "<unknown>";
 }
 
 /*
@@ -2290,8 +2291,9 @@ static TIntermAggregate*  CreateAppendToTraceBody (const TString &fnName, DebugI
 					to_uint->setOperand( shift );
 					return to_uint;
 				}
+				default: RETURN_ERR ("not supported", 0);
 			}
-			RETURN_ERR( "not supported" );
+			//RETURN_ERR( "not supported" );
 		};
 
 		// "dbg_ShaderTrace.outData[pos++] = ToUint(value)"
@@ -3104,8 +3106,11 @@ static TIntermAggregate*  RecordShaderInfo (const TSourceLoc &loc, DebugInfo &db
 		case EShLangIntersectNV :		return RecordIntersectionShaderInfo( loc, dbgInfo );
 		case EShLangMissNV :			return RecordMissShaderInfo( loc, dbgInfo );
 		case EShLangCallableNV :		return RecordCallableShaderInfo( loc, dbgInfo );
+	
+		default:
+			return nullptr;
 	}
-	return nullptr;
+	//return nullptr;
 }
 
 /*

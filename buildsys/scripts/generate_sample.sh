@@ -42,4 +42,4 @@ fi
 
 cmake -DSAMPLE_NAME=$SAMPLE_NAME \
       -DOUTPUT_DIR=$BUILD_DIR \
-      -P $ROOT_DIR/bldsys/cmake/create_sample_project.cmake
+      -P $ROOT_DIR/buildsys/cmake/create_sample_project.cmake
