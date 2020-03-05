@@ -269,6 +269,16 @@ CHECK_ERR (swapchain->Create (
 	}
 };
 
+//#ifdef LOO_PLATFORM_ANDROID
+//extern void FW_Test2 (struct android_app* and_app)
+//{
+//	loo::core::Context::Get ().SetApp (and_app);
+//	FWApp2	app ("windows_0", loo::core::MainAppID, loo::core::ContextConfig ());
+//
+//	app.Create ();
+//	app.Run ();
+//}
+//#else
 extern void FW_Test2 ()
 {
 	FWApp2	app("windows_0",loo::core::MainAppID,loo::core::ContextConfig());
@@ -276,3 +286,4 @@ extern void FW_Test2 ()
 	app.Create ();
 	app.Run ();
 }
+//#endif

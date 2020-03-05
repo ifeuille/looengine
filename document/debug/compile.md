@@ -111,3 +111,15 @@ android下ExternalProject_Add机制有点失灵了。不能编译时下载，动
 
 一个project只能有一个shared lib
 
+
+
+有的时候要用子项目的option控制是否cmake子项目
+需要用cache变量
+
+
+ java.lang.IllegalArgumentException: Unable to find native library testframework using classloader: (目标shared library)
+原因是debug版本的.so 带后缀"_d"，不知道怎么产生的，用发行版就好了，太开心了，查这个问题用了10多个小时
+移留问题：为什么debug版本后缀带"_d",输出名字明明没有设置
+
+
+todo: 设计一套更标准多用的android工程结构，支持多app

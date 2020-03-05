@@ -9,6 +9,7 @@
 #include "core/application/application.h"
 #include "core/application/window.h"
 #include <android_native_app_glue.h>
+#include "core/context.h"
 
 namespace loo
 {
@@ -20,7 +21,7 @@ namespace loo
 		{
 			LOO_UNUSED(name);
 #ifdef LOO_PLATFORM_ANDROID
-			state = get_app ();
+			state = loo::core::Context::Get ().AppState();
 #endif
 			a_window = static_cast<ANativeWindow*>(native_wnd);
 

@@ -33,6 +33,10 @@ namespace loo
 			void Resume ();
 
 #ifdef LOO_PLATFORM_ANDROID
+			void SetApp (android_app* sta)
+			{
+				state_ = sta;
+			}
 			android_app* AppState () const
 			{
 				return state_;

@@ -3,14 +3,15 @@
 
 MACRO(add_program EXE_NAME)
     if(LOO_PLATFORM_ANDROID)
-        add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE} ${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c)
+        add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE})
+        #${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c
     else()
         add_executable(${EXE_NAME} ${SOURCE_PUBLIC} ${SOURCE_PRIVATE})
     endif()
 ENDMACRO(add_program)
 
 #EXTRA_LINKED_LIBRARIES
-MACRO(declare_program EXE_NAME)    
+MACRO(declare_program EXE_NAME)  
     target_compile_definitions( ${EXE_NAME}  PUBLIC ${LOO_COMPILER_DEFINITIONS} )
     IF(LOO_PLATFORM_DARWIN)
         FIND_LIBRARY(APPKIT AppKit "/")
@@ -37,10 +38,11 @@ MACRO(declare_program EXE_NAME)
     ENDIF()
 
     SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES
-        PROJECT_LABEL ${EXE_NAME}
-        DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+    PROJECT_LABEL ${EXE_NAME}
+    DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
     IF(LOO_PLATFORM_ANDROID)
+        #SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES LINK_FLAGS "-u ANativeActivity_onCreate")
         SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES OUTPUT_NAME ${EXE_NAME})
     ELSE()
         SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES OUTPUT_NAME ${EXE_NAME}${LOO_OUTPUT_SUFFIX})
@@ -56,13 +58,21 @@ MACRO(declare_program EXE_NAME)
         )
     ENDIF()
 
-
+    IF(LOO_PLATFORM_ANDROID)
+        #set_target_properties(${EXE_NAME} PROPERTIES LINK_FLAGS "-u ANativeActivity_onCreate")
+        set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
+        native_app_glue
+        android
+        log
+        z
+        )
+    ENDIF()
     target_link_libraries(${EXE_NAME} ${EXTRA_LINKED_LIBRARIES})
 
     IF(LOO_PLATFORM_WINDOWS_STORE)
        
     ELSEIF(LOO_PLATFORM_ANDROID)
-        
+
     ELSEIF(LOO_PLATFORM_IOS)
     
     ENDIF()

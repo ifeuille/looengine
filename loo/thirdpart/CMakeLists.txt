@@ -89,14 +89,11 @@ IF(LOO_PLATFORM_ANDROID)
 		add_subdirectory(android_native_app_glue)
 	elseif()
 		set(NATIVE_APP_GLUE_DIR "${CMAKE_ANDROID_NDK}/sources/android/native_app_glue")
-
 		file(GLOB NATIVE_APP_GLUE_FILES "${NATIVE_APP_GLUE_DIR}/*.c" "${NATIVE_APP_GLUE_DIR}/*.h")
-		
 		add_library(native_app_glue STATIC ${NATIVE_APP_GLUE_FILES})
-			
 		target_include_directories(native_app_glue PUBLIC ${NATIVE_APP_GLUE_DIR})
-		
-		set_property(TARGET native_app_glue PROPERTY FOLDER "ThirdParty")
+		set_property(TARGET native_app_glue PROPERTY FOLDER "thirdpart")
+		set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 	endif()
 ENDIF()
 

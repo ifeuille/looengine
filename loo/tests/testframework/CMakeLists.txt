@@ -7,6 +7,7 @@ set(EXE_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 # change here
 set(EXE_NAME testframework)
+
 set(EXTRA_LINKED_LIBRARIES "")
 # change here
 set(SOURCE_PUBLIC

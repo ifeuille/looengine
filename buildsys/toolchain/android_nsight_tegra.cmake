@@ -63,7 +63,7 @@ set(CMAKE_ANDROID_SKIP_ANT_STEP 0)
 set(CMAKE_GENERATOR_TOOLSET DefaultClang)
 
 # Tell CMake we have our java source in the 'java' directory
-set(CMAKE_ANDROID_JAVA_SOURCE_DIR ${CMAKE_SOURCE_DIR}/build/android/vulkan_best_practice/src/main/java)
+set(CMAKE_ANDROID_JAVA_SOURCE_DIR ${CMAKE_SOURCE_DIR}/build/android/loo/src/main/java)
 
 # Tell CMake we have use Gradle as our default build system
 set(CMAKE_ANDROID_BUILD_SYSTEM GradleBuild)

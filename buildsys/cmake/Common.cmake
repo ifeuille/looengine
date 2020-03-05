@@ -5,6 +5,7 @@ SET(CMAKE_RELEASE_POSTFIX "" CACHE STRING "Add a postfix, usually empty on windo
 SET(CMAKE_RELWITHDEBINFO_POSTFIX "" CACHE STRING "Add a postfix, usually empty on windows")
 SET(CMAKE_MINSIZEREL_POSTFIX "" CACHE STRING "Add a postfix, usually empty on windows")
 
+
 FUNCTION(ADD_POST_BUILD TARGET_NAME SUBFOLDER)
 	IF(SUBFOLDER STREQUAL "")
 		SET(TARGET_FOLDER ${LOO_BIN_DIR})

@@ -11,10 +11,10 @@ if [%1] == [] (
 ) else (
     set BUILD_DIR=%1
 )
-
+rem arm64-v8a;armeabi-v7a
 call cmake.exe -DPROJECT_NAME="looengine"^
 			   -DANDROID_API=24^
-			   -DARCH_ABI="arm64-v8a;armeabi-v7a"^
+			   -DARCH_ABI="armeabi-v7a"^
 			   -DANDROID_MANIFEST="%ROOT_DIR%\loo\thirdpart\android\AndroidManifest.xml"^
 			   -DJAVA_DIRS="%ROOT_DIR%\loo\thirdpart\android/java"^
 			   -DRES_DIRS="%ROOT_DIR%\loo\thirdpart\android\res"^
