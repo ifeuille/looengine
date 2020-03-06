@@ -13,7 +13,7 @@ public class LooEngineActivity extends NativeActivity {
 
     static {
         // Load native library
-        System.loadLibrary("testframework");
+        //System.loadLibrary("testframework" + BuildConfig.LIB_NAME_POSTFIX);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

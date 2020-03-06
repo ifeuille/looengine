@@ -123,3 +123,10 @@ android下ExternalProject_Add机制有点失灵了。不能编译时下载，动
 
 
 todo: 设计一套更标准多用的android工程结构，支持多app
+
+logcat 日志查看
+adb logcat   -v time -s *:E >D:\log1.txt
+
+
+android_native_app_glue这个东西现在常用的是两套方案，一套是用 原生的，需要注意链接符号ANativeActivity_onCreate
+一套是修改后的：增加get_app接口，将入口函数改为main,这样可以使得多个平台入口相同，同时少了ANativeActivity_onCreate的问题
