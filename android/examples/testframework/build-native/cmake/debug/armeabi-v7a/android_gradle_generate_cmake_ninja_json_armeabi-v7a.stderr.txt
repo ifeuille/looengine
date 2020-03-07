@@ -1,0 +1,13 @@
+CMake Error at CMakeLists.txt:5 (file):
+  file RELATIVE_PATH must be passed a full path to the file: ../../../
+
+
+ENGINE_ROOT_DIR=
+CMake Error at CMakeLists.txt:10 (add_subdirectory):
+  add_subdirectory not given a binary directory but the given source
+  directory "E:/git/mine/loo/looengine" is not a subdirectory of
+  "E:/git/mine/loo/looengine/android/examples/testframework".  When
+  specifying an out-of-tree source a binary directory must be explicitly
+  specified.
+
+
