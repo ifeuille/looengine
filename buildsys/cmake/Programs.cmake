@@ -3,8 +3,8 @@
 
 MACRO(add_program EXE_NAME)
     if(LOO_PLATFORM_ANDROID)
-        add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE})
-        #${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c
+        add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE}
+        ${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c)
     else()
         add_executable(${EXE_NAME} ${SOURCE_PUBLIC} ${SOURCE_PRIVATE})
     endif()
@@ -79,7 +79,6 @@ MACRO(declare_program EXE_NAME)
     IF(LOO_PLATFORM_ANDROID)
         #set_target_properties(${EXE_NAME} PROPERTIES LINK_FLAGS "-u ANativeActivity_onCreate")
         set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
-        native_app_glue
         android
         log
         z

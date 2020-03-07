@@ -121,6 +121,12 @@ android下ExternalProject_Add机制有点失灵了。不能编译时下载，动
 原因是debug版本的.so 带后缀"_d"，不知道怎么产生的，用发行版就好了，太开心了，查这个问题用了10多个小时
 移留问题：为什么debug版本后缀带"_d",输出名字明明没有设置
 
+通过在src/下增加一个debug/AndroidManifest.xml来解决debug版下lib名字问题
+<meta-data 
+    tools:replace="android:value"
+    android:name="android.app.lib_name"
+    android:value='testframework_d'/>
+
 
 todo: 设计一套更标准多用的android工程结构，支持多app
 
@@ -132,6 +138,10 @@ android_native_app_glue这个东西现在常用的是两套方案，一套是用
 一套是修改后的：增加get_app接口，将入口函数改为main,这样可以使得多个平台入口相同，同时少了ANativeActivity_onCreate的问题
 
 只有用第二种方案，又遇到这个问题 undefined symbol: ANativeActivity_onCreate
+看起来像是native_app_glue链接失败了，导致没找到这个符号
 
-
+解决办法是在创建app时将.cpp加进去
+add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE} 
+${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c)
+问题很明确不用猜
 
