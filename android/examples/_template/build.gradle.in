@@ -9,33 +9,33 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        ndk {
-            //abiFilters "armeabi-v7a"
-            @NDK_ABI_FILTERS@
-        }
+
+        @NDK_ABI_FILTERS@
+
         externalNativeBuild {
-            cmake {
-                @CMAKE_ARGUMENTS@
-                //cppFlags "-std=c++14"
-                //arguments "-DANDROID_STL=c++_shared", '-DANDROID_TOOLCHAIN=clang'
-            }
+             @CMAKE_ARGUMENTS@
         }
     }
     sourceSets {
         @RES_SRC_DIRS@
         main.assets.srcDirs = ['assets']
+        debug {
+            jniLibs.srcDirs += ["$ndkDirectory/sources/third_party/vulkan/src/build-android/jniLibs"]
+        }
     }
     buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-            buildStagingDirectory 'build-native'
-        }
+        @CMAKE_PATH@
     }
 }
 

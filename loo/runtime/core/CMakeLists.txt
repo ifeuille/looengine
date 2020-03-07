@@ -25,10 +25,10 @@ source_group( TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_PUBLIC} )
 
 ADD_DEFINITIONS(-DCORE_DLL_EXPORT)
 set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
-if(LOO_PLATFORM_ANDROID)
-    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "native_app_glue")
-#target_link_libraries(${PROJECT_NAME} log android native_app_glue)
-endif()
+
+# if(LOO_PLATFORM_ANDROID)
+#     set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "native_app_glue")
+# endif()
 
 add_dep_link_dir()
 dep_module_static(global)

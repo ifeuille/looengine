@@ -27,24 +27,24 @@ MACRO(declare_program EXE_NAME)
     ENDIF()
 
     IF(LOO_PLATFORM_ANDROID)
-        IF(CMAKE_BUILD_TYPE STREQUAL "Debug")
-            SET(PROJ_NAME "${EXE_NAME}_d")
-        ELSE()
-            SET(PROJ_NAME "${EXE_NAME}")
-        ENDIF()
-        SET(SHORT_NAME ${PROJ_NAME})
+        # IF(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        #     SET(PROJ_NAME "${EXE_NAME}_d")
+        # ELSE()
+        #     SET(PROJ_NAME "${EXE_NAME}")
+        # ENDIF()
+        # SET(SHORT_NAME ${PROJ_NAME})
 
-        STRING(TOLOWER ${SHORT_NAME} SHORT_NAME_LOWER_CASE)
-        CONFIGURE_FILE(
-            ${LOO_ROOT_DIR}/cmake/Android/AndroidManifest.xml.in
-            ${CMAKE_CURRENT_BINARY_DIR}/AndroidManifest.xml
-            @ONLY
-        )
-        CONFIGURE_FILE(
-            ${LOO_ROOT_DIR}/cmake/Android/strings.xml.in
-            ${CMAKE_CURRENT_BINARY_DIR}/res/values/strings.xml
-            @ONLY
-        )
+        # STRING(TOLOWER ${SHORT_NAME} SHORT_NAME_LOWER_CASE)
+        # CONFIGURE_FILE(
+        #     ${LOO_ROOT_DIR}/cmake/Android/AndroidManifest.xml.in
+        #     ${CMAKE_CURRENT_BINARY_DIR}/AndroidManifest.xml
+        #     @ONLY
+        # )
+        # CONFIGURE_FILE(
+        #     ${LOO_ROOT_DIR}/cmake/Android/strings.xml.in
+        #     ${CMAKE_CURRENT_BINARY_DIR}/res/values/strings.xml
+        #     @ONLY
+        # )
 
         SET(SO_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/libs/${LOO_ARCH_NAME})
             SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES
