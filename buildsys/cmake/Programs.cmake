@@ -28,36 +28,16 @@ MACRO(declare_program EXE_NAME)
         FIND_LIBRARY(GLKIT GLKit "/")
         SET(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} ${FOUNDATION} ${QUARTZCORE} ${UIKIT} ${OPENGLES} ${COREFOUNDATION} ${GLKIT})
     ENDIF()
-
-    IF(LOO_PLATFORM_ANDROID)
-        # IF(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        #     SET(PROJ_NAME "${EXE_NAME}_d")
-        # ELSE()
-        #     SET(PROJ_NAME "${EXE_NAME}")
-        # ENDIF()
-        # SET(SHORT_NAME ${PROJ_NAME})
-
-        # STRING(TOLOWER ${SHORT_NAME} SHORT_NAME_LOWER_CASE)
-        # CONFIGURE_FILE(
-        #     ${LOO_ROOT_DIR}/cmake/Android/AndroidManifest.xml.in
-        #     ${CMAKE_CURRENT_BINARY_DIR}/AndroidManifest.xml
-        #     @ONLY
-        # )
-        # CONFIGURE_FILE(
-        #     ${LOO_ROOT_DIR}/cmake/Android/strings.xml.in
-        #     ${CMAKE_CURRENT_BINARY_DIR}/res/values/strings.xml
-        #     @ONLY
-        # )
-
+    if(LOO_PLATFORM_ANDROID)
         SET(SO_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/libs/${LOO_ARCH_NAME})
-            SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES
-            LIBRARY_OUTPUT_DIRECTORY ${SO_OUTPUT_DIR}
-            LIBRARY_OUTPUT_DIRECTORY_DEBUG ${SO_OUTPUT_DIR}
-            LIBRARY_OUTPUT_DIRECTORY_RELEASE ${SO_OUTPUT_DIR}
-            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${SO_OUTPUT_DIR}
-            LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL ${SO_OUTPUT_DIR}
-        )
-    ENDIF()
+		SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES
+			LIBRARY_OUTPUT_DIRECTORY ${SO_OUTPUT_DIR}
+			LIBRARY_OUTPUT_DIRECTORY_DEBUG ${SO_OUTPUT_DIR}
+			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${SO_OUTPUT_DIR}
+			LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${SO_OUTPUT_DIR}
+			LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL ${SO_OUTPUT_DIR}
+		)
+	endif()
 
     SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES
     PROJECT_LABEL ${EXE_NAME}
@@ -90,12 +70,14 @@ MACRO(declare_program EXE_NAME)
         # find_library( android-lib android )
         # find_library( z-lib z )
         #set_target_properties(${EXE_NAME} PROPERTIES LINK_FLAGS "-u ANativeActivity_onCreate")
-        set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
-            -Wl,--whole-archive
+        set(EXTRA_LINKED_LIBRARIES
+            -Wl,-whole-archive
             native_app_glue
+            -Wl,--no-whole-archive
             android
             log
             atomic
+            ${EXTRA_LINKED_LIBRARIES}
         )
         #            -Wl,--no-whole-archive
         #     native_app_glue

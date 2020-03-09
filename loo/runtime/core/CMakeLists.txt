@@ -27,7 +27,11 @@ ADD_DEFINITIONS(-DCORE_DLL_EXPORT)
 set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
 if(LOO_PLATFORM_ANDROID)
     #include_directories(${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue)
-    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "native_app_glue")
+    set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  
+    native_app_glue
+    )
+    #    -Wl,-whole-archive
+    #    -Wl,--no-whole-archive
 endif()
 
 add_dep_link_dir()
