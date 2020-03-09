@@ -93,11 +93,11 @@ MACRO(declare_program EXE_NAME)
         set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
             -Wl,--whole-archive
             native_app_glue
-            -Wl,--no-whole-archive
             android
             log
             atomic
         )
+        #            -Wl,--no-whole-archive
         #     native_app_glue
      
     ENDIF()

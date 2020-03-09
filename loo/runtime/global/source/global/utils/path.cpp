@@ -270,6 +270,11 @@ namespace utils {
 		return new_path;
 	}
 
+	bool Path::mkdir () const
+	{
+		assert(false);
+		return false;
+	}
 	bool Path::mkdirRecursive () const {
 		if (isEmpty ()) {
 			return true;
