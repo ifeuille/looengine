@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.loo.sample.testframework"
+    >
+
+    <application
+        android:label="loo sample"
+        android:icon="@drawable/icon"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        <activity android:name="com.loo.sample.LooSampleActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden">
+            <meta-data 
+                     tools:replace="android:value"
+                android:name="android.app.lib_name"
+                android:value='testframework_d'
+                />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.hardware.gamepad" android:required="false" />
+
+</manifest>

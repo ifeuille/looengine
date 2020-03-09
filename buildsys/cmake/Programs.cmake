@@ -4,7 +4,10 @@
 MACRO(add_program EXE_NAME)
     if(LOO_PLATFORM_ANDROID)
         add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE}
-        ${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c)
+        # ${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.h
+        #${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c
+        )
+        #include_directories(${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue)
     else()
         add_executable(${EXE_NAME} ${SOURCE_PUBLIC} ${SOURCE_PRIVATE})
     endif()
@@ -75,15 +78,30 @@ MACRO(declare_program EXE_NAME)
             RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${LOO_BIN_DIR}
         )
     ENDIF()
-
+    
     IF(LOO_PLATFORM_ANDROID)
+
+        #add_library(native-app-glue STATIC ${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c)
+     
+        #set(CMAKE_SHARED_LINKER_FLAGS "-u ANativeActivity_onCreate" ${CMAKE_SHARED_LINKER_FLAGS} )
+
+        #include_directories(${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue)
+        # find_library( log-lib log )
+        # find_library( android-lib android )
+        # find_library( z-lib z )
         #set_target_properties(${EXE_NAME} PROPERTIES LINK_FLAGS "-u ANativeActivity_onCreate")
         set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES} 
-        android
-        log
-        z
+            -Wl,--whole-archive
+            native_app_glue
+            -Wl,--no-whole-archive
+            android
+            log
+            atomic
         )
+        #     native_app_glue
+     
     ENDIF()
+    
     target_link_libraries(${EXE_NAME} ${EXTRA_LINKED_LIBRARIES})
 
     IF(LOO_PLATFORM_WINDOWS_STORE)

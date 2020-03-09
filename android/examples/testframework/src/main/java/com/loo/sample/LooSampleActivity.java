@@ -11,10 +11,10 @@ import java.util.concurrent.Semaphore;
 
 public class LooSampleActivity extends NativeActivity {
 
-    static {
+    /*static {
         // Load native library
         System.loadLibrary("native-lib");
-    }
+    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +26,7 @@ public class LooSampleActivity extends NativeActivity {
 
     public void showAlert(final String message)
     {
-        final VulkanActivity activity = this;
+        final LooSampleActivity activity = this;
 
         ApplicationInfo applicationInfo = activity.getApplicationInfo();
         final String applicationName = applicationInfo.nonLocalizedLabel.toString();

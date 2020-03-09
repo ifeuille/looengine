@@ -126,6 +126,8 @@ else()
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-invalid-offsetof -Wno-ignored-qualifiers -Wno-reorder -Wno-unused-parameter -Wno-unused-variable")
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS} -Wno-implicit-function-declaration -Wno-missing-field-initializers -Wno-unused")
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS} -Wno-implicit-function-declaration -Wno-missing-field-initializers -Wno-unused")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS} -Wno-implicit-function-declaration -Wno-defaulted-function-deleted ")
+
 
 	IF(NOT (ANDROID OR IOS))
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=core2 -msse2")

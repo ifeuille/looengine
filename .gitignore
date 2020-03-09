@@ -38,3 +38,5 @@
 /loo/thirdpart/Build
 /binary/libs/win_x64
 /android_gradle
+/android/examples/testframework/build-native
+/android/.idea

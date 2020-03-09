@@ -36,6 +36,8 @@ add_dep_glm()
 
 include_directories(${EXE_ROOT_PATH}/header)
 set(EXTRA_LINKED_LIBRARIES ${EXTRA_LINKED_LIBRARIES}  "Vulkan-lib")
+
+
 add_program(${EXE_NAME})
 
 # dep of core

@@ -31,8 +31,8 @@ include(${LOO_ROOT_DIR}/buildsys/cmake/Modules.cmake)
 include(${LOO_ROOT_DIR}/buildsys/cmake/Dependence.cmake)
 
 if(LOO_PLATFORM_ANDROID)
-include(${LOO_ROOT_DIR}/buildsys/cmake/module/FindAdb.cmake)
-include(${LOO_ROOT_DIR}/buildsys/cmake/module/FindGradle.cmake)
+     include(${LOO_ROOT_DIR}/buildsys/cmake/module/FindAdb.cmake)
+     include(${LOO_ROOT_DIR}/buildsys/cmake/module/FindGradle.cmake)
 endif()
 
 set(LOO_OUTPUT_DIR "${LOO_PROJECT_DIR}/binary/libs/${LOO_PLATFORM_NAME}")

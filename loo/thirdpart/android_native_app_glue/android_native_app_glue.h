@@ -26,6 +26,8 @@
 #include <android/looper.h>
 #include <android/native_activity.h>
 
+#include <jni.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif

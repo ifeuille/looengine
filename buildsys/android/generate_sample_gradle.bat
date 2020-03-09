@@ -22,5 +22,5 @@ call cmake.exe -DPROJECT_NAME="%PROJ_NAME%"^
 			   -DASSET_DIRS=""^
 			   -DJNI_LIBS_DIRS=""^
 			   -DNATIVE_SCRIPT="%ROOT_DIR%\CMakeLists.txt"^
-			   -DNATIVE_ARGUMENTS="ANDROID_TOOLCHAIN=clang;ANDROID_STL=c++_static"^
+			   -DNATIVE_ARGUMENTS="ANDROID_TOOLCHAIN=clang;ANDROID_STL=c++_shared"^
 			   -P "%SCRIPT_DIR%\create_sample_gradle.cmake"

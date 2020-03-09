@@ -9,25 +9,28 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        ndk {
-            //abiFilters "armeabi-v7a"
-            ndk { abiFilters 'armeabi-v7a' }
-        }
+
+        ndk { abiFilters 'armeabi-v7a' }
+
         externalNativeBuild {
-            cmake {
-                
-				arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_static' 
-			
-                //cppFlags "-std=c++14"
-                //arguments "-DANDROID_STL=c++_shared", '-DANDROID_TOOLCHAIN=clang'
-            }
+             cmake {
+				arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_shared', '-DLOO_BUILD_TESTS_testframework=1'
+			}
         }
     }
     sourceSets {
         
         main.assets.srcDirs = ['assets']
+        debug {
+            jniLibs.srcDirs += ["$ndkDirectory/sources/third_party/vulkan/src/build-android/jniLibs"]
+        }
     }
     buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -35,9 +38,10 @@ android {
     }
     externalNativeBuild {
         cmake {
-            path "CMakeLists.txt"
-            buildStagingDirectory 'build-native'
-        }
+			path '../../../CMakeLists.txt'
+			buildStagingDirectory 'build-native'
+			version '3.10.2'
+		} 
     }
 }
 

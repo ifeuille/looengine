@@ -137,11 +137,87 @@ adb logcat   -v time -s *:E >D:\log1.txt
 android_native_app_glue这个东西现在常用的是两套方案，一套是用 原生的，需要注意链接符号ANativeActivity_onCreate
 一套是修改后的：增加get_app接口，将入口函数改为main,这样可以使得多个平台入口相同，同时少了ANativeActivity_onCreate的问题
 
-只有用第二种方案，又遇到这个问题 undefined symbol: ANativeActivity_onCreate
+只有用第二种方案，又遇到这个问题 
+undefined symbol: ANativeActivity_onCreate
+at android.app.NativeActivity.onCreate(NativeActivity.java:181)
 看起来像是native_app_glue链接失败了，导致没找到这个符号
+
+
 
 解决办法是在创建app时将.cpp加进去
 add_library(${EXE_NAME} SHARED  ${SOURCE_PRIVATE} 
 ${LOO_THIRDPART_ROOT_DIR}/android_native_app_glue/android_native_app_glue.c)
 问题很明确不用猜
+明显也不对
 
+追根溯源
+
+找到java报错点android.app.NativeActivity.onCreate(NativeActivity.java:181)
+````
+String libname = "main";
+String funcname = "ANativeActivity_onCreate";
+...
+try {
+        ai = getPackageManager().getActivityInfo(
+            getIntent().getComponent(), PackageManager.GET_META_DATA);
+        if (ai.metaData != null) {
+            String ln = ai.metaData.getString(META_DATA_LIB_NAME);
+            if (ln != null) libname = ln;
+            ln = ai.metaData.getString(META_DATA_FUNC_NAME);
+            if (ln != null) funcname = ln;
+        }
+    } catch (PackageManager.NameNotFoundException e) {
+        throw new RuntimeException("Error getting activity info", e);
+    }
+````
+这里可以知道可以通过定义meta-data指定libname以及入口函数META_DATA_FUNC_NAME = "android.app.func_name";
+
+
+这是加载native的地方
+mNativeHandle = loadNativeCode(path, funcname, Looper.myQueue(),
+        getAbsolutePath(getFilesDir()), getAbsolutePath(getObbDir()),
+        getAbsolutePath(getExternalFilesDir(null)),
+        Build.VERSION.SDK_INT, getAssets(), nativeSavedState,
+        classLoader, classLoader.getLdLibraryPath());
+
+
+从armabi-v7a切换到arm64-v8a后报错了
+packageDebug FAILED  Unable to find EOCD signature
+原因是导出的*.apk文件已经存在删除就好了
+
+
+-----
+vulkan头文件vk_platform.h有个报错，在arm64-v8a情况下 __ARM_ARCH = 4
+#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7  //注释掉
+    #error "Vulkan isn't supported for the 'armeabi' NDK ABI"   //注释掉
+#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
+    // On Android 32-bit ARM targets, Vulkan functions use the "hardfloat"
+    // calling convention, i.e. float parameters are passed in registers. This
+    // is true even if the rest of the application passes floats on the stack,
+    // as it does by default when compiling for the armeabi-v7a NDK ABI.
+    #define VKAPI_ATTR __attribute__((pcs("aapcs-vfp")))
+    #define VKAPI_CALL
+    #define VKAPI_PTR  VKAPI_ATTR
+#else
+
+-----
+android studio调试lldb 失败，
+A few people and I from the Visual Studio Developer Community have triaged the issue, and found that downgrading the Android Platform Tools back to version 28.0.x solves the issues being caused by version 29.0.x.
+
+View the community thread here: 
+https://developercommunity.visualstudio.com/content/problem/733170/error-starting-application-failed-to-forward-ports.html?childToView=739773#comment-739773
+
+Resolution:
+1. Close Visual Studio
+2. Delete the existing platform-tools from your android SDK
+3. Download platform-tools version 28.0.2 from Google's repository here: https://dl-ssl.google.com/android/repository/platform-tools_r28.0.2-windows.zip
+4. Un-zip and move the platform-tools (version 28.0.2) into to your Android SDK.
+5. Delete the 'bin' and 'obj' folders from your project/solution
+6. Clean project/solution
+7. Rebuild project/solution
+
+
+----------
+大概率是link出问题了
+.so link .a的问题
+路径？
