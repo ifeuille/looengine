@@ -40,3 +40,4 @@
 /android_gradle
 /android/examples/testframework/build-native
 /android/.idea
+/android/examples/testframework/release
