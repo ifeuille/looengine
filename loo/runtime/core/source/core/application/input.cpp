@@ -21,7 +21,7 @@ void loo::core::Input::InitEvent (SAppEvent & event, SAppEventType type)
 	event.clear ();
 	Application* app = windowptr->GetApp ();
 
-	event.type = type;
+	event.type = (int)type;
 	event.frameCount = app->TotalNumFrames ();
 	auto cfg = app->Config ();
 	event.windowWidth = cfg.graphic_settings.width;

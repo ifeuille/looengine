@@ -16,13 +16,22 @@ class FWApp2 final :public loo::core::Application, public loo::VulkanDeviceFn,pu
 	VkCommandBuffer		cmd_buffers[2] = {};
 	VkFence				fences[2] = {};
 	VkSemaphore			semaphores[2] = {};
+
+	int colorindex = 0;
+	loo::math::RGBA32f colors[3] = {
+		loo::math::RGBA32f (1,0,0,1),
+		loo::math::RGBA32f (0,1,0,1),
+		loo::math::RGBA32f (0,0,1,1),
+	};
+
 public:
 	FWApp2 (const std::string& name, uint32_t appid, loo::core::ContextConfig setting)
 		:Application(name, appid, setting)
 	{
 		VulkanDeviceFn_Init (vulkan);
 		listen ((int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES);
-
+		listen ((int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES_BEGAN);
+		listen ((int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES_ENDED);
 	}
 	virtual ~FWApp2 ()
 	{
@@ -183,7 +192,7 @@ CHECK_ERR (swapchain->Create (
 
 
 			// clear image
-			loo::math::RGBA32f				color{ loo::math::HSVColor{loo::math::Fract (float (total_num_frames) / 60.0f)} };
+			loo::math::RGBA32f				color = colors[colorindex];// { loo::math::HSVColor{ loo::math::Fract (float (total_num_frames) / 60.0f) } };
 			VkClearColorValue	clear_value{ { color.r, color.g, color.b, color.a } };
 
 			VkImageSubresourceRange	range;
@@ -264,8 +273,13 @@ CHECK_ERR (swapchain->Create (
 
 	virtual bool onEvent (loo::core::Event* e)
 	{
-		std::cout << "event handle:id=" << e->typeID << std::endl;
-		return false;
+		std::cout << "event handle:id=" << e->type << std::endl;
+		utils::slog.i<<"event handle:id="<< e->type << utils::io::endl;
+		if (e->type == (int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES)
+		{
+			colorindex = (++colorindex) % 3;
+		}
+		return true;
 	}
 };
 

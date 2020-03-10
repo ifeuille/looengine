@@ -21,7 +21,7 @@
 #ifdef LOO_PLATFORM_ANDROID
 #   include <android/log.h>
 #   ifndef UTILS_LOG_TAG
-#       define UTILS_LOG_TAG "Filament"
+#       define UTILS_LOG_TAG "looengine"
 #   endif
 #endif
 

@@ -11,7 +11,7 @@
 
 loo::core::Event::Event ( const char* name_)
 	:Object (name_),
-	typeID (-1),
+	type (-1),
 	flags (0),
 	canceled (false),
 	sender (nullptr)
@@ -20,7 +20,7 @@ loo::core::Event::Event ( const char* name_)
 loo::core::Event::~Event ()
 {
 	sender = nullptr;
-	typeID = -1;
+	type = -1;
 	flags = 0;
 	canceled = false;
 }
@@ -74,7 +74,7 @@ bool loo::core::EventManager::sendEvent (Event * e)
 {
 	if (!e)return false;
 	bool ret = false;
-	auto itlist = eventListenersMap.find (e->typeID);
+	auto itlist = eventListenersMap.find (e->type);
 	if (itlist == eventListenersMap.end ())
 	{
 		return ret;

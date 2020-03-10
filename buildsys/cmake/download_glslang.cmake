@@ -177,6 +177,12 @@ elseif (${LOO_ENABLE_GLSLANG})
 		set_property(TARGET enum_string_mapping PROPERTY FOLDER "thirdpart/glslang/other")
 		set_property(TARGET extinst_tables PROPERTY FOLDER "thirdpart/glslang/other")
 
+		set_property(TARGET Continuous PROPERTY FOLDER "thirdpart/glslang/CTestDashboardTargets")
+		set_property(TARGET Experimental PROPERTY FOLDER "thirdpart/glslang/CTestDashboardTargets")
+		set_property(TARGET NightlyMemoryCheck PROPERTY FOLDER "thirdpart/glslang/CTestDashboardTargets")
+		set_property(TARGET Nightly PROPERTY FOLDER "thirdpart/glslang/CTestDashboardTargets")
+
+
 
 	endif()
 

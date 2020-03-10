@@ -20,7 +20,7 @@ namespace loo
 			* 0x1~0x0fff for system event
 			*/
 			LOOPROPERTY (Serialized)
-			int typeID;
+			int type;
 			LOOPROPERTY (Serialized)
 			int flags;
 			LOOPROPERTY (Serialized)

@@ -1,7 +1,7 @@
 project("native_app_glue")
 set(NATIVE_APP_GLUE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
-file(GLOB NATIVE_APP_GLUE_FILES "${NATIVE_APP_GLUE_DIR}/*.c" "${NATIVE_APP_GLUE_DIR}/*.h")
+file(GLOB NATIVE_APP_GLUE_FILES "${NATIVE_APP_GLUE_DIR}/*.c" "${NATIVE_APP_GLUE_DIR}/*.h" "${NATIVE_APP_GLUE_DIR}/*.def")
 add_library(native_app_glue STATIC ${NATIVE_APP_GLUE_FILES})
 #STATIC
 target_include_directories(native_app_glue PUBLIC ${NATIVE_APP_GLUE_DIR})

@@ -24,9 +24,9 @@ static detail::LooClassBuilder<loo::core::Event, 4, 0> reflected([](auto self) {
 self->fields[0].m_type = LooGetType<int>();
 self->fields[0].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->fields[0].m_serializedWidth = sizeof(int) * 8;
-self->fields[0].m_offset = offsetof(loo::core::Event, typeID);
+self->fields[0].m_offset = offsetof(loo::core::Event, type);
 self->fields[0].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[0].m_name = "typeID";
+self->fields[0].m_name = "type";
 
 /* LooField 2 */
 self->fields[1].m_type = LooGetType<int>();

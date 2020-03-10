@@ -455,8 +455,8 @@ namespace loo
 			LOOMETA_OBJECT;
 			LOOPROPERTY (Serialized)
 			uint64 frameCount;
-			LOOPROPERTY (Serialized)
-			SAppEventType type;
+		/*	LOOPROPERTY (Serialized)
+			SAppEventType type;*/
 			LOOPROPERTY (Serialized)
 			KeyCode keyCode;
 			LOOPROPERTY (Serialized)
@@ -497,7 +497,7 @@ namespace loo
 			void clear ()
 			{
 				frameCount = 0;
-				type = SAppEventType::SAPP_EVENTTYPE_INVALID;
+				type = (int)SAppEventType::SAPP_EVENTTYPE_INVALID;
 				keyCode = KeyCode::None;
 				charCode = 0;
 				keyRepeat = false;

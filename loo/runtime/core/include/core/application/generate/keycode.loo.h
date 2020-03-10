@@ -152,7 +152,7 @@ template<>
 inline LooClass const *
 LooGetClassImpl(LooClassTag<loo::core::SAppEvent>) noexcept
 {
-static detail::LooClassBuilder<loo::core::SAppEvent, 14, 0> reflected([](auto self) {
+static detail::LooClassBuilder<loo::core::SAppEvent, 13, 0> reflected([](auto self) {
 
 /* LooField 1 */
 self->fields[0].m_type = LooGetType<unsigned long long>();
@@ -163,108 +163,100 @@ self->fields[0].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
 self->fields[0].m_name = "frameCount";
 
 /* LooField 2 */
-self->fields[1].m_type = LooGetType<loo::core::SAppEventType>();
+self->fields[1].m_type = LooGetType<loo::core::KeyCode>();
 self->fields[1].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
-self->fields[1].m_serializedWidth = sizeof(loo::core::SAppEventType) * 8;
-self->fields[1].m_offset = offsetof(loo::core::SAppEvent, type);
+self->fields[1].m_serializedWidth = sizeof(loo::core::KeyCode) * 8;
+self->fields[1].m_offset = offsetof(loo::core::SAppEvent, keyCode);
 self->fields[1].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[1].m_name = "type";
+self->fields[1].m_name = "keyCode";
 
 /* LooField 3 */
-self->fields[2].m_type = LooGetType<loo::core::KeyCode>();
+self->fields[2].m_type = LooGetType<unsigned int>();
 self->fields[2].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
-self->fields[2].m_serializedWidth = sizeof(loo::core::KeyCode) * 8;
-self->fields[2].m_offset = offsetof(loo::core::SAppEvent, keyCode);
+self->fields[2].m_serializedWidth = sizeof(unsigned int) * 8;
+self->fields[2].m_offset = offsetof(loo::core::SAppEvent, charCode);
 self->fields[2].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[2].m_name = "keyCode";
+self->fields[2].m_name = "charCode";
 
 /* LooField 4 */
-self->fields[3].m_type = LooGetType<unsigned int>();
+self->fields[3].m_type = LooGetType<bool>();
 self->fields[3].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
-self->fields[3].m_serializedWidth = sizeof(unsigned int) * 8;
-self->fields[3].m_offset = offsetof(loo::core::SAppEvent, charCode);
+self->fields[3].m_serializedWidth = sizeof(bool) * 8;
+self->fields[3].m_offset = offsetof(loo::core::SAppEvent, keyRepeat);
 self->fields[3].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[3].m_name = "charCode";
+self->fields[3].m_name = "keyRepeat";
 
 /* LooField 5 */
-self->fields[4].m_type = LooGetType<bool>();
+self->fields[4].m_type = LooGetType<unsigned int>();
 self->fields[4].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
-self->fields[4].m_serializedWidth = sizeof(bool) * 8;
-self->fields[4].m_offset = offsetof(loo::core::SAppEvent, keyRepeat);
+self->fields[4].m_serializedWidth = sizeof(unsigned int) * 8;
+self->fields[4].m_offset = offsetof(loo::core::SAppEvent, modifiers);
 self->fields[4].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[4].m_name = "keyRepeat";
+self->fields[4].m_name = "modifiers";
 
 /* LooField 6 */
-self->fields[5].m_type = LooGetType<unsigned int>();
+self->fields[5].m_type = LooGetType<int>();
 self->fields[5].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
-self->fields[5].m_serializedWidth = sizeof(unsigned int) * 8;
-self->fields[5].m_offset = offsetof(loo::core::SAppEvent, modifiers);
+self->fields[5].m_serializedWidth = sizeof(int) * 8;
+self->fields[5].m_offset = offsetof(loo::core::SAppEvent, mouseX);
 self->fields[5].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[5].m_name = "modifiers";
+self->fields[5].m_name = "mouseX";
 
 /* LooField 7 */
 self->fields[6].m_type = LooGetType<int>();
 self->fields[6].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->fields[6].m_serializedWidth = sizeof(int) * 8;
-self->fields[6].m_offset = offsetof(loo::core::SAppEvent, mouseX);
+self->fields[6].m_offset = offsetof(loo::core::SAppEvent, mouseY);
 self->fields[6].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[6].m_name = "mouseX";
+self->fields[6].m_name = "mouseY";
 
 /* LooField 8 */
-self->fields[7].m_type = LooGetType<int>();
+self->fields[7].m_type = LooGetType<float>();
 self->fields[7].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
-self->fields[7].m_serializedWidth = sizeof(int) * 8;
-self->fields[7].m_offset = offsetof(loo::core::SAppEvent, mouseY);
+self->fields[7].m_serializedWidth = sizeof(float) * 8;
+self->fields[7].m_offset = offsetof(loo::core::SAppEvent, scrollX);
 self->fields[7].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[7].m_name = "mouseY";
+self->fields[7].m_name = "scrollX";
 
 /* LooField 9 */
 self->fields[8].m_type = LooGetType<float>();
 self->fields[8].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->fields[8].m_serializedWidth = sizeof(float) * 8;
-self->fields[8].m_offset = offsetof(loo::core::SAppEvent, scrollX);
+self->fields[8].m_offset = offsetof(loo::core::SAppEvent, scrollY);
 self->fields[8].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[8].m_name = "scrollX";
+self->fields[8].m_name = "scrollY";
 
 /* LooField 10 */
-self->fields[9].m_type = LooGetType<float>();
+self->fields[9].m_type = LooGetType<int>();
 self->fields[9].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
-self->fields[9].m_serializedWidth = sizeof(float) * 8;
-self->fields[9].m_offset = offsetof(loo::core::SAppEvent, scrollY);
+self->fields[9].m_serializedWidth = sizeof(int) * 8;
+self->fields[9].m_offset = offsetof(loo::core::SAppEvent, windowWidth);
 self->fields[9].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[9].m_name = "scrollY";
+self->fields[9].m_name = "windowWidth";
 
 /* LooField 11 */
 self->fields[10].m_type = LooGetType<int>();
 self->fields[10].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->fields[10].m_serializedWidth = sizeof(int) * 8;
-self->fields[10].m_offset = offsetof(loo::core::SAppEvent, windowWidth);
+self->fields[10].m_offset = offsetof(loo::core::SAppEvent, windowHeight);
 self->fields[10].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[10].m_name = "windowWidth";
+self->fields[10].m_name = "windowHeight";
 
 /* LooField 12 */
 self->fields[11].m_type = LooGetType<int>();
 self->fields[11].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->fields[11].m_serializedWidth = sizeof(int) * 8;
-self->fields[11].m_offset = offsetof(loo::core::SAppEvent, windowHeight);
+self->fields[11].m_offset = offsetof(loo::core::SAppEvent, framebufferWidth);
 self->fields[11].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[11].m_name = "windowHeight";
+self->fields[11].m_name = "framebufferWidth";
 
 /* LooField 13 */
 self->fields[12].m_type = LooGetType<int>();
 self->fields[12].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
 self->fields[12].m_serializedWidth = sizeof(int) * 8;
-self->fields[12].m_offset = offsetof(loo::core::SAppEvent, framebufferWidth);
+self->fields[12].m_offset = offsetof(loo::core::SAppEvent, framebufferHeight);
 self->fields[12].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[12].m_name = "framebufferWidth";
-
-/* LooField 14 */
-self->fields[13].m_type = LooGetType<int>();
-self->fields[13].m_flags = LooField::kFlagsNull | LooField::kFlagsSerialized;
-self->fields[13].m_serializedWidth = sizeof(int) * 8;
-self->fields[13].m_offset = offsetof(loo::core::SAppEvent, framebufferHeight);
-self->fields[13].m_qualifier = Qualifier(0, 0, 0, 0, 0, 0);
-self->fields[13].m_name = "framebufferHeight";
+self->fields[12].m_name = "framebufferHeight";
 });
 static LooClass cache(
 sizeof(loo::core::SAppEvent),

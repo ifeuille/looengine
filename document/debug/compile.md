@@ -243,7 +243,7 @@ SET(SO_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/libs/${LOO_ARCH_NAME})
 改过之后，release版本ok了，debug版本还是不行
 
 经过比较，发现.so的debug版本比release小--也不对
-
-
+-Wl,–whole-archive libname -Wl,–no-whole-archive
+这样应该就能导出队友符号，但是debug还是有问题
 
 todo 显示link不要用库依赖自动link
