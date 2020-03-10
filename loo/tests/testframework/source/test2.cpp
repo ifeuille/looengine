@@ -275,7 +275,8 @@ CHECK_ERR (swapchain->Create (
 	{
 		std::cout << "event handle:id=" << e->type << std::endl;
 		utils::slog.i<<"event handle:id="<< e->type << utils::io::endl;
-		if (e->type == (int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES)
+		if (e->type == (int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES
+			or e->type == (int)loo::core::SAppEventType::SAPP_EVENTTYPE_TOUCHES_BEGAN)
 		{
 			colorindex = (++colorindex) % 3;
 		}
