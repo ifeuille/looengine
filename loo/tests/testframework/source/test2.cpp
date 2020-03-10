@@ -2,7 +2,7 @@
 #include "core/context.h"
 #include "vkfg/vulkan/framework/vulkandeviceext.h"
 #include "vkfg/vulkan/framework/vulkanswapchain.h"
-
+#include "audio/audio.h"
 
 class FWApp2 final :public loo::core::Application, public loo::VulkanDeviceFn,public loo::core::EventListener
 {
@@ -23,6 +23,9 @@ class FWApp2 final :public loo::core::Application, public loo::VulkanDeviceFn,pu
 		loo::math::RGBA32f (0,1,0,1),
 		loo::math::RGBA32f (0,0,1,1),
 	};
+
+
+	//for audio
 
 public:
 	FWApp2 (const std::string& name, uint32_t appid, loo::core::ContextConfig setting)
@@ -90,6 +93,13 @@ CHECK_ERR (swapchain->Create (
 			VK_CALL (vkCreateSemaphore (vulkan.GetVkDevice (), &sem_info, null, OUT &semaphores[0]));
 			VK_CALL (vkCreateSemaphore (vulkan.GetVkDevice (), &sem_info, null, OUT &semaphores[1]));
 		}
+
+		//init audio
+		// init sokol-audio with default params, no callback
+		saudio_desc sd = { 0 };
+		saudio_setup (&sd);
+		assert (saudio_channels () == 1);
+
 		return true;
 	}
 
@@ -124,6 +134,9 @@ CHECK_ERR (swapchain->Create (
 		swapchain.reset ();
 
 		vulkan.Destroy ();
+
+		// shutdown sokol-audio
+		saudio_shutdown ();
 		return false;
 	}
 	virtual bool OnSuspend ()
@@ -141,6 +154,25 @@ CHECK_ERR (swapchain->Create (
 	virtual uint32_t DoUpdate (uint64_t pass)
 	{
 		LOO_UNUSED (pass);
+#define BUF_SIZE 32
+		// a small intermediate buffer so we don't need to push
+ // individual samples, which would be quite inefficient
+		float buf[BUF_SIZE];
+		int buf_pos = 0;
+		uint32_t count = 0;
+
+
+		// generate and push audio samples...
+		int num_frames_expect = saudio_expect ();
+		for (int i = 0; i < num_frames_expect; i++) {
+			// simple square wave generator
+			buf[buf_pos++] = (count++ & (1 << 3)) ? 0.5f : -0.5f;
+			if (buf_pos == BUF_SIZE) {
+				buf_pos = 0;
+				saudio_push (buf, BUF_SIZE);
+			}
+		}
+
 		return 0;
 	}
 	virtual bool OnRefresh ()
