@@ -37,3 +37,10 @@
 /binary/lib/win_x64
 /loo/thirdpart/Build
 /binary/libs/win_x64
+/android/.gradle
+/android/.idea
+/android/examples/bin
+/android/examples/testframework/build-native
+/android/examples/testframework/build
+/android/examples/testframework/release
+/android_gradle
