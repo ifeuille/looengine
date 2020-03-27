@@ -1,6 +1,6 @@
 # looengine
 
-### 简单列表
+### 简单说明
 
 使用或参考了若干第三方开源库
 
@@ -23,6 +23,8 @@ c++14
 vulkan only
 
 platform : windows,android
+
+- 后续会支持ios等
 
 
 
