@@ -4,6 +4,7 @@
 #include "global/global.h"
 #include "elementformat.h"
 #include "modulemanager/moduleinterface.h"
+#include "rhi/physicaldevice.h"
 
 namespace loo
 {
@@ -12,22 +13,37 @@ namespace loo
 		class RHI_EXPORT GraphicDevice
 		{
 		public:
+			GraphicDevice (RHIPhysicalDevice* InphysicalDevice)
+				:physicalDevice (InphysicalDevice)
+			{
+			}
+			virtual ~GraphicDevice () { DestroyDevice (); }
 			virtual void Init () = 0;
 			virtual void Suspend () = 0;
 			virtual void Resume () = 0;
 			virtual void Shutdown () = 0;
 			virtual const char* GetName () { return "null"; }
-		protected:
 
+			virtual void DeviceWaitIdle () {}
+			virtual void DestroyDevice () {}
+
+			//resources
+			RHIQueue* GetDeviceQueue (uint32 queueFamilyIndex, uint32 queueIndex);
+
+		protected:
+			void PushQueue (uint32 queueFamilyIndex, uint32 queueIndex, RHIQueue*);
 		public:
-			const LOOPhysicalDeviceLimits GetPhysicalDeviceLimits ()const { return physicalDeviceLimits; }
+			const LOOPhysicalDeviceLimits GetPhysicalDeviceLimits ()const 
+			{
+				return physicalDeviceLimits;
+			}
 
 		private:
 			LOOPhysicalDeviceLimits physicalDeviceLimits;
-		};
 
-		/** A global pointer to the dynamically bound RHI implementation. */
-		extern RHI_EXPORT GraphicDevice* GGraphicDevice;
+			RHIPhysicalDevice* physicalDevice;
+			std::unordered_map< uint32/*queueFamilyIndex*/,	std::unordered_map<uint32/*queueIndex*/, RHIQueue*>> queuesMap;
+		};
 	}
 }
 

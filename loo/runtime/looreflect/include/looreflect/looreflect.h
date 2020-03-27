@@ -8,7 +8,7 @@
 #include <vector>
 #include <unordered_map>
 #include <assert.h>
-
+#include "global/extstd/strtk.h"
 #define DEFAULT_MODULE "default"
 #define ALL_MODULE "all"
 #if defined(MODULE_NAME)
@@ -40,16 +40,16 @@ namespace looreflect{
 	*/
 	//macros
 #ifdef __LOOREFLECT__
-	#define LOOCLASS(...) class __attribute__((annotate("loo-class;" #__VA_ARGS__)))
-	#define LOOENUM(...) enum __attribute__((annotate("loo-enum;" #__VA_ARGS__)))
-	#define LOOUNION(...) union __attribute__((annotate("loo-class;" #__VA_ARGS__)))
+	#define LOOCLASS(...) __attribute__((annotate("loo-class;" #__VA_ARGS__)))
+	#define LOOENUM(...) __attribute__((annotate("loo-enum;" #__VA_ARGS__)))
+	#define LOOUNION(...) __attribute__((annotate("loo-class;" #__VA_ARGS__)))
 	#define LOOPROPERTY(...) __attribute__((annotate("loo-property;" #__VA_ARGS__)))
 	#define LOOFUNCTION(...) __attribute__((annotate("loo-function;" #__VA_ARGS__)))
 	#define LOOMETA_OBJECT
 #else /* else __LOOREFLECT__ */
-	#define LOOCLASS(...) class
-	#define LOOUNION(...) union
-	#define LOOENUM(...) enum
+	#define LOOCLASS(...)
+	#define LOOUNION(...)
+	#define LOOENUM(...)
 	#define LOOPROPERTY(...)
 	#define LOOFUNCTION(...)
 	#define LOOMETA_OBJECT \
@@ -103,7 +103,7 @@ namespace looreflect{
 	constexpr bool
 		AfterSerialize (T *_this) noexcept
 	{
-		if constexpr (HasAfterSerialize<T>::value)
+		if /*constexpr*/ (HasAfterSerialize<T>::value)
 			return _this->AfterSerialize ();
 		return true;
 	}
@@ -112,7 +112,7 @@ namespace looreflect{
 	constexpr bool
 		BeforeSerialize (T *_this) noexcept
 	{
-		if constexpr (HasBeforeSerialize<T>::value)
+		if /*constexpr*/ (HasBeforeSerialize<T>::value)
 			return _this->BeforeSerialize ();
 		return true;
 	}
@@ -121,7 +121,7 @@ namespace looreflect{
 	constexpr bool
 		CustomSerialize (T *_this) noexcept
 	{
-		if constexpr (HasCustomSerialize<T>::value)
+		if /*constexpr*/ (HasCustomSerialize<T>::value)
 			return _this->Serialize ();
 		return true;
 	}
@@ -157,7 +157,7 @@ namespace looreflect{
 		T const* begin ()const noexcept {return begin_it;}
 		T const* end ()const noexcept { return end_it; }
 		std::size_t length ()const noexcept { return end_it - begin_it; }
-		T const& operator[](std::size_t index)const noexcept { return begin[index]; }
+		T const& operator[](std::size_t index)const noexcept { return begin_it[index]; }
 	};
 	enum CVQualifier : unsigned char {
 		kCVQualifierNone = 0x0,
@@ -237,6 +237,72 @@ namespace looreflect {
 		return ins ? ins->GetType() : nullptr;
     }
 
+	template <typename T> inline std::string enum_to_string (T value) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		auto constant = type->enum_constant_by_value (static_cast<uint64_t>(value));
+		assert (constant);
+		return constant->name ();
+	}
+	//template <typename T>
+	//inline std::string enummask_to_string (uint32_t value) {
+	//	const LooEnum *type = LooGetEnum<T> ();
+	//	assert (type);
+	//	std::string nameMask;
+	//	for (T t = T::_begin; t < T::_end; t = T (uint32_t (t) << 1)) {
+	//		if (value & t == 0)
+	//			continue;
+	//		auto constant = type->enum_constant_by_value (value);
+	//		assert (constant);
+	//		if (t != T::_begin) {
+	//			nameMask.append ("|");
+	//		}
+	//		nameMask.append (constant->name ());
+	//	}
+	//	return nameMask;
+	//}
+
+	template <typename T> inline std::string enummask_to_string (uint64_t value) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		std::string nameMask;
+		for (T t = T::_begin; t < T::_end; t = T (uint64_t (t) << 1)) {
+			if ((value & static_cast<uint64_t>(t)) == 0)
+				continue;
+			auto constant = type->enum_constant_by_value (static_cast<uint64_t>(t));
+			assert (constant);
+			if (t != T::_begin) {
+				nameMask.append ("|");
+			}
+			nameMask.append (constant->name ());
+		}
+		return nameMask;
+	}
+	template <typename T> inline T to_enum (const char *enumValueStr) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		auto constant = type->enum_constant_by_name (enumValueStr);
+		assert (constant);
+		return static_cast<T>(constant->value ());
+	}
+	template <typename T, typename U> inline U to_enummask (const std::string& enumValuesStr) {
+		const LooEnum *type = LooGetEnum<T> ();
+		assert (type);
+		U mask = 0;
+		std::vector<std::pair<const char *, const char *>> token_list;
+		strtk::split ("|", enumValuesStr, std::back_inserter (token_list));//cannot convert const char* to const std::string
+		std::string s;
+		for (auto it = token_list.begin (); it != token_list.end (); ++it)
+		{
+			s.assign (it->first, it->second);
+			auto constant = type->enum_constant_by_name (s.c_str ());
+			if (constant)
+			{
+				mask |= U (constant->value ());
+			}
+		}
+		return mask;
+	}
 
 } // namespace looreflect
 #define GET_REAL_TYPE(type)                                                    \

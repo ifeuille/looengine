@@ -30,17 +30,23 @@ OBJC_CLASS(LEngineWindowListener);
 OBJC_CLASS(NSView);
 #endif
 #include "global/utlis.h"
-#include "RHI/RenderSettings.h"
-#include "global/math/math.h"
+//#include "RHI/RenderSettings.h"
+#include "vkfg/fg/rendersettings.h"
+#include "global/math/vec.h"
+#include "vkfg/vulkan/framework/ivulkansurface.h"
 
 #include <cstring>
 #include <iostream>
+
+#ifdef LOO_PLATFORM_ANDROID
+struct android_app;
+#endif
 
 namespace loo
 {
 	namespace core
 	{
-
+		class Application;
 		class CORE_EXPORT Window
 		{
 		public:
@@ -52,11 +58,19 @@ namespace loo
 				WR_Rotate180,
 				WR_Rotate270
 			};
-
+			class /*CORE_EXPORT*/ VulkanSurface : public loo::vkfg::IVulkanSurface
+			{
+				Array<const char*>	_extensions;
+				loo::core::Window* _windows;
+			public:
+				explicit VulkanSurface (loo::core::Window* wnd);
+				ND_ ArrayView<const char*>	GetRequiredExtensions () const { return _extensions; }
+				ND_ VkSurfaceKHR			Create (VkInstance inst) const;
+			};
 		public:
-			Window(std::string const & name, rhi::RenderSettings const & settings, void* native_wnd);
+			Window(std::string const & name, vkfg::RenderSettings const & settings, Application* app, void* native_wnd);
 			~Window();
-
+			Application* GetApp () { return app; }
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
 			HWND HWnd() const
 			{
@@ -88,7 +102,7 @@ namespace loo
 #elif defined LOO_PLATFORM_ANDROID
 			::ANativeWindow* AWindow() const
 			{
-				return a_window_;
+				return a_window;
 			}
 #elif defined LOO_PLATFORM_IOS
 			static void PumpEvents();
@@ -96,10 +110,12 @@ namespace loo
 			void FlushBuffer();
 			uint2 GetGLKViewSize();
 #endif
-
+#if defined LOO_PLATFORM_ANDROID
+			::ANativeWindow* NativeWindow(){return a_window;}
+#endif
+			std::unique_ptr<loo::vkfg::IVulkanSurface>  GetVulkanSurface () ;
 		public:
 			//attribes
-
 			int32_t Left() const
 			{
 				return left;
@@ -116,6 +132,10 @@ namespace loo
 			uint32_t Height() const
 			{
 				return height;
+			}
+
+			loo::math::uint2 GetSize ()const {
+				return loo::math::uint2 (width, height);
 			}
 
 			bool Active() const
@@ -151,38 +171,45 @@ namespace loo
 			{
 				return effective_dpi_scale;
 			}
+			bool& Iconified () { return iconified; }
 
 			WindowRotation Rotation() const
 			{
 				return win_rotation;
 			}
 		public:
+			/*
+			android 
+			http://blog.sina.com.cn/s/blog_6dd0be790101mfka.html
+			https://developer.android.google.cn/ndk/reference/group/input?hl=zh-cn#group___input_1gga16685eea158879e41b101ca3634de462a55ea411f927aed8964fa72fec0da444f
+			windows:
+			https://blog.csdn.net/popten/article/details/50634694
+
+			*/
 			// some events
 			typedef sigslot::signal<Window const &, bool > ActiveEvent;
 			typedef sigslot::signal<Window const &> PaintEvent;
 			typedef sigslot::signal<Window const &> EnterSizeMoveEvent;
 			typedef sigslot::signal<Window const &> ExitSizeMoveEvent;
 			typedef sigslot::signal< Window const &, bool> SizeEvent;
-			typedef sigslot::signal<Window const &> SetCursorEvent;
-			typedef sigslot::signal< Window const &, wchar_t> CharEvent;
-#if defined LOO_PLATFORM_WINDOWS_DESKTOP
-			typedef sigslot::signal< Window const &, HRAWINPUT> RawInputEvent;
-#elif defined(LOO_PLATFORM_WINDOWS_STORE) || defined(LOO_PLATFORM_ANDROID)
+
 			typedef sigslot::signal< Window const &, uint32> KeyDownEvent;
 			typedef sigslot::signal< Window const &, uint32> KeyUpEvent;
-#if defined LOO_PLATFORM_ANDROID
-			typedef sigslot::signal< Window const &, vec2 const &, uint32_t> MouseDownEvent;
-			typedef sigslot::signal< Window const &, vec2 const &, uint32_t> MouseUpEvent;
-			typedef sigslot::signal<Window const &, vec2 const &> MouseMoveEvent;
-			typedef sigslot::signal<Window const &, vec2 const &, int32_t> MouseWheelEvent;
+
+			/*typedef sigslot::signal< Window const &, loo::math::float2 const &, uint32_t> MouseDownEvent;
+			typedef sigslot::signal< Window const &, loo::math::float2 const &, uint32_t> MouseUpEvent;
+			typedef sigslot::signal<Window const &, loo::math::float2 const &> MouseMoveEvent;
+			typedef sigslot::signal<Window const &, loo::math::float2 const &, int32_t> MouseWheelEvent;*/
 			typedef sigslot::signal<Window const &, int32, int32_t> JoystickAxisEvent;
 			typedef sigslot::signal<Window const &, uint32> JoystickButtonsEvent;
+#if defined LOO_PLATFORM_WINDOWS_DESKTOP
+			typedef sigslot::signal< Window const &, HRAWINPUT> RawInputEvent;
 #endif
-#endif
-			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32> PointerDownEvent;
-			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32> PointerUpEvent;
-			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32, bool> PointerUpdateEvent;
-			typedef sigslot::signal<Window const &, loo::math::vec2 const &, uint32, int32> PointerWheelEvent;
+			// single touch
+			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32> PointerDownEvent;
+			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32> PointerUpEvent;
+			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32, bool> PointerUpdateEvent;
+			typedef sigslot::signal<Window const &, loo::math::int2 const &, uint32, int32> PointerWheelEvent;
 
 			typedef sigslot::signal<Window const &> CloseEvent;
 
@@ -191,6 +218,7 @@ namespace loo
 			// system call functions
 #if defined LOO_PLATFORM_WINDOWS
 #if defined LOO_PLATFORM_WINDOWS_DESKTOP
+			static bool CALLBACK CTRLHandler (DWORD fdwctrltype);
 		private:
 			static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
@@ -199,6 +227,7 @@ namespace loo
 			void KeepScreenOn();
 
 			LRESULT MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+			bool CTRLHandlerProc (DWORD fdwctrltype);
 #else
 			void DetectsOrientation();
 #endif
@@ -231,20 +260,6 @@ namespace loo
 			{
 				return size_event;
 			}
-			SetCursorEvent& OnSetCursor()
-			{
-				return set_cursor_event;
-			}
-			CharEvent& OnChar()
-			{
-				return char_event;
-			}
-#if defined LOO_PLATFORM_WINDOWS_DESKTOP
-			RawInputEvent& OnRawInput()
-			{
-				return raw_input_event;
-			}
-#elif defined(LOO_PLATFORM_WINDOWS_STORE) || defined(LOO_PLATFORM_ANDROID)
 			KeyDownEvent& OnKeyDown()
 			{
 				return key_down_event_;
@@ -252,23 +267,6 @@ namespace loo
 			KeyUpEvent& OnKeyUp()
 			{
 				return key_up_event_;
-			}
-#if defined LOO_PLATFORM_ANDROID
-			MouseDownEvent& OnMouseDown()
-			{
-				return mouse_down_event_;
-			}
-			MouseUpEvent& OnMouseUp()
-			{
-				return mouse_up_event_;
-			}
-			MouseMoveEvent& OnMouseMove()
-			{
-				return mouse_move_event_;
-			}
-			MouseWheelEvent& OnMouseWheel()
-			{
-				return mouse_wheel_event_;
 			}
 			JoystickAxisEvent& OnJoystickAxis()
 			{
@@ -278,7 +276,11 @@ namespace loo
 			{
 				return joystick_buttons_event_;
 			}
-#endif
+#if defined LOO_PLATFORM_WINDOWS_DESKTOP
+			RawInputEvent& OnRawInput()
+			{
+				return raw_input_event;
+			}
 #endif
 			PointerDownEvent& OnPointerDown()
 			{
@@ -300,28 +302,23 @@ namespace loo
 			{
 				return close_event;
 			}
+
 		private:
 			ActiveEvent active_event;
 			PaintEvent paint_event;
 			EnterSizeMoveEvent enter_size_move_event;
 			ExitSizeMoveEvent exit_size_move_event;
 			SizeEvent size_event;
-			SetCursorEvent set_cursor_event;
-			CharEvent char_event;
-#if defined LOO_PLATFORM_WINDOWS_DESKTOP
-			RawInputEvent raw_input_event;
-#elif defined(LOO_PLATFORM_WINDOWS_STORE) || defined(LOO_PLATFORM_ANDROID) 
+
 			KeyDownEvent key_down_event_;
 			KeyUpEvent key_up_event_;
-#if defined LOO_PLATFORM_ANDROID
-			MouseDownEvent mouse_down_event_;
-			MouseUpEvent mouse_up_event_;
-			MouseMoveEvent mouse_move_event_;
-			MouseWheelEvent mouse_wheel_event_;
+
+#if defined LOO_PLATFORM_WINDOWS_DESKTOP
+			RawInputEvent raw_input_event;
+#endif
 			JoystickAxisEvent joystick_axis_event_;
 			JoystickButtonsEvent joystick_buttons_event_;
-#endif
-#endif
+
 			PointerDownEvent pointer_down_event;
 			PointerUpEvent pointer_up_event;
 			PointerUpdateEvent pointer_update_event;
@@ -329,6 +326,7 @@ namespace loo
 			CloseEvent close_event;
 		private:
 
+			Application* app;
 			int32_t left;
 			int32_t top;
 			uint32_t width;
@@ -338,6 +336,7 @@ namespace loo
 			bool ready;
 			bool closed;
 			bool keep_screen_on;
+			bool iconified;
 
 			float dpi_scale;
 			float effective_dpi_scale;
@@ -360,7 +359,8 @@ namespace loo
 #endif
 
 #elif defined LOO_PLATFORM_ANDROID
-			::ANativeWindow* a_window_;
+			android_app* state;
+			::ANativeWindow* a_window;
 #elif defined LOO_PLATFORM_IOS
 			LEngineView* eagl_view_;
 #endif

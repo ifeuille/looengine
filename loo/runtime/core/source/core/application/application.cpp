@@ -1,27 +1,31 @@
 #include "core/application/application.h"
 #include "core/context.h"
 
-loo::core::Application::Application(const std::string & name)
-	:Application(name, nullptr)
+loo::core::Application::Application (const std::string & name, uint32_t appid, ContextConfig setting)
+	:Application (name, nullptr, appid, setting)
 {
 
 }
 
-loo::core::Application::Application(const std::string & name, void * native_wnd)
+loo::core::Application::Application (const std::string & name, void * native_wnd, uint32_t appid, ContextConfig setting)
 	: name(name), total_num_frames(0),
 	fps(0), accumulate_time(0), num_frames(0),
-	app_time(0), frame_time(0)
+	app_time(0), frame_time(0), pass_count (0), app_id(appid),input()
 {
-	Context::Get().SetApplication(*this);
-	ContextConfig cfg = Context::Get().Config();
-	main_wnd = this->MakeWindow(name, cfg.graphic_settings, native_wnd);
+	Context::Get ().SetApplication (appid, this);
+	Config (setting);
+	setting = Config ();
+	main_wnd = this->MakeWindow (name, setting.graphic_settings, native_wnd);
 #ifndef LOO_PLATFORM_WINDOWS_STORE
-	cfg.graphic_settings.left = main_wnd->Left();
-	cfg.graphic_settings.top = main_wnd->Top();
-	cfg.graphic_settings.width = main_wnd->Width();
-	cfg.graphic_settings.height = main_wnd->Height();
-	Context::Get().Config(cfg);
+	setting.graphic_settings.left = main_wnd->Left ();
+	setting.graphic_settings.top = main_wnd->Top ();
+	setting.graphic_settings.width = main_wnd->Width ();
+	setting.graphic_settings.height = main_wnd->Height ();
+
+	Config (setting);
 #endif
+	input.Init (*main_wnd);
+
 }
 
 loo::core::Application::~Application()
@@ -31,27 +35,29 @@ loo::core::Application::~Application()
 
 void loo::core::Application::Create()
 {
-	ContextConfig cfg = Context::Get().Config();
+	ContextConfig cfg = Config ();
 	//TODO
-	cfg.video_device_name = "vulkanrhi";
-	cfg.shaderlib_name = "shaderlib";
-	Context::Get().Config(cfg);
+	//cfg.video_device_name = "vulkanrhi";
+	//cfg.shaderlib_name = "shaderlib";
+	Config (cfg);
 
 	//Context::Get().GetShaderLibManager();
 
-	Context::Get().GetGraphicDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
-
-
-
+	//Context::Get().GetGraphicDevice();// .RenderEngineInstance ().CreateRenderWindow (name, cfg.graphic_settings);
 
 	this->OnCreate();
-	this->OnResize(cfg.graphic_settings.width, cfg.graphic_settings.height);
+
+	// todo framebuffersize
+	contextConfig.graphic_settings.framebufferWidth = contextConfig.graphic_settings.width;
+	contextConfig.graphic_settings.framebufferHeight = contextConfig.graphic_settings.height;
+
+	this->OnResize(contextConfig.graphic_settings.width, contextConfig.graphic_settings.height);
 }
 
 void loo::core::Application::Destroy()
 {
 	this->OnDestroy();
-	if (Context::Get().VideoDeviceValid())
+	//if (Context::Get().VideoDeviceValid())
 	{
 		//Context::Get ( ).RenderFactoryInstance ( ).RenderEngineInstance ( ).DestroyRenderWindow ( );
 	}
@@ -73,17 +79,18 @@ void loo::core::Application::Resume()
 
 void loo::core::Application::Refresh()
 {
-	//Context::Instance().RenderFactoryInstance().RenderEngineInstance().Refresh();
+	Update (pass_count);
+	this->OnRefresh ();
 }
 
-loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, rhi::RenderSettings const & settings)
+loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, vkfg::RenderSettings const & settings)
 {
-	return loo::global::MakeSharedPtr<Window>(aname, settings, nullptr);
+	return MakeWindow (aname, settings, nullptr);
 }
 
-loo::core::WindowPtr loo::core::Application::MakeWindow(std::string const & aname, rhi::RenderSettings const & settings, void * native_wnd)
+loo::core::WindowPtr loo::core::Application::MakeWindow (std::string const & aname, vkfg::RenderSettings const & settings,void * native_wnd)
 {
-	return loo::global::MakeSharedPtr<Window>(aname, settings, native_wnd);
+	return loo::global::MakeSharedPtr<Window>(aname, settings, this, native_wnd);
 }
 
 uint32_t loo::core::Application::TotalNumFrames() const
@@ -137,7 +144,7 @@ void loo::core::Application::Run()
 		}
 		else
 		{
-			//re.Refresh ( );
+			Refresh ();
 		}
 	}
 #elif defined LOO_PLATFORM_WINDOWS_STORE
@@ -156,7 +163,7 @@ void loo::core::Application::Run()
 		if (main_wnd_->Active())
 		{
 			dispatcher->ProcessEvents(CoreProcessEventsOption::CoreProcessEventsOption_ProcessAllIfPresent);
-			re.Refresh();
+			Refresh ();
 		}
 		else
 		{
@@ -164,18 +171,18 @@ void loo::core::Application::Run()
 		}
 	}
 #elif defined LOO_PLATFORM_ANDROID
-	while (!main_wnd_->Closed())
+	while (!main_wnd->Closed())
 	{
 		// Read all pending events.
 		int ident;
 		int events;
 		android_poll_source* source;
 
-		android_app* state = Context::Instance().AppState();
+		android_app* state = Context::Get ().AppState();
 
 		do
 		{
-			ident = ALooper_pollAll(main_wnd_->Active() ? 0 : -1, nullptr, &events, reinterpret_cast<void**>(&source));
+			ident = ALooper_pollAll(main_wnd->Active() ? 0 : -1, nullptr, &events, reinterpret_cast<void**>(&source));
 
 			// Process this event.
 			if (source != nullptr)
@@ -190,13 +197,13 @@ void loo::core::Application::Run()
 			}
 		} while (ident >= 0);
 
-		re.Refresh();
+		Refresh ();
 	}
 #elif defined LOO_PLATFORM_IOS
 	while (!main_wnd_->Closed())
 	{
 		Window::PumpEvents();
-		re.Refresh();
+		Refresh ();
 	}
 #endif
 
@@ -214,14 +221,16 @@ void loo::core::Application::Quit()
 #endif
 }
 
-void loo::core::Application::OnResize(uint32_t width, uint32_t height)
+
+bool loo::core::Application::OnResize(uint32_t width, uint32_t height)
 {
 	LOO_UNUSED(width);
 	LOO_UNUSED(height);
 	//this->Proj(this->ActiveCamera().NearPlane(), this->ActiveCamera().FarPlane());
+	return false;
 }
 
-uint32_t loo::core::Application::Update(uint32_t pass)
+uint32_t loo::core::Application::Update(uint64_t pass)
 {
 	if (0 == pass)
 	{
@@ -255,4 +264,14 @@ void loo::core::Application::UpdateStats()
 	}
 
 	timer.restart();
+}
+
+void loo::core::Application::Config (ContextConfig const & cfg)
+{
+	contextConfig = cfg;
+}
+
+loo::core::ContextConfig const & loo::core::Application::Config () const
+{
+	return contextConfig;
 }

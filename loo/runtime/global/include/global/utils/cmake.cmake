@@ -8,10 +8,12 @@ ${MODULE_ROOT_PATH}/include/global/utils/panic.h
 ${MODULE_ROOT_PATH}/include/global/utils/callstack.h
 ${MODULE_ROOT_PATH}/include/global/utils/cstring.h
 ${MODULE_ROOT_PATH}/include/global/utils/threadsafecounter.h
+${MODULE_ROOT_PATH}/include/global/utils/threadname.h
 )
 
 set(LOCAL_PUBLIC_WIN32
 ${MODULE_ROOT_PATH}/include/global/utils/win32/stdtypes.h
+${MODULE_ROOT_PATH}/include/global/utils/win32/windowsheader.h
 )
 
 set(LOCAL_PRIVATE
@@ -20,6 +22,7 @@ ${MODULE_ROOT_PATH}/source/global/utils/log.cpp
 ${MODULE_ROOT_PATH}/source/global/utils/panic.cpp
 ${MODULE_ROOT_PATH}/source/global/utils/callstack.cpp
 ${MODULE_ROOT_PATH}/source/global/utils/cstring.cpp
+${MODULE_ROOT_PATH}/source/global/utils/threadname.cpp
 )
 
 

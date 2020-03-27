@@ -3,7 +3,7 @@
 #include "global/global.h"
 #include <CPP/Common/MyWindows.h>
 
-#include "Streams.h"
+#include "streams.h"
 
 namespace loo
 {

@@ -1,6 +1,5 @@
-#include <KlayGE/KlayGE.hpp>
-
-#ifdef KLAYGE_PLATFORM_IOS
+#include "global/global.h"
+#ifdef LOO_PLATFORM_IOS
 
 #include <KFL/PreDeclare.hpp>
 #include <KFL/Math.hpp>

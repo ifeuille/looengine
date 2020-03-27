@@ -1,6 +1,6 @@
 #ifndef LOO_CORE_COMPILER_HPP
 #define LOO_CORE_COMPILER_HPP
-
+#include "global/config.h"
 // Detects supported compilers
 #if defined(__clang__)
 	// Clang++
@@ -285,12 +285,12 @@ enum ENoInit { NoInit };
 #define LOO_CONSTEXPR_OR_CONST constexpr
 
 #define LOO_ASSERT(x,msg) assert(x&&msg);
-
-// ssize_t is a POSIX type.
-#if defined(WIN32)
-#include <BaseTsd.h>
-typedef SSIZE_T ssize_t;
-#endif
+//
+//// ssize_t is a POSIX type.
+//#if defined(WIN32)
+//#include <BaseTsd.h>
+//typedef SSIZE_T ssize_t;
+//#endif
 
 
 //for non-lang
@@ -350,6 +350,66 @@ typedef SSIZE_T ssize_t;
 #else
 #  define __FUNC__     ((const char*) (__FUNCTION__))
 #endif
+
+#ifndef ND_
+# ifdef LOO_COMPILER_MSVC
+#  if _MSC_VER >= 1917
+#	define ND_				[[nodiscard]]
+#  else
+#	define ND_
+#  endif
+# endif
+#endif
+
+
+#ifdef LOO_COMPILER_MSVC
+#	define and		&&
+#	define or		||
+#	define not		!
+#endif
+
+// debug only scope
+#ifndef DEBUG_ONLY
+# ifdef LOO_DEBUG
+#	define DEBUG_ONLY( ... )		__VA_ARGS__
+# else
+#	define DEBUG_ONLY( ... )
+# endif
+#endif
+
+// allocator
+#ifdef LOO_COMPILER_MSVC
+#	define LOO_ALLOCATOR		__declspec( allocator )
+#else
+#	define LOO_ALLOCATOR
+#endif
+
+#ifndef LOO_FORCEINLINE
+#define LOO_FORCEINLINE inline
+#endif
+
+#ifndef ND_
+#define ND_
+#endif
+
+#define forceinline LOO_FORCEINLINE
+
+// function name
+#ifdef LOO_COMPILER_MSVC
+#	define LOO_FUNCTION_NAME			__FUNCTION__
+
+#elif defined(LOO_COMPILER_CLANG) or defined(LOO_COMPILER_GCC)
+#	define LOO_FUNCTION_NAME			__func__
+
+#else
+#	define LOO_FUNCTION_NAME			"unknown function"
+#endif
+
+// to fix compiler error C2338
+#ifdef LOO_COMPILER_MSVC
+#	define _ENABLE_EXTENDED_ALIGNED_STORAGE
+#endif
+
 
 #endif 
 //LOO_COMPILER_HPP

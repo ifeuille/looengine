@@ -4,23 +4,23 @@
 #include "vulkanrhi/vulkansemaphore.h"
 #include "vulkanrhi/vulkanswapchain.h"
 
-loo::rhi::VulkanSwapchain::VulkanSwapchain (
+loo::rhi::VulkanSwapChain::VulkanSwapChain (
 	VkInstance InInstance, VulkanDevice & InDevice,
 	void * WindowHandle, EPixelFormat & Informat, 
 	uint32 Width, uint32 Height, uint32 * InOutDesiredNumBackBuffers, std::vector<VkImage>& OutImage)
 {
 }
 
-void loo::rhi::VulkanSwapchain::Desroy ()
+void loo::rhi::VulkanSwapChain::Desroy ()
 {
 }
 
-loo::rhi::VulkanSwapchain::EStatus loo::rhi::VulkanSwapchain::Present (VulkanQueue * GfxQueue, VulkanQueue * PresentQueue, VulkanSemaphore * BackBufferRenderingDoneSemaphore)
+loo::rhi::VulkanSwapChain::EStatus loo::rhi::VulkanSwapChain::Present (VulkanQueue * GfxQueue, VulkanQueue * PresentQueue, VulkanSemaphore * BackBufferRenderingDoneSemaphore)
 {
 	return EStatus ();
 }
 
-loo::int32 loo::rhi::VulkanSwapchain::AcquireImageIndex (VulkanSemaphore ** OutSemaphore)
+loo::int32 loo::rhi::VulkanSwapChain::AcquireImageIndex (VulkanSemaphore ** OutSemaphore)
 {
 	return int32 ();
 }

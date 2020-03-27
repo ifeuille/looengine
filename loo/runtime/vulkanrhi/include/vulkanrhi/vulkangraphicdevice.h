@@ -12,7 +12,7 @@ namespace loo
 	{
 		struct VulkanContext;
 		class VulkanDevice;
-		class VulkanSwapchain;
+		class VulkanSwapChain;
 		class VulkanViewPort;
 		class VULKANRHI_EXPORT VulkanGraphicDevice : public GraphicDevice
 		{

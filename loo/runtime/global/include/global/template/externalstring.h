@@ -1,18 +1,18 @@
-#ifndef LE_CORE_EXTERNALSTRING_H
-#define LE_CORE_EXTERNALSTRING_H
+#ifndef LOO_CORE_EXTERNALSTRING_H
+#define LOO_CORE_EXTERNALSTRING_H
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <stdarg.h>
 #include <algorithm>
-#include <locale>
 #include <codecvt>
 #include <string>
-#include "global/math/math.h"
+//#include <locale>
+#include "global/global.h"
+#include "global/extstd/typetraits.h"
 #include "global/template/andornot.h"
 #include "global/template/isvalidvariadicfunctionarg.h"
-
 
 #if (defined WIN32) ||  (defined _WIN32)
 #include<Windows.h>
@@ -20,6 +20,7 @@
 #include<unistd.h> 
 #include<sys/types.h>
 #include<strings.h>
+#include <stdlib.h>
 #endif
 
 #include <limits>
@@ -47,10 +48,10 @@ namespace loo
 					}
 					bHasDot = true;
 				}
-				else if (!std::isdigit ( *Str, std::locale ( ) ))
+				/*else if (!std::isdigit ( *Str, std::locale ( ) ))
 				{
 					return false;
-				}
+				}*/
 
 				++Str;
 			}
@@ -58,9 +59,9 @@ namespace loo
 			return true;
 		}
 
-		inline std::string Left ( std::string& str, int32_t Count )
+		inline std::string Left (std::string& str, int32_t Count)
 		{
-			Count = loo::math::clamp ( Count, 0, static_cast<int32_t>(str.length ( )) );
+			Count = std::min (Count, std::max (0, static_cast<int32_t>(str.length ())));
 			std::string retString;
 			retString.copy ( &str[0], Count );
 			return retString;
@@ -85,7 +86,7 @@ namespace loo
 			int writtenBytes{};
 			writtenBytes = std::vsnprintf ( buf, STARTING_BUFFER_SIZE, Fmt, ap );
 			if (!writtenBytes) {
-				std::wcout << L"Cannot Output String" << std::endl;
+				std::wcout << L"Cannot Output std::string" << std::endl;
 				return std::string{};
 			}
 
@@ -105,7 +106,7 @@ namespace loo
 		{
 			if (str.length ( ) >= subStr.length ( ))
 			{
-				for (int i = 0; i < subStr.length ( ); ++i)
+				for (size_t i = 0; i < subStr.length ( ); ++i)
 				{
 					if (str[i] != subStr[i])
 					{
@@ -158,8 +159,12 @@ namespace loo
 #else
 			setlocale(LC_ALL, "zh_CN.gbk");
 #endif
-
-			mbs_size = wcstombs_s(&mbs_size, mbs, wc_size, wc, c_size);
+#if defined(LOO_COMPILER_MSVC)
+			wcstombs_s (&mbs_size, mbs, wc_size, wc, c_size);
+#else
+			LOO_UNUSED (wc_size);
+			mbs_size = wcstombs ( mbs, wc, c_size);
+#endif
 			return mbs_size;
 		}
 
@@ -174,8 +179,12 @@ namespace loo
 
 			if (mbs_size == 0)
 				mbs_size = UINT_MAX;			
-			mbstowcs_s(&out_wc_size,wc, wc_size, mbs, mbs_size);
-
+#if defined(LOO_COMPILER_MSVC)
+			mbstowcs_s (&out_wc_size, wc, wc_size, mbs, mbs_size);
+#else
+			LOO_UNUSED (wc_size);
+			out_wc_size = mbstowcs (wc, mbs, mbs_size);
+#endif
 			return out_wc_size;
 		}
 
@@ -216,6 +225,8 @@ namespace loo
 			return right == left;
 		}
 	}
+
+	
 }
 
 #endif

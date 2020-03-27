@@ -14,7 +14,9 @@
 #define GET_KEYSTATE_WPARAM(wParam) (LOWORD(wParam))
 #endif
 #include "global/extstd/signal.h"
-
+#include "core/context.h"
+#include "core/application/application.h"
+#include "core/application/input.h"
 
 namespace loo
 {
@@ -31,6 +33,19 @@ namespace loo
 			{
 				return ::DefWindowProc ( hWnd, uMsg, wParam, lParam );
 			}
+		}
+		bool CALLBACK Window::CTRLHandler (DWORD fdwctrltype)
+		{
+			auto app = Context::Get ().GetApplication (MainAppID);
+			if (app)
+			{
+				auto win = app->MainWnd ();
+				if (win)
+				{
+					return win->CTRLHandlerProc (fdwctrltype);
+				}
+			}
+			return false;
 		}
 
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
@@ -62,9 +77,10 @@ namespace loo
 		}
 #endif
 
-		Window::Window ( std::string const & name, rhi::RenderSettings const & settings, void* native_wnd )
+		Window::Window ( std::string const & name, vkfg::RenderSettings const & settings, Application* _app, void* native_wnd )
 			: active ( false ), ready ( false ), closed ( false ), keep_screen_on ( settings.keep_screen_on ),
 			dpi_scale ( 1 ), effective_dpi_scale ( 1 ), win_rotation ( WR_Identity ), hide ( settings.hide_win )
+			,app(_app), iconified(false)
 		{
 			this->DetectsDpi ( );
 			this->KeepScreenOn ( );
@@ -109,12 +125,19 @@ namespace loo
 
 				RECT rc = { 0, 0, static_cast<LONG>(settings.width * dpi_scale + 0.5f), static_cast<LONG>(settings.height * dpi_scale + 0.5f) };
 				::AdjustWindowRect ( &rc, win_style, false );
-
+				HWND parent = NULL;
+				if (!app->IsMainApp())
+				{
+					parent = Context::Get().GetApplication(MainAppID)->MainWnd()->HWnd();
+				}
 				// Create our main window
 				// Pass pointer to self
 				wnd = ::CreateWindowW ( wname.c_str ( ), wname.c_str ( ), win_style, settings.left, settings.top,
-					rc.right - rc.left, rc.bottom - rc.top, 0, 0, hInst, nullptr );
-
+					rc.right - rc.left, rc.bottom - rc.top, parent, 0, hInst, nullptr );
+#if (_WIN32_WINNT > _WIN32_WINNT_WIN7)
+				// register the window for touch instead of gestures
+				RegisterTouchWindow (wnd, 0);
+#endif
 				default_wnd_proc = ::DefWindowProc;
 				external_wnd = false;
 			}
@@ -130,7 +153,10 @@ namespace loo
 
 			::ShowWindow ( wnd, hide ? SW_HIDE : SW_SHOWNORMAL );
 			::UpdateWindow ( wnd );
-
+			if (app && app->IsMainApp ())
+			{
+				::SetConsoleCtrlHandler ((PHANDLER_ROUTINE)this->CTRLHandler, true);
+			}
 			ready = true;
 		}
 
@@ -157,8 +183,8 @@ namespace loo
 
 		LRESULT Window::MsgProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 		{
-		/*	sigslot::signal<void (loo::core::Window const & )> s;
-			s(*this);*/
+			Input& input = app->GetInput ();
+
 			switch (uMsg)
 			{
 			case WM_ACTIVATE:
@@ -214,24 +240,16 @@ namespace loo
 				reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = 100;
 				break;
 
-			case WM_SETCURSOR:
-				this->OnSetCursor ( )(*this);
-				break;
-
-			case WM_CHAR:
-				this->OnChar ( )(*this, static_cast<wchar_t>(wParam));
-				break;
-
 			case WM_INPUT:
 				this->OnRawInput ( )(*this, reinterpret_cast<HRAWINPUT>(lParam));
 				break;
-
+			
 #if (_WIN32_WINNT >= _WIN32_WINNT_WINBLUE)
 			case WM_POINTERDOWN:
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerDown ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
+				this->OnPointerDown ( )(*this, loo::math::int2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
 			}
 			break;
 
@@ -239,7 +257,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerUp ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
+				this->OnPointerUp ( )(*this, loo::math::int2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ));
 			}
 			break;
 
@@ -247,7 +265,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerUpdate ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
+				this->OnPointerUpdate ( )(*this, loo::math::int2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
 					IS_POINTER_INCONTACT_WPARAM ( wParam ));
 			}
 			break;
@@ -256,7 +274,7 @@ namespace loo
 			{
 				POINT pt = { GET_X_LPARAM ( lParam ), GET_Y_LPARAM ( lParam ) };
 				::ScreenToClient ( this->HWnd ( ), &pt );
-				this->OnPointerWheel ( )(*this, loo::math::vec2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
+				this->OnPointerWheel ( )(*this, loo::math::int2 ( pt.x, pt.y ), GET_POINTERID_WPARAM ( wParam ),
 					GET_WHEEL_DELTA_WPARAM ( wParam ));
 			}
 			break;
@@ -308,7 +326,43 @@ namespace loo
 				break;
 			}
 
+			if (input.MsgProc (hWnd, uMsg, wParam, lParam))
+			{
+				return 0;
+			}
+
 			return default_wnd_proc ( hWnd, uMsg, wParam, lParam );
+		}
+		bool Window::CTRLHandlerProc (DWORD fdwctrltype)
+		{
+			switch (fdwctrltype)
+			{
+				// handle the ctrl-c signal.
+			case CTRL_C_EVENT:
+				printf ("ctrl-c event\n\n");
+				return(true);
+				// ctrl-close: confirm that the user wants to exit.
+			case CTRL_CLOSE_EVENT://当试图关闭控制台程序，系统发送关闭消息。
+				printf ("ctrl-close event\n\n");
+				this->OnClose ()(*this);
+				active = false;
+				ready = false;
+				closed = true;
+				::PostQuitMessage (0);
+				return(true);
+				// pass other signals to the next handler.
+			case CTRL_BREAK_EVENT://用户按下CTRL+BREAK, 或者由GenerateConsoleCtrlEvent API发出.
+				printf ("ctrl-break event\n\n");
+				return false;
+			case CTRL_LOGOFF_EVENT://用户退出时，但是不能决定是哪个用户. 
+				printf ("ctrl-logoff event\n\n");
+				return false;
+			case CTRL_SHUTDOWN_EVENT://当系统被关闭时.  
+				printf ("ctrl-shutdown event\n\n");
+				return false;
+			default:
+				return false;
+			}
 		}
 
 		void Window::DetectsDpi ( )

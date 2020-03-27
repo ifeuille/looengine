@@ -3,8 +3,7 @@
 #include "rhi/dllexporter.h"
 #include "global/global.h"
 #include "rhi/elementformat.h"
-#include "rhi/graphicdevice.h"
-
+#include "rhi/rhi.h"
 namespace loo
 {
 	namespace rhi

@@ -14,7 +14,6 @@
 #pragma clang diagnostic ignored "-Wunused-variable" // Ignore unused variable (mpl_assertion_in_line_xxx) in boost
 #endif
 #include "global/extstd/readerwriterqueue.h"
-//#include <boost/lockfree/spsc_queue.hpp>
 #if defined(LE_COMPILER_CLANGC2)
 #pragma clang diagnostic pop
 #endif
@@ -22,6 +21,10 @@
 #include "global/thread.h"
 #include "global/extstd/noncopyable.h"
 #include "filemanager/package.h"
+#if defined(LOO_PLATFORM_ANDROID)
+struct AAsset;
+struct android_app;
+#endif
 
 namespace loo
 {
@@ -63,7 +66,12 @@ namespace loo
 
 			static ResLoader& Instance ();
 			static void Destroy ();
-			void Init (loo::global::thread_pool& threadpool);
+			void Init (
+				loo::global::thread_pool& threadpool
+#ifdef LOO_PLATFORM_ANDROID
+				,android_app* state_
+#endif
+			);
 
 			void Suspend ();
 			void Resume ();
@@ -121,7 +129,13 @@ namespace loo
 
 			void LoadingThreadFunc ();
 
-
+#if defined(LOO_PLATFORM_ANDROID)
+			AAsset* LocateFileAndroid (nonstd::string_view name);
+#elif defined(LOO_PLATFORM_IOS)
+			std::string LocateFileIOS (nonstd::string_view name);
+#elif defined(LOO_PLATFORM_WINDOWS_STORE)
+			std::string LocateFileWinRT (nonstd::string_view name);
+#endif
 		private:
 			static std::unique_ptr<ResLoader> res_loader_instance_;
 
@@ -147,6 +161,10 @@ namespace loo
 
 			std::unique_ptr<loo::global::joiner<void>> loading_thread_;
 			volatile bool quit_;
+
+#ifdef LOO_PLATFORM_ANDROID
+			 android_app* state;
+#endif
 		};
 	}
 }

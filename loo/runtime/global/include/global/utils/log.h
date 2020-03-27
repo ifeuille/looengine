@@ -20,7 +20,9 @@
 #include <string>
 #include <thread>
  //#include <utils/ThreadLocal.h>
-#include "global/global.h"
+#include "global/config.h"
+#include "global/compiler.h"
+#include "global/platform.h"
 #include "global/utils/bitset.h"
 
 // We always use TINY IO, it seems to work well enough and that a nice way to not
@@ -102,7 +104,7 @@ namespace utils {
 				char* curr = mStorage;
 				size_t size = sizeof (mStorage);
 				const char* get () const noexcept { return mStorage; }
-				void advance (ssize_t n) noexcept;
+				void advance (std::int64_t n) noexcept;
 				void reset () noexcept;
 			};
 
@@ -164,5 +166,29 @@ namespace utils {
 	extern Loggers slog;
 
 } // namespace utils
+
+#ifndef CHECK
+#define CHECK_PRIVATE(_func_)\
+{\
+if(!_func_){\
+utils::slog.e<<"CHECK FAILED:"<<#_func_<<utils::io::endl;\
+}}
+#define CHECK(_func_)\
+	CHECK_PRIVATE((_func_))
+#endif
+// check function return value and exit
+#ifndef CHECK_FATAL
+#	define CHECK_FATAL( _expr_ ) \
+		{if (( _expr_ )) {}\
+		  else { \
+			LOO_LOGE( LOO_PRIVATE_TOSTRING( _expr_ ) ); \
+			LOO_PRIVATE_EXIT(); \
+		}}
+#endif
+#define CHECK_ERR(_func_) CHECK(_func_)
+#define LOO_LOGI(arg) utils::slog.i<<arg<<utils::io::endl;
+#define LOO_LOGE(arg) utils::slog.e<<arg<<utils::io::endl;
+#define LOO_LOGW(arg) utils::slog.w<<arg<<utils::io::endl;
+#define LOO_LOGD(arg) utils::slog.d<<arg<<utils::io::endl;
 
 #endif // TNT_UTILS_LOG_H

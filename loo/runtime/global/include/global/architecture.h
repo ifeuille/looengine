@@ -26,7 +26,7 @@
 #error "Unknown CPU type. In msvc, x64, arm, and arm64 are supported."
 #endif
 
-#elif defined(LOO_COMPILER_GCC)||defined(LOO_COMIPLER_CLANG)
+#elif defined(LOO_COMPILER_GCC)||defined(LOO_COMPILER_CLANG)
 #if defined(__x86_64__)
 #define LOO_CPU_X64
 #define LOO_COMPILER_TARGLET x64
@@ -42,11 +42,13 @@
 #else
 #error "Unknown CPU type. In g++/clang, x86, x64, arm, and arm64 are supported."
 #endif
+#else 
+#error "Unknown CPU type."
 #endif
 
 //
 #if defined(LOO_CPU_ARM)||defined(LOO_CPU_ARM64)
-#if defined(__BIG_ENDIAN__)||defined(__ARMEB__)||defined(__THUMBEB__)||#define(__AARCH64EB__)
+#if defined(__BIG_ENDIAN__)||defined(__ARMEB__)||defined(__THUMBEB__)||defined(__AARCH64EB__)
 #define LOO_BIG_ENDIAN
 #else
 #define LOO_LITILOO_ENDIAN
@@ -131,5 +133,14 @@
 #define LOO_NEON_SUPPORT
 #endif
 
+
+
+#ifndef LOO_CACHE_LINE
+#ifdef LOO_64
+#define LOO_CACHE_LINE  64
+#else
+#define LOO_CACHE_LINE  32
+#endif
+#endif
 
 #endif

@@ -9,7 +9,7 @@ namespace loo
 	class LOOMODULEMANAGER_EXPORT IModuleInterface
 	{
 	public:
-
+		virtual ~IModuleInterface () {}
 		virtual bool IsSupport ()
 		{
 			return true;

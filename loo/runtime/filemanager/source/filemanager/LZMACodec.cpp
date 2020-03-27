@@ -6,6 +6,7 @@
 #include <C/LzmaLib.h>
 #include "filemanager/residentifier.h"
 #include "modulemanager/dllloader.h"
+#include "global/math/math.h"
 
 namespace
 {
@@ -124,12 +125,12 @@ namespace loo
 
 		void LZMACodec::Encode ( std::vector<uint8_t>& output, loo::global::ArrayRef<uint8_t> input )
 		{
-			SizeT out_len = static_cast<SizeT>(max ( input.size ( ) * 11 / 10, static_cast<size_t>(32) ));
+			SizeT out_len = static_cast<SizeT>(loo::math::Max ( input.size ( ) * 11 / 10, static_cast<size_t>(32) ));
 			output.resize ( LZMA_PROPS_SIZE + out_len );
 			SizeT out_props_size = LZMA_PROPS_SIZE;
 			LZMALoader::Instance ( ).LzmaCompress ( &output[LZMA_PROPS_SIZE], &out_len,
 				static_cast<Byte const *>(input.data ( )), static_cast<SizeT>(input.size ( )),
-				&output[0], &out_props_size, 5, min<uint32_t> ( static_cast<uint32_t>(input.size ( )), 1UL << 24 ), 3, 0, 2, 32, 1 );
+				&output[0], &out_props_size, 5, loo::math::Min<uint32_t> ( static_cast<uint32_t>(input.size ( )), 1UL << 24 ), 3, 0, 2, 32, 1 );
 
 			output.resize ( LZMA_PROPS_SIZE + out_len );
 		}
@@ -184,6 +185,7 @@ namespace loo
 			int res = LZMALoader::Instance ( ).LzmaUncompress ( static_cast<Byte*>(output), &s_out_len, &in_data[LZMA_PROPS_SIZE], &s_src_len,
 				&in_data[0], LZMA_PROPS_SIZE );
 			assert( 0 == res );
+			LOO_UNUSED (res);
 		}
 	}
 }

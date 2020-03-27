@@ -13,20 +13,22 @@ namespace looreflect {
 			unsigned flags,
 			const char* name,
 			const char* tagName,
-			int value,
+			uint64_t value,
 			int index)noexcept
-			:m_type (type)
-			, m_flags (flags)
-			, m_name (name)
-			, m_tagName(tagName)
+			: m_index (index)
 			, m_value (value)
-			, m_index (index) {
+			, m_name (name)
+			, m_tagName (tagName)
+			, m_flags (flags)
+			, m_type (type)
+		{
 		}
 
-		int value ()const noexcept {
+		uint64_t value ()const noexcept {
 			return m_value;
 		}
-		int index ()const noexcept {
+
+		uint64_t index ()const noexcept {
 			return m_index;
 		}
 		std::size_t flags () const noexcept {
@@ -46,7 +48,8 @@ namespace looreflect {
 		}
 	public:
 		int m_index;
-		int m_value;
+		uint64_t m_value;
+		
 		const char* m_name;//not full name
 		const char* m_tagName;
 		std::size_t m_flags;
@@ -142,18 +145,18 @@ namespace looreflect {
 			return nullptr;
 		}
 
-		LooEnumConstant const* enum_constant_by_value (int value)const noexcept {
+		LooEnumConstant const* enum_constant_by_value (uint64_t value)const noexcept {
 			for (auto& enumvalue : values ()) {
-				if (value = enumvalue.value ()) {
+				if (value == enumvalue.value ()) {
 					return &enumvalue;
 				}
 			}
 			return nullptr;
 		}
 
-		LooEnumConstant const* enum_constant_by_index (int index)const noexcept {
+		LooEnumConstant const* enum_constant_by_index (uint64_t index)const noexcept {
 			for (auto& enumvalue : values ()) {
-				if (index = enumvalue.index ()) {
+				if (index == enumvalue.index ()) {
 					return &enumvalue;
 				}
 			}
@@ -178,6 +181,9 @@ namespace looreflect {
 
 		};
 	}
+
 }
+
+
 
 #endif

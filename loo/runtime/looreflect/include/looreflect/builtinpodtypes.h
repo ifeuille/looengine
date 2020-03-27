@@ -48,7 +48,7 @@ namespace looreflect {
 			virtual bool is_pod () const noexcept override { return true; };
 		};
 		static Void type{ 0, Hash ("void"), "void" };
-		return &type;
+		return static_cast <LooType *>(&type);
 	}
 
 	TYPES

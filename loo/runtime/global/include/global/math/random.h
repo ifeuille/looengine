@@ -11,12 +11,12 @@ namespace loo
 	{
 
 		//random 
-		using glm::ballRand;
-		using glm::circularRand;
-		using glm::diskRand;
-		using glm::gaussRand;
-		using glm::linearRand;
-		using glm::sphericalRand;
+		//using glm::ballRand;
+		//using glm::circularRand;
+		//using glm::diskRand;
+		//using glm::gaussRand;
+		//using glm::linearRand;
+		//using glm::sphericalRand;
 
 
 		///** Returns a random integer between 0 and RAND_MAX, inclusive */

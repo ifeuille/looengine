@@ -62,7 +62,7 @@ void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_
         auto parentdecl = baseTypePtr->getAsCXXRecordDecl();
         if (parentdecl) {
           //只反射可反射的类,且第一个
-          for (auto &attr : m_record->attrs()) {
+          for (auto &attr : parentdecl->attrs()) {
             if (attr->getKind() == attr::Annotate) {
               auto ref = GetAnnotations(attr, str);
               if (ref.startswith("loo-class")) {
@@ -134,7 +134,7 @@ void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_
   /* GetClass function */
   /* os << "template<> struct ClassResolver<" << type << ">;\n"; */
   os << "template<>\n"
-     << "LooClass const *\n"
+     << "inline LooClass const *\n"
      /* << "ClassResolver<" << type << ">::Get() noexcept\n" */
      /* << "GetClass<" << type << ">() noexcept\n" */
      << "LooGetClassImpl(LooClassTag<" << type << ">) noexcept\n"
@@ -171,7 +171,7 @@ void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_
   /* GetType function */
   /* os << "template<> struct TypeResolver<" << type << ">;\n"; */
   os << "template<>\n"
-     << "LooType const *\n"
+     << "inline LooType const *\n"
      /* << "TypeResolver<" << type << ">::Get() noexcept\n" */
      /* << "GetType<" << type << ">() noexcept\n" */
      << "LooGetTypeImpl(LooTypeTag<" << type << ">) noexcept\n"
@@ -185,7 +185,7 @@ void ReflectedClass::Generate(ASTContext *ctx, raw_ostream &os, raw_ostream &os_
   os << "} /* namespace looreflect */\n\n";
 
   os << "// utils functions for class instance\n";
-  os << "const looreflect::LooType *" << type << "::GetType() const { ";
+  os << "inline const looreflect::LooType *" << type << "::GetType() const { ";
   os << "return looreflect::LooGetClass<" << type<<">();}\n\n";
 
   //private

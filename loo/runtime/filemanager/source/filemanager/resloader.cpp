@@ -31,16 +31,16 @@
 #include <KFL/ErrorHandling.hpp>
 #elif defined LOO_PLATFORM_LINUX
 #elif defined LOO_PLATFORM_ANDROID
+#include <unistd.h>
 #include <android_native_app_glue.h>
 #include <android/asset_manager.h>
-#include <KFL/CustomizedStreamBuf.hpp>
+#include "global/stream/customizedstreambuf.h"
 #elif defined LOO_PLATFORM_DARWIN
 #include <mach-o/dyld.h>
 #elif defined LOO_PLATFORM_IOS
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 #include "filemanager/resloader.h"
-
 
 namespace
 {
@@ -54,7 +54,7 @@ namespace
 			: MemInputStreamBuf (AAsset_getBuffer (asset), AAsset_getLength (asset)),
 			asset_ (asset)
 		{
-			BOOST_ASSERT (asset_ != nullptr);
+			ASSERT (asset_ != nullptr);
 		}
 
 		~AAssetStreamBuf ()
@@ -207,8 +207,15 @@ namespace loo
 				[this] { this->LoadingThreadFunc (); }));*/
 		}
 
-		void ResLoader::Init (loo::global::thread_pool& threadpool)
+		void ResLoader::Init (loo::global::thread_pool& threadpool
+#ifdef LOO_PLATFORM_ANDROID
+			 ,android_app* state_
+#endif
+		)
 		{
+#ifdef LOO_PLATFORM_ANDROID
+			state = state_;
+#endif
 			loading_thread_ = loo::global::MakeUniquePtr<loo::global::joiner<void>> (threadpool(
 				[this] { this->LoadingThreadFunc (); }));
 		}
@@ -257,7 +264,7 @@ namespace loo
 				std::error_code ec;
 				if (!fs::exists (full_path,ec))
 				{
-#ifndef LOO_PLATFORM_ANDROID
+//#ifndef LOO_PLATFORM_ANDROID
 					try
 					{
 						full_path = fs::current_path () / new_path;
@@ -270,9 +277,9 @@ namespace loo
 					{
 						return "";
 					}
-#else
-					return "";
-#endif
+//#else
+//					return "";
+//#endif
 				}
 				new_path = full_path;
 			}
@@ -598,9 +605,9 @@ namespace loo
 			AAsset* asset = this->LocateFileAndroid (name);
 			if (asset != nullptr)
 			{
-				std::shared_ptr<AAssetStreamBuf> asb = MakeSharedPtr<AAssetStreamBuf> (asset);
-				std::shared_ptr<std::istream> asset_file = MakeSharedPtr<std::istream> (asb.get ());
-				return MakeSharedPtr<ResIdentifier> (name, 0, asset_file, asb);
+				std::shared_ptr<AAssetStreamBuf> asb = loo::global::MakeSharedPtr<AAssetStreamBuf> (asset);
+				std::shared_ptr<std::istream> asset_file = loo::global::MakeSharedPtr<std::istream> (asb.get ());
+				return loo::global::MakeSharedPtr<ResIdentifier> (name, 0, asset_file, asb);
 			}
 #elif defined(LOO_PLATFORM_IOS)
 			std::string const & res_name = this->LocateFileIOS (name);
@@ -613,8 +620,8 @@ namespace loo
 				uint64_t timestamp = fs::last_write_time (res_path);
 #endif
 
-				return MakeSharedPtr<ResIdentifier> (name, timestamp,
-					MakeSharedPtr<std::ifstream> (res_name.c_str (), std::ios_base::binary));
+				return loo::global::MakeSharedPtr<ResIdentifier> (name, timestamp,
+					loo::global::MakeSharedPtr<std::ifstream> (res_name.c_str (), std::ios_base::binary));
 			}
 #else
 			{
@@ -960,8 +967,11 @@ namespace loo
 						*res_pair.second = LS_Complete;
 					}
 				}
-
+#if defined(LOO_COMPILER_MSVC)
 				Sleep (10);
+#else
+				sleep (10);
+#endif
 			}
 		}
 
@@ -969,7 +979,7 @@ namespace loo
 #if defined(LOO_PLATFORM_ANDROID)
 		AAsset* ResLoader::LocateFileAndroid (nonstd::string_view name)
 		{
-			android_app* state = Context::Instance ().AppState ();
+			//android_app* state = loo::core::Context::Instance ().AppState ();
 			AAssetManager* am = state->activity->assetManager;
 			return AAssetManager_open (am, std::string (name).c_str (), AASSET_MODE_UNKNOWN);
 		}

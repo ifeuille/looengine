@@ -43,6 +43,7 @@
         "optional": "cpp",
         "thread": "cpp",
         "variant": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "filesystem": "cpp"
     }
 }

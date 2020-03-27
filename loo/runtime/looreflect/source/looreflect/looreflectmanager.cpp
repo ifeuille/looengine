@@ -13,7 +13,7 @@ namespace looreflect
 		public:
 
 			void regist_type (const looreflect::LooType *type, const char *moduleName) {
-				std::unique_lock<std::shared_mutex> shareLock (ModulesMutex);
+				std::unique_lock<std::shared_mutex> uniqueLock (ModulesMutex);
 				if (type) {
 					m_HashTypeMap[moduleName][type->m_hash] = type;
 				}
@@ -21,7 +21,7 @@ namespace looreflect
 
 			void remove_type (std::uint64_t hashvalue, const char *moduleName)
 			{
-				std::unique_lock<std::shared_mutex> shareLock (ModulesMutex);
+				std::unique_lock<std::shared_mutex> uniqueLock (ModulesMutex);
 				if (strcmp (moduleName, ALL_MODULE) == 0) {
 					for (auto it = m_HashTypeMap.begin (); it != m_HashTypeMap.end (); ++it) {
 						it->second.erase (hashvalue);
@@ -37,7 +37,7 @@ namespace looreflect
 
 			const looreflect::LooType *get_type (std::uint64_t hashvalue,
 				const char *moduleName) {
-				std::unique_lock<std::shared_mutex> shareLock (ModulesMutex);
+				std::shared_lock<std::shared_mutex> shareLock (ModulesMutex);
 				if (strcmp (moduleName, ALL_MODULE) == 0) {
 					for (auto it = m_HashTypeMap.begin (); it != m_HashTypeMap.end (); ++it) {
 						auto it_type = it->second.find (hashvalue);

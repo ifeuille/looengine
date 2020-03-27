@@ -12,6 +12,7 @@
 
 #include "global/extstd/optional.h"
 #include "global/utlis.h"
+#include "global/utils/threadname.h"
 
 namespace loo
 {
@@ -322,9 +323,9 @@ namespace loo
 				typedef typename joiner_impl_t::result_opt				result_opt;
 				typedef detail::threaded<Threadable, joiner_impl_t>		threaded_t;
 
-				std::shared_ptr<result_opt> myreturn = MakeSharedPtr<result_opt> ( );
-				std::shared_ptr<threaded_t> mythreaded = MakeSharedPtr<threaded_t> ( function, myreturn );
-				std::shared_ptr<joiner_impl_base<result_t>> myjoiner_data = MakeSharedPtr<joiner_impl_t> ( myreturn,
+				std::shared_ptr<result_opt> myreturn = loo::global::MakeSharedPtr<result_opt> ( );
+				std::shared_ptr<threaded_t> mythreaded = loo::global::MakeSharedPtr<threaded_t> ( function, myreturn );
+				std::shared_ptr<joiner_impl_base<result_t>> myjoiner_data = loo::global::MakeSharedPtr<joiner_impl_t> ( myreturn,
 					[mythreaded] { threaded_t::needle ( mythreaded ); } );
 
 				return joiner_t ( myjoiner_data );
@@ -498,7 +499,7 @@ namespace loo
 				joiner_thread_pool_impl ( std::shared_ptr<thread_pool_common_data_t> const & data,
 					std::shared_ptr<typename joiner_impl_base<result_type>::result_opt> const & result_op,
 					Threadable const & func )
-					: thread_pool_join_info_ ( MakeSharedPtr<thread_pool_join_info> ( ) )
+					: thread_pool_join_info_ (loo::global::MakeSharedPtr<thread_pool_join_info> ( ) )
 				{
 					joiner_impl_base<result_type>::result_ = result_op;
 
@@ -555,9 +556,9 @@ namespace loo
 				typedef typename joiner_impl_t::result_opt				result_opt;
 				typedef detail::threaded<Threadable, joiner_impl_t>		threaded_t;
 
-				std::shared_ptr<result_opt> myreturn = MakeSharedPtr<result_opt> ( );
-				std::shared_ptr<threaded_t> mythreaded = MakeSharedPtr<threaded_t> ( function, myreturn );
-				std::shared_ptr<joiner_impl_base<result_t>> myjoiner_data = MakeSharedPtr<joiner_impl_t> ( data_,
+				std::shared_ptr<result_opt> myreturn = loo::global::MakeSharedPtr<result_opt> ( );
+				std::shared_ptr<threaded_t> mythreaded = loo::global::MakeSharedPtr<threaded_t> ( function, myreturn );
+				std::shared_ptr<joiner_impl_base<result_t>> myjoiner_data = loo::global::MakeSharedPtr<joiner_impl_t> ( data_,
 					myreturn, [mythreaded] { threaded_t::needle ( mythreaded ); } );
 
 				return joiner_t ( myjoiner_data );

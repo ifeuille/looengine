@@ -25,6 +25,8 @@
 #include "android_native_app_glue.h"
 #include <android/log.h>
 
+#define JNIEXPORT  __attribute__ ((visibility ("default")))
+
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "threaded_app", __VA_ARGS__))
 #define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, "threaded_app", __VA_ARGS__))
 
@@ -454,8 +456,9 @@ static void onContentRectChanged(ANativeActivity* activity, const ARect* rect) {
     android_app_write_cmd(android_app, APP_CMD_CONTENT_RECT_CHANGED);
 }
 
-void ANativeActivity_onCreate(ANativeActivity* activity,
-        void* savedState, size_t savedStateSize) {
+//JNIEXPORT
+void  ANativeActivity_onCreate(ANativeActivity* activity,
+    void* savedState, size_t savedStateSize) {
     LOGV("Creating: %p\n", activity);
     activity->callbacks->onDestroy = onDestroy;
     activity->callbacks->onStart = onStart;

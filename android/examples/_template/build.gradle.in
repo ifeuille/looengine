@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+apply from: '../gradle/outputfilename.gradle'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        @APP_ID@
+        @MIN_SDK_VERSION@
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        @NDK_ABI_FILTERS@
+
+        externalNativeBuild {
+             @CMAKE_ARGUMENTS@
+        }
+    }
+    sourceSets {
+        @RES_SRC_DIRS@
+        main.assets.srcDirs = ['assets']
+        debug {
+            jniLibs.srcDirs += ["$ndkDirectory/sources/third_party/vulkan/src/build-android/jniLibs"]
+        }
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        @CMAKE_PATH@
+    }
+}
+
+task copyTask {
+    copy {
+        from '../../common/res/drawable'
+        into "src/main/res/drawable"
+        include 'icon.png'
+    }
+
+    /*copy {
+        from '../../../data/shaders/base'
+        into "assets/shaders/base"
+        include '*.spv'
+    }*/
+
+@ASSET_COPY@
+}
+
+preBuild.dependsOn copyTask

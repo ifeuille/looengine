@@ -1,89 +1,47 @@
 # looengine
 
-## folders
+### 简单说明
 
-loo
+使用或参考了若干第三方开源库
 
-loo/thirdpart lib/dll
+主要包括：
 
-loo/core lib
+strtk
 
-loo/tools exe
+[framegraph](https://github.com/azhirnov/FrameGraph.git)
 
-loo/engine dll
+metareflect
 
-resources/template
+entt
 
-resources/public
 
-projects
-
-projects/Tests
-
-projects/samples
-
-buildsys
-
-buildsys/cmake
-
-buildsys/scripts
-
-buildsys/toolchain
-
-build
-
-output
-
-output/bin
-
-output/lib
-
-document
 
 ## define
 
-c++11
-
-c++/lua
-
-llvm/clang only
+c++14
 
 vulkan only
 
-platform : windows,linux,android,mac,ios
+platform : windows,android
 
-wish:ps5(vulkan supported half life5),switch
+- 后续会支持ios等
 
-more:xbox(need vulkan wrap dx)
+
 
 ## build
 
 ### windows
-http://llvm.org/builds/
-
-https://marketplace.visualstudio.com/items?itemName=LLVMExtensions.llvm-toolchain
-
-dic : build
-
-cmake ..\.. -T"LLVM-vs2014" -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D:\env\clang\LLVM\bin\clang-cl.exe" -DCMAKE_C_COMPILER:PATH="D:\env\clang\LLVM\bin\clang-cl.exe" -DCMAKE_LINKER:PATH="D:\env\clang\LLVM\bin\lld-link.exe"
-
-cmake ..\ -T"LLVM" -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D:\env\clang\bin\clang-cl.exe" -DCMAKE_C_COMPILER:PATH="D:\env\clang\bin\clang-cl.exe" -DCMAKE_LINKER:PATH="D:\env\clang\bin\lld-link.exe"
-
-
-cmake ..\ -T"LLVM" -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_C_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_LINKER:PATH="D:\environment\clang\LLVM\bin\lld-link.exe"
-
-
-cmake ..\ -T"llvm" -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_C_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_LINKER:PATH="D:\environment\clang\LLVM\bin\lld-link.exe"
-
-cmake ..\  -G "Visual Studio 15 2017 Win64" -DCMAKE_CXX_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_C_COMPILER:PATH="D:\environment\clang\LLVM\bin\clang-cl.exe" -DCMAKE_LINKER:PATH="D:\environment\clang\LLVM\bin\lld-link.exe"
-
-
-D:\environment\clang\LLVM\bin
-
-run
-
 ````
-msbuild  LOO.sln /t:material_sandbox /m /p:configuration=Release
-
-
+mkdir build
+cd build
+cmake .. -G"Visual Studio 15 2017 Win64"
 ````
+
+### android
+
+使用android studio 打开./android/目录即可
+
+必须编译release版本，debug版本有.so引用问题，待解决
+
+若想增加android测试例子，见./buildsys/android目录下的generate_sample_gradle.bat
+

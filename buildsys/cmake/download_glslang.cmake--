@@ -1,0 +1,264 @@
+# find or download GLSLANG
+
+if (${LOO_EXTERNALS_USE_PREBUILD} AND ${LOO_ENABLE_GLSLANG})
+    message( FATAL_ERROR "not supported" )
+
+	add_library( "GLSLang-lib" INTERFACE )
+	target_include_directories( "GLSLang-lib" INTERFACE "${LOO_THIRDPART_ROOT_DIR}/glslang/include" )
+	target_compile_definitions( "GLSLang-lib" INTERFACE LOO_ENABLE_GLSLANG ENABLE_HLSL ENABLE_OPT AMD_EXTENSIONS NV_EXTENSIONS )
+	set( LOO_GLSLANG_LIBRARIES
+		"${LOO_THIRDPART_ROOT_DIR}/glslang/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SPIRV${CMAKE_STATIC_LIBRARY_SUFFIX}"
+		"${LOO_THIRDPART_ROOT_DIR}/glslang/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glslang${CMAKE_STATIC_LIBRARY_SUFFIX}"
+		"${LOO_THIRDPART_ROOT_DIR}/glslang/lib/${CMAKE_STATIC_LIBRARY_PREFIX}OSDependent${CMAKE_STATIC_LIBRARY_SUFFIX}"
+		"${LOO_THIRDPART_ROOT_DIR}/glslang/lib/${CMAKE_STATIC_LIBRARY_PREFIX}HLSL${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+	if (UNIX)
+		set( LOO_GLSLANG_LIBNAMES "${LOO_GLSLANG_LIBNAMES}" "pthread" )
+	endif ()
+	set( LOO_GLSLANG_LIBRARIES ${LOO_GLSLANG_LIBRARIES}
+		"${LOO_THIRDPART_ROOT_DIR}/glslang/lib/${CMAKE_STATIC_LIBRARY_PREFIX}OGLCompiler${CMAKE_STATIC_LIBRARY_SUFFIX}"
+		"${LOO_THIRDPART_ROOT_DIR}/glslang/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SPIRV-Tools${CMAKE_STATIC_LIBRARY_SUFFIX}"
+		"${LOO_THIRDPART_ROOT_DIR}/glslang/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SPIRV-Tools-opt${CMAKE_STATIC_LIBRARY_SUFFIX}" )
+	set_property( TARGET "GLSLang-lib" PROPERTY INTERFACE_LINK_LIBRARIES "${LOO_GLSLANG_LIBRARIES}" )
+
+
+elseif (${LOO_ENABLE_GLSLANG})
+	set( LOO_EXTERNAL_GLSLANG_PATH "" CACHE PATH "path to glslang source" )
+	mark_as_advanced( LOO_EXTERNAL_GLSLANG_PATH )
+
+	# SPIRV-Tools require Python 2.7 for building
+	find_package( PythonInterp 2.7 REQUIRED )
+	find_package( PythonLibs 2.7 REQUIRED )
+
+	# reset to default
+	if (NOT EXISTS "${LOO_EXTERNAL_GLSLANG_PATH}/CMakeLists.txt")
+		message( STATUS "glslang is not found in ${LOO_EXTERNAL_GLSLANG_PATH}" )
+		set( LOO_EXTERNAL_GLSLANG_PATH "${LOO_THIRDPART_ROOT_DIR}/glslang" CACHE PATH "" FORCE )
+	else ()
+		message( STATUS "glslang found in \"${LOO_EXTERNAL_GLSLANG_PATH}\"" )
+	endif ()
+
+	if (NOT EXISTS "${LOO_EXTERNAL_GLSLANG_PATH}/CMakeLists.txt")
+		set( LOO_GLSLANG_REPOSITORY "https://github.com/KhronosGroup/glslang.git" )
+	else ()
+		set( LOO_GLSLANG_REPOSITORY "" )
+	endif ()
+	
+	if (NOT EXISTS "${LOO_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/include")
+		set( LOO_SPIRVTOOLS_REPOSITORY "https://github.com/KhronosGroup/SPIRV-Tools.git" )
+	else ()
+		set( LOO_SPIRVTOOLS_REPOSITORY "" )
+	endif ()
+	
+	if (NOT EXISTS "${LOO_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/external/SPIRV-Headers/include")
+		set( LOO_SPIRVHEADERS_REPOSITORY "https://github.com/KhronosGroup/SPIRV-Headers.git" )
+	else ()
+		set( LOO_SPIRVHEADERS_REPOSITORY "" )
+	endif ()
+	
+	set( ENABLE_HLSL ON CACHE BOOL "glslang option" )
+	set( ENABLE_OPT ON CACHE BOOL "glslang option" )
+	set( ENABLE_AMD_EXTENSIONS ON CACHE BOOL "glslang option" )
+	set( ENABLE_NV_EXTENSIONS ON CACHE BOOL "glslang option" )
+	mark_as_advanced( ENABLE_HLSL ENABLE_OPT ENABLE_AMD_EXTENSIONS ENABLE_NV_EXTENSIONS )
+
+	if (${LOO_EXTERNALS_USE_STABLE_VERSIONS})
+		# stable release February 8, 2019
+		set( GLSLANG_TAG "7.11.3113" )
+		set( SPIRV_TOOLS_TAG "v2019.1" )
+		set( SPIRV_HEADERS_TAG "1.3.7" )
+	else ()
+		set( GLSLANG_TAG "master" )
+		set( SPIRV_TOOLS_TAG "master" )
+		set( SPIRV_HEADERS_TAG "master" )
+	endif ()
+
+	ExternalProject_Add( "glslang"
+		#LOG_OUTPUT_ON_FAILURE 1
+		# download
+		GIT_REPOSITORY		${LOO_GLSLANG_REPOSITORY}
+		GIT_TAG				${GLSLANG_TAG}
+		GIT_PROGRESS		1
+		# update
+		PATCH_COMMAND		""
+		UPDATE_DISCONNECTED	1
+		LOG_UPDATE			1
+		# configure
+		SOURCE_DIR			"${LOO_EXTERNAL_GLSLANG_PATH}"
+		CONFIGURE_COMMAND	""
+		# build
+		BINARY_DIR			""
+		BUILD_COMMAND		""
+		INSTALL_COMMAND		""
+		TEST_COMMAND		""
+	)
+	
+	ExternalProject_Add( "SPIRV-Tools"
+		#LOG_OUTPUT_ON_FAILURE 1
+		DEPENDS				"glslang"
+		# download
+		GIT_REPOSITORY		${LOO_SPIRVTOOLS_REPOSITORY}
+		GIT_TAG				${SPIRV_TOOLS_TAG}
+		GIT_PROGRESS		1
+		# update
+		PATCH_COMMAND		""
+		UPDATE_DISCONNECTED	1
+		LOG_UPDATE			1
+		# configure
+		SOURCE_DIR			"${LOO_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools"
+		CONFIGURE_COMMAND	""
+		# build
+		BINARY_DIR			""
+		BUILD_COMMAND		""
+		INSTALL_COMMAND		""
+		TEST_COMMAND		""
+	)
+	
+	ExternalProject_Add( "SPIRV-Headers"
+		#LOG_OUTPUT_ON_FAILURE 1
+		DEPENDS				"glslang"
+							"SPIRV-Tools"
+		# download
+		GIT_REPOSITORY		${LOO_SPIRVHEADERS_REPOSITORY}
+		GIT_TAG				${SPIRV_HEADERS_TAG}
+		GIT_PROGRESS		1
+		# update
+		PATCH_COMMAND		""
+		UPDATE_DISCONNECTED	1
+		LOG_UPDATE			1
+		# configure
+		SOURCE_DIR			"${LOO_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/external/SPIRV-Headers"
+		CONFIGURE_COMMAND	""
+		# build
+		BINARY_DIR			""
+		BUILD_COMMAND		""
+		INSTALL_COMMAND		""
+		TEST_COMMAND		""
+    )
+    
+# set(CMD_MAKE          cd ${LOO_EXTERNAL_GLSLANG_PATH} && make)
+# set(CMD_INSTALL       cd ${LOO_EXTERNAL_GLSLANG_PATH} && make install)
+
+	#LOO_EXTERNALS_INSTALL_PATH
+    set( LOO_GLSLANG_INSTALL_DIR "${LOO_OUTPUT_DIR}/glslang" )
+    #		LIST_SEPARATOR		"${LOO_LIST_SEPARATOR}"
+    ExternalProject_Add( "glslang-main"
+        LIST_SEPARATOR		"${LOO_LIST_SEPARATOR}"
+		LOG_OUTPUT_ON_FAILURE 1
+		DEPENDS				"glslang"
+							"SPIRV-Tools"
+							"SPIRV-Headers"
+		# configure
+		SOURCE_DIR			"${LOO_EXTERNAL_GLSLANG_PATH}"
+		CMAKE_GENERATOR		"${CMAKE_GENERATOR}"
+		CMAKE_GENERATOR_PLATFORM "${CMAKE_GENERATOR_PLATFORM}"
+		CMAKE_GENERATOR_TOOLSET	"${CMAKE_GENERATOR_TOOLSET}"
+		CMAKE_ARGS			"-DCMAKE_CONFIGURATION_TYPES=${LOO_EXTERNAL_CONFIGURATION_TYPES}"
+							"-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
+							"-DCMAKE_INSTALL_PREFIX=${LOO_GLSLANG_INSTALL_DIR}"
+							"-DENABLE_AMD_EXTENSIONS=${ENABLE_AMD_EXTENSIONS}"
+							"-DENABLE_NV_EXTENSIONS=${ENABLE_NV_EXTENSIONS}"
+							"-DENABLE_HLSL=${ENABLE_HLSL}"
+							"-DENABLE_OPT=${ENABLE_OPT}"
+							"-DENABLE_SPVREMAPPER=ON"
+							"-DENABLE_GLSLANG_BINARIES=OFF"
+							"-DSKIP_GLSLANG_INSTALL=OFF"
+							"-DSKIP_SPIRV_TOOLS_INSTALL=OFF"
+							"-DSPIRV_SKIP_EXECUTABLES=OFF"
+							"-DSPIRV_SKIP_TESTS=ON"
+							"-DBUILD_TESTING=OFF"
+							${LOO_BUILD_TARGET_FLAGS}
+        LOG_CONFIGURE 		1
+        # build
+        BINARY_DIR			"${CMAKE_BINARY_DIR}/loo/thirdpart/glslang-main"
+        #BUILD_COMMAND       $(MAKE) glslang
+		BUILD_COMMAND		${CMAKE_COMMAND}
+							--build .
+							--config $<CONFIG>
+							--target glslang
+		LOG_BUILD 			1
+		# install
+        INSTALL_DIR 		"${LOO_GLSLANG_INSTALL_DIR}"
+        #INSTALL_COMMAND     ""
+		INSTALL_COMMAND		${CMAKE_COMMAND}
+							--build .
+							--config $<CONFIG>
+							--target
+							install
+							COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								"${LOO_EXTERNAL_GLSLANG_PATH}/StandAlone/ResourceLimits.h"
+								"${LOO_GLSLANG_INSTALL_DIR}/include/StandAlone/ResourceLimits.h"
+							COMMAND ${CMAKE_COMMAND} -E copy_if_different
+								"${LOO_EXTERNAL_GLSLANG_PATH}/StandAlone/ResourceLimits.cpp"
+								"${LOO_GLSLANG_INSTALL_DIR}/include/StandAlone/ResourceLimits.cpp"
+		LOG_INSTALL 		1
+		# test
+		TEST_COMMAND		""
+	)
+
+	set_property( TARGET "SPIRV-Headers" PROPERTY FOLDER "thirdpart/glslang" )
+	set_property( TARGET "SPIRV-Tools" PROPERTY FOLDER "thirdpart/glslang" )
+	set_property( TARGET "glslang" PROPERTY FOLDER "thirdpart/glslang" )
+	set_property( TARGET "glslang-main" PROPERTY FOLDER "thirdpart/glslang" )
+
+	set( LOO_GLSLANG_DEFINITIONS "LOO_ENABLE_GLSLANG" )
+	
+	if (${ENABLE_OPT})
+		set( LOO_GLSLANG_DEFINITIONS "${LOO_GLSLANG_DEFINITIONS}" "ENABLE_OPT" )
+	endif ()
+
+	if (${ENABLE_HLSL})
+		set( LOO_GLSLANG_DEFINITIONS "${LOO_GLSLANG_DEFINITIONS}" "ENABLE_HLSL" )
+	endif ()
+
+	if (${ENABLE_AMD_EXTENSIONS})
+		set( LOO_GLSLANG_DEFINITIONS "${LOO_GLSLANG_DEFINITIONS}" "AMD_EXTENSIONS" )
+	endif ()
+
+	if (${ENABLE_NV_EXTENSIONS})
+		set( LOO_GLSLANG_DEFINITIONS "${LOO_GLSLANG_DEFINITIONS}" "NV_EXTENSIONS" )
+	endif ()
+
+	# glslang libraries
+	set( LOO_GLSLANG_LIBNAMES "SPIRV" "glslang" "OSDependent" "HLSL" )
+	
+	if (UNIX)
+		set( LOO_GLSLANG_LIBNAMES "${LOO_GLSLANG_LIBNAMES}" "pthread" )
+	endif ()
+
+	set( LOO_GLSLANG_LIBNAMES "${LOO_GLSLANG_LIBNAMES}" "OGLCompiler" )
+								
+	if (${ENABLE_OPT})
+		set( LOO_GLSLANG_LIBNAMES "${LOO_GLSLANG_LIBNAMES}" "SPIRV-Tools" "SPIRV-Tools-opt" )
+	endif ()
+
+    if (MSVC)
+    #${CMAKE_DEBUG_POSTFIX}
+    #glslang is d
+    #loo is _d
+		set( DBG_POSTFIX "d" )
+	else ()
+		set( DBG_POSTFIX "" )
+	endif ()
+
+    set( LOO_GLSLANG_LIBRARIES "" )
+    message("CMAKE_STATIC_LIBRARY_SUFFIX=${CMAKE_STATIC_LIBRARY_SUFFIX}")
+	foreach ( LIBNAME ${LOO_GLSLANG_LIBNAMES} )
+		if ( ${LIBNAME} STREQUAL "pthread" )
+			set( LOO_GLSLANG_LIBRARIES	"${LOO_GLSLANG_LIBRARIES}" "${LIBNAME}" )
+		else ()
+			set( LOO_GLSLANG_LIBRARIES	"${LOO_GLSLANG_LIBRARIES}"
+										"$<$<CONFIG:Debug>:${LOO_GLSLANG_INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${LIBNAME}${DBG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}>"
+										"$<$<CONFIG:Profile>:${LOO_GLSLANG_INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${LIBNAME}${CMAKE_STATIC_LIBRARY_SUFFIX}>"
+										"$<$<CONFIG:Release>:${LOO_GLSLANG_INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${LIBNAME}${CMAKE_STATIC_LIBRARY_SUFFIX}>" )
+		endif ()
+	endforeach ()
+	
+	add_library( "GLSLang-lib" INTERFACE )
+    set_property( TARGET "GLSLang-lib" PROPERTY INTERFACE_LINK_LIBRARIES "${LOO_GLSLANG_LIBRARIES}" )
+    #message("aaaa=${LOO_GLSLANG_INSTALL_DIR}/include")
+    target_include_directories( "GLSLang-lib" INTERFACE "${LOO_GLSLANG_INSTALL_DIR}/include" )
+    #target_include_directories( "GLSLang-lib" INTERFACE "${LOO_EXTERNAL_GLSLANG_PATH}/External/SPIRV-Tools/include" )
+	target_compile_definitions( "GLSLang-lib" INTERFACE "${LOO_GLSLANG_DEFINITIONS}" )
+	add_dependencies( "GLSLang-lib" "glslang-main" )
+
+endif ()

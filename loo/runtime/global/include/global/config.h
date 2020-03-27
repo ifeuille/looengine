@@ -43,6 +43,53 @@
 #define LOO_API_VERSION_1_0 LOO_MAKE_VERSION(1,0,0);
 #define LOO_VERSION_STRING "1.0.0"
 
+#define LOO_FAST_HASH 0
 
+#ifndef null
+#	define null				nullptr
+#endif
+
+#define LOO_UNUSED(x) (void)(x)
+
+
+#define DLL_SUFFIX LOO_OUTPUT_SUFFIX "." DLL_EXT_NAME
+// helper macro
+#define LOO_PRIVATE_GETARG_0( _0_, ... )				_0_
+#define LOO_PRIVATE_GETARG_1( _0_, _1_, ... )		_1_
+#define LOO_PRIVATE_GETARG_2( _0_, _1_, _2_, ... )	_2_
+#define LOO_PRIVATE_GETRAW( _value_ )				_value_
+#define LOO_PRIVATE_TOSTRING( ... )					#__VA_ARGS__
+#define LOO_PRIVATE_UNITE_RAW( _arg0_, _arg1_ )		LOO_PRIVATE_UNITE( _arg0_, _arg1_ )
+#define LOO_PRIVATE_UNITE( _arg0_, _arg1_ )			_arg0_ ## _arg1_
+
+
+#ifndef STATIC_ASSERT
+//#	define STATIC_ASSERT( ... ) \
+//		static_assert(	LOO_PRIVATE_GETRAW( LOO_PRIVATE_GETARG_0( __VA_ARGS__ ) ), \
+//						LOO_PRIVATE_GETRAW( LOO_PRIVATE_GETARG_1( __VA_ARGS__, LOO_PRIVATE_TOSTRING(__VA_ARGS__) ) ) )
+#	define STATIC_ASSERT( v, arg ) \
+	static_assert(v, arg);
+#endif
+
+#ifdef LOO_DEBUG
+#	define LOO_ENABLE_DATA_RACE_CHECK
+#else
+//#	define LOO_OPTIMAL_MEMORY_ORDER
+#endif
+
+#ifndef INOUT
+#define INOUT
+#endif
+#ifndef OUT
+#define OUT
+#endif
+
+#define DECLARE_CPP_NOTHING(NAME) namespace nothing\
+{\
+	int LOO_PRIVATE_UNITE_RAW (NOTHINGFUNC_,NAME)()\
+	{\
+		return 0;\
+	}\
+}
 
 #endif //LOO_CORE_CONFIG_HPP

@@ -18,7 +18,6 @@
 #include <clocale>
 #include "global/utlis.h"
 
-
 namespace loo
 {
 	namespace global
