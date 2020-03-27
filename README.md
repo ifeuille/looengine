@@ -39,5 +39,7 @@ cmake .. -G"Visual Studio 15 2017 Win64"
 
 使用android studio 打开./android/目录即可
 
+必须编译release版本，debug版本有.so引用问题，待解决
+
 若想增加android测试例子，见./buildsys/android目录下的generate_sample_gradle.bat
 

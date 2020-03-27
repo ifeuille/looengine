@@ -321,7 +321,7 @@ CHECK_ERR (swapchain->Create (
 
 int main ()
 {
-	FFWApp2	app("windows_0",loo::core::MainAppID,loo::core::ContextConfig());
+	FWApp2	app("windows_0",loo::core::MainAppID,loo::core::ContextConfig());
 
 	app.Create ();
 	app.Run ();
