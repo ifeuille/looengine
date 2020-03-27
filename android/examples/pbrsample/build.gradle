@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+apply from: '../gradle/outputfilename.gradle'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId 'com.loo.sample.pbrsample'
+        minSdkVersion 24
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        ndk { abiFilters 'armeabi-v7a' }
+
+        externalNativeBuild {
+             cmake {
+				arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_shared', '-DLOO_BUILD_TESTS_pbrsample=1' 
+			}
+        }
+    }
+    sourceSets {
+        
+        main.assets.srcDirs = ['assets']
+        debug {
+            jniLibs.srcDirs += ["$ndkDirectory/sources/third_party/vulkan/src/build-android/jniLibs"]
+        }
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+			path '../../../CMakeLists.txt'
+			buildStagingDirectory 'build-native'
+			version '3.10.2'
+		} 
+    }
+}
+
+task copyTask {
+    copy {
+        from '../../common/res/drawable'
+        into "src/main/res/drawable"
+        include 'icon.png'
+    }
+
+    /*copy {
+        from '../../../data/shaders/base'
+        into "assets/shaders/base"
+        include '*.spv'
+    }*/
+
+
+}
+
+preBuild.dependsOn copyTask
