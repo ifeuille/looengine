@@ -2,6 +2,22 @@
 
 ### 简单说明
 
+c++14,未来将支持lua(自动绑定)
+
+vulkan only
+
+platform : windows,android
+
+- 后续会支持ios等
+
+支持反射(还有待扩展)
+
+支持模块管理
+
+利用三方库将C++17若干特性移植到了c++14，比如visit,string_view等
+
+
+
 使用或参考了若干第三方开源库
 
 主要包括：
@@ -13,20 +29,6 @@ strtk
 metareflect
 
 entt
-
-
-
-## define
-
-c++14
-
-vulkan only
-
-platform : windows,android
-
-- 后续会支持ios等
-
-
 
 ## build
 
